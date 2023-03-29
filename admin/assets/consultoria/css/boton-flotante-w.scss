@@ -1,0 +1,82 @@
+$azulMarino: #101624;
+$amarillo: #EDC452;
+$rosado: #FE013F;
+$azul: #0570e6;
+$rojo: #c4302b;
+$verde: #33B93F;
+
+*{ margin: 0; padding: 0; box-sizing: border-box;}
+.container-btn-redes{ position: fixed; bottom: 20px; right: 20px;}
+.redes ul li a{
+    display: block;   
+    width: 55px;
+    height: 55px;
+    line-height: 55px;
+    text-align: center;
+    border-radius: 50%;
+    transition: all 500ms ease;
+    background-color: #fff;
+    //padding: 10px 0px;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #fff;
+    z-index: 1;
+    //list-style: none;
+}
+
+.redes ul li{
+    list-style: none;
+}
+
+.redes ul li a .icon {
+    position: relative;
+    transition: .5s;
+    z-index: 3;
+}
+
+.redes ul li a:hover .icon {
+    color: #fff !important;
+    transform: rotateY(360deg);
+}
+
+.redes ul li a:before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f00;
+    transition: .5s;
+    z-index: 2;
+}
+
+.redes ul li a:hover:before {
+    top: 0;
+}
+
+.redes ul li:nth-child(1) a:before{
+    background: $azul;
+}
+
+.redes ul li:nth-child(2) a:before{
+    background: $rojo;
+}
+  
+.redes ul li:nth-child(3) a:before {
+    background: $verde;
+}
+  
+
+
+/*.icon1 {
+    color: $azul;
+}
+
+.icon2 {
+    color: $rojo;
+}
+.icon3 {
+    color: $verde;
+}*/

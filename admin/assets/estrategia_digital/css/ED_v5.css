@@ -1,0 +1,48 @@
+.btn-whatsapp {
+        display:block;
+        width:70px;
+        height:70px;
+        color: red;
+        position: fixed;
+        right:20px;
+        bottom:20px;
+        border-radius:50%;
+        line-height:80px;
+        text-align:center;
+        z-index:999;
+}
+/*Difuminado fondo*/
+.imagen-difuminado:hover {filter: blur(5px);}
+
+.texto-borde {
+  -webkit-text-stroke: 2px #803588 !important;
+}
+.texto-borde2 {
+  -webkit-text-stroke: 2px #F4B222 !important;
+}
+.body{
+        background-image: url(https://media.istockphoto.com/id/1060478984/es/foto/resumen-de-degradado-de-fondo-azul.jpg?b=1&s=170667a&w=0&k=20&c=QFSgmSbZqr5cB6WkxB42KRKrDRgV6RAalK49Bqzx1gI=);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+}
+.welcome{
+    font-size: 59px;
+}
+
+
+.redes ul li a {
+  background: #B609A8;
+  border-radius: 50%;
+  color: #fff;
+  display: block;
+  height: 25px;
+  line-height: 26px;
+  text-align: center;
+  width: 25px;
+}
+.float {
+  display: inline-block;
+  vertical-align: middle;
+  padding-right: 5px;
+}
