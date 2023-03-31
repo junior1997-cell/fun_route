@@ -12,14 +12,15 @@
       <a href="#" data-toggle="modal" data-target="#modal-contacto-desarrollador" class="nav-link"><i class="fas fa-user-secret"></i> <p class="d-inline-block hide-max-width-1080px">Contacto</p></a>
     </li>
 
-    <li class="nav-item b-radio-10px font-size-18px font-weight-bold mr-1" style=" background-color: #8eff27;">
-      <a href="#" data-toggle="modal" data-target="#modal-ver-proyecto" class="nav-link" id="ver-proyecto"><i class="fas fa-tools"></i> Proyecto: <i class="fas fa-spinner fa-pulse "></i> </a>
-    </li>
+    <!-- <li class="nav-item b-radio-10px font-size-18px font-weight-bold mr-1" >
+      <button  data-toggle="modal" data-target="#modal-para-todos-los-modulos-proyecto" class="nav-link btn bg-color-8eff27 b-radio-10px text-bold" id="ver-proyecto" onclick="delay(function(){tbla_principal_para_todos_los_modulos(3)}, 50 );"><i class="fas fa-tools"></i> Proyecto: <i class="fas fa-spinner fa-pulse "></i> </button>
+    </li> -->
 
     <li class="nav-item d-none  d-md-inline-block b-radio-10px font-size-18px font-weight-bold bg-warning" >
       <a href="#" data-toggle="modal" data-target="#modal-ver---" class="nav-link" id="ver-sesion"><i class="fas fa-spinner fa-pulse "></i> </a>
     </li>
   </ul>
+  <!-- <button></button> -->
 
   <!-- Right navbar links -->
   <ul class="navbar-nav ml-auto">
@@ -48,7 +49,7 @@
     <!-- Messages Dropdown Menu -->
     <li class="nav-item dropdown ">
       <a class="nav-link" data-toggle="dropdown" href="#">
-        <img src="../dist/docs/all_trabajador/perfil/<?php echo $_SESSION['imagen']; ?>" class="user-image img-circle" alt="User Image" width="30" onerror="this.src='../dist/svg/user_default.svg';"> 
+        <img src="../dist/docs/persona/perfil/<?php echo $_SESSION['imagen']; ?>" class="user-image img-circle" alt="User Image" width="30" onerror="this.src='../dist/svg/user_default.svg';"> 
              
         <span class="hidden-xs d-none show-min-width-1200px"><?php echo $_SESSION['nombre']; ?></span>
       </a>
@@ -61,9 +62,9 @@
             <h5 class="widget-user-desc"><?php echo $_SESSION['cargo']; ?></h5>
           </div>
           <div class="widget-user-image">
-            <img class="img-circle elevation-2" src="../dist/docs/all_trabajador/perfil/<?php echo $_SESSION['imagen']; ?>" alt="User Avatar" onerror="this.src='../dist/svg/user_default.svg';" />
+            <img class="img-circle elevation-2" src="../dist/docs/persona/perfil/<?php echo $_SESSION['imagen']; ?>" alt="User Avatar" onerror="this.src='../dist/svg/user_default.svg';" />
           </div>
-          <div class="card-footer">
+          <div class="card-body pt-5">
             <span class="dropdown-item dropdown-header">Info personal</span>
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item">
@@ -75,13 +76,16 @@
               <i class="fas fa-phone-alt"></i> Telefono: <?php echo $_SESSION['telefono']; ?>
             </a>
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
+            <a href="#" class="dropdown-item w-280px recorte-text">
               <i class="fas fa-envelope"></i> Email: <?php echo $_SESSION['email']; ?>
             </a>
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item dropdown-footer"> <small>Más informacion cominicarse con el administrador </small>  </a>
             <!-- /.row -->
-            <a href="../ajax/usuario.php?op=salir" class="btn btn-danger btn-block">Cerrar sesion</a>
+            <a href="../ajax/usuario.php?op=salir&file=<?php echo basename($_SERVER['PHP_SELF']); ?> " class="btn btn-danger btn-block">Cerrar sesion</a>
+          </div>
+          <div class="card-footer py-1 text-center ">
+            <a class="hove-negrita" href="javascript:void(0)" onclick="abrir_calculadora()"><i class="fas fa-calculator"></i> Abrir calculadora</a>
           </div>
         </div>
         <!-- /.widget-user -->

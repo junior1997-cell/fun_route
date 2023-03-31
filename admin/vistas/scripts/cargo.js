@@ -2,32 +2,40 @@ var tabla_cargos;
 
 //Función que se ejecuta al inicio
 function init() {
-  $(".mcargo").addClass("active");
+  
+  $("#bloc_Recurso").addClass("menu-open");
+
+  $("#mRecurso").addClass("active");
+  
+  // $("#lBancoColor").addClass("active");
 
   listar_cargo();
 
+  // ══════════════════════════════════════ S E L E C T 2 ══════════════════════════════════════
+
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
   $("#guardar_registro_cargo").on("click", function (e) {$("#submit-form-cargo").submit(); });
+
+  // ══════════════════════════════════════ INITIALIZE SELECT2 ══════════════════════════════════════
   
+  // Formato para telefono
+  $("[data-mask]").inputmask();
 }
 
 //Función limpiar
 function limpiar_cargo() {
   $("#guardar_registro_cargo").html('Guardar Cambios').removeClass('disabled');
-  $("#idcargo").val("");
+  $("#idcargo_trabajador").val("");
   $("#nombre_cargo").val(""); 
-  $("#descripcion").val(""); 
 
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
   $(".form-control").removeClass('is-invalid');
   $(".error.invalid-feedback").remove();
-
 }
 
 //Función listar_cargo
 function listar_cargo() {
-  $(".tabla").hide();  $(".cargando").show();
 
   tabla_cargos=$('#tabla-cargo').dataTable({
     responsive: true,
@@ -36,7 +44,7 @@ function listar_cargo() {
     aServerSide: true,//Paginación y filtrado realizados por el servidor
     dom: '<Bl<f>rtip>',//Definimos los elementos del control de tabla
     buttons: [
-      { extend: 'copyHtml5', footer: true, exportOptions: { columns: [0,2,3], } }, { extend: 'excelHtml5', footer: true, exportOptions: { columns: [0,2,3], } }, { extend: 'pdfHtml5', footer: false, exportOptions: { columns: [0,2,3], } } ,
+      { extend: 'copyHtml5', footer: true, exportOptions: { columns: [0,2], } }, { extend: 'excelHtml5', footer: true, exportOptions: { columns: [0,2], } }, { extend: 'pdfHtml5', footer: false, exportOptions: { columns: [0,2,3], } } ,
     ],
     ajax:{
       url: '../ajax/cargo.php?op=listar_cargo',
@@ -50,7 +58,10 @@ function listar_cargo() {
       // columna: #
       if (data[0] != '') { $("td", row).eq(0).addClass("text-center"); }
       // columna: #
-      // if (data[1] != '') { $("td", row).eq(1).addClass("text-center"); }
+      if (data[1] != '') { $("td", row).eq(1).addClass("text-nowrap text-center"); }
+      // columna: #
+      if (data[3] != '') { $("td", row).eq(3).addClass("text-center"); }
+     
     },
     language: {
       lengthMenu: "Mostrar: _MENU_ registros",
@@ -61,8 +72,6 @@ function listar_cargo() {
     iDisplayLength: 5,//Paginación
     order: [[ 0, "asc" ]]//Ordenar (columna,orden)
   }).DataTable();
-
-  $(".tabla").show(); $(".cargando").hide();
 }
 
 //Función para guardar o editar
@@ -122,7 +131,7 @@ function guardaryeditar_cargo(e) {
   });
 }
 
-function mostrar_cargo(idcargo) {
+function mostrar_cargo(idcargo_trabajador) {
   $(".tooltip").removeClass("show").addClass("hidde");
   $("#cargando-9-fomulario").hide();
   $("#cargando-10-fomulario").show();
@@ -132,14 +141,13 @@ function mostrar_cargo(idcargo) {
   $("#modal-agregar-cargo").modal("show")
   $("#idtipo_trabjador_c").val("null").trigger("change");
 
-  $.post("../ajax/cargo.php?op=mostrar", {idcargo: idcargo}, function (e, status) {
+  $.post("../ajax/cargo.php?op=mostrar", {idcargo_trabajador: idcargo_trabajador}, function (e, status) {
 
     e = JSON.parse(e);  console.log(e);  
 
     if (e.status) {
-      $("#idcargo").val(e.data.idcargo_persona );
-      $("#nombre_cargo").val(e.data.nombre_cargo); 
-      $("#descripcion").val(e.data.descripcion); 
+      $("#idcargo_trabajador").val(e.data.idcargo_trabajador);
+      $("#nombre_cargo").val(e.data.nombre); 
 
       $("#cargando-9-fomulario").show();
       $("#cargando-10-fomulario").hide();
@@ -151,12 +159,12 @@ function mostrar_cargo(idcargo) {
 }
 
 //Función para desactivar registros
-function eliminar_cargo(idcargo, nombre) {
+function eliminar_cargo(idcargo_trabajador, nombre) {
 
   crud_eliminar_papelera(
     "../ajax/cargo.php?op=desactivar",
     "../ajax/cargo.php?op=eliminar", 
-    idcargo, 
+    idcargo_trabajador, 
     "!Elija una opción¡", 
     `<b class="text-danger"><del>${nombre}</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
     function(){ sw_success('♻️ Papelera! ♻️', "Tu registro ha sido reciclado." ) }, 
@@ -176,9 +184,11 @@ $(function () {
 
   $("#form-cargo").validate({
     rules: {
+      
       nombre_cargo: { required: true }
     },
     messages: {
+      
       nombre_cargo:       { required: "Campo requerido", },
     },
         

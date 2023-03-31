@@ -1,58 +1,62 @@
 <?php
+  ob_start();
 
-ob_start();
+  if (strlen(session_id()) < 1){
 
-if (strlen(session_id()) < 1) {
-  session_start(); 
-}
-
-if (!isset($_SESSION["nombre"])) {
-
-  header("Location: ../vistas/login.html"); 
-
-} else {
-
-  if ($_SESSION['escritorio'] == 1) {
-
-    require_once "../modelos/Escritorio.php";
-
-    date_default_timezone_set('America/Lima');
-    $date_now = date("d-m-Y h.i.s A");
-
-    $escritorio = new Escritorio();
-
-    switch ($_GET["op"]) {
-
-      case 'grafico_barras':
-        $rspta = $escritorio->grafico_barras($_POST['fecha_1'],$_POST['fecha_2']);
-        echo json_encode($rspta, true);
-
-      break;
-      case 'grafico_radar':
-        $rspta = $escritorio->grafico_radar($_POST['fecha_1'],$_POST['fecha_2']);
-        echo json_encode($rspta, true);
-
-      break;
-
-      case 'salir':
-        //Limpiamos las variables de sesión
-        session_unset();
-        //Destruìmos la sesión
-        session_destroy();
-        //Redireccionamos al login
-        header("Location: ../index.php");
-
-      break;
-
-      default: 
-        $rspta = ['status'=>'error_code', 'message'=>'Te has confundido en escribir en el <b>swich.</b>', 'data'=>[]]; echo json_encode($rspta, true); 
-      break;
-    }
-  } else {
-    require 'noacceso.php';
+    session_start();//Validamos si existe o no la sesión
   }
-}
 
-ob_end_flush();
+  if (!isset($_SESSION["nombre"])) {    
+    $retorno = ['status'=>'login', 'message'=>'Tu sesion a terminado pe, inicia nuevamente', 'data' => [] ];
+		echo json_encode($retorno);  //Validamos el acceso solo a los usuarios logueados al sistema.
+	} else {
+    //Validamos el acceso solo al usuario logueado y autorizado.
+    if ($_SESSION['escritorio'] == 1) {
 
+      require_once "../modelos/Escritorio.php";
+
+      $escritorio = new Escritorio();
+
+      date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y h.i.s A");
+
+      $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? 'http://localhost/admin_integra/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/');
+
+      $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
+
+      $idproyecto				    = isset($_POST["idproyecto"])? limpiarCadena($_POST["idproyecto"]):""; 
+      $tipo_documento			  = isset($_POST["tipo_documento"])? limpiarCadena($_POST["tipo_documento"]):"";
+
+      switch ($_GET["op"]){        
+
+        case 'tablero':
+          $rspta=$escritorio->tablero();
+          //Codificar el resultado utilizando json
+          echo json_encode($rspta, true);	
+        break;
+
+        case 'chart_producto':
+          $rspta=$escritorio->chart_producto();
+          //Codificar el resultado utilizando json
+          echo json_encode($rspta, true);	
+        break;
+
+        case 'sumas_totales':
+          $rspta=$escritorio->sumas_totales();
+          //Codificar el resultado utilizando json
+          echo json_encode($rspta, true);	
+        break;
+
+        default: 
+          $rspta = ['status'=>'error_code', 'message'=>'Te has confundido en escribir en el <b>swich.</b>', 'data'=>[]]; echo json_encode($rspta, true); 
+        break;
+        
+      }
+
+    }else {
+      $retorno = ['status'=>'nopermiso', 'message'=>'Tu sesion a terminado pe, inicia nuevamente', 'data' => [] ];
+      echo json_encode($retorno);
+    }
+  }
+
+  ob_end_flush();
 ?>

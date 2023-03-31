@@ -1,161 +1,201 @@
-var chart_bar;
-var chart_radar;
+var char_linea_subcontrato;
 
-//Función que se ejecuta al inicio
 function init() {
 
-    $(".mescritorio").addClass("active");
+  $('#mEscritorio').addClass("active");
 
-    // grafico_uno();
-    // grafico_dos ();
-    filtros();
+  tablero();
+  sumas_totales();
+
+  // ══════════════════════════════════════ S E L E C T 2 ══════════════════════════════════════
+
+  
+  // ══════════════════════════════════════ INITIALIZE SELECT2 ══════════════════════════════════════
+
+  $("#valorizacion_filtro").select2({ theme: "bootstrap4", placeholder: "Filtro valorizacion", allowClear: true, });
+
+  // Formato para telefono
+  $("[data-mask]").inputmask();
 }
 
-function grafico_bar(fecha_1,fecha_2) {
+function tablero() {   
 
-  $.post("../ajax/escritorio.php?op=grafico_barras", { 'fecha_1': fecha_1 , 'fecha_2':fecha_2}, function (e, status) {
+  $.post("../ajax/escritorio.php?op=tablero",  function (e, status) {
 
-    e = JSON.parse(e);   console.log(e);
+    e = JSON.parse(e);  //console.log(e);
 
     if (e.status == true) {
-
-      var chart_bar_div = $("#myChart");
-
-      if (chart_bar) {  chart_bar.destroy();  } 
-
-      chart_bar = new Chart(chart_bar_div, {
-
-          type: 'bar',
-          data: {
-              labels: ['Inicio', 'Servicios', 'Proveedores', 'Obras', 'Contactos'],
-              datasets: [{
-                 label: 'Todos',
-                data: e.data,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 4
-            }]
-              
-          },
-          options: {
-            responsive: true,
-            scales: { y: { beginAtZero: true } },
-            datalabels: { display: false, },
-          }
-      });
-
-      $('.cargando').hide();
-
+      $("#cantidad_box_producto").html(formato_miles(e.data.cant_producto));
+      $("#cantidad_box_agricultor").html(formato_miles(e.data.cant_agricultor));
+      $("#cantidad_box_trabajador").html(formato_miles(e.data.cant_trabajador));
+      $("#cantidad_box_venta").html(formato_miles(e.data.cant_venta_producto));
     } else {
-
       ver_errores(e);
+    } 
 
-    }
-
-  }); 
-
+  }).fail( function(e) { ver_errores(e); } );
 }
 
-function grafico_radar(fecha_1,fecha_2) { 
+function sumas_totales() {   
 
-  $.post("../ajax/escritorio.php?op=grafico_radar", { 'fecha_1': fecha_1 , 'fecha_2':fecha_2}, function (e, status) {
+  $.post("../ajax/escritorio.php?op=sumas_totales",  function (e, status) {
 
-    e = JSON.parse(e);   console.log(e);
+    e = JSON.parse(e);  console.log(e);
 
     if (e.status == true) {
-
-      var chart_radar_div =$("#chart_radar");
-
-      if (chart_radar) {  chart_radar.destroy();  } 
-
-      chart_radar = new Chart(chart_radar_div, {
-        type: 'radar',
-        data: {
-          labels: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes','Sábado'],
-          datasets: [
-            {
-              label:  'inicio',
-              data: e.data.Home,
-              backgroundColor: [ 'rgba(255, 99, 132, 0.2)', ],
-              borderColor: [ 'rgba(255, 99, 132, 1)', ],
-              borderWidth: 1
-            },
-            {
-              label:  'Servicios',
-              data: e.data.Servicios,
-              backgroundColor: [ 'rgba(54, 162, 235, 0.2)', ],
-              borderColor: [ 'rgba(54, 162, 235, 1)', ],
-              borderWidth: 1
-            },
-            {
-              label:  'Proveedores',
-              data:  e.data.Proveedores,
-              backgroundColor: [ 'rgba(255, 206, 86, 0.2)', ],
-              borderColor: [ 'rgba(255, 206, 86, 1)', ],
-              borderWidth: 1
-            },
-            {
-              label:  'Obras',
-              data:  e.data.NuestrasObras,
-              backgroundColor: [ 'rgba(75, 192, 192, 0.2)', ],
-              borderColor: [ 'rgba(75, 192, 192, 1)', ],
-              borderWidth: 1
-            },
-            {
-              label:  'Contactos',
-              data:  e.data.Contactos,
-              backgroundColor: [ 'rgba(153, 102, 255, 0.2)', ],
-              borderColor: [ 'rgba(153, 102, 255, 1)', ],
-              borderWidth: 1
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          plugins: { title: { display: true, text: 'Visitas por día' } }
-        },
-      });
-
-      $('.cargando').hide();
-
+      $(".footer_total_venta").html(formato_miles(e.data.total_venta));
+      $(".footer_total_utilidad").html(formato_miles(e.data.total_utilidad));
+      $(".footer_total_compra").html(formato_miles(e.data.total_compra));
+      $(".footer_total_deuda").html(formato_miles(e.data.total_deposito_compra));
     } else {
-
       ver_errores(e);
+    } 
 
-    }
-
-  });
-
+  }).fail( function(e) { ver_errores(e); } );
 }
 
 init();
 
+// :::::::::::::::::::::::::::::::::::::  C H A R T   L I N E A  -  S U B C O N T R A T O  ::::::::::::::::::::::::
+$(function () {
+  'use strict'
 
-function cargando_search() {
-  $('.cargando').show().html(`<i class="fas fa-spinner fa-pulse fa-sm"></i> Buscando ...`);
-}
+  var ticksStyle = { fontColor: '#495057', fontStyle: 'bold' };
 
-function filtros() {  
+  var mode = 'index';
+  var intersect = true;
 
-  var fecha_1       = $("#filtro_fecha_inicio").val();
-  var fecha_2       = $("#filtro_fecha_fin").val();  
- 
-  grafico_bar(fecha_1,fecha_2); 
+  function chart_producto() {   
+
+    $.post("../ajax/escritorio.php?op=chart_producto",  function (e, status) {
   
-  grafico_radar(fecha_1,fecha_2);
+      e = JSON.parse(e);  console.log(e);
+  
+      if (e.status == true) {
 
-}
+        // ================================== Grafico Lineas ==================================
+
+        var $visitorsChart = $('#visitors-chart')
+        // eslint-disable-next-line no-unused-vars
+        var visitorsChart = new Chart($visitorsChart, {
+          data: {
+            labels: [ 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+            datasets: [
+              {
+                type: 'line',
+                data: e.data.total_venta,
+                backgroundColor: 'transparent',
+                borderColor: '#28a745',
+                pointBorderColor: '#28a745',
+                pointBackgroundColor: '#28a745',
+                fill: false,
+                label: 'Total venta'
+                // pointHoverBackgroundColor: '#28a745',
+                // pointHoverBorderColor    : '#28a745'
+              },
+              {
+                type: 'line',
+                data: e.data.total_pagos,
+                backgroundColor: 'tansparent',
+                borderColor: '#ced4da',
+                pointBorderColor: '#ced4da',
+                pointBackgroundColor: '#ced4da',
+                fill: false,
+                label: 'Total pago'
+                // pointHoverBackgroundColor: '#ced4da',
+                // pointHoverBorderColor    : '#ced4da'
+              }
+            ]
+          },
+          options: {
+            maintainAspectRatio: false,
+            tooltips: { mode: mode, intersect: intersect },
+            hover: { mode: mode, intersect: intersect },
+            legend: { display: true },
+            scales: {
+              yAxes: [{
+                // display: false,
+                gridLines: { display: true, lineWidth: '4px', color: 'rgba(0, 0, 0, .2)', zeroLineColor: 'transparent' },
+                ticks: $.extend({ beginAtZero: true, callback: function (value) { if (value >= 1000) { value /= 1000; value += 'k';  }  return 'S/ ' + value; } }, ticksStyle)
+              }],
+              xAxes: [{
+                display: true,
+                gridLines: { display: false },
+                ticks: ticksStyle
+              }]
+            }
+          }
+        });
+
+        // ================================== Grafico Barras ==================================
+
+        var $salesChart = $('#sales-chart')
+        // eslint-disable-next-line no-unused-vars
+        var salesChart = new Chart($salesChart, {
+          type: 'bar',
+          data: {
+            labels: [ 'ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'],
+            datasets: [
+              { backgroundColor: '#28a745', borderColor: '#28a745', data: e.data.total_compra, label: 'Total compra' },
+              { backgroundColor: '#000', borderColor: '#000', data: e.data.total_deposito, label: 'Total pago' },
+              { backgroundColor: '#dc3545', borderColor: '#dc3545', data: e.data.total_kilos_pergamino, label: 'Kilos pergamino' },
+              { backgroundColor: '#ffc107', borderColor: '#ffc107', data: e.data.total_kilos_coco, label: 'Kilos coco' },
+            ]
+          },
+          options: {
+            maintainAspectRatio: false,
+            tooltips: {  mode: mode, intersect: intersect },
+            hover: { mode: mode, intersect: intersect },
+            legend: { display: true },
+            scales: {
+              yAxes: [{
+                // display: false,
+                gridLines: {
+                  display: true,
+                  lineWidth: '4px',
+                  color: 'rgba(0, 0, 0, .2)',
+                  zeroLineColor: 'transparent'
+                },
+                ticks: $.extend({
+                  beginAtZero: true,
+                  // Include a dollar sign in the ticks
+                  callback: function (value) { if (value >= 1000) { value /= 1000; value += 'k';  }  return 'S/ ' + value; }
+                }, ticksStyle)
+              }],
+              xAxes: [{
+                display: true,
+                gridLines: {
+                  display: false
+                },
+                ticks: ticksStyle
+              }]
+            }
+          }
+        });
+
+        $("#btn-download-chart-linea").on('click', function () {       
+          var a = document.createElement('a');
+          a.href = visitorsChart.toBase64Image();
+          a.download = 'ventas_y_pagos_por_mes.png';
+          // Trigger the download
+          a.click();
+        });
+
+        $("#btn-download-chart-barra").on('click', function () {       
+          var a = document.createElement('a');
+          a.href = salesChart.toBase64Image();
+          a.download = 'Compras_y_kilos_por_mes.png';
+          // Trigger the download
+          a.click();
+        });
+      } else {
+        ver_errores(e);
+      } 
+  
+    }).fail( function(e) { ver_errores(e); } );
+  }       
+  
+  // Ejecutamos los CHARTS
+  chart_producto();
+  
+})

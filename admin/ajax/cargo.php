@@ -12,17 +12,16 @@
 
     $cargo = new Cargo();
 
-    $idcargo = isset($_POST["idcargo"]) ? limpiarCadena($_POST["idcargo"]) : "";
-    $descripcion = isset($_POST["descripcion"]) ? limpiarCadena($_POST["descripcion"]) : "";
+    $idcargo_trabajador = isset($_POST["idcargo_trabajador"]) ? limpiarCadena($_POST["idcargo_trabajador"]) : "";
     $nombre = isset($_POST["nombre_cargo"]) ? limpiarCadena($_POST["nombre_cargo"]) : "";
 
     switch ($_GET["op"]) {
       case 'guardaryeditar_cargo':
-        if (empty($idcargo)) {
-          $rspta = $cargo->insertar($descripcion, $nombre);
+        if (empty($idcargo_trabajador)) {
+          $rspta = $cargo->insertar( $nombre);
           echo json_encode( $rspta, true) ;
         } else {
-          $rspta = $cargo->editar($idcargo, $nombre, $descripcion);
+          $rspta = $cargo->editar($idcargo_trabajador,  $nombre);
           echo json_encode( $rspta, true) ;
         }
       break;
@@ -38,8 +37,8 @@
       break;
 
       case 'mostrar':
-        //$idcargo='1';
-        $rspta = $cargo->mostrar($idcargo);
+        //$idcargo_trabajador='1';
+        $rspta = $cargo->mostrar($idcargo_trabajador);
         //Codificar el resultado utilizando json
         echo json_encode( $rspta, true) ;
       break;
@@ -55,10 +54,13 @@
           while ($reg = $rspta['data']->fetch_object()) {
             $data[] = [
               "0" => $cont++,
-              "1" =>'<button class="btn btn-warning btn-xs" onclick="mostrar_cargo(' . $reg->idcargo_persona  . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fas fa-pencil-alt"></i></button>' .
-                  ' <button class="btn btn-danger  btn-xs" onclick="eliminar_cargo(' . $reg->idcargo_persona  .', \''.encodeCadenaHtml($reg->nombre_cargo).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>',
-              "2" => $reg->nombre_cargo,
-              "3" => $reg->descripcion.$toltip,
+              "1" => $reg->estado
+                ? '<button class="btn btn-warning btn-sm" onclick="mostrar_cargo(' . $reg->idcargo_trabajador . ')" data-toggle="tooltip" data-original-title="Editar"><i class="fas fa-pencil-alt"></i></button>' .
+                  ' <button class="btn btn-danger  btn-sm" onclick="eliminar_cargo(' . $reg->idcargo_trabajador .', \''.encodeCadenaHtml($reg->nombre).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>'
+                : '<button class="btn btn-warning btn-sm" onclick="mostrar_cargo(' . $reg->idcargo_trabajador . ')"><i class="fa fa-pencil-alt"></i></button>' .
+                  ' <button class="btn btn-primary btn-sm" onclick="activar_cargo(' . $reg->idcargo_trabajador . ')"><i class="fa fa-check"></i></button>',
+              "2" => $reg->nombre,
+              "3" => ($reg->estado ? '<span class="text-center badge badge-success">Activado</span>' : '<span class="text-center badge badge-danger">Desactivado</span>').$toltip,
             ];
           }
           $results = [

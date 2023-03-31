@@ -1,6 +1,6 @@
 <?php 
   //Incluímos inicialmente la conexión a la base de datos
-  require "../config/Conexion.php";
+  require "../config/Conexion_v2.php";
 
   Class Ajax_general
   {
@@ -58,6 +58,51 @@
 
     }
 
+    /* ══════════════════════════════════════ C O M P R O B A N T E  ══════════════════════════════════════ */
+
+    //Implementamos un método para activar categorías
+  public function autoincrement_comprobante() {
+    $update_producto = "SELECT * FROM autoincrement_comprobante WHERE idautoincrement_comprobante = '1'";
+		$val =  ejecutarConsultaSimpleFila($update_producto); if ( $val['status'] == false) {return $val; }   
+
+		$compra_producto_f = empty($val['data']) ? 1 : (empty($val['data']['compra_producto_f']) ? 1 : (intval($val['data']['compra_producto_f']) +1)); 
+    $compra_producto_b = empty($val['data']) ? 1 : (empty($val['data']['compra_producto_b']) ? 1 : (intval($val['data']['compra_producto_b']) +1));
+    $compra_producto_nv = empty($val['data']) ? 1 : (empty($val['data']['compra_producto_nv']) ? 1 : (intval($val['data']['compra_producto_nv']) +1));
+
+    $venta_producto_f =  empty($val['data']) ? 1 : (empty($val['data']['venta_producto_f']) ? 1 : (intval($val['data']['venta_producto_f']) +1)); 
+    $venta_producto_b =  empty($val['data']) ? 1 : (empty($val['data']['venta_producto_b']) ? 1 : (intval($val['data']['venta_producto_b']) +1)); 
+    $venta_producto_nv =  empty($val['data']) ? 1 : (empty($val['data']['venta_producto_nv']) ? 1 : (intval($val['data']['venta_producto_nv']) +1)); 
+
+    $compra_cafe_f = empty($val['data']) ? 1 : (empty($val['data']['compra_cafe_f']) ? 1 : (intval($val['data']['compra_cafe_f']) +1));
+    $compra_cafe_b = empty($val['data']) ? 1 : (empty($val['data']['compra_cafe_b']) ? 1 : (intval($val['data']['compra_cafe_b']) +1));
+    $compra_cafe_nv = empty($val['data']) ? 1 : (empty($val['data']['compra_cafe_nv']) ? 1 : (intval($val['data']['compra_cafe_nv']) +1));
+
+    $venta_cafe_f = empty($val['data']) ? 1 : (empty($val['data']['venta_cafe_f']) ? 1 : (intval($val['data']['venta_cafe_f']) +1));
+    $venta_cafe_n = empty($val['data']) ? 1 : (empty($val['data']['venta_cafe_n']) ? 1 : (intval($val['data']['venta_cafe_n']) +1));
+    $venta_cafe_nv = empty($val['data']) ? 1 : (empty($val['data']['venta_cafe_nv']) ? 1 : (intval($val['data']['venta_cafe_nv']) +1));
+
+    return $sw = array( 'status' => true, 'message' => 'todo okey bro', 
+      'data' => [
+        'compra_producto_f'=> zero_fill($compra_producto_f, 6), 
+        'compra_producto_b'=> zero_fill($compra_producto_b, 6), 
+        'compra_producto_nv'=> zero_fill($compra_producto_nv, 6),
+
+        'venta_producto_f'=> zero_fill($venta_producto_f, 6), 
+        'venta_producto_b'=> zero_fill($venta_producto_b, 6), 
+        'venta_producto_nv'=> zero_fill($venta_producto_nv, 6), 
+
+        'compra_cafe_f'=> zero_fill($compra_cafe_f, 6), 
+        'compra_cafe_b'=> zero_fill($compra_cafe_b, 6), 
+        'compra_cafe_nv'=> zero_fill($compra_cafe_nv, 6), 
+
+        'venta_cafe_f'=> zero_fill($venta_cafe_f, 6),
+        'venta_cafe_n'=> zero_fill($venta_cafe_n, 6),
+        'venta_cafe_nv'=> zero_fill($venta_cafe_nv, 6),
+        
+      ] 
+    );      
+  }
+
     /* ══════════════════════════════════════ T R A B A J A D O R ══════════════════════════════════════ */
 
     public function select2_trabajador(){
@@ -66,24 +111,9 @@
       return ejecutarConsultaArray($sql);
     }
 
-    public function select2_tipo_trabajador() {
-      $sql="SELECT * FROM tipo_trabajador where estado='1' AND estado_delete = '1' ORDER BY nombre ASC";
-      return ejecutarConsulta($sql);		
-    }
-
-    public function select2_cargo_trabajador_id($id_tipo) {
-      $sql = "SELECT * FROM cargo_trabajador WHERE idtipo_trabjador='$id_tipo' AND estado='1' AND estado_delete = '1' ORDER BY nombre ASC";
-      return ejecutarConsulta($sql);
-    }
-
     public function select2_cargo_trabajador() {
       $sql = "SELECT * FROM cargo_trabajador WHERE estado='1' AND estado_delete = '1' ORDER BY nombre ASC";
       return ejecutarConsulta($sql);
-    }
-
-    public function select2_ocupacion_trabajador()  {
-      $sql="SELECT idocupacion AS id, nombre_ocupacion AS nombre FROM ocupacion where estado = '1' AND estado_delete = '1' ORDER BY nombre_ocupacion ASC;";
-		return ejecutarConsulta($sql);
     }
     
     /* ══════════════════════════════════════ C L I E N T E  ══════════════════════════════════════ */
@@ -102,8 +132,9 @@
 
     /* ══════════════════════════════════════ P R O V E E D O R -- C L I E N T E S  ══════════════════════════════════════ */
 
-    public function select2_proveedor_cliente($id) {
-      $sql = "SELECT idpersona,nombres,tipo_documento,numero_documento FROM persona WHERE idtipo_persona ='$id' AND estado='1' AND estado_delete ='1'";
+    public function select2_proveedor_cliente($tipo) {
+      $sql = "SELECT idpersona, nombres, tipo_documento, numero_documento, es_socio, foto_perfil FROM persona 
+      WHERE idtipo_persona ='$tipo' AND estado='1' AND estado_delete ='1'";
 
       return ejecutarConsulta($sql);
       // var_dump($return);die();
@@ -157,8 +188,8 @@
 
     //funcion para mostrar registros de prosuctos
     public function tblaProductos() {
-      $sql = "SELECT p.idproducto, p.idcategoria_producto, p.idunidad_medida, p.nombre, p.marca, p.contenido_neto, p.precio_unitario, p.stock, 
-      p.descripcion, p.imagen, p.estado,  
+      $sql = "SELECT p.idproducto, p.idcategoria_producto, p.idunidad_medida, p.nombre, p.marca, p.contenido_neto, p.precio_unitario, p.precio_compra_actual,
+      p.stock, p.descripcion, p.imagen, p.estado,  
       um.nombre as nombre_medida, cp.nombre AS categoria
       FROM producto as p, unidad_medida AS um, categoria_producto AS cp
       WHERE p.idcategoria_producto = cp.idcategoria_producto and p.idunidad_medida = um.idunidad_medida and p.estado='1' AND p.estado_delete='1' ORDER BY p.nombre ASC";

@@ -1,8 +1,9 @@
 <?php
-// validamos la repeticion de funciones
-if (!function_exists('ejecutarConsulta_admin') && !function_exists('ejecutarConsulta') ) {
 
-  
+require_once "../modelos/Fechas.php";
+
+// validamos la repeticion de funciones
+if (!function_exists('ejecutarConsulta')) {  
 
   /*  ══════════════════════════════════════════ - F E C H A S - ══════════════════════════════════════════ */
 
@@ -124,10 +125,20 @@ if (!function_exists('ejecutarConsulta_admin') && !function_exists('ejecutarCons
 
   function multiplo_number($numero, $multiplo) {  if($numero%$multiplo == 0){ return true; }else{ return false; } }
 
+  function quitar_formato_miles($number) {
+
+    $sin_format = 0;
+
+    if ( !empty($number) ) { $sin_format = floatval(str_replace(",", "", $number)); }
+    
+    return $sin_format;
+  }
+
+  function zero_fill ($valor, $long = 0) { return str_pad($valor, $long, '0', STR_PAD_LEFT); }
+
   /*  ══════════════════════════════════════════ - S T R I N G - ══════════════════════════════════════════ */
   
-  function quitar_guion($str) { return str_replace("-", "", $str); }
-  function quitar_espacio($str) { return str_replace(" ", "", $str); }
+  function quitar_guion($numero) { return str_replace("-", "", $numero); }
 
   function removeSpecialChar($str) {
     $res = preg_replace('/[@\.\+\*\"\/\#\%\°\;\$\'\}\{]+/', '', $str);
@@ -178,11 +189,11 @@ if (!function_exists('ejecutarConsulta_admin') && !function_exists('ejecutarCons
     } 
   }
 
-  function validar_url_completo_get_header( $ruta )  {   
-    stream_context_set_default(['http' => ['method' => 'HEAD',],]); $headers = @get_headers($ruta); sscanf($headers[0], 'HTTP/%*d.%*d %d', $httpcode);
-    // Aceptar solo respuesta 200 (Ok), 301 (redirección permanente) o 302 (redirección temporal)
-    return $httpcode;
-  }
+  // function validar_url_completo( $ruta )  {   
+  //   stream_context_set_default(['http' => ['method' => 'HEAD',],]); $headers = @get_headers($ruta); sscanf($headers[0], 'HTTP/%*d.%*d %d', $httpcode);
+  //   // Aceptar solo respuesta 200 (Ok), 301 (redirección permanente) o 302 (redirección temporal)
+  //   return $httpcode;
+  // }
 
   function validar_url_completo( $ruta ) { clearstatcache(); if (is_readable($ruta)) { return true; } else { return false; }  }
   /*  ══════════════════════════════════════════ - M O D U L O S - ══════════════════════════════════════════ */

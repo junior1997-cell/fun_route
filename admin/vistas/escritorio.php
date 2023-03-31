@@ -4,242 +4,266 @@
   session_start();
 
   if (!isset($_SESSION["nombre"])){
-    header("Location: index.php");
+    header("Location: index.php?file=".basename($_SERVER['PHP_SELF']));
   }else{ ?>
-
     <!DOCTYPE html>
     <html lang="es">
       <head>
-        <!-- Title -->
-        <title>Amazone | Lab</title>
-
-        <!-- Required Meta Tags Always Come First -->
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Escritorio | Admin Integra</title>
 
         <?php $title = "Escritorio"; require 'head.php'; ?>
+     
       </head>
-
-      <body>
-        <!-- ========== MAIN ========== -->
-        <main id="content" role="main" class="bg-light">
+      <body class="hold-transition sidebar-mini sidebar-collapse layout-fixed layout-navbar-fixed ">
+        
+        <div class="wrapper">
+          <!-- Preloader -->
+          <div class="preloader flex-column justify-content-center align-items-center">
+            <img class="animation__shake" src="../dist/svg/logo-integra-peru.svg" alt="AdminLTELogo" width="360" />
+          </div>
+        
           <?php
-          if ($_SESSION['escritorio'] == 1){
-            //require 'enmantenimiento.php';
-            ?>
-              <!-- header -->
-            <?php require 'header.php'; ?>
-            <!-- fin  header -->
-            <!-- Content Section -->
-            <div class="container container_mod space-1 space-top-lg-0 space-bottom-lg-2 mt-lg-n10">
-              <div class="row">
-              
-                <div class="col-lg-3"> <?php require 'aside.php'; ?> </div>
-
-                <div class="col-lg-9">
-                  <!-- Card -->
-                  <div class="card mb-3 mb-lg-5">
-                    <div class="card-header">
-                      <h5 class="card-title">Escritorio</h5>
+            require 'nav.php';
+            require 'aside.php';
+            if ($_SESSION['escritorio']==1){
+              //require 'enmantenimiento.php';
+              ?>           
+              <!--Contenido-->
+              <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <div class="content-header">
+                  <div class="container-fluid">
+                    <div class="row mb-2">
+                      <div class="col-sm-6">
+                        <h1 class="m-0">Tablero</h1>
+                      </div>
+                      <!-- /.col -->
+                      <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                          <li class="breadcrumb-item"><a href="escritorio.php">Home</a></li>
+                          <li class="breadcrumb-item active">Tablero</li>
+                        </ol>
+                      </div>
+                      <!-- /.col -->
                     </div>
+                    <!-- /.row -->
+                  </div>
+                  <!-- /.container-fluid -->
+                </div>
+                <!-- /.content-header -->
 
-                    <!-- Body -->
-                    <div class="card-body">
-                      <?php //require 'endesarrollo.php'; ?>
+                <!-- Main content -->
+                <section class="content">
+                  <div class="container-fluid">
+                    <!-- Small boxes (Stat box) -->
+                    <div class="row">
 
-                      <div class="row">
-                        <div class="col-lg-8">
-
-                        <div class="align-content-between row">
-                          <!-- Año -->
-                           <div class="col-6 col-lg-6">
-                             <div class="form-group">
-                              <label for="">Fecha inicio</label>
-
-                              <input type="date" class="form-control form-control-sm" name="filtro_fecha_inicio" id="filtro_fecha_inicio" onchange="cargando_search(); delay(function(){filtros()}, 50 );"  placeholder="Fecha" />
-
-                              </div>
-                            </div>
-
-                            <!-- Mes -->
-                            <div class="col-6 col-lg-6">
-                              <div class="form-group">
-                              <label for="">Fecha fin</label>
-                              <input type="date" class="form-control form-control-sm" name="filtro_fecha_fin" id="filtro_fecha_fin" onchange="cargando_search(); delay(function(){filtros()}, 50 );" placeholder="Fecha" />
-                              </div>
-                            </div>
+                      <!-- CANIDAD DE PROYECTOS -->
+                      <div class="col-lg-3 col-6">
+                        <div class="small-box bg-info">
+                          <div class="inner">
+                            <h3 id="cantidad_box_producto" > <i class="fas fa-spinner fa-pulse "></i> </h3>
+                            <p>Total de Productos</p>
                           </div>
-
-                          <div class="cargando text-center bg-danger color-white"><i class="fas fa-spinner fa-pulse fa-sm"></i> Buscando... </div>
-                          <canvas id="myChart" width="400" height="250"></canvas> <br>
-                          <div class="cargando text-center bg-danger color-white"><i class="fas fa-spinner fa-pulse fa-sm"></i> Buscando... </div>
-                          <canvas id="chart_radar" width="250" height="250"></canvas>                  
-
-                        </div>
-                        <div class="col-lg-4">
-                          <strong>Visitas a nuesta pagina web</strong> <br>
-
-                          <table id="tabla-valores" class="table table-bordered table-striped display" style="width: 100% !important;">
-                            <thead>
-                              <tr>
-                                <th class="">Acc.</th>
-                                <th data-toggle="tooltip" data-original-title="Nombres">Nombre</th>
-                                <th data-toggle="tooltip" data-original-title="Descripción">Descrip</th>
-                              </tr>
-                            </thead>
-                            <tbody></tbody>
-                            <tfoot>
-                              <tr>
-                                <th class="">Acc.</th>
-                                <th data-toggle="tooltip" data-original-title="Nombres">Nombre</th>
-                                <th data-toggle="tooltip" data-original-title="Descripción">Descrip</th>
-                              </tr>
-                            </tfoot>
-                          </table>
-
+                          <div class="icon">
+                            <i class="fas fa-th"></i>
+                          </div>
+                          <a href="producto.php" data-toggle="tooltip" data-original-title="Click para visitar" class="small-box-footer">Más info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                       </div>
+
+                      <!-- CANTIDAD DE PROVEEDORES -->
+                      <div class="col-lg-3 col-6">
+                        <div class="small-box bg-success">
+                          <div class="inner">
+                            <h3 id="cantidad_box_agricultor"> <i class="fas fa-spinner fa-pulse "></i>   </h3>
+                            <p>Total de Agricultores</p>
+                          </div>
+                          <div class="icon"><i class="fas fa-users"></i> </div>
+                          <a href="persona.php" data-toggle="tooltip" data-original-title="Click para visitar" class="small-box-footer">Más info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                      </div>
+
+                      <!-- CANTIDAD DE TRABAJADORES -->
+                      <div class="col-lg-3 col-6">
+                        <div class="small-box bg-warning">
+                          <div class="inner">
+                            <h3 id="cantidad_box_trabajador"> <i class="fas fa-spinner fa-pulse "></i> </h3>
+                            <p>Total de Trabajadores</p>
+                          </div>
+                          <div class="icon"> <i class="fa-solid fa-briefcase"></i> </div>
+                          <a href="persona.php" data-toggle="tooltip" data-original-title="Click para visitar" class="small-box-footer">Más info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                      </div>
+
+                      <!-- CANTIDAD DE SERVICIOS -->
+                      <div class="col-lg-3 col-6">
+                        <div class="small-box bg-danger">
+                          <div class="inner">
+                            <h3 id="cantidad_box_venta"> <i class="fas fa-spinner fa-pulse "></i> </h3>
+                            <p>Total de Ventas de Productos </p>
+                          </div>
+                          <div class="icon"> <i class="fas fa-shopping-cart"></i> </div>
+                          <a href="venta_producto.php" class="small-box-footer" data-toggle="tooltip" data-original-title="Click para visitar">Más info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                      </div>
+
                     </div>
-                    <!-- End Body -->
+                    <!-- /.row -->
                   </div>
-                  <!-- End Card -->
+                  <!-- /.container-fluid -->
+                </section>
+                <!-- /.content -->
 
-                </div>
+                <!-- Main content -->
+                <section class="content">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="card card-primary card-outline">
+                          <div class="card-header">
+                            <h1 class="mb-0 text-success text-bold font-size-16px"><i class="fa-solid fa-chart-column"></i> REPORTES</h1>                      
+                          </div>
+                          <!-- /.card-header -->
+                          <div class="card-body">
+
+                            <div class="row mb-3">
+                              <div class="col-md-6 pr-3">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <div class="d-flex">
+                                      <p class="d-flex flex-column">
+                                        <span class="text-bold text-lg">Ventas y Pagos</span> <span>de productos por mes</span>
+                                      </p>
+                                      <p class="ml-auto d-flex flex-column text-right">
+                                        <span class="text-success cursor-pointer" id="btn-download-chart-linea" data-toggle="tooltip" data-original-title="Descargar gráfico"><i class="fas fa-download fa-xl"></i></span>
+                                        <span class="text-muted">Descarga</span>
+                                      </p>
+                                      
+                                    </div>
+                                    <!-- /.d-flex -->
+                                    <hr>
+                                    <div class="position-relative mb-4">
+                                      <canvas id="visitors-chart" height="350"></canvas>
+                                    </div>
+
+                                    <div class="d-flex flex-row justify-content-end">
+                                      <span class="mr-2" ><i class="fas fa-square" style="color: #28a745;" ></i> Total venta</span>
+                                      <span class="mr-2"><i class="fas fa-square" style="color: #ced4da;"></i> Total pago</span>
+                                    </div>
+                                  </div>
+                                  <!-- linea divisoria -->
+                                  <div class="col-lg-12 borde-arriba-naranja mt-3 mb-3"> </div>
+
+                                  <div class="col-md-6">
+                                    <p class="text-center"> <strong>Venta Total</strong> </p>
+                                    <div class="progress-group text-center mb-4">
+                                      <h2 class="footer_total_venta" >S/. 0.00</h2>
+                                    </div>
+                                    <!-- /.progress-group -->                                    
+                                  </div>                                  
+                                  <div class="col-md-6">
+                                    <p class="text-center"> <strong>Utilidad Total</strong> </p>
+                                    <div class="progress-group text-center">
+                                      <h2 class="footer_total_utilidad" >S/. 0.00</h2>
+                                    </div>
+                                    <!-- /.progress-group -->
+                                  </div>
+                                </div>    
+                                <!-- /.row -->                      
+                              </div>     
+                              <!-- /.col -->
+
+                              <div class="col-md-6 pl-3">
+                                <div class="row">
+                                  <div class="col-md-12 ">
+                                    <div class="d-flex">
+                                      <p class="d-flex flex-column">
+                                        <span class="text-bold text-lg">Compras de Café</span> <span>por mes</span>
+                                      </p>
+                                      <p class="ml-auto d-flex flex-column text-right">
+                                        <span class="text-success cursor-pointer" id="btn-download-chart-barra" data-toggle="tooltip" data-original-title="Descargar gráfico"><i class="fas fa-download fa-xl"></i></span>
+                                        <span class="text-muted">Descarga</span>
+                                      </p>
+                                    </div>
+                                    <!-- /.d-flex -->
+                                    <hr>
+                                    <div class="position-relative mb-4">
+                                      <canvas id="sales-chart" height="350"></canvas>
+                                    </div>
+
+                                    <div class="d-flex flex-row justify-content-end">
+                                      <span class="mr-2"><i class="fas fa-square" style="color: #28a745 !important;"></i> Total compra</span>
+                                      <span class="mr-2"><i class="fas fa-square" style="color: #000 !important;"></i> Total pago</span>
+                                      <span class="mr-2"><i class="fas fa-square" style="color: #dc3545 !important;"></i> Kg. pergamino</span>
+                                      <span class="mr-2"><i class="fas fa-square" style="color: #ffc107 !important;"></i> Kg. coco</span>
+                                    </div>
+                                  </div>
+                                  <!-- linea divisoria -->
+                                  <div class="col-lg-12 borde-arriba-naranja mt-3 mb-3"> </div>
+
+                                  <div class="col-md-6">
+                                    <p class="text-center"> <strong>Compra Total</strong> </p>
+                                    <div class="progress-group text-center mb-4">
+                                      <h2 class="footer_total_compra" >S/. 0.00</h2>
+                                    </div>
+                                    <!-- /.progress-group -->                                    
+                                  </div>                                  
+                                  <div class="col-md-6">
+                                    <p class="text-center"> <strong>Deuda Total</strong> </p>
+                                    <div class="progress-group text-center">
+                                      <h2 class="footer_total_deuda" >S/. 0.00</h2>
+                                    </div>
+                                    <!-- /.progress-group -->
+                                  </div>
+                                </div>    
+                                <!-- /.row -->                      
+                              </div>     
+                              <!-- /.col -->
+                            </div>
+                            <!-- /.row --> 
+                          </div>
+                          <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                      </div>
+                      <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                  </div>
+                  <!-- /.container-fluid -->
+
+                  <!-- Modal agregar proyecto -->
+                 
+                </section>
+                <!-- /.content -->
               </div>
-              <!-- End Row -->
-            </div>
-            <!-- End Content Section -->
-            <?php
-          }else{
-            require 'noacceso.php';
-          }
-          require 'footer.php';
-          ?>
-        </main>
-        <!-- ========== END MAIN ========== -->
-
-        <!-- Go to Top -->
-        <a
-          class="js-go-to go-to position-fixed"
-          href="javascript:;"
-          style="visibility: hidden;"
-          data-hs-go-to-options='{
-          "offsetTop": 700,
-          "position": {
-            "init": {
-              "right": 15
-            },
-            "show": {
-              "bottom": 15
-            },
-            "hide": {
-              "bottom": -15
+              <!--Fin-Contenido-->
+              <?php
+            }else{
+              require 'noacceso.php';
             }
-          }
-        }'
-        >
-          <i class="fas fa-angle-up"></i>
-        </a>
-        <!-- End Go to Top -->
+            require 'footer.php';
+          ?>
 
-        <!-- ========== SCRIPT ========== -->
+        </div>
+
         <?php require 'script.php'; ?>
 
-        <!-- JS Plugins Init. -->
-        <script>
-          $(document).on("ready", function () {
-            // INITIALIZATION OF HEADER
-            // =======================================================
-            var header = new HSHeader($("#header")).init();
+        <!-- OPTIONAL SCRIPTS -->
+        <script src="../plugins/chart.js/Chart.min.js"></script>
+        <!-- AdminLTE for demo purposes -->
+        <script src="../dist/js/demo.js"></script>
 
-            // INITIALIZATION OF MEGA MENU
-            // =======================================================
-            var megaMenu = new HSMegaMenu($(".js-mega-menu"), {
-              desktop: {
-                position: "left",
-              },
-            }).init();
+        <script type="text/javascript" src="scripts/escritorio.js"></script>
 
-            // INITIALIZATION OF UNFOLD
-            // =======================================================
-            var unfold = new HSUnfold(".js-hs-unfold-invoker").init();
-
-            // INITIALIZATION OF FORM VALIDATION
-            // =======================================================
-            $(".js-validate").each(function () {
-              $.HSCore.components.HSValidation.init($(this), {
-                rules: {
-                  confirmPassword: {
-                    equalTo: "#signupPassword",
-                  },
-                },
-              });
-            });
-
-            // INITIALIZATION OF SHOW ANIMATIONS
-            // =======================================================
-            $(".js-animation-link").each(function () {
-              var showAnimation = new HSShowAnimation($(this)).init();
-            });
-
-            // INITIALIZATION OF MASKED INPUT
-            // =======================================================
-            $(".js-masked-input").each(function () {
-              var mask = $.HSCore.components.HSMask.init($(this));
-            });
-
-            // INITIALIZATION OF FILE ATTACH
-            // =======================================================
-            $(".js-file-attach").each(function () {
-              var customFile = new HSFileAttach($(this)).init();
-            });
-
-            // INITIALIZATION OF ADD INPUT FILED
-            // =======================================================
-            $(".js-add-field").each(function () {
-              new HSAddField($(this), {
-                addedField: () => {
-                  $(".js-add-field .js-custom-select-dynamic").each(function () {
-                    var select2dynamic = $.HSCore.components.HSSelect2.init($(this));
-                  });
-                },
-              }).init();
-            });
-
-            // INITIALIZATION OF SELECT2
-            // =======================================================
-            $(".js-custom-select").each(function () {
-              var select2 = $.HSCore.components.HSSelect2.init($(this));
-            });
-
-            // INITIALIZATION OF QUILLJS EDITOR
-            // =======================================================
-            var quill = $.HSCore.components.HSQuill.init(".js-quill");
-
-            // INITIALIZATION OF GO TO
-            // =======================================================
-            $(".js-go-to").each(function () {
-              var goTo = new HSGoTo($(this)).init();
-            });
-          });
-        </script>
-
-        <!-- IE Support -->
-        <script>
-          if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="assets/vendor/babel-polyfill/dist/polyfill.js"><\/script>');
-        </script>
-
-        <!-- JS consultas -->
-        <!-- <script src="../plugins/Chart.js"></script> -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-        <script src="scripts/escritorio.js"></script>
-
+        <script>  $(function () { $('[data-toggle="tooltip"]').tooltip(); }); </script>
+        
       </body>
-
-      <!-- Mirrored from htmlstream.com/front/account-overview.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 19 May 2021 14:19:48 GMT -->
     </html>
-  <?php    
+    <?php    
   }
   ob_end_flush();
 ?>
