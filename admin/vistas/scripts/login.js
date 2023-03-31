@@ -42,7 +42,7 @@ function validar_response(e) {
         } else {
             $(document).Toasts('create', {
                 class: 'bg-success',
-                title: 'Bienvenido al sistema "Admin Integra"',
+                title: 'Bienvenido al sistema "Admin Fun Route"',
                 subtitle: 'cerrar',
                 body: 'Se inicio sesion correctamente. Te hemos extrañado, estamos muy contentos de tenerte de vuelta.'
             });

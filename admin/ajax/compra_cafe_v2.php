@@ -14,13 +14,13 @@ if (!isset($_SESSION["nombre"])) {
     require_once "../modelos/compra_cafe_v2.php";
     require_once "../modelos/Persona.php";
 
-    $compra_cafe = new Compra_cafe_v2();
-    $persona = new Persona();
+    $compra_cafe = new Compra_cafe_v2($_SESSION['idusuario']);
+    $persona = new Persona($_SESSION['idusuario']);
     
     date_default_timezone_set('America/Lima');  $date_now = date("d-m-Y h.i.s A");
     $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
 
-    $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? 'http://localhost/admin_integra/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/');
+    $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? 'http://localhost/fun_route/admin/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/');
 
     // :::::::::::::::::::::::::::::::::::: D A T O S   C O M P R A ::::::::::::::::::::::::::::::::::::::
     $idcompra_grano     = isset($_POST["idcompra_grano"]) ? limpiarCadena($_POST["idcompra_grano"]) : "";

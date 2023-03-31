@@ -14,7 +14,7 @@
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title> Compras Producto | Admin Integra </title>
+        <title> Compras Producto | Admin Fun Route </title>
 
         <?php $title = "Compras Producto"; require 'head.php'; ?>
 

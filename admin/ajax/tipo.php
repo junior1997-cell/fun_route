@@ -11,7 +11,7 @@
     
     require_once "../modelos/Tipo.php";
 
-    $tipo = new Tipo();
+    $tipo = new Tipo($_SESSION['idusuario']);
 
     $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
 

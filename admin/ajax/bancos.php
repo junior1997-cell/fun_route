@@ -11,7 +11,7 @@
     
     require_once "../modelos/Bancos.php";
 
-    $bancos = new Bancos();
+    $bancos = new Bancos($_SESSION['idusuario']);
 
     date_default_timezone_set('America/Lima');
     $date_now = date("d-m-Y h.i.s A");

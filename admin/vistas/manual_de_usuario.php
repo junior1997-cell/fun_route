@@ -13,7 +13,7 @@
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Manual de Usuario | Admin Integra</title>
+        <title>Manual de Usuario | Admin Fun Route</title>
         <?php $title = "Manual de usuario"; require 'head.php';  ?>       
 
         <link rel="stylesheet" href="../dist/css/switch_materiales.css">

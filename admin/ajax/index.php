@@ -7,7 +7,7 @@
             $link_host = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/vistas/login.html?file='.$file;
         }else{
             if ($tipo == 'local') {
-                $link_host = "http://localhost/admin_integra/vistas/login.html?file=".$file;
+                $link_host = "http://localhost/fun_route/admin/vistas/login.html?file=".$file;
             }            
         }
         return $link_host;

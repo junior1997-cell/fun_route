@@ -2237,7 +2237,7 @@
       }
 
       var groupItemElement = $__default['default']('<a/>', {
-        href:  (window.location.host=='localhost'?'http://localhost/admin_integra/vistas/':window.location.origin +'/vistas/' ) +link.replace(/^.*[\\\/]/, ''),
+        href:  (window.location.host=='localhost'?'http://localhost/fun_route/admin/vistas/':window.location.origin +'/vistas/' ) +link.replace(/^.*[\\\/]/, ''),
         class: 'list-group-item'
       });
       var searchTitleElement = $__default['default']('<div/>', {

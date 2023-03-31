@@ -3,7 +3,7 @@
   <!-- Brand Logo -->
   <a href="escritorio.php" class="brand-link">
     <img src="../dist/svg/logo-icono.svg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8;" />
-    <span class="brand-text font-weight-light">Admin Integra</span>
+    <span class="brand-text font-weight-light">Admin Fun Route</span>
   </a>
 
   <!-- Sidebar -->

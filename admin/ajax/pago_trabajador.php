@@ -19,9 +19,9 @@
 
       require_once "../modelos/Trabajador.php";
 
-      $trabajador = new Trabajador();
+      $trabajador = new Trabajador($_SESSION['idusuario']);
 
-      $pago_trabajador = new PagoTrabajador;
+      $pago_trabajador = new PagoTrabajador($_SESSION['idusuario']);
 
       date_default_timezone_set('America/Lima');
       $date_now = date("d-m-Y h.i.s A");

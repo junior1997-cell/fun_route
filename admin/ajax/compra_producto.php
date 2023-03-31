@@ -15,13 +15,13 @@ if (!isset($_SESSION["nombre"])) {
     require_once "../modelos/Persona.php";
     require_once "../modelos/Producto.php";
 
-    $compra_producto  = new Compra_producto();
-    $persona          = new Persona();
+    $compra_producto  = new Compra_producto($_SESSION['idusuario']);
+    $persona          = new Persona($_SESSION['idusuario']);
     $producto         = new Producto($_SESSION['idusuario']);      
     
     date_default_timezone_set('America/Lima');  $date_now = date("d-m-Y h.i.s A");
     $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
-    $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? 'http://localhost/admin_integra/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/');
+    $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? 'http://localhost/fun_route/admin/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/');
 
     // :::::::::::::::::::::::::::::::::::: D A T O S   C O M P R A ::::::::::::::::::::::::::::::::::::::
     $idcompra_producto  = isset($_POST["idcompra_producto"]) ? limpiarCadena($_POST["idcompra_producto"]) : "";

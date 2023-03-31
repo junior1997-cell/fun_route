@@ -13,7 +13,7 @@
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Activos fijos | Admin Integra</title>
+        <title>Activos fijos | Admin Fun Route</title>
         
         <?php $title = "Activos fijos"; require 'head.php'; ?>
         

@@ -13,7 +13,7 @@
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Otros Ingresos | Admin Integra</title>
+        <title>Otros Ingresos | Admin Fun Route</title>
         
         <?php $title = "Otros Ingresos"; require 'head.php'; ?>
           

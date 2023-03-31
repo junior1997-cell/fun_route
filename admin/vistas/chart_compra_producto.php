@@ -13,7 +13,7 @@
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Graficos Almacén | Admin Integra</title>
+        <title>Graficos Almacén | Admin Fun Route</title>
 
         <?php $title = "Graficos Almacén"; require 'head.php'; ?>
 

@@ -12,7 +12,7 @@
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Personas | Admin Integra</title>
+        <title>Personas | Admin Fun Route</title>
 
         <?php $title = "Personas"; require 'head.php'; ?>
         <link rel="stylesheet" href="../dist/css/switch_persona.css">

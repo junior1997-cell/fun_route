@@ -12,7 +12,7 @@
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Usuarios | Admin Integra</title>
+        <title>Usuarios | Admin Fun Route</title>
 
         <?php $title = "Usuarios"; require 'head.php'; ?>
 

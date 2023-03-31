@@ -12,7 +12,7 @@
     if ($_SESSION['otro_ingreso'] == 1) {
 
       require_once "../modelos/Otro_ingreso.php";
-      $otro_ingreso = new Otro_ingreso();
+      $otro_ingreso = new Otro_ingreso($_SESSION['idusuario']);
             
       date_default_timezone_set('America/Lima');
       $date_now = date("d-m-Y h.i.s A");   

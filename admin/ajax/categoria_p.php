@@ -11,7 +11,7 @@
     
     require_once "../modelos/categoria_p.php";
 
-    $categoria_p = new Categoria_p();
+    $categoria_p = new Categoria_p($_SESSION['idusuario']);
 
     $idcategoria_producto = isset($_POST["idcategoria_producto"]) ? limpiarCadena($_POST["idcategoria_producto"]) : "";
     $nombre_categoria = isset($_POST["nombre_categoria"]) ? limpiarCadena($_POST["nombre_categoria"]) : "";

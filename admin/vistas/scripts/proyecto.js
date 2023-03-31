@@ -944,7 +944,7 @@ function mostrar_detalle(idproyecto) {
     var ruta_carpeta = window.location.host;
 
     if (ruta_carpeta == 'localhost') {
-      ruta_carpeta = 'http://localhost/admin_integra/dist/docs/valorizacion/documento/'
+      ruta_carpeta = 'http://localhost/fun_route/admin/dist/docs/valorizacion/documento/'
     } else {
       ruta_carpeta = `${window.location.origin}/dist/docs/valorizacion/documento/`;
     }

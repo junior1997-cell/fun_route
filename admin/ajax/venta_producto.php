@@ -16,13 +16,13 @@ if (!isset($_SESSION["nombre"])) {
     require_once "../modelos/Producto.php";
 
     $venta_producto = new Venta_producto($_SESSION['idusuario']);
-    $persona = new Persona();
+    $persona = new Persona($_SESSION['idusuario']);
     $producto = new Producto($_SESSION['idusuario']);      
     
     date_default_timezone_set('America/Lima');  $date_now = date("d-m-Y h.i.s A");
     $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
 
-    $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? 'http://localhost/admin_integra/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/');
+    $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? 'http://localhost/fun_route/admin/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/');
 
     // :::::::::::::::::::::::::::::::::::: D A T O S   V E N T A ::::::::::::::::::::::::::::::::::::::
     $idventa_producto   = isset($_POST["idventa_producto"]) ? limpiarCadena($_POST["idventa_producto"]) : "";

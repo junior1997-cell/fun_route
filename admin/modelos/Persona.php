@@ -4,9 +4,13 @@
 
   class Persona
   {
+    //Implementamos nuestro variable global
+    public $id_usr_sesion;
+
     //Implementamos nuestro constructor
-    public function __construct()
+    public function __construct($id_usr_sesion = 0)
     {
+      $this->id_usr_sesion = $id_usr_sesion;
     }
 
     public function insertar($id_tipo_persona,$tipo_documento,$num_documento,$nombre,$input_socio,$email,$telefono,$banco,$cta_bancaria,$cci,
@@ -19,13 +23,13 @@
       if ( empty($existe['data']) ) {
 
         $sql="INSERT INTO persona(idtipo_persona, idbancos, nombres, tipo_documento, numero_documento, celular, direccion, correo, cuenta_bancaria, cci, titular_cuenta, es_socio,fecha_nacimiento,idcargo_trabajador,sueldo_mensual,sueldo_diario,edad, foto_perfil,user_created) 
-        VALUES ('$id_tipo_persona','$banco','$nombre','$tipo_documento','$num_documento','$telefono','$direccion','$email','$cta_bancaria','$cci','$titular_cuenta','$input_socio','$nacimiento','$cargo_trabajador','$sueldo_mensual','$sueldo_diario','$edad','$imagen1', '" . $_SESSION['idusuario'] . "')";
+        VALUES ('$id_tipo_persona','$banco','$nombre','$tipo_documento','$num_documento','$telefono','$direccion','$email','$cta_bancaria','$cci','$titular_cuenta','$input_socio','$nacimiento','$cargo_trabajador','$sueldo_mensual','$sueldo_diario','$edad','$imagen1', '$this->id_usr_sesion')";
         $new_persona = ejecutarConsulta_retornarID($sql);
 
         if ($new_persona['status'] == false) { return $new_persona;}
 
         //add registro en nuestra bitacora
-        $sql = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('persona','".$new_persona['data']."','Registro Nuevo persona','" . $_SESSION['idusuario'] . "')";
+        $sql = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('persona','".$new_persona['data']."','Registro Nuevo persona','$this->id_usr_sesion')";
         $bitacora = ejecutarConsulta($sql); if ( $bitacora['status'] == false) {return $bitacora; }  
         
         $sw = array( 'status' => true, 'message' => 'noduplicado', 'data' => $new_persona['data'], 'id_tabla' =>$new_persona['id_tabla'] );
@@ -57,12 +61,12 @@
       fecha_nacimiento='$nacimiento',idcargo_trabajador='$cargo_trabajador',
       sueldo_mensual='$sueldo_mensual',sueldo_diario='$sueldo_diario',
       edad='$edad', foto_perfil='$imagen1',
-      user_updated= '" . $_SESSION['idusuario'] . "' WHERE idpersona='$idpersona'";	      
+      user_updated= '$this->id_usr_sesion' WHERE idpersona='$idpersona'";	      
       $persona = ejecutarConsulta($sql);
       if ($persona['status'] == false) { return  $persona;}
 
       //add registro en nuestra bitacora
-      $sql = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('persona','".$idpersona."','Editamos el registro persona','" . $_SESSION['idusuario'] . "')";
+      $sql = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('persona','".$idpersona."','Editamos el registro persona','$this->id_usr_sesion')";
       $bitacora = ejecutarConsulta($sql); if ( $bitacora['status'] == false) {return $bitacora; }  
       
       // return $persona;     
@@ -71,26 +75,26 @@
     }
 
     public function desactivar($idpersona) {
-      $sql="UPDATE persona SET estado='0',user_trash= '" . $_SESSION['idusuario'] . "' WHERE idpersona='$idpersona'";
+      $sql="UPDATE persona SET estado='0',user_trash= '$this->id_usr_sesion' WHERE idpersona='$idpersona'";
       $desactivar =  ejecutarConsulta($sql);
 
       if ( $desactivar['status'] == false) {return $desactivar; }  
 
       //add registro en nuestra bitacora
-      $sql = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('persona','.$idpersona.','Desativar el registro persona','" . $_SESSION['idusuario'] . "')";
+      $sql = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('persona','.$idpersona.','Desativar el registro persona','$this->id_usr_sesion')";
       $bitacora = ejecutarConsulta($sql); if ( $bitacora['status'] == false) {return $bitacora; }  
 
       return $desactivar;
     }
 
     public function eliminar($idpersona) {
-      $sql="UPDATE persona SET estado_delete='0',user_delete= '" . $_SESSION['idusuario'] . "' WHERE idpersona='$idpersona'";
+      $sql="UPDATE persona SET estado_delete='0',user_delete= '$this->id_usr_sesion' WHERE idpersona='$idpersona'";
       $eliminar =  ejecutarConsulta($sql);
       
       if ( $eliminar['status'] == false) {return $eliminar; }  
 
       //add registro en nuestra bitacora
-      $sql = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('persona','.$idpersona.','Eliminar registro persona','" . $_SESSION['idusuario'] . "')";
+      $sql = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('persona','.$idpersona.','Eliminar registro persona','$this->id_usr_sesion')";
       $bitacora = ejecutarConsulta($sql); if ( $bitacora['status'] == false) {return $bitacora; }  
 
       return $eliminar;

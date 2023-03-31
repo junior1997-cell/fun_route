@@ -11,7 +11,7 @@
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Papelera | Admin Integra</title>
+        <title>Papelera | Admin Fun Route</title>
 
         <?php $title = "Papelera"; require 'head.php'; ?>
         

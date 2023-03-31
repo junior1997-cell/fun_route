@@ -17,7 +17,7 @@
 
       require_once "../modelos/Persona.php";
 
-      $persona = new Persona();
+      $persona = new Persona($_SESSION['idusuario']);
 
       date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y h.i.s A");
 
