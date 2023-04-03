@@ -1,6 +1,6 @@
 <!-- Icono Sevens-Ingenieros-SAC -->
-<link rel="apple-touch-icon" href="../dist/svg/logo-icono.svg">
-<link rel="shortcut icon" href="../dist/svg/logo-icono.svg">
+<link rel="apple-touch-icon" href="../dist/svg/ico_head.svg">
+<link rel="shortcut icon" href="../dist/svg/ico_head.svg">
 
 <!-- Google Font: Source Sans Pro -->
 <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" /> -->
