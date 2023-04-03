@@ -13,13 +13,13 @@
 <!-- <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> -->
 
 <!-- DataTables -->
-<!-- <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
+<link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
 <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css" />
-<link rel="stylesheet" href="../plugins/datatables-buttons/css/buttons.bootstrap4.min.css" /> --> 
+<link rel="stylesheet" href="../plugins/datatables-buttons/css/buttons.bootstrap4.min.css" /> 
  
-<link rel="stylesheet" type="text/css" href="../plugins/datatables2/jquery.dataTables.min.css">    
+<!-- <link rel="stylesheet" type="text/css" href="../plugins/datatables2/jquery.dataTables.min.css">    
 <link rel="stylesheet" type="text/css" href="../plugins/datatables2/buttons.dataTables.min.css" rel="stylesheet"/>
-<link rel="stylesheet" type="text/css" href="../plugins/datatables2/responsive.dataTables.min.css" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="../plugins/datatables2/responsive.dataTables.min.css" rel="stylesheet"/> -->
 
 <!-- Bootstrap Color Picker -->
 <link rel="stylesheet" href="../plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">

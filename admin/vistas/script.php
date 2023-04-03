@@ -40,22 +40,21 @@
 <script src="../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.js"></script>
 
 <!-- DataTables  & Plugins -->
-<script src="../plugins/datatables2/jquery.dataTables.min.js"></script>    
+<!-- <script src="../plugins/datatables2/jquery.dataTables.min.js"></script>    
 <script src="../plugins/datatables2/dataTables.buttons.min.js"></script>
 <script src="../plugins/datatables2/buttons.html5.min.js"></script>
 <script src="../plugins/datatables2/buttons.colVis.min.js"></script>
 <script src="../plugins/datatables2/jszip.min.js"></script>
 <script src="../plugins/datatables2/pdfmake.min.js"></script>
 <script src="../plugins/datatables2/vfs_fonts.js"></script>
-<script src="../plugins/datatables2/datetime.js"></script>
+<script src="../plugins/datatables2/datetime.js"></script> -->
 <!-- Responsive datatable -->
-<script src="../plugins/datatables2/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../plugins/datatables2/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<!-- <script src="../plugins/datatables2/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../plugins/datatables2/datatables-responsive/js/responsive.bootstrap4.min.js"></script> -->
 
-<!-- sweetalert2 -->
-<script src="../plugins/sweetalert2/sweetalert2.all.min.js"></script>
 
-<!-- <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+
+<script src="../plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
@@ -66,7 +65,11 @@
 <script src="../plugins/pdfmake/vfs_fonts.js"></script>
 <script src="../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../plugins/datatables-buttons/js/buttons.colVis.min.js"></script> -->
+<script src="../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="../plugins/datatables/datetime.js"></script>
+
+<!-- sweetalert2 -->
+<script src="../plugins/sweetalert2/sweetalert2.all.min.js"></script>
  
 
 <!-- AdminLTE App -->

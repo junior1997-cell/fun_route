@@ -41,7 +41,7 @@ $.extend( true, DataTable.Buttons.defaults, {
 			className: 'dt-buttons btn-group flex-wrap'
 		},
 		button: {
-			className: 'btn btn-secondary'
+			className: 'btn btn-secondary sas asas'
 		},
 		collection: {
 			tag: 'div',
