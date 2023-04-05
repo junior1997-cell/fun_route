@@ -16,12 +16,20 @@
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="assets/css/fontawesome.css">
     <link rel="stylesheet" href="assets/css/templatemo-woox-travel.css">
+    <link rel="stylesheet" href="assets/css/templatemo-scholar.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="assets/css/templatemo-pod-talk.css">
+
     <link rel="stylesheet" href="assets/css/owl.css">
     <link rel="stylesheet" href="assets/css/animate.css">
     <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
 
-    
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/boton-flotante-w.css">
 <!--
 
 TemplateMo 580 Woox Travel
@@ -60,16 +68,48 @@ https://templatemo.com/tm-580-woox-travel
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                      <li><a href="index.html" class="active">Inicio</a></li>
-                      <li><a href="nosotros.html">Nosotros</a></li>
-                      <li><a href="about.html">About</a></li>
-                      <li><a href="deals.html">Deals</a></li>
-                      <li><a href="reservation.html">Reservation</a></li>
-                        
+                      <li class="active list indicator">
+                        <a href="index.html" style="top: 24px;">
+                          <span class="icon">
+                            <ion-icon name="home-outline"></ion-icon>
+                          </span>
+                          <span class="text">Inicio</span>
+                        </a>
+                      </li>
+                      <li class="list">
+                        <a href="nosotros.html">
+                          <span class="icon">
+                            <ion-icon name="people-outline"></ion-icon>
+                          </span>
+                          <span class="text">Nosotros</span>
+                        </a>
+                      </li>
+                      <li class="list">
+                        <a href="about.html">
+                          <span class="icon">
+                            <ion-icon name="help-outline"></ion-icon>
+                          </span>
+                          <span class="text">About</span>
+                        </a>
+                      </li>
+                      <li class="list">
+                        <a href="deals.html">
+                          <span class="icon">
+                            <ion-icon name="pricetags-outline"></ion-icon>
+                          </span>
+                          <span class="text">Deals</span>
+                        </a>
+                      </li>
+                      <li class="list">
+                        <a href="reservation.html">
+                          <span class="icon">
+                            <ion-icon name="reader-outline"></ion-icon>
+                          </span>
+                          <span class="text">Reservation</span>
+                        </a>
+                      </li>
                     </ul>   
-                    <a class='menu-trigger'>
-                        <span>Menu</span>
-                    </a>
+                    
                     <!-- ***** Menu End ***** -->
                 </nav>
             </div>
@@ -387,6 +427,30 @@ https://templatemo.com/tm-580-woox-travel
     </div>
   </div>
 
+  <div class="container-btn-redes">
+    <!--<input type="checkbox" id="btn-mas">-->
+    <div class="redes">
+      <ul>
+        <li>
+          <a href="https://www.facebook.com/businesswasi" target="_blank">
+            <i class="fab fa-facebook-f fa-lg icon" style='font-size:20px; color: #0570e6;'></i>
+          </a> <br>
+        </li>
+        <li>
+          <a href="https://www.youtube.com/channel/UCO8gLd1Dq5hrYrZInS93XLQ" target="_blank">
+            <i class="fab fa-youtube fa-lg icon" style='font-size:20px; color: #c4302b;'></i>
+          </a> <br>
+        </li>
+        <li>
+          <a href="https://api.whatsapp.com/send?phone=+51944411328&text=*Hola buenos dias amigo Lewis, vengo de tu pagina principal!!*" target="_blank">
+            <i class="fab fa-whatsapp fa-lg icon" style='font-size:20px; color: #33B93F;'></i> 
+          </a> <br>
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+
   <footer>
     <div class="container">
       <div class="row">
@@ -411,6 +475,9 @@ https://templatemo.com/tm-580-woox-travel
   <script src="assets/js/popup.js"></script>
   <script src="assets/js/custom.js"></script>
 
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
   <script>
     function bannerSwitcher() {
       next = $('.sec-1-input').filter(':checked').next('.sec-1-input');
@@ -424,6 +491,16 @@ https://templatemo.com/tm-580-woox-travel
       clearInterval(bannerTimer);
       bannerTimer = setInterval(bannerSwitcher, 5000)
     });
+  </script>
+  <script>
+    const list = document.querySelectorAll(".list");
+    function activeLink(){
+      list.forEach((item) => 
+      item.classList.remove("active"));
+      this.classList.add("active");
+    }
+    list.forEach((item) => 
+    item.addEventListener("click", activeLink));
   </script>
 
   </body>
