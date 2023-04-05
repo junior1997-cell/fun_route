@@ -54,7 +54,7 @@
               </li>
               <!--  Misión y Visión  -->
               <li class="nav-item ">
-                <a href="permiso.php" class="nav-link" id="lPermiso">
+                <a href="mision_vision.php" class="nav-link" id="lmision_vision">
                   <i class="nav-icon fa-solid fa-record-vinyl"></i>
                   <p> Misión y Visión </p>
                 </a>

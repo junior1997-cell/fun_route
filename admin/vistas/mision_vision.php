@@ -11,9 +11,9 @@
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Datos Generales | Admin Fun Route</title>
+        <title>Misión y Visión | Admin Fun Route</title>
 
-        <?php $title = "Datos Generales"; require 'head.php'; ?>
+        <?php $title = "Misión y Visión"; require 'head.php'; ?>
      
       </head>
       <body class="hold-transition sidebar-mini sidebar-collapse layout-fixed layout-navbar-fixed ">
@@ -37,7 +37,7 @@
                   <div class="container-fluid">
                     <div class="row mb-2">
                       <div class="col-sm-6">
-                        <h1 class="m-0">Datos generales de la empresa</h1>
+                        <h1 class="m-0">Misión y Visión</h1>
                       </div>
                       <!-- /.col -->
                       <div class="col-sm-6">

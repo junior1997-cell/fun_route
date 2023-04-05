@@ -11,18 +11,20 @@
     
     require_once "../modelos/Contacto.php";
 
-    $ocupacion = new Contacto($_SESSION['idusuario']);
+    $contacto = new Contacto($_SESSION['idusuario']);
 
       //============D A T O S========================
 
-      $id           = isset($_POST["id"])? limpiarCadena($_POST["id"]):"";
+      $id           = isset($_POST["idnosotros"])? limpiarCadena($_POST["idnosotros"]):"";
       $mision       = isset($_POST["mision"])? limpiarCadena($_POST["mision"]):"";
       $vision       = isset($_POST["vision"])? limpiarCadena($_POST["vision"]):"";
 
       $palabras_ceo = isset($_POST["palabras_ceo"])? limpiarCadena($_POST["palabras_ceo"]):"";
       $resenia_h    = isset($_POST["resenia_h"])? limpiarCadena($_POST["resenia_h"]):"";
 
-      $direcccion   = isset($_POST["direcccion"])? limpiarCadena($_POST["direcccion"]):"";
+      $direccion   = isset($_POST["direccion"])? limpiarCadena($_POST["direccion"]):"";
+      $nombre       = isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
+      $ruc          = isset($_POST["ruc"])? limpiarCadena($_POST["ruc"]):"";
       $celular      = isset($_POST["celular"])? limpiarCadena($_POST["celular"]):"";
       $telefono     = isset($_POST["telefono"])? limpiarCadena($_POST["telefono"]):"";
       $latitud      = isset($_POST["latitud"])? limpiarCadena($_POST["latitud"]):"";
@@ -72,9 +74,9 @@
         }else {
 
           // editamos un documento existente
-          $rspta=$contacto->actualizar_datos_generales( $id, $direcccion,$celular,$telefono,$latitud,$longuitud,$correo,$horario );
+          $rspta=$contacto->actualizar_datos_generales( $id,$direccion,$nombre,$ruc,$celular,$telefono,$latitud,$longuitud,$correo,$horario );
           
-          echo $rspta ? "ok" : "Los datos no se pudieron actualizar";
+          echo json_encode( $rspta, true) ;
         }            
 
       break;

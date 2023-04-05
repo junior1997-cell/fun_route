@@ -6,7 +6,7 @@ function init() {
 
   $("#mAccesos").addClass("active");
 
-  $("#ldatosgenerales").addClass("active");
+  $("#lmision_vision").addClass("active");
 
 
   $("#actualizar_registro").on("click", function (e) { $("#submit-form-actualizar-registro").submit(); });

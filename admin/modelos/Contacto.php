@@ -16,7 +16,7 @@ Class Contacto
 		//mostrar_comprobante
 		public function mostrar(){
 		
-			$sql="SELECT * FROM contacto WHERE idcontacto='1';";
+			$sql="SELECT * FROM nosotros WHERE idnosotros='1'";
 			return ejecutarConsultaSimpleFila($sql);
 		}
 	
@@ -35,17 +35,19 @@ Class Contacto
 		}
 	
 		//actualizamos actualizar_datos_generales
-		public function actualizar_datos_generales( $id, $direcccion,$celular,$telefono,$latitud,$longuitud,$correo,$horario)
+		public function actualizar_datos_generales( $id,$direccion,$nombre,$ruc,$celular,$telefono,$latitud,$longuitud,$correo,$horario)
 		{
-			$sql="UPDATE contacto SET 
-			direccion='$direcccion',
+			$sql="UPDATE nosotros SET 
+			direccion='$direccion',
+			nombre_empresa='$nombre',
+			ruc='$ruc',
 			celular='$celular',
 			telefono_fijo='$telefono',
 			correo='$correo',
 			horario='$horario',
 			latitud='$latitud',
 			longitud='$longuitud' 
-			 WHERE idcontacto='$id'";
+			WHERE idnosotros ='$id'";
 			return ejecutarConsulta($sql);
 	
 		}
