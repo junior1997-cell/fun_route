@@ -21,7 +21,7 @@
         <div class="wrapper">
           <!-- Preloader -->
           <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="../dist/svg/logo-integra-peru.svg" alt="AdminLTELogo" width="360" />
+            <img class="animation__shake" src="../dist/svg/logo_principal.svg" alt="AdminLTELogo" width="360" />
           </div>
         
           <?php

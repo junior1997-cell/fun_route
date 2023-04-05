@@ -2,21 +2,12 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
   <a href="escritorio.php" class="brand-link">
-    <img src="../dist/svg/logo-icono.svg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8;" />
+    <img src="../dist/svg/ico_head.svg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8;" />
     <span class="brand-text font-weight-light">Admin Fun Route</span>
   </a>
 
   <!-- Sidebar -->
   <div class="sidebar"> 
-    <!-- Sidebar user panel (optional) -->
-    <!-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-      <div class="image">
-        <img src="../dist/svg/empresa-logo.svg" class="img-circle elevation-2" alt="User Image">
-      </div>
-      <div class="info">
-        <a href="#" class="d-block">Construccion del baño portodoloque parte de no se</a>
-      </div>
-    </div>     -->
 
     <!-- SidebarSearch Form -->
     <div class="form-inline mt-4">
@@ -29,16 +20,7 @@
     <!-- Sidebar Menu -->
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column /*nav-flat*/" data-widget="treeview" role="menu" data-accordion="false">
-        <!-- MANUAL DE USUARIO -->
-        <!-- <li class="nav-item">
-          <a href="manual_de_usuario.php" class="nav-link pl-2" id="mManualDeUsuario">
-            <i class="nav-icon fas fa-book"></i>
-            <p>
-              Manual de Usuario
-              <span class="right badge badge-success">new</span>
-            </p>
-          </a>
-        </li> -->
+
         <?php if ($_SESSION['escritorio']==1) {  ?>
           <!-- ESCRITORIO -->
           <li class="nav-item">
@@ -49,6 +31,49 @@
                 <span class="right badge badge-danger">Home</span>
               </p>
             </a>
+          </li>
+        <?php  }  ?>
+        <?php if ($_SESSION['acceso']==1) {  ?>
+          <!-- ACCESOS -->
+          <li class="nav-item  b-radio-3px" id="bloc_datos_generales">
+            <a href="#" class="nav-link pl-2" id="mAccesos">
+              <i class="nav-icon fa-sharp fa-solid fa-city"></i>
+              <p>
+                Empresa
+                <i class="fas fa-angle-left right"></i>
+                <span class="badge badge-info right">4</span>
+              </p>
+            </a>
+            <ul class="nav nav-treeview ">
+              <!--  Datos Generales  -->
+              <li class="nav-item ">
+                <a href="datos_generales.php" class="nav-link " id="ldatosgenerales">
+                  <i class="nav-icon fa-solid fa-gears"></i>
+                  <p> Datos Generales </p>
+                </a>
+              </li>
+              <!--  Misión y Visión  -->
+              <li class="nav-item ">
+                <a href="permiso.php" class="nav-link" id="lPermiso">
+                  <i class="nav-icon fa-solid fa-record-vinyl"></i>
+                  <p> Misión y Visión </p>
+                </a>
+              </li>    
+              <!--  Misión y Visión  -->
+              <li class="nav-item ">
+                <a href="permiso.php" class="nav-link" id="lPermiso">
+                  <i class="nav-icon fa-solid fa-globe"></i>
+                  <p>CEO - Reseña</p>
+                </a>
+              </li>   
+              <!--  Misión y Visión  -->
+              <li class="nav-item ">
+                <a href="permiso.php" class="nav-link" id="lPermiso">
+                  <i class="nav-icon fa-solid fa-lightbulb"></i>
+                  <p>Valores</p>
+                </a>
+              </li>  
+            </ul>
           </li>
         <?php  }  ?>
 
