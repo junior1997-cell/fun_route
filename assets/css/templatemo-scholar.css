@@ -31,10 +31,10 @@ font & reset css
 reset
 --------------------------------------------- 
 */
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, div
+html, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, div
 pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q,
 s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
-figure, header, nav, section, article, aside, footer, figcaption {
+figure, header, nav, section, article, aside, figcaption {
   margin: 0;
   padding: 0;
   border: 0;
@@ -68,7 +68,7 @@ ul, li {
   list-style: none;
 }
 
-header, nav, section, article, aside, footer, hgroup {
+header, nav, section, article, aside, hgroup {
   display: block;
 }
 
@@ -76,12 +76,7 @@ header, nav, section, article, aside, footer, hgroup {
   box-sizing: border-box;
 }
 
-html, body {
-  font-family: 'Poppins', sans-serif;
-  -ms-text-size-adjust: 100%;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+
 
 a {
   text-decoration: none !important;
@@ -114,10 +109,7 @@ img {
 Global Styles
 --------------------------------------------- 
 */
-html,
-body {
-  font-family: 'Poppins', sans-serif;
-}
+
 
 ::selection {
   background: #22b3c1;
@@ -1163,7 +1155,4 @@ Responsive Style
 --------------------------------------------- 
 */
 
-body {
-  overflow-x: hidden;
-}
 

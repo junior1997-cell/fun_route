@@ -23,7 +23,7 @@ https://templatemo.com/tm-584-pod-talk
   --border-color:                 #7fffd4;
   --link-hover-color:             #0066CC;
 
-  --body-font-family:             'Montserrat', sans-serif;
+  
   --title-font-family:            'Sono', sans-serif;
 
   --h1-font-size:                 58px;
@@ -46,10 +46,7 @@ https://templatemo.com/tm-584-pod-talk
   --font-weight-bold:             700;
 }
 
-body {
-  background-color: var(--white-color);
-  font-family: var(--body-font-family); 
-}
+
 
 
 /*---------------------------------------
@@ -797,66 +794,6 @@ main {
 /*---------------------------------------
   SITE FOOTER              
 -----------------------------------------*/
-.site-footer {
-  background-image: url('../images/templatemo-wave-footer.jpg'), linear-gradient(#FFFFFF, #348CD2);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  margin-top: -80px;
-  padding-top: 100px;
-  padding-bottom: 150px;
-}
-
-.site-footer > .container {
-  position: relative;
-  top: 50px;
-  padding-top: 100px;
-}
-
-.site-footer-title,
-.site-footer p {
-  color: var(--white-color);
-}
-
-.site-footer p strong {
-  font-family: var(--title-font-family);
-}
-
-.site-footer p a {
-  color: var(--white-color);
-  border-bottom: 1px solid;
-  padding-bottom: 3px;
-}
-
-.site-footer p a:hover {
-  color: var(--secondary-color);
-}
-
-.site-footer-thumb a img {
-  display: block;
-  width: 120px;
-  min-width: 120px;
-  height: auto;
-}
-
-.site-footer-links {
-  margin-bottom: 0;
-  padding-left: 0;
-}
-
-.site-footer-link-item {
-  display: inline-block;
-  list-style: none;
-  margin-right: 10px;
-  margin-left: 10px;
-}
-
-.site-footer-link {
-  color: var(--white-color);
-  font-size: var(--p-font-size);
-  line-height: inherit;
-}
-
 
 /*---------------------------------------
   SOCIAL ICON               
@@ -900,13 +837,6 @@ main {
 	  background-size: 100% 90%;
 	  /* T o o p l a t e . c o m   C u s t o m i z e d */
 	}
-}
-
-
-@media screen and (min-width: 1600px) {
-  .site-footer {
-    padding-top: 250px;
-  }
 }
 
 @media screen and (max-width: 1240px) {
@@ -955,11 +885,6 @@ main {
     text-align: center;
   }
 
-  .site-footer {
-    margin-top: -200px;
-    padding-top: 200px;
-    padding-bottom: 100px;
-  }
 }
 
 @media screen and (max-width: 540px) {
