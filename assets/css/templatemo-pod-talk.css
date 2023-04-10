@@ -145,7 +145,7 @@ strong {
 
 .section-title-wrap::after {
   content: "";
-  background: var(--section-bg-color);
+  background: #53deeb;
   width: 100%;
   height: 2px;
   position: absolute;
@@ -157,7 +157,7 @@ strong {
 }
 
 .section-title {
-  background: var(--section-bg-color);
+  background: #53deeb;
   border-radius: var(--border-radius-large);
   display: inline-block;
   position: relative;
