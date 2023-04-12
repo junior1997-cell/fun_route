@@ -19,13 +19,14 @@ Class Bancos
 		$sql="INSERT INTO bancos (nombre, alias, formato_cta, formato_cci, formato_detracciones, icono, user_created)
 		VALUES ('$nombre', '$alias', '$formato_cta', '$formato_cci', '$formato_detracciones', '$imagen1','$this->id_usr_sesion')";
 
-		$intertar =  ejecutarConsulta_retornarID($sql); if ($intertar['status'] == false) {  return $intertar; } 
+		$insertar =  ejecutarConsulta_retornarID($sql); if ($insertar['status'] == false) {  return $insertar; } 
 
 		//add registro en nuestra bitacora
-		$sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql, id_user) VALUES (1,'bancos','".$intertar['data']."','$sql', 'created_at','$this->id_usr_sesion')";
-		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }   
+		$sql_d = $nombre.', '.$alias.', '.$formato_cta.', '.$formato_cci.', '.$formato_detracciones.', '.$imagen1;
+		$sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5,'bancos','".$insertar['data']."','$sql_d','$this->id_usr_sesion')";
+		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
 
-		return $intertar;
+		return $insertar;
 	}
 
 	//Implementamos un método para editar registros
@@ -40,7 +41,9 @@ Class Bancos
 		if ( $editar['status'] == false) {return $editar; } 
 	
 		//add registro en nuestra bitacora
-		$sql_bit = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('bancos','$idbancos','Banco editado','$this->id_usr_sesion')";
+		$sql_d = $idbancos.', '.$nombre.', '.$alias.', '.$formato_cta.', '.$formato_cci.', '.$formato_detracciones.', '.$imagen1;
+
+		$sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (6,'bancos','$idbancos','$sql_d','$this->id_usr_sesion')";
 		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
 	
 		return $editar;
