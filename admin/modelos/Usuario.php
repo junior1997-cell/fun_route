@@ -20,9 +20,11 @@ class Usuario
     $sql = "INSERT INTO usuario ( idpersona, login, password,user_created) VALUES ('$trabajador','$login', '$clave','$this->id_usr_sesion')";
     $data_user = ejecutarConsulta_retornarID($sql); if ($data_user['status'] == false){return $data_user; }
 
-    //add registro en nuestra bitacora
-    $sql2 = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('usuario','" . $data_user['data'] . "','Registrar','$this->id_usr_sesion')";
-    $bitacora1 = ejecutarConsulta($sql2); if ( $bitacora1['status'] == false) {return $bitacora1; }
+    //add registro en nuestra bitacora ', '
+    $sql_d = $trabajador.','.$cargo.','.$login.','.$clave;
+    
+    $sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5,'usuario','".$data_user['data']."','$sql_d','$this->id_usr_sesion')";
+    $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
 
     $num_elementos = 0; $sw = "";
 
@@ -38,11 +40,11 @@ class Usuario
 
         if ( $sw['status'] == false) {return $sw; }
 
-        //add registro en nuestra bitacora
-        $sql2 = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('usuario_permiso','" .  $sw['data'] . "','Registrar permisos','$this->id_usr_sesion')";
-        $bitacora = ejecutarConsulta($sql2);
-
-        if ( $bitacora['status'] == false) {return $bitacora; }
+        //add registro en nuestra bitacora ', '
+        $sql_d = $permisos[$num_elementos];
+        
+        $sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5,'usuario','".$sw['data']."','$sql_d','$this->id_usr_sesion')";
+        $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
 
         $num_elementos++;
 
@@ -194,7 +196,7 @@ class Usuario
   public function select2_trabajador() {
     $sql = "SELECT p.idpersona, p.nombres, p.numero_documento, p.foto_perfil, p.celular 
     FROM persona as p LEFT JOIN usuario as u ON p.idpersona=u.idpersona 
-    WHERE p.idtipo_persona='4' AND p.estado =1 AND p.estado_delete=1 AND u.idusuario IS NULL;";
+    WHERE p.idtipo_persona='3' AND p.estado =1 AND p.estado_delete=1 AND u.idusuario IS NULL;";
     return ejecutarConsulta($sql);
   }
 
