@@ -114,34 +114,18 @@
             <a href="#" class="nav-link pl-2" id="mRecurso">
               <i class="nav-icon fas fa-project-diagram"></i>
               <p>
-                Recursos <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">6</span>
+                Recursos <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">2</span>
               </p>
             </a>
             <ul class="nav nav-treeview ">
 
-              <!-- Usuarios del sistema -->
-              <!-- <li class="nav-item ">
-                <a href="trabajador.php" class="nav-link" id="lTrabajador">
-                  <i class="nav-icon fas fa-users"></i>
-                  <p>Trabajador</p>
-                </a>
-              </li> -->
-
               <!-- Proveedores y clientes de la empresa -->
               <li class="nav-item ">
-                <a href="persona.php" class="nav-link" id="lClienteProveedor">
+                <a href="persona.php" class="nav-link" id="lPersona">
                   <i class="nav-icon fas fa-users"></i>
                   <p>Personas </p>
                 </a>
-              </li>  
-              
-              <!-- Producto para la empresa -->
-              <li class="nav-item ">
-                <a href="producto.php" class="nav-link" id="lAllProducto">                  
-                  <img src="../dist/svg/plomo-abono-ico.svg" class="nav-icon lAllProducto-img" alt="" style="width: 21px !important;" >
-                  <p>Producto</p>
-                </a>
-              </li>              
+              </li>          
               
               <!-- Datos Generales Bancos y color -->
               <li class="nav-item ">
@@ -165,26 +149,26 @@
         
         <li class="nav-header">MÓDULOS</li>
         
-        <!-- LOGÍSTICA Y ADQUISICIONES -->      
-        <li class="nav-item " id="bloc_LogisticaAdquisiciones">
-          <a href="#" class="nav-link bg-color-2c2c2c" id="mLogisticaAdquisiciones" style="padding-left: 7px;">
+        <!-- PAQUETES DE VIEJE -->      
+        <li class="nav-item " id="bloc_LogisticaPaquetes">
+          <a href="#" class="nav-link bg-color-2c2c2c" id="mLogisticaPaquetes" style="padding-left: 7px;">
             <i class="nav-icon far fa-circle"></i>
-            <p class="font-size-14px">LOGÍSTICA Y ADQUISICIONES <i class="fas fa-angle-left right"></i></p>
+            <p class="font-size-14px">LOGÍSTICA DE PAQUETES <i class="fas fa-angle-left right"></i></p>
           </a>
           <ul class="nav nav-treeview">
 
             <?php if ($_SESSION['almacen_abono']==1) {  ?>   
-              <!-- COMPRAS -->      
-              <li class="nav-item  b-radio-3px" id="bloc_Compras">
-                <a href="#" class="nav-link pl-2" id="mCompra">
+              <!-- Paquetes -->      
+              <li class="nav-item  b-radio-3px" id="bloc_lPaquetes">
+                <a href="#" class="nav-link pl-2" id="mlPaquetes">
                 <i class="fa-solid fa-boxes-stacked"></i>
-                  <p>Almacén Abono <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">3</span></p>
+                  <p>Paquetes Definidos <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">3</span></p>
                 </a>
                 <ul class="nav nav-treeview">
-                  <!-- Compras producto -->
+                  <!-- Paquetes -->
                   <li class="nav-item ">
-                    <a href="compra_producto.php" class="nav-link" id="lCompras">
-                      <i class="nav-icon fas fa-cart-plus"></i> <p>Compras Producto</p>
+                    <a href="paquete.php" class="nav-link" id="lPaquetes">
+                      <i class="nav-icon fas fa-cart-plus"></i> <p>Paquetes</p>
                     </a>
                   </li>
                   <!-- Resumend de Productos -->
@@ -203,44 +187,13 @@
                 </ul>
               </li>
             <?php  }  ?>  
-
-            <?php if ($_SESSION['venta_abono']==1) {  ?>   
-              <!-- Ventas -->      
-              <li class="nav-item  b-radio-3px" id="bloc_Ventas">
-                <a href="#" class="nav-link pl-2" id="mVentas">
-                  <i class="fas fa-shopping-cart nav-icon"></i>
-                  <p>Venta Abonos <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">3</span></p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <!-- Ventas Producto -->
-                  <li class="nav-item ">
-                    <a href="venta_producto.php" class="nav-link" id="lVentasProductos">
-                      <i class="nav-icon fas fa-cart-plus"></i> <p>Ventas Producto</p>
-                    </a>
-                  </li>
-                  <!-- Resumend de Producto -->
-                  <li class="nav-item ">
-                    <a href="resumen_venta_producto.php" class="nav-link" id="lResumenVentasProductos">
-                      <i class="nav-icon fas fa-tasks"></i> <p>Resumen de Productos</p>
-                    </a>
-                  </li> 
-                  
-                  <!-- Graficos Producto -->
-                  <li class="nav-item ">
-                    <a href="chart_venta_producto.php" class="nav-link" id="lChartVentaProducto">
-                      <i class="nav-icon fas fa-chart-line"></i> <p>Gráficos</p>
-                    </a>
-                  </li> 
-                </ul>
-              </li>
-            <?php  }  ?>      
             
             <?php if ($_SESSION['compra_grano']==1) {  ?>   
               <!-- COMPRAS -->      
               <li class="nav-item  b-radio-3px" id="bloc_ComprasGrano">
                 <a href="#" class="nav-link pl-2" id="mCompraGrano">
                   <img src="../dist/svg/plomo-grano-cafe-ico.svg" class="nav-icon lComprasGrano-img" alt="" style="width: 21px !important;" >
-                  <p>Compras Café <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">2</span></p>
+                  <p>Paquetes a Medida <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">2</span></p>
                 </a>
                 <ul class="nav nav-treeview">
                   <!-- Compras del proyecto -->
@@ -265,20 +218,40 @@
                   </li> 
                 </ul>
               </li>
-            <?php  }  ?>             
-
-            <?php /* if ($_SESSION['otro_gasto']==1) { */ ?>
-              <!-- OTROS GASTOS -->       
-              <!-- <li class="nav-item ">
-                <a href="otro_gasto.php" class="nav-link pl-2" id="lOtroGasto">
-                  <i class="nav-icon fas fa-network-wired"></i>
-                  <p>Otros Gastos </p>
-                </a>
-              </li> -->
-            <?php /* } */ ?>            
+            <?php  }  ?>                   
             
           </ul>
         </li> 
+
+        <!-- REPORTES -->   
+        <li class="nav-item " id="bloc_ContableFinanciero">
+          <a href="#" class="nav-link bg-color-2c2c2c" id="mContableFinanciero" style="padding-left: 7px;">
+            <i class="nav-icon far fa-circle"></i>
+            <p class="font-size-14px">REPORTES<i class="fas fa-angle-left right"></i></p>
+          </a>
+          <ul class="nav nav-treeview">
+
+            <?php if ($_SESSION['pago_trabajador']==1) {  ?>
+              <!-- RESUMEN DE GASTOS -->
+              <li class="nav-item ">
+                <a href="pago_trabajador.php" class="nav-link pl-2" id="lPagoTrabajador">
+                  <i class="fas fa-dollar-sign nav-icon"></i>
+                  <p>Pago Trabajador</p>
+                </a>
+              </li>
+            <?php  }  ?>
+
+            <?php if ($_SESSION['otro_ingreso']==1) {  ?>
+              <li class="nav-item ">
+                <a href="otro_ingreso.php" class="nav-link pl-2" id="lOtroIngreso">             
+                  <i class="nav-icon fas fa-hand-holding-usd"></i>
+                  <p>Otro ingreso </p>
+                </a>
+              </li>
+            <?php  }  ?>
+            
+          </ul>
+        </li>
 
         <!-- CONTABLE Y FINANCIERO -->   
         <li class="nav-item " id="bloc_ContableFinanciero">

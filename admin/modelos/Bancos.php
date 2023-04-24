@@ -58,8 +58,10 @@ Class Bancos
 		if ($desactivar['status'] == false) {  return $desactivar; }
 		
 		//add registro en nuestra bitacora
-		$sql_bit = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('bancos','".$idbancos."','Banco desactivado','$this->id_usr_sesion')";
-		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }   
+		$sql_d = $idbancos;
+
+		$sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (2,'persona','$idbancos','$sql_d','$this->id_usr_sesion')";
+		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
 		
 		return $desactivar;
 	}
@@ -78,9 +80,11 @@ Class Bancos
 		$eliminar =  ejecutarConsulta($sql);
 		if ( $eliminar['status'] == false) {return $eliminar; }  
 		
-		//add registro en nuestra bitacora
-		$sql = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('bancos','$idbancos','Banco Eliminado','$this->id_usr_sesion')";
-		$bitacora = ejecutarConsulta($sql); if ( $bitacora['status'] == false) {return $bitacora; }  
+		//add registro en nuestra bitacora.', '.
+		$sql_d = $idbancos;
+
+		$sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (4,'bancos','$idbancos','$sql_d','$this->id_usr_sesion')";
+		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
 		
 		return $eliminar;
 	}
