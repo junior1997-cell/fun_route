@@ -15,7 +15,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Paquetes | Admin Fun Route</title>
         
-        <?php $title = "Paquetes"; require 'head.php'; ?>
+        <?php $title = "Comentario"; require 'head.php'; ?>
           
       </head>
       <body class="hold-transition sidebar-collapse sidebar-mini layout-fixed layout-navbar-fixed">
@@ -67,15 +67,16 @@
                         <div class="card-body">
 
                           <div id="mostrar-tabla">
-                            <table id="tabla-paquete" class="table table-bordered table-striped display" style="width: 100% !important;">
+                            <table id="tabla-comentario" class="table table-bordered table-striped display" style="width: 100% !important;">
                               <thead>
                                 <tr>
                                   <th class="text-center">#</th>
                                   <th class="">Acciones</th>
                                   <th class="">Nombre</th>
-                                  <th data-toggle="tooltip" data-original-title="Duracion">Duracion</th>
-                                  <th data-toggle="tooltip" data-original-title="Descripcion">Descripcion</th>
-                                  <th>Imagen</th>
+                                  <th data-toggle="tooltip" data-original-title="Correo">Correo</th>
+                                  <th data-toggle="tooltip" data-original-title="Comentario">Comentario</th>
+                                  <th data-toggle="tooltip" data-original-title="Fecha">Fecha</th>
+                                  <th>Estrella</th>
                                 </tr>
                               </thead>
                               <tbody></tbody>
@@ -84,9 +85,10 @@
                                   <th class="text-center">#</th>
                                   <th class="">Acciones</th>
                                   <th class="">Nombre</th>
-                                  <th data-toggle="tooltip" data-original-title="Duracion">Duracion</th>
-                                  <th data-toggle="tooltip" data-original-title="Descripcion">Descripcion</th>
-                                  <th>Imagen</th>
+                                  <th data-toggle="tooltip" data-original-title="Correo">Correo</th>
+                                  <th data-toggle="tooltip" data-original-title="Comentario">Comentario</th>
+                                  <th data-toggle="tooltip" data-original-title="Fecha">Fecha</th>
+                                  <th>Estrella</th>
                                 </tr>
                               </tfoot>
                             </table>

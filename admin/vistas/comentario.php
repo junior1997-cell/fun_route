@@ -15,7 +15,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Paquetes | Admin Fun Route</title>
         
-        <?php $title = "Paquetes"; require 'head.php'; ?>
+        <?php $title = "Comentario"; require 'head.php'; ?>
           
       </head>
       <body class="hold-transition sidebar-collapse sidebar-mini layout-fixed layout-navbar-fixed">
@@ -67,15 +67,16 @@
                         <div class="card-body">
 
                           <div id="mostrar-tabla">
-                            <table id="tabla-paquete" class="table table-bordered table-striped display" style="width: 100% !important;">
+                            <table id="tabla-comentario" class="table table-bordered table-striped display" style="width: 100% !important;">
                               <thead>
                                 <tr>
                                   <th class="text-center">#</th>
                                   <th class="">Acciones</th>
                                   <th class="">Nombre</th>
-                                  <th data-toggle="tooltip" data-original-title="Duracion">Duracion</th>
-                                  <th data-toggle="tooltip" data-original-title="Descripcion">Descripcion</th>
-                                  <th>Imagen</th>
+                                  <th data-toggle="tooltip" data-original-title="Correo">Correo</th>
+                                  <th data-toggle="tooltip" data-original-title="Comentario">Comentario</th>
+                                  <th data-toggle="tooltip" data-original-title="Fecha">Fecha</th>
+                                  <th>Estrella</th>
                                 </tr>
                               </thead>
                               <tbody></tbody>
@@ -84,9 +85,10 @@
                                   <th class="text-center">#</th>
                                   <th class="">Acciones</th>
                                   <th class="">Nombre</th>
-                                  <th data-toggle="tooltip" data-original-title="Duracion">Duracion</th>
-                                  <th data-toggle="tooltip" data-original-title="Descripcion">Descripcion</th>
-                                  <th>Imagen</th>
+                                  <th data-toggle="tooltip" data-original-title="Correo">Correo</th>
+                                  <th data-toggle="tooltip" data-original-title="Comentario">Comentario</th>
+                                  <th data-toggle="tooltip" data-original-title="Fecha">Fecha</th>
+                                  <th>Estrella</th>
                                 </tr>
                               </tfoot>
                             </table>
@@ -173,12 +175,12 @@
     
                           </div>
                           <!-- /.card-body -->
-                          <button type="submit" style="display: none;" id="submit-form-paquete">Submit</button>
+                          <button type="submit" style="display: none;" id="submit-form-comentario">Submit</button>
                         </form>
                       </div>
                       <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" id="guardar_registro_paquete">Guardar Cambios</button>
+                        <button type="submit" class="btn btn-success" id="guardar_registro_comentario">Guardar Cambios</button>
                       </div>
                     </div>
                   </div>
@@ -247,7 +249,7 @@
         <?php require 'script.php'; ?>
         
         <!-- Funciones del modulo -->
-        <script type="text/javascript" src="scripts/paquete.js"></script>
+        <script type="text/javascript" src="scripts/comentario.js"></script>
 
         <script> $(function () { $('[data-toggle="tooltip"]').tooltip(); }); </script>
         

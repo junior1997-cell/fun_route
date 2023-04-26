@@ -1,4 +1,4 @@
-var tabla_paquete;
+var tabla_comentario;
 
 //Función que se ejecuta al inicio
 function init() {
@@ -23,7 +23,7 @@ function init() {
   lista_select2("../ajax/ajax_general.php?op=select2Banco", '#banco', null);
 
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════ 
-  $("#guardar_registro_paquete").on("click", function (e) { $("#submit-form-paquete").submit(); });
+  $("#guardar_registro_comentario").on("click", function (e) { $("#submit-form-comentario").submit(); });
 
   // ══════════════════════════════════════ INITIALIZE SELECT2 - OTRO INGRESO  ══════════════════════════════════════
   $("#idpersona").select2({ theme: "bootstrap4", placeholder: "Selecione un proveedor o productor", allowClear: true,   });
@@ -106,7 +106,7 @@ function show_hide_form(flag) {
 
 //Función Listar
 function tbla_principal() {
-  tabla_paquete = $("#tabla-paquete").dataTable({
+  tabla_comentario = $("#tabla-comentario").dataTable({
     responsive: true,
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]], //mostramos el menú de registros a revisar
     aProcessing: true, //Activamos el procesamiento del datatables
@@ -114,7 +114,7 @@ function tbla_principal() {
     dom: "<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
     buttons: ["copyHtml5", "excelHtml5", "pdf"],
     ajax: {
-      url: "../ajax/paquete.php?op=tbla_principal",
+      url: "../ajax/comentario.php?op=tbla_principal",
       type: "get",
       dataType: "json",
       error: function (e) {
@@ -383,12 +383,12 @@ function modal_comprobante(comprobante,tipo,numero_comprobante) {
 }
 
 //Función para guardar o editar
-function guardar_y_editar_paquete(e) {
+function guardar_y_editar_comentario(e) {
   // e.preventDefault(); //No se activará la acción predeterminada del evento
-  var formData = new FormData($("#form-paquete")[0]);
+  var formData = new FormData($("#form-comentario")[0]);
 
   $.ajax({
-    url: "../ajax/paquete.php?op=guardar_y_editar_paquete",
+    url: "../ajax/comentario.php?op=guardar_y_editar_comentario",
     type: "POST",
     data: formData,
     contentType: false,
@@ -400,7 +400,7 @@ function guardar_y_editar_paquete(e) {
 
           Swal.fire("Correcto!", "El registro se guardo correctamente.", "success");
 
-          tabla_paquete.ajax.reload(null, false);
+          tabla_comentario.ajax.reload(null, false);
 
           limpiar_form();    
 
@@ -667,7 +667,7 @@ $(function () {
   $("#idtipopersona").on('change', function() { $(this).trigger('blur'); });
 
 
-  $("#form-paquete").validate({
+  $("#form-comentario").validate({
     ignore: '.select2-input, .select2-focusser',
     rules: {
       nombre:{ required: true, minlength:4, maxlength:100 },
@@ -698,7 +698,7 @@ $(function () {
     },
 
     submitHandler: function (e) {
-      guardar_y_editar_paquete(e);
+      guardar_y_editar_comentario(e);
     },
 
   });

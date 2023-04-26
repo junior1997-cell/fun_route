@@ -171,19 +171,30 @@
                       <i class="nav-icon fas fa-cart-plus"></i> <p>Paquetes</p>
                     </a>
                   </li>
-                  <!-- Resumend de Productos -->
+                  <!-- Comentario -->
                   <li class="nav-item ">
-                    <a href="resumen_compra_producto.php" class="nav-link" id="lResumenProducto">
-                      <i class="nav-icon fas fa-tasks"></i> <p>Resumen de Productos</p>
+                    <a href="comentario.php" class="nav-link" id="lComentario">
+                      <i class="nav-icon fas fa-tasks"></i> <p>Comentarios</p>
                     </a>
                   </li> 
-                  
-                  <!-- Graficos Productos -->
+                  <!-- Itinerario -->
                   <li class="nav-item ">
-                    <a href="chart_compra_producto.php" class="nav-link" id="lChartCompraProducto">
-                      <i class="nav-icon fas fa-chart-line"></i> <p>Gráficos</p>
+                    <a href="itinerario.php" class="nav-link" id="lItinerario">
+                      <i class="nav-icon fas fa-chart-line"></i> <p>Itinerario</p>
                     </a>
-                  </li> 
+                  </li>
+                  <!-- Galeria Paquete -->
+                  <li class="nav-item ">
+                    <a href="galeria_paquete.php" class="nav-link" id="lGaleriaPaquete">
+                      <i class="nav-icon fas fa-chart-line"></i> <p>Galeria Paquete</p>
+                    </a>
+                  </li>
+                    <!-- Pedido -->
+                  <li class="nav-item ">
+                    <a href="pedido.php" class="nav-link" id="lPedido">
+                      <i class="nav-icon fas fa-chart-line"></i> <p>Pedido</p>
+                    </a>
+                  </li>
                 </ul>
               </li>
             <?php  }  ?>  
