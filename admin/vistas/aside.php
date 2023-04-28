@@ -61,7 +61,7 @@
               </li>    
               <!--  Misión y Visión  -->
               <li class="nav-item ">
-                <a href="permiso.php" class="nav-link" id="lPermiso">
+                <a href="ceo_resenia.php" class="nav-link" id="lceo_resenia">
                   <i class="nav-icon fa-solid fa-globe"></i>
                   <p>CEO - Reseña</p>
                 </a>

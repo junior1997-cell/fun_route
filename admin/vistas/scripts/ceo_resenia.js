@@ -6,7 +6,7 @@ function init() {
 
   $("#mAccesos").addClass("active");
 
-  $("#lmision_vision").addClass("active");
+  $("#lceo_resenia").addClass("active");
 
 
   $("#actualizar_registro").on("click", function (e) { $("#submit-form-actualizar-misionvision").submit(); });

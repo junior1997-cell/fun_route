@@ -23,7 +23,7 @@ Class Contacto
 		//actualizamos mision y vision
 		public function actualizar_mision_vision( $id, $mision, $vision)
 		{
-			$sql="UPDATE contacto SET mision='$mision',vision='$vision' WHERE idcontacto='$id'";
+			$sql="UPDATE nosotros SET mision='$mision',vision='$vision' WHERE idnosotros='$id'";
 			return ejecutarConsulta($sql);
 		}
 	

@@ -145,7 +145,7 @@
         <!-- AdminLTE for demo purposes -->
         <script src="../dist/js/demo.js"></script>
 
-        <script type="text/javascript" src="scripts/mision_vision.js"></script>
+        <script type="text/javascript" src="scripts/ceo_resenia.js"></script>
 
         <script>  $(function () { $('[data-toggle="tooltip"]').tooltip(); }); </script>
         
