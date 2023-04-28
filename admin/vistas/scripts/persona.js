@@ -6,7 +6,7 @@ function init() {
 
   $("#mRecurso").addClass("active");
 
-  $("#lAllpersona").addClass("active");
+  $("#lPersona").addClass("active");
   lista_de_items()
   tbla_principal('todos');
 
