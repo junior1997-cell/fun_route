@@ -401,7 +401,7 @@ function guardar_y_editar_paquete(e) {
           Swal.fire("Correcto!", "El registro se guardo correctamente.", "success");
 
           tabla_paquete.ajax.reload(null, false);
-
+          $('#modal-agregar-paquete').modal('hide'); //
           limpiar_form();    
 
         } else {
@@ -417,44 +417,44 @@ function guardar_y_editar_paquete(e) {
   });
 }
 
-function mostrar(idotro_ingreso) {
+function mostrar_paquete(idpaquete) {
 
-  limpiar_form(); show_hide_form(2);
+  limpiar_paquete();
   
   $("#cargando-1-fomulario").hide();
   $("#cargando-2-fomulario").show();
 
-  $("#modal-agregar-otro_ingreso").modal("show");
+  $("#modal-agregar-paquete").modal("show");
 
-  $.post("../ajax/otro_ingreso.php?op=mostrar", { idotro_ingreso: idotro_ingreso }, function (e, status) {
+  $.post("../ajax/paquete.php?op=mostrar", { idpaquete: idpaquete }, function (e, status) {
     
     e = JSON.parse(e); console.log('jolll'); console.log(e);    
 
-    $("#idpersona").val(e.data.idpersona).trigger("change");
-    $("#tipo_comprobante").val(e.data.tipo_comprobante).trigger("change");
-    $("#forma_pago").val(e.data.forma_de_pago).trigger("change");
-    $("#idotro_ingreso").val(e.data.idotro_ingreso);
-    $("#fecha_i").val(e.data.fecha_ingreso);
-    $("#nro_comprobante").val(e.data.numero_comprobante);  
+    $("#idpaquete").val(e.data.idpaquete).trigger("change");
+    $("#nombre").val(e.data.nombre).trigger("change");
+    $("#duracion").val(e.data.duracion).trigger("change");
+    $("#descripcion").val(e.data.descripcion);
+    
+    if (e.data.imagen == "" || e.data.imagen == null  ) {
 
-    $("#subtotal").val(e.data.precio_sin_igv);
-    $("#igv").val(e.data.precio_igv);
-    $("#val_igv").val(e.data.val_igv);
-    $("#tipo_gravada").val(e.data.tipo_gravada);
-    $("#precio_parcial").val(e.data.precio_con_igv);
-    $("#descripcion").val(e.data.descripcion);    
+      $("#doc1_ver").html('<img src="../dist/svg/pdf_trasnparent.svg" alt="" width="50%" >');
 
-    if (e.data.comprobante == "" || e.data.comprobante == null  ) {
-      $("#doc1_ver").html('<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >');
       $("#doc1_nombre").html('');
-      $("#doc_old_1").val(""); $("#doc1").val("");
-    } else {
-      $("#doc_old_1").val(e.data.comprobante);
-      $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Baucher.${extrae_extencion(e.data.comprobante)}</i></div></div>`);
-      // cargamos la imagen adecuada par el archivo
-      $("#doc1_ver").html(doc_view_extencion(e.data.comprobante,'otro_ingreso', 'comprobante', '100%', '210' ));            
-    }
 
+      $("#doc_old_1").val(""); $("#doc1").val("");
+
+    } else {
+
+      $("#doc_old_1").val(e.data.comprobante); 
+
+      $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Baucher.${extrae_extencion(e.data.imagen)}</i></div></div>`);
+      // cargamos la imagen adecuada par el archivo
+      $("#doc1_ver").html(doc_view_extencion(e.data.imagen,'paquete', 'perfil', '100%', '210' ));   //ruta imagen    
+          
+    }
+    $('.jq_image_zoom').zoom({ on:'grab' });
+     
+    
     $("#cargando-1-fomulario").show();
     $("#cargando-2-fomulario").hide();
   }).fail( function(e) { ver_errores(e); } );
@@ -543,17 +543,17 @@ function ver_datos(idotro_ingreso) {
 }
 
 //Función para desactivar registros
-function eliminar(idotro_ingreso, nombre,numero_comprobante) {
+function eliminar_paquete(idpaquete) {
 
   crud_eliminar_papelera(
-    "../ajax/otro_ingreso.php?op=desactivar",
-    "../ajax/otro_ingreso.php?op=eliminar", 
-    idotro_ingreso, 
+    "../ajax/paquete.php?op=desactivar",
+    "../ajax/paquete.php?op=eliminar", 
+    idpaquete, 
     "!Elija una opción¡", 
-    `<b class="text-danger"><del>${nombre} : ${numero_comprobante}</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
+    `<b class="text-danger"><del>...</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
     function(){ sw_success('♻️ Papelera! ♻️', "Tu registro ha sido reciclado." ) }, 
     function(){ sw_success('Eliminado!', 'Tu registro ha sido Eliminado.' ) }, 
-    function(){ tabla.ajax.reload(null, false); },
+    function(){ tabla_paquete.ajax.reload(null, false); },
     false, 
     false, 
     false,
@@ -562,18 +562,12 @@ function eliminar(idotro_ingreso, nombre,numero_comprobante) {
 }
 // :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N   P R O V E E D O R  ::::::::::::::::::::::::::::::::::::::::::::::::::::
 //Función limpiar
-function limpiar_persona() {
-  $("#idproveedor").val("");
-  $("#tipo_documento option[value='RUC']").attr("selected", true);
+function limpiar_paquete() {
+  $("#idpaquete").val("");
   $("#nombre").val("");
-  $("#num_documento").val("");
-  $("#direccion").val("");
-  $("#telefono").val("");
-  $("#banco").val("").trigger("change");
-  $("#c_bancaria").val("");
-  $("#cci").val("");
-  $("#titular_cuenta").val("");
-
+  $("#duracion").val("");
+  $("#imagen").val("");
+  
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
   $(".form-control").removeClass('is-invalid');

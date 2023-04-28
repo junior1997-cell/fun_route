@@ -36,6 +36,7 @@
           if (!file_exists($_FILES['doc1']['tmp_name']) || !is_uploaded_file($_FILES['doc1']['tmp_name'])) {
 						$imagen1=$_POST["doc_old_1"]; $flat_img1 = false;
 					} else {
+            //guardar imagen
 						$ext1 = explode(".", $_FILES["doc1"]["name"]); $flat_img1 = true;
             $imagen1 = $date_now .' '. random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext1);
             move_uploaded_file($_FILES["doc1"]["tmp_name"], "../dist/docs/paquete/perfil/" . $imagen1);						
@@ -66,7 +67,7 @@
 
         case 'desactivar':
 
-          $rspta=$persona->desactivar($_GET["id_tabla"]);
+          $rspta=$paquete->desactivar($_GET["id_tabla"]);
 
           echo json_encode($rspta, true);
 
@@ -74,7 +75,7 @@
 
         case 'eliminar':
 
-          $rspta=$persona->eliminar($_GET["id_tabla"]);
+          $rspta=$paquete->eliminar($_GET["id_tabla"]);
 
           echo json_encode($rspta, true);
 
@@ -82,7 +83,7 @@
 
         case 'mostrar':
 
-          $rspta=$persona->mostrar($idpersona);
+          $rspta=$paquete->mostrar($idpaquete);
           //Codificar el resultado utilizando json
           echo json_encode($rspta, true);
 
@@ -103,9 +104,9 @@
               
               $data[]=array(
                 "0"=>$cont++,
-                "1"=>'<button class="btn btn-info btn-sm" onclick="ver_detalle_compras(' . $value['idpaquete'] .', \''.$value['nombre']. '\')" data-toggle="tooltip" data-original-title="Ver detalle compra"><i class="fa fa-eye"></i></button>' . 
-                ' <button class="btn btn-warning btn-sm" onclick="copiar_o_ver_editar_venta(' . $value['idpaquete'] . ', 2)" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
-                ' <button class="btn btn-danger  btn-sm" onclick="eliminar_compra(' . $value['idpaquete'] .', \''.encodeCadenaHtml($value['nombre']). '\')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i> </button>',
+                "1"=>'<button class="btn btn-info btn-sm" onclick="ver_detalle_compras(' . $value['idpaquete'] .')" data-toggle="tooltip" data-original-title="Ver detalle compra"><i class="fa fa-eye"></i></button>' . 
+                ' <button class="btn btn-warning btn-sm" onclick="mostrar_paquete(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
+                ' <button class="btn btn-danger  btn-sm" onclick="eliminar_paquete(' . $value['idpaquete'] .')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i> </button>',
                 "2"=>$value['nombre'],
                 "3"=>$value['duracion'],
                 "4"=> '<textarea cols="30" rows="1" class="textarea_datatable" readonly="">' . $value['descripcion'] . '</textarea>',

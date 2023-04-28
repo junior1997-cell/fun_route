@@ -18,49 +18,66 @@
     public function insertar($nombre, $duracion, $descripcion, $imagen1)
     {
       $sql ="INSERT INTO `paquete`(`nombre`, `duracion`, `descripcion`, `imagen`) VALUES ('$nombre','$duracion','$descripcion','$imagen1')";
-      return ejecutarConsulta($sql);
+      $crear= ejecutarConsulta_retornarID($sql); if ( $crear['status'] == false) {return $crear; }  
+
+      //add registro en nuestra bitacora
+		  $sql_d = "$nombre, $duracion, $descripcion, $imagen1";
+
+		  $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5,'idpaquete','".$crear['data']."','$sql_d','$this->id_usr_sesion')";
+		  $bitacora = ejecutarConsulta_retornarID($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
+		
+		  return $crear;
     }
 
     //implementamos un metodo para editar registros
     public function editar($idpaquete, $nombre, $duracion, $descripcion, $imagen1)
+    
     {
       // var_dump($idpago_trabajador,$idmes_pago_trabajador_p,$nombre_mes,$monto,$fecha_pago,$descripcion,$comprobante);die();
-      $sql="";
-      return ejecutarConsulta($sql);
+      $sql="UPDATE `paquete` SET `nombre`='$nombre',`duracion`='$duracion',`descripcion`='$descripcion',`imagen`='$imagen1' WHERE idpaquete='$idpaquete';";
+      $editar= ejecutarConsulta($sql); if ( $editar['status'] == false) {return $editar; }  
+
+      //add registro en nuestra bitacora
+		  $sql_d = "$idpaquete, $nombre, $duracion, $descripcion, $imagen1";
+
+		  $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (6,'idpaquete','$idpaquete','$sql_d','$this->id_usr_sesion')";
+		  $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
+		
+		  return $editar;
     }
 
     //Implementamos un método para desactivar registros
-    public function desactivar_pago($idpago_trabajador)
+    public function desactivar($idpaquete)
     {
-      $sql="UPDATE pago_trabajador SET estado='0',user_trash= '$this->id_usr_sesion' WHERE idpago_trabajador='$idpago_trabajador'";
+      $sql="UPDATE paquete SET estado='0',user_trash= '$this->id_usr_sesion' WHERE paquete='$idpaquete'";
       $desactivar =  ejecutarConsulta($sql);
 
       if ( $desactivar['status'] == false) {return $desactivar; }  
+      $sql_d = $idpaquete;
 
       //add registro en nuestra bitacora
-      $sql = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('pago_trabajador','.$idpago_trabajador.','Desativar el registro Trabajador','$this->id_usr_sesion')";
+      $sql = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('paquete','.$idpaquete.','Desativar el registro Trabajador','$this->id_usr_sesion')";
       $bitacora = ejecutarConsulta($sql); if ( $bitacora['status'] == false) {return $bitacora; }  
 
       return $desactivar;
     }
     
     //Implementamos un método para activar registros
-    public function eliminar_pago($idpago_trabajador) {
-      $sql="UPDATE pago_trabajador SET estado_delete='0',user_delete= '$this->id_usr_sesion' WHERE idpago_trabajador='$idpago_trabajador'";
-      $eliminar =  ejecutarConsulta($sql);
-      
-      if ( $eliminar['status'] == false) {return $eliminar; }  
+    public function eliminar($idpaquete) {
+      $sql="UPDATE paquete SET estado_delete='0',user_delete= '$this->id_usr_sesion' WHERE idpaquete='$idpaquete'";
+      $eliminar =  ejecutarConsulta($sql); if ( $eliminar['status'] == false) {return $eliminar; }  
 
       //add registro en nuestra bitacora
-      $sql = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('pago_trabajador','.$idpago_trabajador.','Eliminar registro Trabajador','$this->id_usr_sesion')";
-      $bitacora = ejecutarConsulta($sql); if ( $bitacora['status'] == false) {return $bitacora; }  
-
-      return $eliminar;
+      $sql_d = $idpaquete;
+      $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (4,'paquete','$idpaquete','$sql_d','$this->id_usr_sesion')";
+		  $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
+		
+		  return $eliminar;
     }
     //Implementamos un método para mostrar los datos de un registro a modificar
-    public function mostrar_pago($idpago_trabajador)
+    public function mostrar($idpaquete)
     {
-      $sql="SELECT * FROM pago_trabajador WHERE idpago_trabajador='$idpago_trabajador'";
+      $sql="SELECT * FROM paquete WHERE idpaquete='$idpaquete'";
       return ejecutarConsultaSimpleFila($sql);
     }
 

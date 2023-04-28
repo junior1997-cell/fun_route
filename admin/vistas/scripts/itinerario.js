@@ -1,4 +1,4 @@
-var tabla_paquete;
+var tabla_itinerario;
 
 //Función que se ejecuta al inicio
 function init() {
@@ -8,11 +8,9 @@ function init() {
 
   $("#bloc_lPaquetes").addClass("menu-open bg-color-191f24");
 
-  $("#mlPaquetes").addClass("active");
-
   $("#mlPaquetes").addClass("active bg-green");
 
-  $("#lPaquetes").addClass("active");
+  $("#lItinerario").addClass("active");
 
   
   tbla_principal();
@@ -23,7 +21,7 @@ function init() {
   lista_select2("../ajax/ajax_general.php?op=select2Banco", '#banco', null);
 
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════ 
-  $("#guardar_registro_comentario").on("click", function (e) { $("#submit-form-comentario").submit(); });
+  $("#guardar_registro_itinerario").on("click", function (e) { $("#submit-form-itinerario").submit(); });
 
   // ══════════════════════════════════════ INITIALIZE SELECT2 - OTRO INGRESO  ══════════════════════════════════════
   $("#idpersona").select2({ theme: "bootstrap4", placeholder: "Selecione un proveedor o productor", allowClear: true,   });
@@ -34,7 +32,9 @@ function init() {
   $("#forma_pago").select2({ theme: "bootstrap4", placeholder: "Seleccinar forma de pago", allowClear: true, });
 
   $("#banco").select2({templateResult: templateBanco, theme: "bootstrap4", placeholder: "Selecione un banco", allowClear: true, });
-
+  $('#incluye').summernote();
+  $('#no_incluye').summernote();
+  $('#recomendaciones').summernote();
   // Formato para telefono
   $("[data-mask]").inputmask();
 }
@@ -61,28 +61,11 @@ function doc1_eliminar() {
 
 //Función limpiar
 function limpiar_form() {
-  $("#idotro_ingreso").val("");
-  $("#fecha_i").val("");  
-  $("#nro_comprobante").val("");
-  $("#ruc").val("");
-  $("#razon_social").val("");
-  $("#direccion").val("");
-  $("#subtotal").val("");
-  $("#igv").val("");
-  $("#precio_parcial").val("");
-  $("#descripcion").val("");
-
-  $("#doc_old_1").val("");
-  $("#doc1").val("");  
-  $('#doc1_ver').html(`<img src="../dist/svg/pdf_trasnparent.svg" alt="" width="50%" >`);
-  $('#doc1_nombre').html("");
-
-  $("#idpersona").val("null").trigger("change");
-  $("#tipo_comprobante").val("null").trigger("change");
-  $("#forma_pago").val("null").trigger("change");
-
-  $("#val_igv").val(""); 
-  $("#tipo_gravada").val(""); 
+  $("#iditinerario").val("");
+  $("#mapa").val("");
+  $("#incluye").val("");
+  $("#no_incluye").val("");
+  $("#recomendaciones").val("");
 
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
@@ -106,7 +89,7 @@ function show_hide_form(flag) {
 
 //Función Listar
 function tbla_principal() {
-  tabla_paquete = $("#tabla-comentario").dataTable({
+  tabla_itinerario = $("#tabla-itinerario").dataTable({
     responsive: true,
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]], //mostramos el menú de registros a revisar
     aProcessing: true, //Activamos el procesamiento del datatables
@@ -114,11 +97,11 @@ function tbla_principal() {
     dom: "<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
     buttons: ["copyHtml5", "excelHtml5", "pdf"],
     ajax: {
-      url: "../ajax/comentario.php?op=tbla_principal",
+      url: "../ajax/itinerario.php?op=tbla_principal",
       type: "get",
       dataType: "json",
       error: function (e) {
-        console.log(e.responseText); verer
+        console.log(e.responseText); 
       },
     },
     createdRow: function (row, data, ixdex) {
@@ -127,11 +110,11 @@ function tbla_principal() {
       // columna: sub total
       if (data[1] != "") { $("td", row).eq(1).addClass("text-nowrap"); }
       // columna: sub total
-      if (data[5] != "") { $("td", row).eq(5).addClass("text-nowrap text-right"); }
+     // if (data[5] != "") { $("td", row).eq(5).addClass("text-nowrap text-right"); }
       // columna: igv
-      if (data[6] != "") { $("td", row).eq(6).addClass("text-nowrap text-right"); }
+      //if (data[6] != "") { $("td", row).eq(6).addClass("text-nowrap text-right"); }
       // columna: total
-      if (data[7] != "") { $("td", row).eq(7).addClass("text-nowrap text-right"); }
+      //if (data[7] != "") { $("td", row).eq(7).addClass("text-nowrap text-right"); }
     },
     language: {
       lengthMenu: "Mostrar: _MENU_ registros",
@@ -160,235 +143,13 @@ function tbla_principal() {
 
 }
 
-//segun tipo de comprobante
-function comprob_factura() {
-
-  var precio_parcial = $("#precio_parcial").val(); 
-
-  
-  if ($("#tipo_comprobante").select2("val") == "" || $("#tipo_comprobante").select2("val") == null) {
-
-    $(".nro_comprobante").html("Núm. Comprobante");
-
-    $("#val_igv").val(""); $("#tipo_gravada").val(""); 
-
-    if (precio_parcial == null || precio_parcial == "") {
-      $("#subtotal").val(0);
-      $("#igv").val(0);    
-    } else {
-      $("#subtotal").val(parseFloat(precio_parcial).toFixed(2));
-      $("#igv").val(0);    
-    }   
-
-  } else {
-
-    if ($("#tipo_comprobante").select2("val") == "Ninguno") { 
-
-      $(".nro_comprobante").html("Núm. de Operación");
-
-
-      $("#val_igv").prop("readonly",true);
-
-      if (precio_parcial == null || precio_parcial == "") {
-        $("#subtotal").val(0);
-        $("#igv").val(0);
-        
-        $("#val_igv").val("0"); 
-        $("#tipo_gravada").val("NO GRAVADA");  
-
-      } else {
-        $("#subtotal").val(parseFloat(precio_parcial).toFixed(2));
-        $("#igv").val(0); 
-
-        $("#val_igv").val("0"); 
-        $("#tipo_gravada").val("NO GRAVADA"); 
-
-      }   
-
-    } else {
-      
-      if ($("#tipo_comprobante").select2("val") == "Factura") {
-
-        $(".nro_comprobante").html("Núm. Comprobante");
-
-        $(".div_ruc").show(); $(".div_razon_social").show();
-      
-          calculandototales_fact();     
-    
-      } else { 
-
-        $("#val_igv").prop("readonly",true);
-
-        if ($("#tipo_comprobante").select2("val") == "Boleta") {
-
-          $(".nro_comprobante").html("Núm. Comprobante");
-  
-          $(".div_ruc").show(); $(".div_razon_social").show();
-          
-          if (precio_parcial == null || precio_parcial == "") {
-            $("#subtotal").val(0);
-            $("#igv").val(0); 
-            $("#val_igv").val("0");   
-          } else {
-                    
-            $("#subtotal").val("");
-            $("#igv").val("");
-
-            $("#subtotal").val(parseFloat(precio_parcial).toFixed(2));
-            $("#igv").val(0); 
-            
-            $("#val_igv").val("0"); 
-            $("#tipo_gravada").val("NO GRAVADA"); 
-          } 
-            
-        } else {
-                 
-          $(".nro_comprobante").html("Núm. Comprobante");
-
-          $(".div_ruc").hide(); $(".div_razon_social").hide();
-
-          $("#ruc").val(""); $("#razon_social").val("");
-
-          if (precio_parcial == null || precio_parcial == "") {
-            
-            $("#subtotal").val(0);
-            $("#igv").val(0);
-
-            $("#val_igv").val("0"); 
-            $("#tipo_gravada").val("NO GRAVADA");  
-
-          } else {
-
-            $("#subtotal").val(parseFloat(precio_parcial).toFixed(2));
-            $("#igv").val(0); 
-
-            $("#val_igv").val("0"); 
-            $("#tipo_gravada").val("NO GRAVADA");  
-
-          } 
-          
-        }
-
-      }
-    }
-  } 
-}
-
-function validando_igv() {
-
-  if ($("#tipo_comprobante").select2("val") == "Factura") {
-
-    $("#val_igv").prop("readonly",false);
-    $("#val_igv").val(0.18); 
-
-  }else {
-
-    $("#val_igv").val(0); 
-
-  }  
-}
-
-function calculandototales_fact() {
-  //----------------
-  $("#tipo_gravada").val("GRAVADA"); 
-         
-  $(".nro_comprobante").html("Núm. Comprobante");
-
-  var precio_parcial = $("#precio_parcial").val();
-
-  var val_igv = $('#val_igv').val();
-
-  if (precio_parcial == null || precio_parcial == "") {
-
-    $("#subtotal").val(0);
-    $("#igv").val(0); 
-
-  } else {
- 
-    var subtotal = 0;
-    var igv = 0;
-
-    if (val_igv == null || val_igv == "") {
-
-      $("#subtotal").val(parseFloat(precio_parcial));
-      $("#igv").val(0);
-
-    }else{
-
-      $("subtotal").val("");
-      $("#igv").val("");
-
-      subtotal = quitar_igv_del_precio(precio_parcial, val_igv, 'decimal');
-      igv = precio_parcial - subtotal;
-
-      $("#subtotal").val(parseFloat(subtotal).toFixed(2));
-      $("#igv").val(parseFloat(igv).toFixed(2));
-
-    }
-
-  }  
-
-}
-
-function quitar_igv_del_precio(precio , igv, tipo ) {
-  console.log(precio , igv, tipo);
-  var precio_sin_igv = 0;
-
-  switch (tipo) {
-    case 'decimal':
-
-      if (parseFloat(precio) != NaN && igv > 0 && igv <= 1 ) {
-        precio_sin_igv = ( parseFloat(precio) * 100 ) / ( ( parseFloat(igv) * 100 ) + 100 )
-      }else{
-        precio_sin_igv = precio;
-      }
-    break;
-
-    case 'entero':
-
-      if (parseFloat(precio) != NaN && igv > 0 && igv <= 100 ) {
-        precio_sin_igv = ( parseFloat(precio) * 100 ) / ( parseFloat(igv)  + 100 )
-      }else{
-        precio_sin_igv = precio;
-      }
-    break;
-  
-    default:
-      $(".val_igv").html('IGV (0%)');
-      toastr.success('No has difinido un tipo de calculo de IGV.')
-    break;
-  } 
-  
-  return precio_sin_igv; 
-}
-
-//ver ficha tecnica
-function modal_comprobante(comprobante,tipo,numero_comprobante) {
-
-  var dia_actual = moment().format('DD-MM-YYYY');
-  $(".nombre_comprobante").html(`${tipo}-${numero_comprobante}`);
-  $('#modal-ver-comprobante').modal("show");
-  $('#ver_fact_pdf').html(doc_view_extencion(comprobante, 'otro_ingreso', 'comprobante', '100%', '550'));
-
-  if (DocExist(`dist/docs/otro_ingreso/comprobante/${comprobante}`) == 200) {
-    $("#iddescargar").attr("href","../dist/docs/otro_ingreso/comprobante/"+comprobante).attr("download", `${tipo}-${numero_comprobante}  - ${dia_actual}`).removeClass("disabled");
-    $("#ver_completo").attr("href","../dist/docs/otro_ingreso/comprobante/"+comprobante).removeClass("disabled");
-  } else {
-    $("#iddescargar").addClass("disabled");
-    $("#ver_completo").addClass("disabled");
-  }
-
-  $('.jq_image_zoom').zoom({ on:'grab' }); 
-
-}
-
 //Función para guardar o editar
-function guardar_y_editar_comentario(e) {
+function guardar_y_editar_itinerario(e) {
   // e.preventDefault(); //No se activará la acción predeterminada del evento
-  var formData = new FormData($("#form-paquete")[0]);
+  var formData = new FormData($("#form-itinerario")[0]);
 
   $.ajax({
-    url: "../ajax/comentario.php?op=guardar_y_editar_comentario",
+    url: "../ajax/itinerario.php?op=guardar_y_editar_itinerario",
     type: "POST",
     data: formData,
     contentType: false,
@@ -400,61 +161,62 @@ function guardar_y_editar_comentario(e) {
 
           Swal.fire("Correcto!", "El registro se guardo correctamente.", "success");
 
-          tabla_comentario.ajax.reload(null, false);
+          tabla_itinerario.ajax.reload(null, false);
 
-          limpiar_form();    
+          limpiar_form();   
+          $("#modal-agregar-itinerario").modal("hide"); 
 
         } else {
           ver_errores(e);
         }
       } catch (err) { console.log('Error: ', err.message); toastr.error('<h5 class="font-size-16px">Error temporal!!</h5> puede intentalo mas tarde, o comuniquese con <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>'); }      
-      $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
+      $("#guardar_registro_itinerario").html('Guardar Cambios').removeClass('disabled');
+    },
+    // barra para subir imagen
+    xhr: function () {
+      var xhr = new window.XMLHttpRequest();
+      xhr.upload.addEventListener("progress", function (evt) {
+        if (evt.lengthComputable) {
+          var percentComplete = (evt.loaded / evt.total)*100;
+          /*console.log(percentComplete + '%');*/
+          $("#barra_progress_producto").css({"width": percentComplete+'%'}).text(percentComplete.toFixed(2)+" %");
+        }
+      }, false);
+      return xhr;
     },
     beforeSend: function () {
-      $("#guardar_registro").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+      $("#guardar_registro_itinerario").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+      $("#barra_progress_itinerario").css({ width: "0%",  }).text("0%").addClass('progress-bar-striped progress-bar-animated');
+      $("#barra_progress_itinerario_div").show();
     },
-    error: function (jqXhr) { ver_errores(jqXhr); },
+    complete: function () {
+      $("#barra_progress_itinerario").css({ width: "0%", }).text("0%").removeClass('progress-bar-striped progress-bar-animated');
+      $("#barra_progress_itinerario_div").hide();
+    },
+    error: function (jqXhr) { ver_errores(jqXhr);},
   });
 }
 
-function mostrar(idotro_ingreso) {
-
-  limpiar_form(); show_hide_form(2);
+function mostrar_itinerario(iditinerario) {
+  
+  limpiar_form(); show_hide_form(1);
   
   $("#cargando-1-fomulario").hide();
   $("#cargando-2-fomulario").show();
 
-  $("#modal-agregar-otro_ingreso").modal("show");
+  $("#modal-agregar-itinerario").modal("show");
 
-  $.post("../ajax/otro_ingreso.php?op=mostrar", { idotro_ingreso: idotro_ingreso }, function (e, status) {
+  $.post("../ajax/itinerario.php?op=mostrar", { iditinerario: iditinerario }, function (e, status) {
     
     e = JSON.parse(e); console.log('jolll'); console.log(e);    
 
-    $("#idpersona").val(e.data.idpersona).trigger("change");
-    $("#tipo_comprobante").val(e.data.tipo_comprobante).trigger("change");
-    $("#forma_pago").val(e.data.forma_de_pago).trigger("change");
-    $("#idotro_ingreso").val(e.data.idotro_ingreso);
-    $("#fecha_i").val(e.data.fecha_ingreso);
-    $("#nro_comprobante").val(e.data.numero_comprobante);  
-
-    $("#subtotal").val(e.data.precio_sin_igv);
-    $("#igv").val(e.data.precio_igv);
-    $("#val_igv").val(e.data.val_igv);
-    $("#tipo_gravada").val(e.data.tipo_gravada);
-    $("#precio_parcial").val(e.data.precio_con_igv);
-    $("#descripcion").val(e.data.descripcion);    
-
-    if (e.data.comprobante == "" || e.data.comprobante == null  ) {
-      $("#doc1_ver").html('<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >');
-      $("#doc1_nombre").html('');
-      $("#doc_old_1").val(""); $("#doc1").val("");
-    } else {
-      $("#doc_old_1").val(e.data.comprobante);
-      $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Baucher.${extrae_extencion(e.data.comprobante)}</i></div></div>`);
-      // cargamos la imagen adecuada par el archivo
-      $("#doc1_ver").html(doc_view_extencion(e.data.comprobante,'otro_ingreso', 'comprobante', '100%', '210' ));            
-    }
-
+    $("#iditinerario").val(e.data.iditinerario).trigger("change");
+    $("#idpaquete").val(e.data.idpaquete).trigger("change");
+    $("#mapa").val(e.data.mapa).trigger("change");
+    $("#incluye").val(e.data.incluye);
+    $("#no_incluye").val(e.data.no_incluye);
+    $("#recomendaciones").val(e.data.recomendaciones);
+    
     $("#cargando-1-fomulario").show();
     $("#cargando-2-fomulario").hide();
   }).fail( function(e) { ver_errores(e); } );
@@ -543,142 +305,44 @@ function ver_datos(idotro_ingreso) {
 }
 
 //Función para desactivar registros
-function eliminar(idotro_ingreso, nombre,numero_comprobante) {
+function eliminar_itinerario(iditinerario) {
 
   crud_eliminar_papelera(
-    "../ajax/otro_ingreso.php?op=desactivar",
-    "../ajax/otro_ingreso.php?op=eliminar", 
-    idotro_ingreso, 
+    "../ajax/itinerario.php?op=desactivar",
+    "../ajax/itinerario.php?op=eliminar", 
+    iditinerario, 
     "!Elija una opción¡", 
-    `<b class="text-danger"><del>${nombre} : ${numero_comprobante}</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
+    `<b class="text-danger"><del>...</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
     function(){ sw_success('♻️ Papelera! ♻️', "Tu registro ha sido reciclado." ) }, 
     function(){ sw_success('Eliminado!', 'Tu registro ha sido Eliminado.' ) }, 
-    function(){ tabla.ajax.reload(null, false); },
+    function(){ tabla_itinerario.ajax.reload(null, false); },
     false, 
     false, 
     false,
     false
   );
 }
-// :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N   P R O V E E D O R  ::::::::::::::::::::::::::::::::::::::::::::::::::::
-//Función limpiar
-function limpiar_persona() {
-  $("#idproveedor").val("");
-  $("#tipo_documento option[value='RUC']").attr("selected", true);
-  $("#nombre").val("");
-  $("#num_documento").val("");
-  $("#direccion").val("");
-  $("#telefono").val("");
-  $("#banco").val("").trigger("change");
-  $("#c_bancaria").val("");
-  $("#cci").val("");
-  $("#titular_cuenta").val("");
-
-  // Limpiamos las validaciones
-  $(".form-control").removeClass('is-valid');
-  $(".form-control").removeClass('is-invalid');
-  $(".error.invalid-feedback").remove();
-
-  $(".tooltip").removeClass("show").addClass("hidde");
-}
-
-//guardar proveedor
-function guardarpersona(e) {
-  // e.preventDefault(); //No se activará la acción predeterminada del evento
-  var formData = new FormData($("#form-persona")[0]);
-
-  $.ajax({
-    url: "../ajax/otro_ingreso.php?op=guardarpersona",
-    type: "POST",
-    data: formData,
-    contentType: false,
-    processData: false,
-    success: function (e) {
-      e = JSON.parse(e);
-
-      try {
-        if (e.status == true) {
-          // toastr.success("proveedor registrado correctamente");
-          Swal.fire("Correcto!", "Persona guardado correctamente.", "success");          
-          limpiar_persona();
-          $("#modal-agregar-persona").modal("hide");
-          //Cargamos los items al select persona
-          lista_select2("../ajax/otro_ingreso.php?op=selecct_produc_o_provee", '#idpersona', e.data);
-        } else {
-          ver_errores(e);
-        }
-      } catch (err) { console.log('Error: ', err.message); toastr_error("Error temporal!!",'Puede intentalo mas tarde, o comuniquese con:<br> <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>', 700); }       
-      
-      $("#guardar_registro_persona").html('Guardar Cambios').removeClass('disabled');
-    },
-  });
-}
-
-
-// damos formato a: Cta, CCI
-function formato_banco() {
-
-  if ($("#banco").select2("val") == null || $("#banco").select2("val") == "" || $("#banco").select2("val") == "1" ) {
-
-    $("#c_bancaria").prop("readonly", true);
-    $("#cci").prop("readonly", true);
-
-  } else {
-    
-    $(".chargue-format-1").html('<i class="fas fa-spinner fa-pulse fa-lg text-danger"></i>');
-    $(".chargue-format-2").html('<i class="fas fa-spinner fa-pulse fa-lg text-danger"></i>');
-    $(".chargue-format-3").html('<i class="fas fa-spinner fa-pulse fa-lg text-danger"></i>');    
-
-    $.post("../ajax/ajax_general.php?op=formato_banco", { 'idbanco': $("#banco").select2("val") }, function (e, status) {
-      
-      e = JSON.parse(e);  // console.log(e);
-
-      if (e.status == true) {
-        $(".chargue-format-1").html("Cuenta Bancaria");
-        $(".chargue-format-2").html("CCI");
-        $(".chargue-format-3").html("Cuenta Detracciones");
-
-        $("#c_bancaria").prop("readonly", false);
-        $("#cci").prop("readonly", false);
-
-        var format_cta = decifrar_format_banco(e.data.formato_cta);
-        var format_cci = decifrar_format_banco(e.data.formato_cci);
-        var formato_detracciones = decifrar_format_banco(e.data.formato_detracciones);
-        // console.log(format_cta, formato_detracciones);
-
-        $("#c_bancaria").inputmask(`${format_cta}`);
-        $("#cci").inputmask(`${format_cci}`);
-      } else {
-        ver_errores(e);
-      }      
-    }).fail( function(e) { ver_errores(e); } );
-  }
-}
 
 // .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
 $(function () {   
 
-  // Aplicando la validacion del select cada vez que cambie
-  $("#forma_pago").on("change", function () { $(this).trigger("blur"); });
-  $("#tipo_comprobante").on("change", function () { $(this).trigger("blur"); });
-
-  $("#idpersona").on('change', function() { $(this).trigger('blur'); });
-  $("#banco").on('change', function() { $(this).trigger('blur'); });
-  $("#idtipopersona").on('change', function() { $(this).trigger('blur'); });
+  
 
 
-  $("#form-paquete").validate({
+  $("#form-itinerario").validate({
     ignore: '.select2-input, .select2-focusser',
     rules: {
-      nombre:{ required: true, minlength:4, maxlength:100 },
-      duracion: { required: true, minlength:2, maxlength:20},
-      descripcion: { minlength:4 },
+      mapa:{ required: true, minlength:4 },
+      incluye: { required: true, minlength:4},
+      no_incluye: { minlength:4 },
+      recomendaciones:{minlength:4}
       
     },
     messages: {
-      nombre:{ required: "Campo requerido", minlength: "Minimo 3 caracteres", maxlength: "Maximo 100 Caracteres" },
-      duracion: { required: "Campo requerido", min: "Minimo 2 caracteres", max: "Maximo 20 Caracteres" },
-      descripcion: {minlength: "Minimo 4 Caracteres"},
+      mapa:{ required: "Campo requerido", minlength: "Minimo 3 caracteres" },
+      incluye: { required: "Campo requerido", min: "Minimo 4 caracteres" },
+      no_incluye: {minlength: "Minimo 4 Caracteres"},
+      recomendaciones:{minlength:"Minimo 4 Caracteres"}
     },
 
     errorElement: "span",
@@ -698,20 +362,11 @@ $(function () {
     },
 
     submitHandler: function (e) {
-      guardar_y_editar_paquete(e);
+      guardar_y_editar_itinerario(e);
     },
 
   });
 
-
-  //agregando la validacion del select  ya que no tiene un atributo name el plugin 
-  $("#forma_pago").rules("add", { required: true, messages: { required: "Campo requerido" } });
-  $("#tipo_comprobante").rules("add", { required: true, messages: { required: "Campo requerido" } });
-
-  $("#idpersona").rules('add', { required: true, messages: {  required: "Campo requerido" } });
-  $("#banco").rules('add', { required: true, messages: {  required: "Campo requerido" } });
-  $("#idtipopersona").rules('add', { required: true, messages: {  required: "Campo requerido" } });
-  
 
 });
 

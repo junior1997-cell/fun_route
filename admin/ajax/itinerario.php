@@ -15,52 +15,35 @@
     //Validamos el acceso solo al usuario logueado y autorizado.
     if ($_SESSION['recurso'] == 1) {
 
-      require_once "../modelos/Comentario.php";
+      require_once "../modelos/Itinerario.php";
 
-      $comentario = new Comentario($_SESSION['idusuario']);
+      $itinerario = new Itinerario($_SESSION['idusuario']);
 
       date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y h.i.s A");
 
       $imagen_error = "this.src='../dist/svg/user_default.svg'";
       $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
       
-      $idcomentario	  	  = isset($_POST["idcomentario"])? limpiarCadena($_POST["idcomentario"]):"";
+      $iditinerario	  	  = isset($_POST["iditinerario"])? limpiarCadena($_POST["iditinerario"]):"";
       $idpaquete	  	    = isset($_POST["idpaquete"])? limpiarCadena($_POST["idpaquete"]):"";
-      $nombre             = isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
-      $correo             = isset($_POST["correo"])? limpiarCadena($_POST["correo"]):"";
-      $comentario			    = isset($_POST["comentario"])? limpiarCadena($_POST["comentario"]):"";
-      $fecha			        = isset($_POST["fecha"])? limpiarCadena($_POST["fecha"]):"";
+      $mapa	  	          = isset($_POST["mapa"])? limpiarCadena($_POST["mapa"]):"";
+      $incluye            = isset($_POST["incluye"])? limpiarCadena($_POST["incluye"]):"";
+      $no_incluye         = isset($_POST["no_incluye"])? limpiarCadena($_POST["no_incluye"]):"";
+      $recomendaciones	  = isset($_POST["recomendaciones"])? limpiarCadena($_POST["recomendaciones"]):"";
       
       switch ($_GET["op"]) {
 
-        case 'guardar_y_editar_comentario':
+        case 'guardar_y_editar_itinerario':
 
-          // imgen de perfil
-          if (!file_exists($_FILES['doc1']['tmp_name']) || !is_uploaded_file($_FILES['doc1']['tmp_name'])) {
-						$imagen1=$_POST["doc_old_1"]; $flat_img1 = false;
-					} else {
-						$ext1 = explode(".", $_FILES["doc1"]["name"]); $flat_img1 = true;
-            $imagen1 = $date_now .' '. random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext1);
-            move_uploaded_file($_FILES["doc1"]["tmp_name"], "../dist/docs/paquete/perfil/" . $imagen1);						
-					}
-
-          if (empty($idcomentario)){
+          if (empty($iditinerario)){
             
-            $rspta=$comentario->insertar($nombre, $correo, $comentario, $fecha, $estrella);
+            $rspta=$itinerario->insertar($idpaquete,$mapa, $incluye, $no_incluye, $recomendaciones);
             
             echo json_encode($rspta, true);
   
           }else {
-
-            // validamos si existe LA IMG para eliminarlo
-            if ($flat_img1 == true) {
-              $datos_f1 = $paquete->obtenerImg($idpaquete);
-              $img1_ant = $datos_f1['data']['imagen'];
-              if ( !empty($img1_ant) ) { unlink("../dist/docs/paquete/perfil/" . $img1_ant);  }
-            }            
-
-            // editamos un comentario existente
-            $rspta=$comentario->editar($nombre, $correo, $comentario, $fecha, $estrella)
+               // editamos un recomendaciones existente
+            $rspta=$itinerario->editar($iditinerario,$idpaquete,$mapa, $incluye, $no_incluye, $recomendaciones);
             echo json_encode($rspta, true);
           }            
 
@@ -68,7 +51,7 @@
 
         case 'desactivar':
 
-          $rspta=$comentario->desactivar($_GET["id_tabla"]);
+          $rspta=$itinerario->desactivar($_GET["id_tabla"]);
 
           echo json_encode($rspta, true);
 
@@ -76,7 +59,7 @@
 
         case 'eliminar':
 
-          $rspta=$comentario->eliminar($_GET["id_tabla"]);
+          $rspta=$itinerario->eliminar($_GET["id_tabla"]);
 
           echo json_encode($rspta, true);
 
@@ -84,7 +67,7 @@
 
         case 'mostrar':
 
-          $rspta=$comentario->mostrar($idcomentario);
+          $rspta=$itinerario->mostrar($iditinerario);
           //Codificar el resultado utilizando json
           echo json_encode($rspta, true);
 
@@ -92,7 +75,7 @@
 
         case 'tbla_principal':          
 
-          $rspta=$comentario->tbla_principal();
+          $rspta=$itinerario->tbla_principal();
           
           //Vamos a declarar un array
           $data= Array(); $cont=1;
@@ -100,20 +83,15 @@
           if ($rspta['status'] == true) {
 
             foreach ($rspta['data'] as $key => $value) {        
-
-              $imagen = (empty($value['imagen']) ? '../dist/svg/user_default.svg' : '../dist/docs/paquete/perfil/'.$value['imagen']) ;
-              
+ 
               $data[]=array(
                 "0"=>$cont++,
-                "1"=>'<button class="btn btn-info btn-sm" onclick="ver_detalle_compras(' . $value['idpaquete'] .', \''.$value['nombre']. '\')" data-toggle="tooltip" data-original-title="Ver detalle compra"><i class="fa fa-eye"></i></button>' . 
-                ' <button class="btn btn-warning btn-sm" onclick="copiar_o_ver_editar_venta(' . $value['idpaquete'] . ', 2)" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
-                ' <button class="btn btn-danger  btn-sm" onclick="eliminar_compra(' . $value['idpaquete'] .', \''.encodeCadenaHtml($value['nombre']). '\')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i> </button>',
-                "2"=>$value['nombre'],
-                "3"=>$value['correo'],
-                "4"=> '<textarea cols="30" rows="1" class="textarea_datatable" readonly="">' . $value['comentario'] . '</textarea>',
-                "5"=>$value['fecha'],
-                "6"=>$value['estrella'],
-
+                "1"=>'<button class="btn btn-warning btn-sm" onclick="mostrar_itinerario(' . $value['iditinerario'] . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
+                ' <button class="btn btn-danger  btn-sm" onclick="eliminar_itinerario(' . $value['iditinerario'] .')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
+                "2"=>$value['mapa'],
+                "3"=>$value['incluye'],
+                "4"=>$value['no_incluye'],
+                "5"=>$value['recomendaciones'],
               );
             }
             $results = array(

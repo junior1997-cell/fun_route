@@ -13,9 +13,11 @@
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Paquetes | Admin Fun Route</title>
+        <title>Itinerario | Admin Fun Route</title>
         
-        <?php $title = "Comentario"; require 'head.php'; ?>
+        <?php $title = "Itinerario"; require 'head.php'; ?>
+        <!-- summernote -->
+        <link rel="stylesheet" href="../plugins/summernote/summernote-bs4.min.css">
           
       </head>
       <body class="hold-transition sidebar-collapse sidebar-mini layout-fixed layout-navbar-fixed">
@@ -35,12 +37,12 @@
                 <div class="container-fluid">
                   <div class="row mb-2">
                     <div class="col-sm-6">
-                      <h1>Paquetes</h1>
+                      <h1>Itinerario</h1>
                     </div>
                     <div class="col-sm-6">
                       <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="otro_ingreso.php">Home</a></li>
-                        <li class="breadcrumb-item active">Paquetes</li>
+                        <li class="breadcrumb-item"><a href="itinerario.php">Home</a></li>
+                        <li class="breadcrumb-item active">Itinerario</li>
                       </ol>
                     </div>
                   </div>
@@ -59,36 +61,34 @@
                             <button type="button" class="btn bg-gradient-warning" onclick="limpiar_form(); show_hide_form(1);"><i class="fas fa-arrow-left"></i> Regresar</button>                            
                           </h3>
                           <h3 class="card-title btn-agregar">
-                            <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-paquete" onclick="limpiar_form(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar</button>
-                            Administra de manera eficiente Paquetes.
+                            <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-itinerario" onclick="limpiar_form(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar</button>
+                            Administra de manera eficiente itinerarios.
                           </h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
 
                           <div id="mostrar-tabla">
-                            <table id="tabla-comentario" class="table table-bordered table-striped display" style="width: 100% !important;">
+                            <table id="tabla-itinerario" class="table table-bordered table-striped display" style="width: 100% !important;">
                               <thead>
                                 <tr>
                                   <th class="text-center">#</th>
-                                  <th class="">Acciones</th>
-                                  <th class="">Nombre</th>
-                                  <th data-toggle="tooltip" data-original-title="Correo">Correo</th>
-                                  <th data-toggle="tooltip" data-original-title="Comentario">Comentario</th>
-                                  <th data-toggle="tooltip" data-original-title="Fecha">Fecha</th>
-                                  <th>Estrella</th>
+                                  <th class="">Opciones</th>
+                                  <th class="">Mapa</th>
+                                  <th class="">Incluye</th>
+                                  <th class="">No Incluye</th>
+                                  <th class="">Recomendaciones</th>
                                 </tr>
                               </thead>
                               <tbody></tbody>
                               <tfoot>
                                 <tr>
-                                  <th class="text-center">#</th>
-                                  <th class="">Acciones</th>
-                                  <th class="">Nombre</th>
-                                  <th data-toggle="tooltip" data-original-title="Correo">Correo</th>
-                                  <th data-toggle="tooltip" data-original-title="Comentario">Comentario</th>
-                                  <th data-toggle="tooltip" data-original-title="Fecha">Fecha</th>
-                                  <th>Estrella</th>
+                                <th class="text-center">#</th>
+                                  <th class="">Opciones</th>
+                                  <th class="">Mapa</th>
+                                  <th class="">Incluye</th>
+                                  <th class="">No Incluye</th>
+                                  <th class="">Recomendaciones</th>
                                 </tr>
                               </tfoot>
                             </table>
@@ -106,7 +106,7 @@
                 <!-- /.container-fluid -->                 
                 
                 <!-- Modal agregar paquete -->
-                <div class="modal fade" id="modal-agregar-paquete">
+                <div class="modal fade" id="modal-agregar-itinerario">
                   <div class="modal-dialog modal-dialog-scrollable modal-lg">
                     <div class="modal-content">
                       <div class="modal-header">
@@ -118,114 +118,74 @@
 
                       <div class="modal-body">
                         <!-- form start -->
-                        <form id="form-paquete" name="form-paquete" method="POST">
+                        <form id="form-itinerario" name="form-itinerario" method="POST">
                           <div class="card-body row">                               
                             
                             <!-- id paquete -->
-                            <input type="hidden" name="idpaquete" id="idpaquete" />
-
-                            <!-- Nombre -->
-                            <div class="col-lg-10">
-                              <div class="form-group">
-                                <label for="nombre">Nombre</label>
-                                <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Nombre del paquete" />
-                              </div>
-                            </div>
-
-                            <!-- duracion -->
-                            <div class="col-lg-2">
-                              <div class="form-group">
-                                <label for="duracion">Duración</label>
-                                <input type="number" name="duracion" class="form-control" id="duracion" placeholder="Duración" />
-                              </div>
-                            </div>
-
-                            <!--Descripcion-->
+                            <input type="hidden" name="iditinerario" id="iditinerario" />
+                            <input type="hidden" name="idpaquete" id="idpaquete" value="1" />
+                            <!--mapa-->
                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                               <div class="form-group ">
-                                <label for="descripcion_pago">Descripción</label> <br />
-                                <textarea name="descripcion" id="descripcion" class="form-control" rows="2"></textarea>
+                                <label for="mapa">Mapa</label> <br />
+                                <textarea name="mapa" id="mapa" class="form-control" rows="2"></textarea>
+                              </div>
+                            </div>
+                            <!--incluye--->
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                              <label for="incluye">incluye</label> <br />
+                              <textarea id="incluye" name="incluye">
+                                 <em>Describe tu</em> <u>texto</u> 
+                              </textarea>
+                            </div>
+                             <!--no incluye--->
+                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                              <label for="no_incluye">no incluye</label> <br />
+                              <textarea id="no_incluye" name="no_incluye">
+                                 <em>Describe tu</em> <u>texto</u> 
+                              </textarea>
+                            </div>
+                             <!--comentarios--->
+                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                              <label for="recomendaciones">recomendaciones</label> <br />
+                              <textarea id="recomendaciones" name="recomendaciones">
+                                 <em>Describe tu</em> <u>recomendaciones</u> 
+                              </textarea>
+                            </div>
+                            <!-- Progress - -->
+                            <div class="col-md-12 m-t-20px" id="barra_progress_itinerario_div" style="display: none;">
+                              <div class="form-group">
+                                  <div class="progress" >
+                                   <div id="barra_progress_itinerario" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                  </div>
                               </div>
                             </div>
 
-                            <!-- Factura -->
-                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6" >   
-                              <!-- linea divisoria -->
-                              <div class="borde-arriba-naranja mt-4"> </div>                            
-                              <div class="row text-center">
-                                <div class="col-md-12" style="padding-top: 15px; padding-bottom: 5px;">
-                                  <label for="cip" class="control-label" > Imagen </label>
-                                </div>
-                                <div class="col-6 col-md-6 text-center">
-                                  <button type="button" class="btn btn-success btn-block btn-xs" id="doc1_i"> <i class="fas fa-upload"></i> Subir.</button>
-                                  <input type="hidden" id="doc_old_1" name="doc_old_1" />
-                                  <input style="display: none;" id="doc1" type="file" name="doc1" accept="application/pdf, image/*" class="docpdf" /> 
-                                </div>
-                                <div class="col-6 col-md-6 text-center">
-                                  <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'otro_ingreso', 'comprobante');">
-                                  <i class="fas fa-redo"></i> Recargar.
-                                  </button>
-                                </div>
-                              </div>                              
-                              <div id="doc1_ver" class="text-center mt-4">
-                                <img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >
-                              </div>
-                              <div class="text-center" id="doc1_nombre"><!-- aqui va el nombre del pdf --></div>
-                            </div>
-    
                           </div>
                           <!-- /.card-body -->
-                          <button type="submit" style="display: none;" id="submit-form-paquete">Submit</button>
+                          <button type="submit" style="display: none;" id="submit-form-itinerario">Submit</button>
                         </form>
                       </div>
                       <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" id="guardar_registro_paquete">Guardar Cambios</button>
+                        <button type="submit" class="btn btn-success" id="guardar_registro_itinerario">Guardar Cambios</button>
                       </div>
                     </div>
                   </div>
                 </div> 
-
-                <!--===============Modal-ver-comprobante =========-->
-                <div class="modal fade" id="modal-ver-comprobante">
-                  <div class="modal-dialog modal-dialog-scrollable modal-lg">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h4 class="modal-title">Paquetes: <span class="nombre_comprobante text-bold"></span> </h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span class="text-danger" aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="row">
-                          <div class="col-6 col-md-6">
-                            <a class="btn btn-xs btn-block btn-warning" href="#" id="iddescargar" download="" type="button"><i class="fas fa-download"></i> Descargar</a>
-                          </div>
-                          <div class="col-6 col-md-6">
-                            <a class="btn btn-xs btn-block btn-info" href="#" id="ver_completo"  target="_blank" type="button"><i class="fas fa-expand"></i> Ver completo.</a>
-                          </div>
-                          <div class="col-12 col-md-12 mt-2">
-                            <div id="ver_fact_pdf" width="auto"></div>
-                          </div>
-                        </div>                          
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
                 <!--MODAL - VER DETALLE DE OTRO INGRESO -->
-                <div class="modal fade" id="modal-ver-otro-ingreso">
+                <div class="modal fade" id="modal-ver-itinerario">
                   <div class="modal-dialog modal-dialog-scrollable modal-xm">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h4 class="modal-title">Datos Paquetes</h4>
+                        <h4 class="modal-title">Datos de Itinerario</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span class="text-danger" aria-hidden="true">&times;</span>
                         </button>
                       </div>
 
                       <div class="modal-body"> 
-                        <div id="datos_otro_ingreso" class="class-style">
+                        <div id="datos_itinerario" class="class-style">
                           <!-- vemos los datos del trabajador -->
                         </div>
                       </div>
@@ -248,8 +208,10 @@
 
         <?php require 'script.php'; ?>
         
+        <!-- Plugion summernote -->
+        <script src="../plugins/summernote/summernote-bs4.min.js"></script>
         <!-- Funciones del modulo -->
-        <script type="text/javascript" src="scripts/paquete.js"></script>
+        <script type="text/javascript" src="scripts/itinerario.js"></script>
 
         <script> $(function () { $('[data-toggle="tooltip"]').tooltip(); }); </script>
         
