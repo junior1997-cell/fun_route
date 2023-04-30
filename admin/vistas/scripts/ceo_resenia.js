@@ -10,7 +10,8 @@ function init() {
 
 
   $("#actualizar_registro").on("click", function (e) { $("#submit-form-actualizar-misionvision").submit(); });
-
+  $('#mision').summernote();
+  $('#vision').summernote();
   mostrar();
   
 }

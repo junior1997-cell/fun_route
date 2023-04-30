@@ -14,6 +14,8 @@
         <title>Misión y Visión | Admin Fun Route</title>
 
         <?php $title = "Misión y Visión"; require 'head.php'; ?>
+        <!-- summernote -->
+        <link rel="stylesheet" href="../plugins/summernote/summernote-bs4.min.css">
      
       </head>
       <body class="hold-transition sidebar-mini sidebar-collapse layout-fixed layout-navbar-fixed ">
@@ -139,6 +141,8 @@
         </div>
 
         <?php require 'script.php'; ?>
+         <!-- Plugion summernote -->
+         <script src="../plugins/summernote/summernote-bs4.min.js"></script>
 
         <!-- OPTIONAL SCRIPTS -->
         <script src="../plugins/chart.js/Chart.min.js"></script>

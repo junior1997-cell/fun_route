@@ -68,7 +68,7 @@
               </li>   
               <!--  Misión y Visión  -->
               <li class="nav-item ">
-                <a href="permiso.php" class="nav-link" id="lPermiso">
+                <a href="valores.php" class="nav-link" id="lvalores">
                   <i class="nav-icon fa-solid fa-lightbulb"></i>
                   <p>Valores</p>
                 </a>
