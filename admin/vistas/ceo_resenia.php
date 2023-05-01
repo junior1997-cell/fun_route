@@ -39,13 +39,13 @@
                   <div class="container-fluid">
                     <div class="row mb-2">
                       <div class="col-sm-6">
-                        <h1 class="m-0">Misión y Visión</h1>
+                        <h1 class="m-0">Ceo-Reseña</h1>
                       </div>
                       <!-- /.col -->
                       <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                           <li class="breadcrumb-item"><a href="Datos Generales.php">Home</a></li>
-                          <li class="breadcrumb-item active">Tablero</li>
+                          <li class="breadcrumb-item active">Ceo-Reseña</li>
                         </ol>
                       </div>
                       <!-- /.col -->
@@ -65,26 +65,26 @@
 
                         <div class="modal-body">
                               <!-- form start -->
-                              <form id="form-datos-misionvision" name="form-datos-misionvision" method="POST">
+                              <form id="form-datos-ceo-resenia" name="form-datos-ceo-resenia" method="POST">
                                 <div class="card-body">
 
                                   <div class="row" id="cargando-1-fomulario">
                                     <!-- id -->
                                     <input type="hidden" name="idnosotros" id="idnosotros" />
                                     
-                                    <!-- Mision-->
+                                    <!--Reseña Historica -->
                                     <div class="col-12 col-sm-12 col-md-12 col-lg-6">
                                       <div class="form-group">
-                                        <label for="mision">Misión <sup class="text-danger">*</sup> </label> 
-                                        <textarea name="mision" id="mision" class="form-control" rows="10" readonly></textarea>
+                                        <label for="resenia_h">Reseña Historica <sup class="text-danger">*</sup> </label> 
+                                        <textarea name="resenia_h" id="resenia_h" class="form-control" rows="10" readonly></textarea>
                                       </div>
                                     </div>
 
-                                     <!-- Vision-->
+                                     <!-- Palabras ceo-->
                                      <div class="col-12 col-sm-12 col-md-12 col-lg-6">
                                       <div class="form-group">
-                                        <label for="vision">Visión <sup class="text-danger">*</sup> </label> 
-                                        <textarea name="vision" id="vision" class="form-control" rows="10" readonly></textarea>
+                                        <label for="palabras_ceo">Palabras Ceo <sup class="text-danger">*</sup> </label> 
+                                        <textarea name="palabras_ceo" id="palabras_ceo" class="form-control" rows="10" readonly></textarea>
                                       </div>
                                     </div>
 
@@ -108,7 +108,7 @@
                                         
                                 </div>
                                 <!-- /.card-body -->
-                                <button type="submit" style="display: none;" id="submit-form-actualizar-misionvision">Submit</button>
+                                <button type="submit" style="display: none;" id="submit-form-actualizar-ceo-resenia">Submit</button>
                               </form>
                             </div>
                             <div class="modal-footer justify-content-end">

@@ -62,7 +62,7 @@
           // editamos un documento existente
           $rspta=$contacto->actualizar_ceo_resenia( $id, $palabras_ceo, $resenia_h );
           
-          echo $rspta ? "ok" : "Los datos no se pudieron actualizar";
+          echo json_encode( $rspta, true) ;
         }            
 
       break;

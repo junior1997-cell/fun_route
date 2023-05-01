@@ -76,7 +76,7 @@
                                     <div class="col-12 col-sm-12 col-md-12 col-lg-6">
                                       <div class="form-group">
                                         <label for="mision">Misión <sup class="text-danger">*</sup> </label> 
-                                        <textarea name="mision" id="mision" class="form-control" rows="10" readonly></textarea>
+                                        <textarea name="mision" id="mision" class="form-control" rows="10" disabled></textarea>
                                       </div>
                                     </div>
 

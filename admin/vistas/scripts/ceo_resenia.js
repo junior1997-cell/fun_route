@@ -9,10 +9,11 @@ function init() {
   $("#lceo_resenia").addClass("active");
 
 
-  $("#actualizar_registro").on("click", function (e) { $("#submit-form-actualizar-misionvision").submit(); });
-  $('#mision').summernote();
-  $('#vision').summernote();
+  $("#actualizar_registro").on("click", function (e) { $("#submit-form-actualizar-ceo-resenia").submit(); });
   mostrar();
+  //$('#palabras_ceo').summernote();
+  //$('#resenia_h').summernote();
+  
   
 }
 
@@ -23,8 +24,8 @@ function activar_editar(estado) {
     $(".editar").hide();
     $(".actualizar").show();
 
-    $("#mision").removeAttr("readonly");
-    $("#vision").removeAttr("readonly");
+    $("#palabras_ceo").removeAttr("readonly");
+    $("#resenia_h").removeAttr("readonly");
  
 
     toastr.success('Campos habiliados para editar!!!')
@@ -36,8 +37,8 @@ function activar_editar(estado) {
     $(".editar").show();
     $(".actualizar").hide();
 
-    $("#mision").attr('readonly','true');
-    $("#vision").attr('readonly','true');
+    $("#palabras_ceo").attr('readonly','true');
+    $("#resenia_h").attr('readonly','true');
 
 
   }
@@ -57,8 +58,8 @@ function mostrar() {
       $("#cargando-2-fomulario").hide();
 
       $("#idnosotros").val(e.data.idnosotros);
-      $("#mision").val(e.data.mision);
-      $("#vision").val(e.data.vision);
+      $("#palabras_ceo").val(e.data.palabras_ceo);
+      $("#resenia_h").val(e.data.reseña_historica);
 
       
     }else{
@@ -70,10 +71,10 @@ function mostrar() {
 
 function actualizar_datos_generales(e) {
   // e.preventDefault(); //No se activará la acción predeterminada del evento
-  var formData = new FormData($("#form-datos-misionvision")[0]);
+  var formData = new FormData($("#form-datos-ceo-resenia")[0]);
 
   $.ajax({
-    url: "../ajax/contacto.php?op=actualizar_mision_vision",
+    url: "../ajax/contacto.php?op=actualizar_ceo_resenia",
     type: "POST",
     data: formData,
     contentType: false,
@@ -137,16 +138,17 @@ $(function () {
   
   $.validator.setDefaults({ submitHandler: function (e) { actualizar_datos_generales(e) },  });
 
-  $("#form-datos-misionvision").validate({
+  $("#form-datos-ceo-resenia").validate({
     rules: {
-      mision: { required: true } , 
-      vision: { required: true } , 
+     
+      palabras_ceo: { required: true } , 
+      resenia_h: { required: true } , 
  
     },
     messages: {
 
-      mision: { required: "Por favor rellenar el campo", }, 
-      vision: { required: "Por favor rellenar el campo", }, 
+      palabras_ceo: { required: "Por favor rellenar el campo", }, 
+      resenia_h: { required: "Por favor rellenar el campo", }, 
 
 
     },
