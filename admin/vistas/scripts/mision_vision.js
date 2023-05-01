@@ -9,9 +9,10 @@ function init() {
   $("#lmision_vision").addClass("active");
 
 
-  $("#actualizar_registro").on("click", function (e) { $("#submit-form-actualizar-misionvision").submit(); });
-  $('#mision').summernote();
-  $('#vision').summernote();
+  $("#actualizar_registro").on("click", function (e) { actualizar_datos_generales_mv(e);});
+
+  $('#mision').summernote(); $('#vision').summernote();
+  $('#mision').summernote ('disable');   $('#vision').summernote ('disable');
 
   mostrar();
   
@@ -24,9 +25,8 @@ function activar_editar(estado) {
     $(".editar").hide();
     $(".actualizar").show();
 
-    $("#mision").removeAttr("readonly");
-    $("#vision").removeAttr("readonly");
- 
+    $('#mision').summernote ('enable');
+    $('#vision').summernote ('enable');
 
     toastr.success('Campos habiliados para editar!!!')
 
@@ -37,9 +37,8 @@ function activar_editar(estado) {
     $(".editar").show();
     $(".actualizar").hide();
 
-    $("#mision").attr('readonly','true');
-    $("#vision").attr('readonly','true');
-
+    $('#mision').summernote ('disable');
+    $('#vision').summernote ('disable');
 
   }
 
@@ -58,9 +57,9 @@ function mostrar() {
       $("#cargando-2-fomulario").hide();
 
       $("#idnosotros").val(e.data.idnosotros);
-      $("#mision").val(e.data.mision);
-      $("#vision").val(e.data.vision);
 
+      $('#mision').summernote ('code', e.data.mision);
+      $('#vision').summernote ('code', e.data.vision);
       
     }else{
       ver_errores(e);
@@ -69,7 +68,7 @@ function mostrar() {
   }).fail( function(e) { console.log(e); ver_errores(e); } );
 }
 
-function actualizar_datos_generales(e) {
+function actualizar_datos_generales_mv(e) {
   // e.preventDefault(); //No se activará la acción predeterminada del evento
   var formData = new FormData($("#form-datos-misionvision")[0]);
 
@@ -99,79 +98,27 @@ function actualizar_datos_generales(e) {
     },
     xhr: function () {
       var xhr = new window.XMLHttpRequest();
-
-      xhr.upload.addEventListener(
-        "progress",
-        function (evt) {
-          if (evt.lengthComputable) {
-            var percentComplete = (evt.loaded / evt.total) * 100;
-            /*console.log(percentComplete + '%');*/
-            $("#barra_progress2").css({ width: percentComplete + "%" });
-
-            $("#barra_progress2").text(percentComplete.toFixed(2) + " %");
-
-            if (percentComplete === 100) {
-              l_m();
-            }
-          }
-        },
-        false
-      );
+      xhr.upload.addEventListener("progress", function (evt) {
+        if (evt.lengthComputable) {
+          var percentComplete = (evt.loaded / evt.total)*100;
+          /*console.log(percentComplete + '%');*/
+          $("#barra_progress_ceo_resenia").css({"width": percentComplete+'%'}).text(percentComplete.toFixed(2)+" %");
+        }
+      }, false);
       return xhr;
     },
+    beforeSend: function () {
+      $("#actualizar_registro").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+      $("#barra_progress_ceo_resenia").css({ width: "0%",  }).text("0%").addClass('progress-bar-striped progress-bar-animated');
+      $("#barra_progress_ceo_resenia_div").show();
+    },
+    complete: function () {
+      $("#barra_progress_ceo_resenia").css({ width: "0%", }).text("0%").removeClass('progress-bar-striped progress-bar-animated');
+      $("#barra_progress_ceo_resenia_div").hide();
+    },
+    error: function (jqXhr) { ver_errores(jqXhr); },
+
   });
 }
-function l_m() {
-  // limpiar();
-  $("#barra_progress").css({ width: "0%" });
 
-  $("#barra_progress").text("0%");
-
-  $("#barra_progress2").css({ width: "0%" });
-
-  $("#barra_progress2").text("0%");
-}
 init();
-
-
-$(function () {
-  
-  $.validator.setDefaults({ submitHandler: function (e) { actualizar_datos_generales(e) },  });
-
-  $("#form-datos-misionvision").validate({
-    rules: {
-      mision: { required: true } , 
-      vision: { required: true } , 
- 
-    },
-    messages: {
-
-      mision: { required: "Por favor rellenar el campo", }, 
-      vision: { required: "Por favor rellenar el campo", }, 
-
-
-    },
-        
-    errorElement: "span",
-
-    errorPlacement: function (error, element) {
-
-      error.addClass("invalid-feedback");
-
-      element.closest(".form-group").append(error);
-    },
-
-    highlight: function (element, errorClass, validClass) {
-
-      $(element).addClass("is-invalid").removeClass("is-valid");
-    },
-
-    unhighlight: function (element, errorClass, validClass) {
-
-      $(element).removeClass("is-invalid").addClass("is-valid");
-   
-    },
-
-  });
-
-});

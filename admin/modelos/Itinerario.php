@@ -18,7 +18,7 @@
     public function insertar($idpaquete, $mapa, $incluye, $no_incluye, $recomendaciones)
     {
       $sql ="INSERT INTO itinerario( idpaquete, mapa, incluye, no_incluye, recomendaciones) VALUES
-       ('$idpaquete','$mapa','$incluye','$no_incluye','$recomendaciones')";
+       ('1','$mapa','$incluye','$no_incluye','$recomendaciones')";
      $insertar =  ejecutarConsulta($sql);	if ( $insertar['status'] == false) {return $insertar; } 
 	
      //add registro en nuestra bitacora

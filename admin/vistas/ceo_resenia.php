@@ -76,7 +76,7 @@
                                     <div class="col-12 col-sm-12 col-md-12 col-lg-6">
                                       <div class="form-group">
                                         <label for="resenia_h">Reseña Historica <sup class="text-danger">*</sup> </label> 
-                                        <textarea name="resenia_h" id="resenia_h" class="form-control" rows="10" readonly></textarea>
+                                        <textarea name="resenia_h" id="resenia_h" class="form-control" rows="10"></textarea>
                                       </div>
                                     </div>
 
@@ -84,19 +84,19 @@
                                      <div class="col-12 col-sm-12 col-md-12 col-lg-6">
                                       <div class="form-group">
                                         <label for="palabras_ceo">Palabras Ceo <sup class="text-danger">*</sup> </label> 
-                                        <textarea name="palabras_ceo" id="palabras_ceo" class="form-control" rows="10" readonly></textarea>
+                                        <textarea name="palabras_ceo" id="palabras_ceo" class="form-control" rows="10"></textarea>
                                       </div>
                                     </div>
 
-
-                                    <!-- Progress -->
-                                    <div class="col-md-12">
-                                      <div class="form-group">
-                                        <div class="progress" id="div_barra_progress" style="display: none !important;">
-                                          <div id="barra_progress" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <!-- barprogress -->
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-20px" id="barra_progress_ceo_resenia_div" style="display: none;">
+                                      <div class="progress" >
+                                        <div id="barra_progress_ceo_resenia" class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%;">
+                                          0%
                                         </div>
                                       </div>
                                     </div>
+
                                   </div>
                                   
                                   <div class="row" id="cargando-2-fomulario" style="display: none;" >

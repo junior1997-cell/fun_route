@@ -213,9 +213,9 @@ function mostrar_itinerario(iditinerario) {
     $("#iditinerario").val(e.data.iditinerario).trigger("change");
     $("#idpaquete").val(e.data.idpaquete).trigger("change");
     $("#mapa").val(e.data.mapa).trigger("change");
-    $("#incluye").val(e.data.incluye);
-    $("#no_incluye").val(e.data.no_incluye);
-    $("#recomendaciones").val(e.data.recomendaciones);
+    $('#incluye').summernote ('code', e.data.incluye);
+    $('#no_incluye').summernote ('code', e.data.no_incluye);
+    $('#recomendaciones').summernote ('code', e.data.recomendaciones);
     
     $("#cargando-1-fomulario").show();
     $("#cargando-2-fomulario").hide();
