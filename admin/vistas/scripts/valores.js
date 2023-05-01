@@ -702,3 +702,12 @@ $(function () {
 no_select_tomorrow('#fecha_i');
 
 init();
+
+// ver imagen grande de la persona
+function ver_img_valor(file, nombre) {
+  $('.nombre-valor').html(nombre);
+  $(".tooltip").removeClass("show").addClass("hidde");
+  $("#modal-ver-imagen-valor").modal("show");
+  $('#imagen-valor').html(`<span class="jq_image_zoom"><img class="img-thumbnail" src="${file}" onerror="this.src='../dist/svg/404-v2.svg';" alt="Perfil" width="100%"></span>`);
+  $('.jq_image_zoom').zoom({ on:'grab' });
+}

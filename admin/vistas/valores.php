@@ -177,52 +177,24 @@
                   </div>
                 </div> 
 
-                <!--===============Modal-ver-comprobante =========-->
-                <div class="modal fade" id="modal-ver-comprobante">
-                  <div class="modal-dialog modal-dialog-scrollable modal-lg">
-                    <div class="modal-content">
+                <!-- MODAL - imagen valor-->
+                <div class="modal fade bg-color-02020280" id="modal-ver-imagen-valor">
+                  <div class="modal-dialog modal-dialog-centered modal-md">
+                    <div class="modal-content bg-color-0202022e shadow-none border-0">
                       <div class="modal-header">
-                        <h4 class="modal-title">Paquetes: <span class="nombre_comprobante text-bold"></span> </h4>
+                        <h4 class="modal-title text-white nombre-valor"></h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span class="text-danger" aria-hidden="true">&times;</span>
+                          <span class="text-white cursor-pointer" aria-hidden="true">&times;</span>
                         </button>
                       </div>
-                      <div class="modal-body">
-                        <div class="row">
-                          <div class="col-6 col-md-6">
-                            <a class="btn btn-xs btn-block btn-warning" href="#" id="iddescargar" download="" type="button"><i class="fas fa-download"></i> Descargar</a>
-                          </div>
-                          <div class="col-6 col-md-6">
-                            <a class="btn btn-xs btn-block btn-info" href="#" id="ver_completo"  target="_blank" type="button"><i class="fas fa-expand"></i> Ver completo.</a>
-                          </div>
-                          <div class="col-12 col-md-12 mt-2">
-                            <div id="ver_fact_pdf" width="auto"></div>
-                          </div>
-                        </div>                          
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!--MODAL - VER DETALLE DE OTRO INGRESO -->
-                <div class="modal fade" id="modal-ver-otro-ingreso">
-                  <div class="modal-dialog modal-dialog-scrollable modal-xm">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h4 class="modal-title">Datos Paquetes</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span class="text-danger" aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-
                       <div class="modal-body"> 
-                        <div id="datos_otro_ingreso" class="class-style">
+                        <div id="imagen-valor" class="text-center">
                           <!-- vemos los datos del trabajador -->
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> 
 
               </section>
               <!-- /.content -->

@@ -108,7 +108,9 @@
                 ' <button class="btn btn-danger  btn-sm" onclick="eliminar_valores(' . $value['idvalores'] .')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i> </button>',
                 "2"=>$value['nombre_valor'], //viene de la base de datos
                 "3"=> '<textarea cols="30" rows="1" class="textarea_datatable" readonly="">' . $value['descripcion'] . '</textarea>',
-                "4"=>$imagen,
+                "4"=>'<div class="user-block">
+                  <img class="profile-user-img img-responsive img-circle cursor-pointer" src="'. $imagen .'" alt="User Image" onerror="'.$imagen_error.'" onclick="ver_img_valor(\'' . $imagen . '\', \''.encodeCadenaHtml($value['nombre_valor']).'\');" data-toggle="tooltip" data-original-title="Ver foto">
+                </div>',
 
               );
             }
