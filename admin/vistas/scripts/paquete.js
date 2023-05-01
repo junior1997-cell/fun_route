@@ -715,3 +715,11 @@ $(function () {
 no_select_tomorrow('#fecha_i');
 
 init();
+// ver imagen grande de la persona
+function ver_img_paquete(file, nombre) {
+  $('.nombre-paquete').html(nombre);
+  $(".tooltip").removeClass("show").addClass("hidde");
+  $("#modal-ver-imagen-paquete").modal("show");
+  $('#imagen-paquete').html(`<span class="jq_image_zoom"><img class="img-thumbnail" src="${file}" onerror="this.src='../dist/svg/404-v2.svg';" alt="Perfil" width="100%"></span>`);
+  $('.jq_image_zoom').zoom({ on:'grab' });
+}

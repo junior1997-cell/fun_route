@@ -110,7 +110,9 @@
                 "2"=>$value['nombre'],
                 "3"=>$value['duracion'],
                 "4"=> '<textarea cols="30" rows="1" class="textarea_datatable" readonly="">' . $value['descripcion'] . '</textarea>',
-                "5"=>$value['imagen'],
+                "5"=>'<div class="user-block">
+                <img class="profile-user-img img-responsive img-circle cursor-pointer" src="'. $imagen .'" alt="User Image" onerror="'.$imagen_error.'" onclick="ver_img_paquete(\'' . $imagen . '\', \''.encodeCadenaHtml($value['nombre']).'\');" data-toggle="tooltip" data-original-title="Ver foto">
+              </div>',
 
               );
             }

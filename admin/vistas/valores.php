@@ -75,7 +75,7 @@
                                   <th class="text-center">#</th>
                                   <th class="">Acciones</th>
                                   <th class="">Nombre</th>
-                                  <th data-toggle="tooltip" data-original-title="Descripcion">Descripcion</th>
+                                  <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
                                   <th data-toggle="tooltip" data-original-title="Duracion">Icono</th>
                                   
                                 </tr>
@@ -86,7 +86,7 @@
                                   <th class="text-center">#</th>
                                   <th class="">Acciones</th>
                                   <th class="">Nombre</th>
-                                  <th data-toggle="tooltip" data-original-title="Descripcion">Descripcion</th>
+                                  <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
                                   <th data-toggle="tooltip" data-original-title="Duracion">Icono</th>
                                   
                                 </tr>

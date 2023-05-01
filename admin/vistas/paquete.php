@@ -73,8 +73,8 @@
                                   <th class="text-center">#</th>
                                   <th class="">Acciones</th>
                                   <th class="">Nombre</th>
-                                  <th data-toggle="tooltip" data-original-title="Duracion">Duracion</th>
-                                  <th data-toggle="tooltip" data-original-title="Descripcion">Descripcion</th>
+                                  <th data-toggle="tooltip" data-original-title="Duracion">Duración</th>
+                                  <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
                                   <th>Imagen</th>
                                 </tr>
                               </thead>
@@ -84,8 +84,8 @@
                                   <th class="text-center">#</th>
                                   <th class="">Acciones</th>
                                   <th class="">Nombre</th>
-                                  <th data-toggle="tooltip" data-original-title="Duracion">Duracion</th>
-                                  <th data-toggle="tooltip" data-original-title="Descripcion">Descripcion</th>
+                                  <th data-toggle="tooltip" data-original-title="Duracion">Duración</th>
+                                  <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
                                   <th>Imagen</th>
                                 </tr>
                               </tfoot>
@@ -179,6 +179,23 @@
                       <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-success" id="guardar_registro_paquete">Guardar Cambios</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+                <!-- MODAL - imagen valor-->
+                <div class="modal fade bg-color-02020280" id="modal-ver-imagen-paquete">
+                  <div class="modal-dialog modal-dialog-centered modal-md">
+                    <div class="modal-content bg-color-0202022e shadow-none border-0">
+                      <div class="modal-header">
+                        <h4 class="modal-title text-white nombre-paquete"></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span class="text-white cursor-pointer" aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body"> 
+                        <div id="imagen-paquete" class="text-center">
+                        </div>
                       </div>
                     </div>
                   </div>
