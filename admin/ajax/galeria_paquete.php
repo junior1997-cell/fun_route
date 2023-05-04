@@ -15,36 +15,35 @@
     //Validamos el acceso solo al usuario logueado y autorizado.
     if ($_SESSION['recurso'] == 1) {
 
-      require_once "../modelos/Paquete.php";
+      require_once "../modelos/Galeria_paquete.php";
 
-      $paquete = new Paquete($_SESSION['idusuario']);
+      $galeria_paquete = new Galeria_paquete($_SESSION['idusuario']);
 
       date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y h.i.s A");
 
       $imagen_error = "this.src='../dist/svg/user_default.svg'";
       $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
       
-      $idpaquete	  	      = isset($_POST["idpaquete"])? limpiarCadena($_POST["idpaquete"]):"";
-      $nombre               = isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
-      $duracion             = isset($_POST["duracion"])? limpiarCadena($_POST["duracion"]):"";
-      $descripcion			    = isset($_POST["descripcion"])? limpiarCadena($_POST["descripcion"]):"";
+      $idgaleria_paquete	  	      = isset($_POST["idgaleria_paquete"])? limpiarCadena($_POST["idgaleria_paquete"]):"";
+      $idpaquete	  	              = isset($_POST["idpaquete"])? limpiarCadena($_POST["idpaquete"]):"";
+      $descripcion			            = isset($_POST["descripcion"])? limpiarCadena($_POST["descripcion"]):"";
       switch ($_GET["op"]) {
 
-        case 'guardar_y_editar_paquete':
+        case 'guardar_y_editar_galeria_paquete':
 
-          // imgen de perfil
+          // imgen de galeria_p
           if (!file_exists($_FILES['doc1']['tmp_name']) || !is_uploaded_file($_FILES['doc1']['tmp_name'])) {
 						$imagen1=$_POST["doc_old_1"]; $flat_img1 = false;
 					} else {
             //guardar imagen
 						$ext1 = explode(".", $_FILES["doc1"]["name"]); $flat_img1 = true;
             $imagen1 = $date_now .' '. random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext1);
-            move_uploaded_file($_FILES["doc1"]["tmp_name"], "../dist/docs/paquete/perfil/" . $imagen1);						
+            move_uploaded_file($_FILES["doc1"]["tmp_name"], "../dist/docs/galeria_paquete/galeria_p/" . $imagen1);						
 					}
 
-          if (empty($idpaquete)){
+          if (empty($idgaleria_paquete)){
             
-            $rspta=$paquete->insertar($nombre,$duracion,$descripcion, $imagen1);
+            $rspta=$galeria_paquete->insertar($idpaquete, $descripcion, $imagen1);
             
             echo json_encode($rspta, true);
   
@@ -52,13 +51,13 @@
 
             // validamos si existe LA IMG para eliminarlo
             if ($flat_img1 == true) {
-              $datos_f1 = $paquete->obtenerImg($idpaquete);
+              $datos_f1 = $galeria_paquete->obtenerImg($idgaleria_paquete);
               $img1_ant = $datos_f1['data']['imagen'];
-              if ( !empty($img1_ant) ) { unlink("../dist/docs/paquete/perfil/" . $img1_ant);  }
+              if ( !empty($img1_ant) ) { unlink("../dist/docs/galeria_paquete/galeria_p/" . $img1_ant);  }
             }            
 
-            // editamos un paquete existente
-            $rspta=$paquete->editar($idpaquete, $nombre, $duracion, $descripcion, $imagen1);
+            // editamos una galeria existente
+            $rspta=$galeria_paquete->editar($idgaleria_paquete,$idpaquete,$descripcion, $imagen1);
             
             echo json_encode($rspta, true);
           }            
@@ -67,7 +66,7 @@
 
         case 'desactivar':
 
-          $rspta=$paquete->desactivar($_GET["id_tabla"]);
+          $rspta=$galeria_paquete->desactivar($_GET["id_tabla"]);
 
           echo json_encode($rspta, true);
 
@@ -75,7 +74,7 @@
 
         case 'eliminar':
 
-          $rspta=$paquete->eliminar($_GET["id_tabla"]);
+          $rspta=$galeria_paquete->eliminar($_GET["id_tabla"]);
 
           echo json_encode($rspta, true);
 
@@ -83,7 +82,7 @@
 
         case 'mostrar':
 
-          $rspta=$paquete->mostrar($idpaquete);
+          $rspta=$galeria_paquete->mostrar($idgaleria_paquete);
           //Codificar el resultado utilizando json
           echo json_encode($rspta, true);
 
@@ -91,7 +90,7 @@
 
         case 'tbla_principal':          
 
-          $rspta=$paquete->tbla_principal();
+          $rspta=$galeria_paquete->tbla_principal();
           
           //Vamos a declarar un array
           $data= Array(); $cont=1;
@@ -100,17 +99,15 @@
 
             foreach ($rspta['data'] as $key => $value) {        
 
-              $imagen = (empty($value['imagen']) ? '../dist/svg/user_default.svg' : '../dist/docs/paquete/perfil/'.$value['imagen']) ;
+              $imagen = (empty($value['imagen']) ? '../dist/svg/user_default.svg' : '../dist/docs/galeria_paquete/galeria_p/'.$value['imagen']) ;
               
               $data[]=array(
                 "0"=>$cont++,
-                "1"=>'<button class="btn btn-info btn-sm" onclick="ver_detalle_compras(' . $value['idpaquete'] .')" data-toggle="tooltip" data-original-title="Ver detalle compra"><i class="fa fa-eye"></i></button>' . 
-                ' <button class="btn btn-warning btn-sm" onclick="mostrar_paquete(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
-                ' <button class="btn btn-danger  btn-sm" onclick="eliminar_paquete(' . $value['idpaquete'] .')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i> </button>',
+                "1"=>' <button class="btn btn-warning btn-sm" onclick="mostrar_galeria_paquete(' . $value['idgaleria_paquete'] . ')" data-toggle="tooltip" data-original-title="Editar Galeria"><i class="fas fa-pencil-alt"></i></button>' .
+                ' <button class="btn btn-danger  btn-sm" onclick="eliminar_galeria_paquete(' . $value['idgaleria_paquete'] .')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
                 "2"=>$value['nombre'],
-                "3"=>$value['duracion'],
-                "4"=> '<textarea cols="30" rows="1" class="textarea_datatable" readonly="">' . $value['descripcion'] . '</textarea>',
-                "5"=>'<div class="user-block">
+                "3"=> '<textarea cols="30" rows="1" class="textarea_datatable" readonly="">' . $value['descripciongaleria'] . '</textarea>',
+                "4"=>'<div class="user-block">
                 <img class="profile-user-img img-responsive img-circle cursor-pointer" src="'. $imagen .'" alt="User Image" onerror="'.$imagen_error.'" onclick="ver_img_paquete(\'' . $imagen . '\', \''.encodeCadenaHtml($value['nombre']).'\');" data-toggle="tooltip" data-original-title="Ver foto">
               </div>',
 

@@ -132,6 +132,11 @@
       $sql = "SELECT idtipo_persona, nombre, descripcion FROM tipo_persona WHERE estado='1' AND estado_delete = '1' ORDER BY nombre ASC;";
       return ejecutarConsulta($sql);
     }
+    /* ══════════════════════════════════════ TIPO Paquete  ══════════════════════════════════════ */
+    public function select2_paquete() {
+      $sql = "SELECT `idpaquete`, `nombre`, `duracion`, `descripcion`, `imagen`, `estado` FROM `paquete` WHERE estado='1' AND estado_delete = '1' ORDER BY nombre ASC;";
+      return ejecutarConsulta($sql);
+    }
 
     /* ══════════════════════════════════════ P R O V E E D O R -- C L I E N T E S  ══════════════════════════════════════ */
 
