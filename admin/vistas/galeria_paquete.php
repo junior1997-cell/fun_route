@@ -56,10 +56,10 @@
                       <div class="card card-primary card-outline">
                         <div class="card-header">
                           <h3 class="card-title btn-regresar" style="display: none;">
-                            <button type="button" class="btn bg-gradient-warning" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-arrow-left"></i> Regresar</button>                            
+                            <button type="button" class="btn bg-gradient-warning" onclick="limpiar_galeria_paquete(); show_hide_form(1);"><i class="fas fa-arrow-left"></i> Regresar</button>                            
                           </h3>
                           <h3 class="card-title btn-agregar">
-                            <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-galeria_paquete" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar</button>
+                            <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-galeria_paquete" onclick="limpiar_galeria_paquete(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar</button>
                             Administra de manera eficiente tu galeria-paquete.
                           </h3>
                         </div>
