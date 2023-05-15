@@ -110,7 +110,7 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
+/*a {
   text-decoration: none !important;
 }
 
@@ -133,7 +133,7 @@ p {
 img {
   width: 100%;
   overflow: hidden;
-}
+}*/
 
 /* 
 ---------------------------------------------
@@ -146,7 +146,7 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-::selection {
+/*::selection {
   background: #4b8ef1;
   color: #fff !important;
 }
@@ -154,7 +154,7 @@ body {
 ::-moz-selection {
   background: #4b8ef1;
   color: #fff !important;
-}
+}*/
 
 @media (max-width: 991px) {
   html, body {

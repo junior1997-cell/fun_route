@@ -57,7 +57,7 @@
               if ( !empty($img1_ant) ) { unlink("../dist/docs/paquete/perfil/" . $img1_ant);  }
             }            
 
-            // editamos un persona existente
+            // editamos un paquete existente
             $rspta=$paquete->editar($idpaquete, $nombre, $duracion, $descripcion, $imagen1);
             
             echo json_encode($rspta, true);

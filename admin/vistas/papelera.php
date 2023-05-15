@@ -28,7 +28,7 @@
           require 'nav.php';
           require 'aside.php';
           if ($_SESSION['pago_trabajador']==1){
-             require 'enmantenimiento.php';
+          //   require 'enmantenimiento.php';
             ?>  
             <!--Contenido-->
             <div class="content-wrapper">
