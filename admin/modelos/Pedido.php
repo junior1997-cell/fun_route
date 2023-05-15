@@ -49,18 +49,18 @@
            
         );
       }
-      $paquete = [
-        'idpaquete'         => $datospaquete['data']['idpaquete'],
-        'nombre'            => $datospaquete['data']['nombre'],
-        'duracion'          => $datospaquete['data']['duracion'],
-        'descripcion'       => $datospaquete['data']['descripcion'],
-        'imagen'            => $datospaquete['data']['imagen'],
-        'iditinerario'      => $datositinerario['data']['iditinerario'],
-        'mapa'              => $datositinerario['data']['mapa'],
-        'incluye'           => $datositinerario['data']['incluye'],
-        'no_incluye'        => $datositinerario['data']['no_incluye'],
-        'recomendaciones'   => $datositinerario['data']['recomendaciones'],
-      ];
+        $paquete = [
+          'idpaquete'         => $datospaquete['data']['idpaquete'],
+          'nombre'            => $datospaquete['data']['nombre'],
+          'duracion'          => $datospaquete['data']['duracion'],
+          'descripcion'       => $datospaquete['data']['descripcion'],
+          'imagen'            => $datospaquete['data']['imagen'],
+          'iditinerario'      => $datositinerario['data']['iditinerario'],
+          'mapa'              => $datositinerario['data']['mapa'],
+          'incluye'           => $datositinerario['data']['incluye'],
+          'no_incluye'        => $datositinerario['data']['no_incluye'],
+          'recomendaciones'   => $datositinerario['data']['recomendaciones'],
+        ];
       
       return $retorno=['status'=>true, 'message'=>'todo oka ps', 'data'=>$data,'paquete'=>$paquete];
     }

@@ -229,11 +229,8 @@ if (!isset($_SESSION["nombre"])) {
                       <div class="row">
                         <div class="col-12 col-sm-12">
                           <div class="card card-primary card-tabs">
-                            <div class="card-header p-0 pt-1">
+                            <div class="card-header p-0 pt-0">
                               <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
-                                <!--<li class="pt-2 px-3">
-                                  <h3 class="card-title">Detalle Pedido</h3>
-                                </li>-->
                                 <li class="nav-item">
                                   <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#custom-tabs-two-home" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Paquete</a>
                                 </li>
@@ -252,90 +249,22 @@ if (!isset($_SESSION["nombre"])) {
                               <div class="tab-pane fade show active" id="custom-tabs-two-home" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
                                 <!--cuadro de recepcion paquete-->
                                 <div id="paquete">
-                                  
+
                                 </div>
 
                               </div>
                               <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
-                                descripcion de itinerari
+                                <!-- Para mostrar itinerario-->  
+                                <div id="itinerario">
+                              
+                                </div>
                               </div>
                               <div class="tab-pane fade" id="custom-tabs-two-messages" role="tabpanel" aria-labelledby="custom-tabs-two-messages-tab">
+                              <!-- Para mostrar galeria del paquete-->
+                              <div id="galeria" >
 
-                                <!-- Mostrar contenido de galeria -->
-                                <section class="content">
-                                  <div class="container-fluid">
-                                    <div class="row">
-                                      <div class="col-12">
-                                        <div class="card card-primary">
-                                          <div class="card-body">
-                                            <div class="row">
-                                              <div class="col-sm-2">
-                                                <a href="https://via.placeholder.com/1200/FFFFFF.png?text=1" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
-                                                  <img src="https://via.placeholder.com/300/FFFFFF?text=1" class="img-fluid mb-2" alt="white sample" />
-                                                </a>
-                                              </div>
-                                              <div class="col-sm-2">
-                                                <a href="https://via.placeholder.com/1200/000000.png?text=2" data-toggle="lightbox" data-title="sample 2 - black" data-gallery="gallery">
-                                                  <img src="https://via.placeholder.com/300/000000?text=2" class="img-fluid mb-2" alt="black sample" />
-                                                </a>
-                                              </div>
-                                              <div class="col-sm-2">
-                                                <a href="https://via.placeholder.com/1200/FF0000/FFFFFF.png?text=3" data-toggle="lightbox" data-title="sample 3 - red" data-gallery="gallery">
-                                                  <img src="https://via.placeholder.com/300/FF0000/FFFFFF?text=3" class="img-fluid mb-2" alt="red sample" />
-                                                </a>
-                                              </div>
-                                              <div class="col-sm-2">
-                                                <a href="https://via.placeholder.com/1200/FF0000/FFFFFF.png?text=4" data-toggle="lightbox" data-title="sample 4 - red" data-gallery="gallery">
-                                                  <img src="https://via.placeholder.com/300/FF0000/FFFFFF?text=4" class="img-fluid mb-2" alt="red sample" />
-                                                </a>
-                                              </div>
-                                              <div class="col-sm-2">
-                                                <a href="https://via.placeholder.com/1200/000000.png?text=5" data-toggle="lightbox" data-title="sample 5 - black" data-gallery="gallery">
-                                                  <img src="https://via.placeholder.com/300/000000?text=5" class="img-fluid mb-2" alt="black sample" />
-                                                </a>
-                                              </div>
-                                              <div class="col-sm-2">
-                                                <a href="https://via.placeholder.com/1200/FFFFFF.png?text=6" data-toggle="lightbox" data-title="sample 6 - white" data-gallery="gallery">
-                                                  <img src="https://via.placeholder.com/300/FFFFFF?text=6" class="img-fluid mb-2" alt="white sample" />
-                                                </a>
-                                              </div>
-                                              <div class="col-sm-2">
-                                                <a href="https://via.placeholder.com/1200/FFFFFF.png?text=7" data-toggle="lightbox" data-title="sample 7 - white" data-gallery="gallery">
-                                                  <img src="https://via.placeholder.com/300/FFFFFF?text=7" class="img-fluid mb-2" alt="white sample" />
-                                                </a>
-                                              </div>
-                                              <div class="col-sm-2">
-                                                <a href="https://via.placeholder.com/1200/000000.png?text=8" data-toggle="lightbox" data-title="sample 8 - black" data-gallery="gallery">
-                                                  <img src="https://via.placeholder.com/300/000000?text=8" class="img-fluid mb-2" alt="black sample" />
-                                                </a>
-                                              </div>
-                                              <div class="col-sm-2">
-                                                <a href="https://via.placeholder.com/1200/FF0000/FFFFFF.png?text=9" data-toggle="lightbox" data-title="sample 9 - red" data-gallery="gallery">
-                                                  <img src="https://via.placeholder.com/300/FF0000/FFFFFF?text=9" class="img-fluid mb-2" alt="red sample" />
-                                                </a>
-                                              </div>
-                                              <div class="col-sm-2">
-                                                <a href="https://via.placeholder.com/1200/FFFFFF.png?text=10" data-toggle="lightbox" data-title="sample 10 - white" data-gallery="gallery">
-                                                  <img src="https://via.placeholder.com/300/FFFFFF?text=10" class="img-fluid mb-2" alt="white sample" />
-                                                </a>
-                                              </div>
-                                              <div class="col-sm-2">
-                                                <a href="https://via.placeholder.com/1200/FFFFFF.png?text=11" data-toggle="lightbox" data-title="sample 11 - white" data-gallery="gallery">
-                                                  <img src="https://via.placeholder.com/300/FFFFFF?text=11" class="img-fluid mb-2" alt="white sample" />
-                                                </a>
-                                              </div>
-                                              <div class="col-sm-2">
-                                                <a href="https://via.placeholder.com/1200/000000.png?text=12" data-toggle="lightbox" data-title="sample 12 - black" data-gallery="gallery">
-                                                  <img src="https://via.placeholder.com/300/000000?text=12" class="img-fluid mb-2" alt="black sample" />
-                                                </a>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div><!-- /.container-fluid -->
-                                </section>
+                              </div>
+                                
                               </div>
                               <div class="tab-pane fade" id="custom-tabs-two-settings" role="tabpanel" aria-labelledby="custom-tabs-two-settings-tab">
                                 mapa
@@ -346,52 +275,7 @@ if (!isset($_SESSION["nombre"])) {
                       </div>
                     </div>
 
-                    <!--===============Modal-ver-comprobante =========-->
-                    <div class="modal fade" id="modal-ver-comprobante">
-                      <div class="modal-dialog modal-dialog-scrollable modal-lg">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h4 class="modal-title">Paquetes: <span class="nombre_comprobante text-bold"></span> </h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span class="text-danger" aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <div class="modal-body">
-                            <div class="row">
-                              <div class="col-6 col-md-6">
-                                <a class="btn btn-xs btn-block btn-warning" href="#" id="iddescargar" download="" type="button"><i class="fas fa-download"></i> Descargar</a>
-                              </div>
-                              <div class="col-6 col-md-6">
-                                <a class="btn btn-xs btn-block btn-info" href="#" id="ver_completo" target="_blank" type="button"><i class="fas fa-expand"></i> Ver completo.</a>
-                              </div>
-                              <div class="col-12 col-md-12 mt-2">
-                                <div id="ver_fact_pdf" width="auto"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!--MODAL - VER DETALLE DE OTRO INGRESO -->
-                    <div class="modal fade" id="modal-ver-otro-ingreso">
-                      <div class="modal-dialog modal-dialog-scrollable modal-xm">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h4 class="modal-title">Datos Paquetes</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span class="text-danger" aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-
-                          <div class="modal-body">
-                            <div id="datos_otro_ingreso" class="class-style">
-                              <!-- vemos los datos del trabajador -->
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    
 
           </section>
           <!-- /.content -->

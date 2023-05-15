@@ -456,26 +456,84 @@ function mostrar_pedido(idpaquete) {
       //$("#idpedido").val(e.data.idpedido).trigger("change");
       var imagen = (e.paquete.imagen === undefined || e.paquete.imagen === '') ? '../dist/svg/user_default.svg' : `../dist/docs/paquete/perfil/${e.paquete.imagen}`;
       verdatos = ` 
-    <div class="col-12 col-sm-12 col-md-12 d-flex align-items-stretch flex-column">
-    <div class="card bg-light d-flex flex-fill">
-      <div class="card-body pt-0">
-        <div class="row">
-          <div class="col-7">
-            <h2 class="lead"><b>${e.paquete.nombre}</b></h2>
-            <p class="text-muted text-sm"><b>Duracion: </b> ${e.paquete.duracion}</p>
-            <ul class="ml-4 mb-0 fa-ul text-muted">
-              <li class="small"><span class="fa-li"></span> ${e.paquete.descripcion}</li>
-            </ul>
-          </div>
-          <div class="col-5 text-center">
-            <img src="${imagen}" alt="user-avatar" class="img-circle img-fluid">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>`
+                  <div class="col-12 col-sm-12 col-md-12 d-flex align-items-stretch flex-column">
+                  <div class="card bg-light d-flex flex-fill">
+                    <div class="card-body pt-0">
+                      <div class="row">
+                        <div class="col-7">
+                          <h2 class="lead"><b>${e.paquete.nombre}</b></h2>
+                          <p class="text-muted text-sm"><b>Duracion: </b> ${e.paquete.duracion}</p>
+                          <ul class="ml-4 mb-0 fa-ul text-muted">
+                            <li class="small"><span class="fa-li"></span> ${e.paquete.descripcion}</li>
+                          </ul>
+                        </div>
+                        <div class="col-5 text-center">
+                          <img src="${imagen}" alt="user-avatar" class="img-circle img-fluid">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>`
 
       $("#paquete").html(verdatos);
+
+      datositinerario=`
+      
+      <div class="p-2 row">
+        <div class="col-12 " id="accordion">
+          <div class="card card-primary card-outline">
+            <a class="d-block w-50" data-toggle="collapse" href="#collapseOne">
+              <div class="card-header">
+                <h4 class="card-title w-100">
+                  Mapa
+                </h4>
+              </div>
+            </a>
+            <div id="collapseOne" class="collapse show" data-parent="#accordion">
+              <div class="card-body">${e.paquete.mapa}</div>
+            </div>
+          </div>
+          <div class="card card-primary card-outline">
+            <a class="d-block w-100" data-toggle="collapse" href="#collapseTwo">
+              <div class="card-header">
+                <h4 class="card-title w-100">
+                  Incluye
+                </h4>
+              </div>
+            </a>
+            <div id="collapseTwo" class="collapse" data-parent="#accordion">
+              <div class="card-body">${e.paquete.incluye}</div>
+            </div>
+          </div>
+          <div class="card card-primary card-outline">
+            <a class="d-block w-100" data-toggle="collapse" href="#collapseTwo">
+              <div class="card-header">
+                <h4 class="card-title w-100">
+                  No Incluye
+                </h4>
+              </div>
+            </a>
+            <div id="collapseThree" class="collapse" data-parent="#accordion">
+              <div class="card-body">${e.paquete.no_incluye}</div>
+            </div>
+          </div>
+          </div>
+        </div>
+    </div>`
+      $("#itinerario").html(datositinerario);
+      var vergaleria = '';
+      e.data.forEach((val, index) => {
+        vergaleria = vergaleria.concat(`
+         <div class="filter-container p-2 row">
+            <img src="../dist/docs/galeria_paquete/galeria_p/${val.imagen}" class="img-fluid mb-2" alt="black sample"">
+          
+          </div>`
+        );
+        
+      });
+
+      $("#galeria").html(vergaleria); 
+    
 
       $(".jq_image_zoom").zoom({ on: "grab" });
 
@@ -487,106 +545,7 @@ function mostrar_pedido(idpaquete) {
   });
 }
 
-function ver_datos(idotro_ingreso) {
-  $("#modal-ver-otro-ingreso").modal("show");
-  $("#datos_otro_ingreso").html(
-    `<div class="row"><div class="col-lg-12 text-center"><i class="fas fa-spinner fa-pulse fa-6x"></i><br/><br/><h4>Cargando...</h4></div></div>`
-  );
 
-  var comprobante = "";
-  var btn_comprobante = "";
-
-  $.post(
-    "../ajax/otro_ingreso.php?op=verdatos",
-    { idotro_ingreso: idotro_ingreso },
-    function (e, status) {
-      e = JSON.parse(e);
-      console.log(e);
-
-      if (e.data.comprobante != "") {
-        comprobante = doc_view_extencion(
-          e.data.comprobante,
-          "otro_ingreso",
-          "comprobante",
-          "100%"
-        );
-
-        btn_comprobante = `
-      <div class="row">
-        <div class="col-6"">
-          <a type="button" class="btn btn-info btn-block btn-xs" target="_blank" href="../dist/docs/otro_ingreso/comprobante/${
-            e.data.comprobante
-          }"> <i class="fas fa-expand"></i></a>
-        </div>
-        <div class="col-6"">
-          <a type="button" class="btn btn-warning btn-block btn-xs" href="../dist/docs/otro_ingreso/comprobante/${
-            e.data.comprobante
-          }" download="comprobante - ${removeCaracterEspecial(
-          e.data.razon_social
-        )}"> <i class="fas fa-download"></i></a>
-        </div>
-      </div>`;
-      } else {
-        comprobante = "Sin Ficha Técnica";
-        btn_comprobante = "";
-      }
-
-      var ver_datos_html = `                                                                            
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-          <table class="table table-hover table-bordered">        
-            <tbody>
-              <tr data-widget="expandable-table" aria-expanded="false">
-                <th>Nombres </th>
-                <td>${e.data.nombres} <br> <b>${e.data.tipo_documento}:</b> ${
-        e.data.numero_documento
-      } </td>
-              </tr>
-              <tr data-widget="expandable-table" aria-expanded="false">
-                <th>Forma Pago</th>
-                <td>${e.data.forma_de_pago}</td>
-              </tr>
-              <tr data-widget="expandable-table" aria-expanded="false">
-                <th>Tipo Comprobante</th>
-                <td>${e.data.tipo_comprobante}</td>
-              </tr>
-              <tr data-widget="expandable-table" aria-expanded="false">
-                <th>Núm. Comprobante</th>
-                  <td>${e.data.numero_comprobante}</td>
-              </tr>
-              <tr data-widget="expandable-table" aria-expanded="false">
-                <th>Fecha Emisión</th>
-                <td>${e.data.fecha_ingreso}</td>
-              </tr>
-              <tr data-widget="expandable-table" aria-expanded="false">
-                <th>Sub total</th>
-                <td>${e.data.precio_sin_igv}</td>
-              </tr>
-              <tr data-widget="expandable-table" aria-expanded="false">
-                <th>IGV</th>
-                <td>${e.data.precio_igv}</td>
-              </tr>
-              <tr data-widget="expandable-table" aria-expanded="false">
-                <th>Monto total</th>
-                <td>${parseFloat(e.data.precio_con_igv).toFixed(2)}</td>
-              </tr>
-              <tr data-widget="expandable-table" aria-expanded="false">
-                <th>Comprobante</th>
-                <td> ${comprobante} <br>${btn_comprobante}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>`;
-
-      $("#datos_otro_ingreso").html(ver_datos_html);
-    }
-  ).fail(function (e) {
-    ver_errores(e);
-  });
-}
 
 //Función para desactivar registros
 function eliminar_galeria_paquete(idpedido) {
@@ -629,103 +588,6 @@ function limpiar_pedido() {
   $(".tooltip").removeClass("show").addClass("hidde");
 }
 
-//guardar proveedor
-function guardarpersona(e) {
-  // e.preventDefault(); //No se activará la acción predeterminada del evento
-  var formData = new FormData($("#form-persona")[0]);
-
-  $.ajax({
-    url: "../ajax/otro_ingreso.php?op=guardarpersona",
-    type: "POST",
-    data: formData,
-    contentType: false,
-    processData: false,
-    success: function (e) {
-      e = JSON.parse(e);
-
-      try {
-        if (e.status == true) {
-          // toastr.success("proveedor registrado correctamente");
-          Swal.fire("Correcto!", "Persona guardado correctamente.", "success");
-          limpiar_persona();
-          $("#modal-agregar-persona").modal("hide");
-          //Cargamos los items al select persona
-          lista_select2(
-            "../ajax/otro_ingreso.php?op=selecct_produc_o_provee",
-            "#idpersona",
-            e.data
-          );
-        } else {
-          ver_errores(e);
-        }
-      } catch (err) {
-        console.log("Error: ", err.message);
-        toastr_error(
-          "Error temporal!!",
-          'Puede intentalo mas tarde, o comuniquese con:<br> <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>',
-          700
-        );
-      }
-
-      $("#guardar_registro_persona")
-        .html("Guardar Cambios")
-        .removeClass("disabled");
-    },
-  });
-}
-
-// damos formato a: Cta, CCI
-function formato_banco() {
-  if (
-    $("#banco").select2("val") == null ||
-    $("#banco").select2("val") == "" ||
-    $("#banco").select2("val") == "1"
-  ) {
-    $("#c_bancaria").prop("readonly", true);
-    $("#cci").prop("readonly", true);
-  } else {
-    $(".chargue-format-1").html(
-      '<i class="fas fa-spinner fa-pulse fa-lg text-danger"></i>'
-    );
-    $(".chargue-format-2").html(
-      '<i class="fas fa-spinner fa-pulse fa-lg text-danger"></i>'
-    );
-    $(".chargue-format-3").html(
-      '<i class="fas fa-spinner fa-pulse fa-lg text-danger"></i>'
-    );
-
-    $.post(
-      "../ajax/ajax_general.php?op=formato_banco",
-      { idbanco: $("#banco").select2("val") },
-      function (e, status) {
-        e = JSON.parse(e); // console.log(e);
-
-        if (e.status == true) {
-          $(".chargue-format-1").html("Cuenta Bancaria");
-          $(".chargue-format-2").html("CCI");
-          $(".chargue-format-3").html("Cuenta Detracciones");
-
-          $("#c_bancaria").prop("readonly", false);
-          $("#cci").prop("readonly", false);
-
-          var format_cta = decifrar_format_banco(e.data.formato_cta);
-          var format_cci = decifrar_format_banco(e.data.formato_cci);
-          var formato_detracciones = decifrar_format_banco(
-            e.data.formato_detracciones
-          );
-          // console.log(format_cta, formato_detracciones);
-
-          $("#c_bancaria").inputmask(`${format_cta}`);
-          $("#cci").inputmask(`${format_cci}`);
-        } else {
-          ver_errores(e);
-        }
-      }
-    ).fail(function (e) {
-      ver_errores(e);
-    });
-  }
-}
 
 // .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
 $(function () {

@@ -65,7 +65,7 @@
               
               $data[]=array(
                 "0"=>$cont++,
-                "1"=>' <button class="btn btn-info btn-sm" onclick="mostrar_pedido(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Editar Galeria"><i class="fa fa-eye"></i></button>' .
+                "1"=>' <button class="btn btn-info btn-sm" onclick="mostrar_pedido(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Ver"><i class="fa fa-eye"></i></button>' .
                 ' <button class="btn btn-danger  btn-sm" onclick="eliminar_pedido(' . $value['idpedido'] .')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>'.
                 ' <button class="btn btn-success  btn-sm" onclick="ver_pedido(' . $value['idpedido'] .')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fa-solid fa-cart-shopping"></i></button>',
                 "2"=>'<div class="user-block">
