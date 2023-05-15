@@ -76,6 +76,7 @@
                                   <th data-toggle="tooltip" data-original-title="Duracion">Duración</th>
                                   <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
                                   <th>Imagen</th>
+                                  <th>Itenerario</th>
                                 </tr>
                               </thead>
                               <tbody></tbody>
@@ -87,6 +88,7 @@
                                   <th data-toggle="tooltip" data-original-title="Duracion">Duración</th>
                                   <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
                                   <th>Imagen</th>
+                                  <th>Itenerario</th>
                                 </tr>
                               </tfoot>
                             </table>
