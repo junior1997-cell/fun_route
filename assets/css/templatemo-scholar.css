@@ -78,7 +78,7 @@ header, nav, section, article, aside, hgroup {
 
 
 
-a {
+/*a {
   text-decoration: none !important;
 }
 
@@ -102,7 +102,7 @@ p {
 img {
   width: 100%;
   overflow: hidden;
-}
+}*/
 
 /* 
 ---------------------------------------------
@@ -150,23 +150,6 @@ Global Styles
   font-weight: 600;
 }
 
-.main-button a {
-  display: inline-block;
-  background-color: #fff;
-  color: #22b3c1;
-  font-size: 14px;
-  font-weight: 500;
-  height: 40px;
-  line-height: 40px;
-  padding: 0px 25px;
-  border-radius: 20px;
-  transition: all .3s;
-}
-
-.main-button a:hover {
-  background-color: #22b3c1;
-  color: #fff;
-}
 
 /* 
 ---------------------------------------------
@@ -405,7 +388,7 @@ About Style
 .about-us {
   position: relative;
   padding: 0px;
-  margin-top: 130px;
+  margin-bottom: 10em;
 }
 
 .about-us:before {

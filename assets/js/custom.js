@@ -95,8 +95,8 @@
 		loop:true,
 		dots: false,
 		nav: true,
-		autoplay: true,
-		margin:15,
+		autoplay: false,
+		margin:30,
 		responsive:{
 			  0:{
 				  items:1
@@ -104,9 +104,87 @@
 			  800:{
 				  items:2
 			  },
-			  1000:{
+			  1100:{
 				  items:3
 			}
+		}
+	})
+
+	
+
+	$('.owl-paquetes-l').owlCarousel({
+		loop:true,
+		margin:8,
+		responsiveClass:true,
+		responsive:{
+				0:{
+						items:1,
+						nav:true
+				},
+				600:{
+						items:1,
+						nav:false
+				},
+				1000:{
+						items:4,
+						nav:true,
+						loop:false
+				}
+		}
+	})
+
+	$('.crsl-wrap').owlCarousel({
+		items:1,
+		loop:true,
+		dots: false,
+		nav: false,
+		autoplay: true,
+		margin:25,
+		responsive:{
+			  0:{
+				  items:1
+			  },
+			  800:{
+				  items:1
+			  },
+			  1100:{
+				  items:1
+			}
+		}
+	})
+
+	$('.paquete-home1').owlCarousel({
+		loop:true,
+		margin:30,
+		responsiveClass:true,
+		responsive:{
+				0:{
+						items:1,
+						nav:true
+				},
+				500:{
+						items:2,
+						nav:false
+				},
+				800:{
+						items:3,
+						nav:false
+				},
+				1000:{
+						items:4,
+						nav:true,
+						loop:false
+				},
+				1200:{
+						items:5,
+						nav:true,
+						loop:false
+				},
+				1500:{
+						items:6,
+						nav:true,
+						loop:false
+				}
 		}
 	})
 
