@@ -23,14 +23,14 @@ Class Contacto
 		//actualizamos mision y vision
 		public function actualizar_mision_vision( $id, $mision, $vision)
 		{
-			$sql="UPDATE contacto SET mision='$mision',vision='$vision' WHERE idcontacto='$id'";
+			$sql="UPDATE nosotros SET mision='$mision',vision='$vision' WHERE idnosotros='$id'";
 			return ejecutarConsulta($sql);
 		}
 	
 		//actualizamos mision y vision
 		public function actualizar_ceo_resenia( $id, $palabras_ceo, $resenia_h)
 		{
-			$sql="UPDATE contacto SET reseña_historica='$resenia_h', palabras_ceo='$palabras_ceo' WHERE idcontacto='$id'";
+			$sql="UPDATE nosotros SET resenia_historica='$resenia_h', palabras_ceo='$palabras_ceo' WHERE idnosotros='$id'";
 			return ejecutarConsulta($sql);
 		}
 	

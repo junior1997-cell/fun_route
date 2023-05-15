@@ -28,7 +28,7 @@
             require 'nav.php';
             require 'aside.php';
             if ($_SESSION['escritorio']==1){
-              //require 'enmantenimiento.php';
+              require 'enmantenimiento.php';
               ?>           
               <!--Contenido-->
               <div class="content-wrapper">
@@ -257,7 +257,7 @@
         <!-- AdminLTE for demo purposes -->
         <script src="../dist/js/demo.js"></script>
 
-        <script type="text/javascript" src="scripts/escritorio.js"></script>
+        <!-- <script type="text/javascript" src="scripts/escritorio.js"></script> -->
 
         <script>  $(function () { $('[data-toggle="tooltip"]').tooltip(); }); </script>
         

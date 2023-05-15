@@ -28,7 +28,7 @@
           require 'nav.php';
           require 'aside.php';
           if ($_SESSION['pago_trabajador']==1){
-            // require 'enmantenimiento.php';
+          //   require 'enmantenimiento.php';
             ?>  
             <!--Contenido-->
             <div class="content-wrapper">
@@ -346,7 +346,7 @@
 
         <?php require 'script.php'; ?>         
 
-        <script type="text/javascript" src="scripts/papelera.js"></script>
+        <!-- <script type="text/javascript" src="scripts/papelera.js"></script> -->
          
         <script> $(function () { $('[data-toggle="tooltip"]').tooltip();  }) </script>
         

@@ -83,7 +83,30 @@
           echo json_encode($rspta, true); 
         } 
       break;
+      /* ══════════════════════════════════════ TIPO PAQUETE  ══════════════════════════════════════ */
+      case 'select2Paquete': 
 
+        $rspta = $ajax_general->select2_paquete();  $cont = 1; $data = "";
+
+        if ($rspta['status'] == true) {
+
+          foreach ($rspta['data'] as $key => $value) {
+            $data .= '<option  value=' . $value['idpaquete'] . ' >' . $value['nombre'] . ' - '. $value['duracion'] . '</option>';
+          }
+
+          $retorno = array(
+            'status' => true, 
+            'message' => 'Salió todo ok', 
+            'data' =>  $data, 
+          );
+  
+          echo json_encode($retorno, true);
+
+        } else {
+
+          echo json_encode($rspta, true); 
+        } 
+      break;
       /* ══════════════════════════════════════ T R A B A J A D O R  ══════════════════════════════════════ */
       case 'select2Trabajador': 
 
