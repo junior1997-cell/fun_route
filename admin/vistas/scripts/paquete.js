@@ -129,7 +129,7 @@ function tbla_principal() {
       // columna: sub total
       if (data[5] != "") { $("td", row).eq(5).addClass("text-nowrap text-right"); }
       // columna: igv
-      if (data[6] != "") { $("td", row).eq(6).addClass("text-nowrap text-right"); }
+      if (data[6] != "") { $("td", row).eq(6).addClass("text-center"); }
       // columna: total
       if (data[7] != "") { $("td", row).eq(7).addClass("text-nowrap text-right"); }
     },
