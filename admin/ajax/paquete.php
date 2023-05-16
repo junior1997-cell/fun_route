@@ -26,8 +26,9 @@
       
       $idpaquete	  	      = isset($_POST["idpaquete"])? limpiarCadena($_POST["idpaquete"]):"";
       $nombre               = isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
-      $duracion             = isset($_POST["duracion"])? limpiarCadena($_POST["duracion"]):"";
+      $cant_dias             = isset($_POST["cant_dias"])? limpiarCadena($_POST["cant_dias"]):"";
       $descripcion			    = isset($_POST["descripcion"])? limpiarCadena($_POST["descripcion"]):"";
+      
       switch ($_GET["op"]) {
 
         case 'guardar_y_editar_paquete':
@@ -44,7 +45,7 @@
 
           if (empty($idpaquete)){
             
-            $rspta=$paquete->insertar($nombre,$duracion,$descripcion, $imagen1);
+            $rspta=$paquete->insertar($nombre,$cant_dias,$descripcion, $imagen1);
             
             echo json_encode($rspta, true);
   
@@ -58,7 +59,7 @@
             }            
 
             // editamos un paquete existente
-            $rspta=$paquete->editar($idpaquete, $nombre, $duracion, $descripcion, $imagen1);
+            $rspta=$paquete->editar($idpaquete, $nombre, $cant_dias, $descripcion, $imagen1);
             
             echo json_encode($rspta, true);
           }            
@@ -108,12 +109,13 @@
                 ' <button class="btn btn-warning btn-sm" onclick="mostrar_paquete(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
                 ' <button class="btn btn-danger  btn-sm" onclick="eliminar_paquete(' . $value['idpaquete'] .')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
                 "2"=>$value['nombre'],
-                "3"=>$value['duracion'],
+                "3"=>$value['cant_dias'].' Días',
                 "4"=> '<textarea cols="30" rows="1" class="textarea_datatable" readonly="">' . $value['descripcion'] . '</textarea>',
                 "5"=>'<div class="user-block">
                       <img class="profile-user-img img-responsive img-circle cursor-pointer" src="'. $imagen .'" alt="User Image" onerror="'.$imagen_error.'" onclick="ver_img_paquete(\'' . $imagen . '\', \''.encodeCadenaHtml($value['nombre']).'\');" data-toggle="tooltip" data-original-title="Ver foto">
                      </div>',
-                "6"=>'<button class="btn btn-info btn-sm" onclick="itinerario(' . $value['idpaquete'] .')" data-toggle="tooltip" data-original-title="Ver itinerario">Itinerario <i class="fa fa-eye"></i></button>',
+                "6"=>'<button class="btn btn-info btn-sm" onclick="itinerario(' . $value['idpaquete'] .')" data-toggle="tooltip" data-original-title="Ver itinerario"> <i class="fa fa-eye"></i></button>',
+                "7"=>'<button class="btn btn-info btn-sm" onclick="itinerario(' . $value['idpaquete'] .')" data-toggle="tooltip" data-original-title="Ver galería"> <i class="fa fa-eye"></i></button>',
 
               );
             }
@@ -129,32 +131,6 @@
           }
         break;  
 
-        case 'verdatos':
-          $rspta=$persona->verdatos($idpersona);
-          //Codificar el resultado utilizando json
-          echo json_encode($rspta, true);
-        break;        
-
-        case 'formato_banco':           
-          $rspta=$persona->formato_banco($_POST["idbanco"]);
-          //Codificar el resultado utilizando json
-          echo json_encode($rspta, true);           
-        break;
-
-        /* =========================== S E C C I O N   R E C U P E R A R   B A N C O S =========================== */
-        case 'recuperar_banco':           
-          $rspta=$persona->recuperar_banco();
-          //Codificar el resultado utilizando json
-          echo json_encode($rspta, true);           
-        break;
-        /* =========================== S E C C I O N  T I P O   P E R S O N A  =========================== */
-        case 'tipo_persona':
-
-          $rspta=$persona->tipo_persona();
-          //Codificar el resultado utilizando json
-          echo json_encode($rspta, true);
-
-        break;
 
         default: 
           $rspta = ['status'=>'error_code', 'message'=>'Te has confundido en escribir en el <b>swich.</b>', 'data'=>[]]; echo json_encode($rspta, true); 

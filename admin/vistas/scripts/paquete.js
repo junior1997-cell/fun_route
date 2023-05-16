@@ -13,40 +13,15 @@ function init() {
   $("#mlPaquetes").addClass("active bg-green");
 
   $("#lPaquetes").addClass("active");
-
   
   tbla_principal();
-
-  // ══════════════════════════════════════ S E L E C T 2 ══════════════════════════════════════
-  lista_select2("../ajax/otro_ingreso.php?op=selecct_produc_o_provee", '#idpersona', null);
-  lista_select2("../ajax/otro_ingreso.php?op=select_tipo_persona", '#idtipopersona', null);
-  lista_select2("../ajax/ajax_general.php?op=select2Banco", '#banco', null);
 
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════ 
   $("#guardar_registro_paquete").on("click", function (e) { $("#submit-form-paquete").submit(); });
 
-  // ══════════════════════════════════════ INITIALIZE SELECT2 - OTRO INGRESO  ══════════════════════════════════════
-  $("#idpersona").select2({ theme: "bootstrap4", placeholder: "Selecione un proveedor o productor", allowClear: true,   });
-  $("#idtipopersona").select2({ theme: "bootstrap4", placeholder: "Selecione un tipo", allowClear: true,   });
-
-  $("#tipo_comprobante").select2({ theme: "bootstrap4", placeholder: "Seleccinar tipo comprobante", allowClear: true, });
-
-  $("#forma_pago").select2({ theme: "bootstrap4", placeholder: "Seleccinar forma de pago", allowClear: true, });
-
-  $("#banco").select2({templateResult: templateBanco, theme: "bootstrap4", placeholder: "Selecione un banco", allowClear: true, });
-
   // Formato para telefono
   $("[data-mask]").inputmask();
 }
-
-function templateBanco (state) {
-  //console.log(state);
-  if (!state.id) { return state.text; }
-  var baseUrl = state.title != '' ? `../dist/docs/banco/logo/${state.title}`: '../dist/docs/banco/logo/logo-sin-banco.svg'; 
-  var onerror = `onerror="this.src='../dist/docs/banco/logo/logo-sin-banco.svg';"`;
-  var $state = $(`<span><img src="${baseUrl}" class="img-circle mr-2 w-25px" ${onerror} />${state.text}</span>`);
-  return $state;
-};
 
 // abrimos el navegador de archivos
 $("#doc1_i").click(function() {  $('#doc1').trigger('click'); });
@@ -60,34 +35,18 @@ function doc1_eliminar() {
 }
 
 //Función limpiar
-function limpiar_form() {
-  $("#idotro_ingreso").val("");
-  $("#fecha_i").val("");  
-  $("#nro_comprobante").val("");
-  $("#ruc").val("");
-  $("#razon_social").val("");
-  $("#direccion").val("");
-  $("#subtotal").val("");
-  $("#igv").val("");
-  $("#precio_parcial").val("");
-  $("#descripcion").val("");
-
-  $("#doc_old_1").val("");
-  $("#doc1").val("");  
-  $('#doc1_ver').html(`<img src="../dist/svg/pdf_trasnparent.svg" alt="" width="50%" >`);
-  $('#doc1_nombre').html("");
-
-  $("#idpersona").val("null").trigger("change");
-  $("#tipo_comprobante").val("null").trigger("change");
-  $("#forma_pago").val("null").trigger("change");
-
-  $("#val_igv").val(""); 
-  $("#tipo_gravada").val(""); 
-
+function limpiar_paquete() {
+  $("#idpaquete").val("");
+  $("#nombre").val("");
+  $("#cant_dias").val("");
+  $("#imagen").val("");
+  
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
   $(".form-control").removeClass('is-invalid');
   $(".error.invalid-feedback").remove();
+
+  $(".tooltip").removeClass("show").addClass("hidde");
 }
 
 function show_hide_form(flag) {
@@ -131,254 +90,19 @@ function tbla_principal() {
       // columna: igv
       if (data[6] != "") { $("td", row).eq(6).addClass("text-center"); }
       // columna: total
-      if (data[7] != "") { $("td", row).eq(7).addClass("text-nowrap text-right"); }
+      if (data[7] != "") { $("td", row).eq(7).addClass("text-center"); }
     },
     language: {
       lengthMenu: "Mostrar: _MENU_ registros",
       buttons: { copyTitle: "Tabla Copiada", copySuccess: { _: "%d líneas copiadas", 1: "1 línea copiada", }, },
       sLoadingRecords: '<i class="fas fa-spinner fa-pulse fa-lg"></i> Cargando datos...'
     },
-    footerCallback: function( tfoot, data, start, end, display ) {
-      // var api1 = this.api(); var total1 = api1.column( 6 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
-      // $( api1.column( 6 ).footer() ).html( `<span class="float-left">S/</span> <span class="float-right">${formato_miles(total1)}</span>` ); 
-      
-      // var api2 = this.api(); var total2 = api2.column( 7 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
-      // $( api2.column( 7 ).footer() ).html( `<span class="float-left">S/</span> <span class="float-right">${formato_miles(total2)}</span>` );
-
-      // var api3 = this.api(); var total3 = api3.column( 8 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
-      // $( api3.column( 8 ).footer() ).html( `<span class="float-left">S/</span> <span class="float-right">${formato_miles(total3)}</span>` );
-    },
+    footerCallback: function( tfoot, data, start, end, display ) {},
     bDestroy: true,
     iDisplayLength: 10, //Paginación
     order: [[0, "asc"]], //Ordenar (columna,orden)
-    columnDefs: [
-      // //{ targets: [], visible: false, searchable: false, }, 
-      // { targets: [5], render: $.fn.dataTable.render.moment('YYYY-MM-DD', 'DD/MM/YYYY'), },
-      // { targets: [6,7,8], render: function (data, type) { var number = $.fn.dataTable.render.number(',', '.', 2).display(data); if (type === 'display') { let color = 'numero_positivos'; if (data < 0) {color = 'numero_negativos'; } return `<span class="float-left">S/</span> <span class="float-right ${color} "> ${number} </span>`; } return number; }, },      
-    ],
+    columnDefs: [],
   }).DataTable();
-
-}
-
-//segun tipo de comprobante
-function comprob_factura() {
-
-  var precio_parcial = $("#precio_parcial").val(); 
-
-  
-  if ($("#tipo_comprobante").select2("val") == "" || $("#tipo_comprobante").select2("val") == null) {
-
-    $(".nro_comprobante").html("Núm. Comprobante");
-
-    $("#val_igv").val(""); $("#tipo_gravada").val(""); 
-
-    if (precio_parcial == null || precio_parcial == "") {
-      $("#subtotal").val(0);
-      $("#igv").val(0);    
-    } else {
-      $("#subtotal").val(parseFloat(precio_parcial).toFixed(2));
-      $("#igv").val(0);    
-    }   
-
-  } else {
-
-    if ($("#tipo_comprobante").select2("val") == "Ninguno") { 
-
-      $(".nro_comprobante").html("Núm. de Operación");
-
-
-      $("#val_igv").prop("readonly",true);
-
-      if (precio_parcial == null || precio_parcial == "") {
-        $("#subtotal").val(0);
-        $("#igv").val(0);
-        
-        $("#val_igv").val("0"); 
-        $("#tipo_gravada").val("NO GRAVADA");  
-
-      } else {
-        $("#subtotal").val(parseFloat(precio_parcial).toFixed(2));
-        $("#igv").val(0); 
-
-        $("#val_igv").val("0"); 
-        $("#tipo_gravada").val("NO GRAVADA"); 
-
-      }   
-
-    } else {
-      
-      if ($("#tipo_comprobante").select2("val") == "Factura") {
-
-        $(".nro_comprobante").html("Núm. Comprobante");
-
-        $(".div_ruc").show(); $(".div_razon_social").show();
-      
-          calculandototales_fact();     
-    
-      } else { 
-
-        $("#val_igv").prop("readonly",true);
-
-        if ($("#tipo_comprobante").select2("val") == "Boleta") {
-
-          $(".nro_comprobante").html("Núm. Comprobante");
-  
-          $(".div_ruc").show(); $(".div_razon_social").show();
-          
-          if (precio_parcial == null || precio_parcial == "") {
-            $("#subtotal").val(0);
-            $("#igv").val(0); 
-            $("#val_igv").val("0");   
-          } else {
-                    
-            $("#subtotal").val("");
-            $("#igv").val("");
-
-            $("#subtotal").val(parseFloat(precio_parcial).toFixed(2));
-            $("#igv").val(0); 
-            
-            $("#val_igv").val("0"); 
-            $("#tipo_gravada").val("NO GRAVADA"); 
-          } 
-            
-        } else {
-                 
-          $(".nro_comprobante").html("Núm. Comprobante");
-
-          $(".div_ruc").hide(); $(".div_razon_social").hide();
-
-          $("#ruc").val(""); $("#razon_social").val("");
-
-          if (precio_parcial == null || precio_parcial == "") {
-            
-            $("#subtotal").val(0);
-            $("#igv").val(0);
-
-            $("#val_igv").val("0"); 
-            $("#tipo_gravada").val("NO GRAVADA");  
-
-          } else {
-
-            $("#subtotal").val(parseFloat(precio_parcial).toFixed(2));
-            $("#igv").val(0); 
-
-            $("#val_igv").val("0"); 
-            $("#tipo_gravada").val("NO GRAVADA");  
-
-          } 
-          
-        }
-
-      }
-    }
-  } 
-}
-
-function validando_igv() {
-
-  if ($("#tipo_comprobante").select2("val") == "Factura") {
-
-    $("#val_igv").prop("readonly",false);
-    $("#val_igv").val(0.18); 
-
-  }else {
-
-    $("#val_igv").val(0); 
-
-  }  
-}
-
-function calculandototales_fact() {
-  //----------------
-  $("#tipo_gravada").val("GRAVADA"); 
-         
-  $(".nro_comprobante").html("Núm. Comprobante");
-
-  var precio_parcial = $("#precio_parcial").val();
-
-  var val_igv = $('#val_igv').val();
-
-  if (precio_parcial == null || precio_parcial == "") {
-
-    $("#subtotal").val(0);
-    $("#igv").val(0); 
-
-  } else {
- 
-    var subtotal = 0;
-    var igv = 0;
-
-    if (val_igv == null || val_igv == "") {
-
-      $("#subtotal").val(parseFloat(precio_parcial));
-      $("#igv").val(0);
-
-    }else{
-
-      $("subtotal").val("");
-      $("#igv").val("");
-
-      subtotal = quitar_igv_del_precio(precio_parcial, val_igv, 'decimal');
-      igv = precio_parcial - subtotal;
-
-      $("#subtotal").val(parseFloat(subtotal).toFixed(2));
-      $("#igv").val(parseFloat(igv).toFixed(2));
-
-    }
-
-  }  
-
-}
-
-function quitar_igv_del_precio(precio , igv, tipo ) {
-  console.log(precio , igv, tipo);
-  var precio_sin_igv = 0;
-
-  switch (tipo) {
-    case 'decimal':
-
-      if (parseFloat(precio) != NaN && igv > 0 && igv <= 1 ) {
-        precio_sin_igv = ( parseFloat(precio) * 100 ) / ( ( parseFloat(igv) * 100 ) + 100 )
-      }else{
-        precio_sin_igv = precio;
-      }
-    break;
-
-    case 'entero':
-
-      if (parseFloat(precio) != NaN && igv > 0 && igv <= 100 ) {
-        precio_sin_igv = ( parseFloat(precio) * 100 ) / ( parseFloat(igv)  + 100 )
-      }else{
-        precio_sin_igv = precio;
-      }
-    break;
-  
-    default:
-      $(".val_igv").html('IGV (0%)');
-      toastr.success('No has difinido un tipo de calculo de IGV.')
-    break;
-  } 
-  
-  return precio_sin_igv; 
-}
-
-//ver ficha tecnica
-function modal_comprobante(comprobante,tipo,numero_comprobante) {
-
-  var dia_actual = moment().format('DD-MM-YYYY');
-  $(".nombre_comprobante").html(`${tipo}-${numero_comprobante}`);
-  $('#modal-ver-comprobante').modal("show");
-  $('#ver_fact_pdf').html(doc_view_extencion(comprobante, 'otro_ingreso', 'comprobante', '100%', '550'));
-
-  if (DocExist(`dist/docs/otro_ingreso/comprobante/${comprobante}`) == 200) {
-    $("#iddescargar").attr("href","../dist/docs/otro_ingreso/comprobante/"+comprobante).attr("download", `${tipo}-${numero_comprobante}  - ${dia_actual}`).removeClass("disabled");
-    $("#ver_completo").attr("href","../dist/docs/otro_ingreso/comprobante/"+comprobante).removeClass("disabled");
-  } else {
-    $("#iddescargar").addClass("disabled");
-    $("#ver_completo").addClass("disabled");
-  }
-
-  $('.jq_image_zoom').zoom({ on:'grab' }); 
 
 }
 
@@ -402,7 +126,7 @@ function guardar_y_editar_paquete(e) {
 
           tabla_paquete.ajax.reload(null, false);
           $('#modal-agregar-paquete').modal('hide'); //
-          limpiar_form();    
+          limpiar_paquete();   
 
         } else {
           ver_errores(e);
@@ -432,7 +156,7 @@ function mostrar_paquete(idpaquete) {
 
     $("#idpaquete").val(e.data.idpaquete).trigger("change");
     $("#nombre").val(e.data.nombre).trigger("change");
-    $("#duracion").val(e.data.duracion).trigger("change");
+    $("#cant_dias").val(e.data.cant_dias).trigger("change");
     $("#descripcion").val(e.data.descripcion);
     
     if (e.data.imagen == "" || e.data.imagen == null  ) {
@@ -460,88 +184,6 @@ function mostrar_paquete(idpaquete) {
   }).fail( function(e) { ver_errores(e); } );
 }
 
-function ver_datos(idotro_ingreso) {
-  $("#modal-ver-otro-ingreso").modal("show");
-  $('#datos_otro_ingreso').html(`<div class="row"><div class="col-lg-12 text-center"><i class="fas fa-spinner fa-pulse fa-6x"></i><br/><br/><h4>Cargando...</h4></div></div>`);
-
-  var comprobante=''; var btn_comprobante = '';
-
-  $.post("../ajax/otro_ingreso.php?op=verdatos", { idotro_ingreso: idotro_ingreso }, function (e, status) {
-    e = JSON.parse(e);  console.log(e);
-
-    if (e.data.comprobante != '') {
-        
-      comprobante =  doc_view_extencion(e.data.comprobante, 'otro_ingreso', 'comprobante', '100%');
-      
-      btn_comprobante=`
-      <div class="row">
-        <div class="col-6"">
-          <a type="button" class="btn btn-info btn-block btn-xs" target="_blank" href="../dist/docs/otro_ingreso/comprobante/${e.data.comprobante}"> <i class="fas fa-expand"></i></a>
-        </div>
-        <div class="col-6"">
-          <a type="button" class="btn btn-warning btn-block btn-xs" href="../dist/docs/otro_ingreso/comprobante/${e.data.comprobante}" download="comprobante - ${removeCaracterEspecial(e.data.razon_social)}"> <i class="fas fa-download"></i></a>
-        </div>
-      </div>`;
-    
-    } else {
-
-      comprobante='Sin Ficha Técnica';
-      btn_comprobante='';
-
-    }
-
-    var ver_datos_html = `                                                                            
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-          <table class="table table-hover table-bordered">        
-            <tbody>
-              <tr data-widget="expandable-table" aria-expanded="false">
-                <th>Nombres </th>
-                <td>${e.data.nombres} <br> <b>${e.data.tipo_documento}:</b> ${e.data.numero_documento} </td>
-              </tr>
-              <tr data-widget="expandable-table" aria-expanded="false">
-                <th>Forma Pago</th>
-                <td>${e.data.forma_de_pago}</td>
-              </tr>
-              <tr data-widget="expandable-table" aria-expanded="false">
-                <th>Tipo Comprobante</th>
-                <td>${e.data.tipo_comprobante}</td>
-              </tr>
-              <tr data-widget="expandable-table" aria-expanded="false">
-                <th>Núm. Comprobante</th>
-                  <td>${e.data.numero_comprobante}</td>
-              </tr>
-              <tr data-widget="expandable-table" aria-expanded="false">
-                <th>Fecha Emisión</th>
-                <td>${e.data.fecha_ingreso}</td>
-              </tr>
-              <tr data-widget="expandable-table" aria-expanded="false">
-                <th>Sub total</th>
-                <td>${e.data.precio_sin_igv}</td>
-              </tr>
-              <tr data-widget="expandable-table" aria-expanded="false">
-                <th>IGV</th>
-                <td>${e.data.precio_igv}</td>
-              </tr>
-              <tr data-widget="expandable-table" aria-expanded="false">
-                <th>Monto total</th>
-                <td>${parseFloat(e.data.precio_con_igv).toFixed(2)}</td>
-              </tr>
-              <tr data-widget="expandable-table" aria-expanded="false">
-                <th>Comprobante</th>
-                <td> ${comprobante} <br>${btn_comprobante}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>`;
-
-    $("#datos_otro_ingreso").html(ver_datos_html);
-  }).fail( function(e) { ver_errores(e); } );
-}
-
 //Función para desactivar registros
 function eliminar_paquete(idpaquete) {
 
@@ -561,117 +203,23 @@ function eliminar_paquete(idpaquete) {
   );
 }
 // :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N   P R O V E E D O R  ::::::::::::::::::::::::::::::::::::::::::::::::::::
-//Función limpiar
-function limpiar_paquete() {
-  $("#idpaquete").val("");
-  $("#nombre").val("");
-  $("#duracion").val("");
-  $("#imagen").val("");
-  
-  // Limpiamos las validaciones
-  $(".form-control").removeClass('is-valid');
-  $(".form-control").removeClass('is-invalid');
-  $(".error.invalid-feedback").remove();
-
-  $(".tooltip").removeClass("show").addClass("hidde");
-}
-
-//guardar proveedor
-function guardarpersona(e) {
-  // e.preventDefault(); //No se activará la acción predeterminada del evento
-  var formData = new FormData($("#form-persona")[0]);
-
-  $.ajax({
-    url: "../ajax/otro_ingreso.php?op=guardarpersona",
-    type: "POST",
-    data: formData,
-    contentType: false,
-    processData: false,
-    success: function (e) {
-      e = JSON.parse(e);
-
-      try {
-        if (e.status == true) {
-          // toastr.success("proveedor registrado correctamente");
-          Swal.fire("Correcto!", "Persona guardado correctamente.", "success");          
-          limpiar_persona();
-          $("#modal-agregar-persona").modal("hide");
-          //Cargamos los items al select persona
-          lista_select2("../ajax/otro_ingreso.php?op=selecct_produc_o_provee", '#idpersona', e.data);
-        } else {
-          ver_errores(e);
-        }
-      } catch (err) { console.log('Error: ', err.message); toastr_error("Error temporal!!",'Puede intentalo mas tarde, o comuniquese con:<br> <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>', 700); }       
-      
-      $("#guardar_registro_persona").html('Guardar Cambios').removeClass('disabled');
-    },
-  });
-}
-
-
-// damos formato a: Cta, CCI
-function formato_banco() {
-
-  if ($("#banco").select2("val") == null || $("#banco").select2("val") == "" || $("#banco").select2("val") == "1" ) {
-
-    $("#c_bancaria").prop("readonly", true);
-    $("#cci").prop("readonly", true);
-
-  } else {
-    
-    $(".chargue-format-1").html('<i class="fas fa-spinner fa-pulse fa-lg text-danger"></i>');
-    $(".chargue-format-2").html('<i class="fas fa-spinner fa-pulse fa-lg text-danger"></i>');
-    $(".chargue-format-3").html('<i class="fas fa-spinner fa-pulse fa-lg text-danger"></i>');    
-
-    $.post("../ajax/ajax_general.php?op=formato_banco", { 'idbanco': $("#banco").select2("val") }, function (e, status) {
-      
-      e = JSON.parse(e);  // console.log(e);
-
-      if (e.status == true) {
-        $(".chargue-format-1").html("Cuenta Bancaria");
-        $(".chargue-format-2").html("CCI");
-        $(".chargue-format-3").html("Cuenta Detracciones");
-
-        $("#c_bancaria").prop("readonly", false);
-        $("#cci").prop("readonly", false);
-
-        var format_cta = decifrar_format_banco(e.data.formato_cta);
-        var format_cci = decifrar_format_banco(e.data.formato_cci);
-        var formato_detracciones = decifrar_format_banco(e.data.formato_detracciones);
-        // console.log(format_cta, formato_detracciones);
-
-        $("#c_bancaria").inputmask(`${format_cta}`);
-        $("#cci").inputmask(`${format_cci}`);
-      } else {
-        ver_errores(e);
-      }      
-    }).fail( function(e) { ver_errores(e); } );
-  }
-}
 
 // .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
 $(function () {   
 
   // Aplicando la validacion del select cada vez que cambie
-  $("#forma_pago").on("change", function () { $(this).trigger("blur"); });
-  $("#tipo_comprobante").on("change", function () { $(this).trigger("blur"); });
-
-  $("#idpersona").on('change', function() { $(this).trigger('blur'); });
-  $("#banco").on('change', function() { $(this).trigger('blur'); });
-  $("#idtipopersona").on('change', function() { $(this).trigger('blur'); });
-
 
   $("#form-paquete").validate({
     ignore: '.select2-input, .select2-focusser',
     rules: {
       nombre:{ required: true, minlength:4, maxlength:100 },
-      duracion: { required: true, minlength:2, maxlength:20},
+      cant_dias: { required: true, minlength:2, maxlength:20},
       descripcion: { minlength:4 },
       
     },
     messages: {
       nombre:{ required: "Campo requerido", minlength: "Minimo 3 caracteres", maxlength: "Maximo 100 Caracteres" },
-      duracion: { required: "Campo requerido", min: "Minimo 2 caracteres", max: "Maximo 20 Caracteres" },
+      cant_dias: { required: "Campo requerido", min: "Minimo 2 caracteres", max: "Maximo 20 Caracteres" },
       descripcion: {minlength: "Minimo 4 Caracteres"},
     },
 
@@ -697,22 +245,9 @@ $(function () {
 
   });
 
-
-  //agregando la validacion del select  ya que no tiene un atributo name el plugin 
-  $("#forma_pago").rules("add", { required: true, messages: { required: "Campo requerido" } });
-  $("#tipo_comprobante").rules("add", { required: true, messages: { required: "Campo requerido" } });
-
-  $("#idpersona").rules('add', { required: true, messages: {  required: "Campo requerido" } });
-  $("#banco").rules('add', { required: true, messages: {  required: "Campo requerido" } });
-  $("#idtipopersona").rules('add', { required: true, messages: {  required: "Campo requerido" } });
-  
-
 });
 
 // .....::::::::::::::::::::::::::::::::::::: F U N C I O N E S    A L T E R N A S  :::::::::::::::::::::::::::::::::::::::..
-
-// restringimos la fecha para no elegir mañana
-no_select_tomorrow('#fecha_i');
 
 init();
 // ver imagen grande de la persona
