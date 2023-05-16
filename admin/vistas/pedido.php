@@ -15,6 +15,7 @@ if (!isset($_SESSION["nombre"])) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>GaleriaPaquete | Admin Fun Route</title>
+    
 
     <?php $title = "Galeria_paquete";
     require 'head.php'; ?>
@@ -228,7 +229,7 @@ if (!isset($_SESSION["nombre"])) {
                     <div class="tab-content" id="custom-tabs-two-tabContent">
                       <div class="row">
                         <div class="col-12 col-sm-12">
-                          <div class="card card-primary card-tabs">
+                          <div class="card card-orange card-tabs">
                             <div class="card-header p-0 pt-0">
                               <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
                                 <li class="nav-item">
@@ -254,20 +255,22 @@ if (!isset($_SESSION["nombre"])) {
 
                               </div>
                               <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
-                                <!-- Para mostrar itinerario-->  
+                                <!-- Para mostrar itinerario-->
                                 <div id="itinerario">
-                              
+
                                 </div>
                               </div>
                               <div class="tab-pane fade" id="custom-tabs-two-messages" role="tabpanel" aria-labelledby="custom-tabs-two-messages-tab">
-                              <!-- Para mostrar galeria del paquete-->
-                              <div id="galeria" >
+                                <!-- Para mostrar galeria del paquete-->
+                                <div id="galeria">
+
+                                </div>
 
                               </div>
-                                
-                              </div>
-                              <div class="tab-pane fade" id="custom-tabs-two-settings" role="tabpanel" aria-labelledby="custom-tabs-two-settings-tab">
-                                mapa
+                                <div class="tab-pane fade" id="custom-tabs-two-settings" role="tabpanel" aria-labelledby="custom-tabs-two-settings-tab">
+                                  <div id="mapa">
+                                      
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -275,7 +278,7 @@ if (!isset($_SESSION["nombre"])) {
                       </div>
                     </div>
 
-                    
+
 
           </section>
           <!-- /.content -->
@@ -291,7 +294,7 @@ if (!isset($_SESSION["nombre"])) {
     <!-- /.content-wrapper -->
 
     <?php require 'script.php'; ?>
-
+    
     <!-- Funciones del modulo -->
     <script type="text/javascript" src="scripts/pedido.js"></script>
 
