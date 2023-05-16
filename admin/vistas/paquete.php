@@ -73,10 +73,11 @@
                                   <th class="text-center">#</th>
                                   <th class="">Acciones</th>
                                   <th class="">Nombre</th>
-                                  <th data-toggle="tooltip" data-original-title="Duracion">Duración</th>
+                                  <th data-toggle="tooltip" data-original-title="Duración">Duración</th>
                                   <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
                                   <th>Imagen</th>
                                   <th>Itenerario</th>
+                                  <th>Galería</th>
                                 </tr>
                               </thead>
                               <tbody></tbody>
@@ -85,10 +86,11 @@
                                   <th class="text-center">#</th>
                                   <th class="">Acciones</th>
                                   <th class="">Nombre</th>
-                                  <th data-toggle="tooltip" data-original-title="Duracion">Duración</th>
+                                  <th data-toggle="tooltip" data-original-title="Duración">Duración</th>
                                   <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
                                   <th>Imagen</th>
                                   <th>Itenerario</th>
+                                  <th>Galería</th>
                                 </tr>
                               </tfoot>
                             </table>
@@ -132,11 +134,11 @@
                               </div>
                             </div>
 
-                            <!-- duracion -->
+                            <!-- cant_dias -->
                             <div class="col-lg-2">
                               <div class="form-group">
-                                <label for="duracion">Duración</label>
-                                <input type="number" name="duracion" class="form-control" id="duracion" placeholder="Duración" />
+                                <label for="cant_dias">Duración</label>
+                                <input type="number" name="cant_dias" class="form-control" id="cant_dias" placeholder="Duración" />
                               </div>
                             </div>
 
