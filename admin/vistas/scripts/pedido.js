@@ -452,11 +452,9 @@ function mostrar_pedido(idpaquete) {
       e = JSON.parse(e);
       console.log("jolll");
       console.log(e);
-
-      //$("#idpedido").val(e.data.idpedido).trigger("change");
       var imagen = (e.paquete.imagen === undefined || e.paquete.imagen === '') ? '../dist/svg/user_default.svg' : `../dist/docs/paquete/perfil/${e.paquete.imagen}`;
       verdatos = ` 
-                  <div class="col-12 col-sm-12 col-md-12 d-flex align-items-stretch flex-column">
+                <div class="col-12 col-sm-12 col-md-12 d-flex align-items-stretch flex-column">
                   <div class="card bg-light d-flex flex-fill">
                     <div class="card-body pt-0">
                       <div class="row">
@@ -468,7 +466,7 @@ function mostrar_pedido(idpaquete) {
                           </ul>
                         </div>
                         <div class="col-5 text-center">
-                          <img src="${imagen}" alt="user-avatar" class="img-circle img-fluid">
+                          <img src="${imagen}" alt="user-avatar" class="img-rounded img-fluid">
                         </div>
                       </div>
                     </div>
@@ -476,62 +474,110 @@ function mostrar_pedido(idpaquete) {
                 </div>`
 
       $("#paquete").html(verdatos);
-
-      datositinerario=`
       
-      <div class="p-2 row">
-        <div class="col-12 " id="accordion">
-          <div class="card card-primary card-outline">
-            <a class="d-block w-50" data-toggle="collapse" href="#collapseOne">
-              <div class="card-header">
-                <h4 class="card-title w-100">
-                  Mapa
-                </h4>
-              </div>
-            </a>
-            <div id="collapseOne" class="collapse show" data-parent="#accordion">
-              <div class="card-body">${e.paquete.mapa}</div>
-            </div>
-          </div>
-          <div class="card card-primary card-outline">
-            <a class="d-block w-100" data-toggle="collapse" href="#collapseTwo">
-              <div class="card-header">
-                <h4 class="card-title w-100">
-                  Incluye
-                </h4>
-              </div>
-            </a>
-            <div id="collapseTwo" class="collapse" data-parent="#accordion">
-              <div class="card-body">${e.paquete.incluye}</div>
-            </div>
-          </div>
-          <div class="card card-primary card-outline">
-            <a class="d-block w-100" data-toggle="collapse" href="#collapseTwo">
-              <div class="card-header">
-                <h4 class="card-title w-100">
-                  No Incluye
-                </h4>
-              </div>
-            </a>
-            <div id="collapseThree" class="collapse" data-parent="#accordion">
-              <div class="card-body">${e.paquete.no_incluye}</div>
-            </div>
-          </div>
-          </div>
-        </div>
-    </div>`
-      $("#itinerario").html(datositinerario);
+      var datositinerario= `
+                <div class="p-2 row">
+                  <div class="col-12 " id="accordion">
+                    <div class="card card-success card-outline">
+                      <a class="d-block w-50" data-toggle="collapse" href="#collapseOne">
+                        <div class="card-header">
+                          <h4 class="card-title w-100">
+                            Mapa
+                          </h4>
+                        </div>
+                      </a>
+                      <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                        <div class="card-body">${e.paquete.mapa}</div>
+                      </div>
+                    </div>
+                    <div class="card card-secondary card-outline">
+                      <a class="d-block w-100" data-toggle="collapse" href="#collapseTwo">
+                        <div class="card-header">
+                          <h4 class="card-title w-100">
+                            Incluye
+                          </h4>
+                        </div>
+                      </a>
+                      <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                        <div class="card-body">${e.paquete.incluye}</div>
+                      </div>
+                    </div>
+                    <div class="card card-orange card-outline">
+                      <a class="d-block w-100" data-toggle="collapse" href="#collapseTwo">
+                        <div class="card-header">
+                          <h4 class="card-title w-100">
+                            No Incluye
+                          </h4>
+                        </div>
+                      </a>
+                      <div id="collapseThree" class="collapse" data-parent="#accordion">
+                        <div class="card-body">${e.paquete.no_incluye}</div>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+              </div>`
+              $("#itinerario").html(datositinerario);
+
       var vergaleria = '';
       e.data.forEach((val, index) => {
         vergaleria = vergaleria.concat(`
-         <div class="filter-container p-2 row">
-            <img src="../dist/docs/galeria_paquete/galeria_p/${val.imagen}" class="img-fluid mb-2" alt="black sample"">
-          
-          </div>`
-        );
-        
-      });
+          <head>
+            <style>
+              #carousel {
+                width: 800px;
+                height: 400px;
+                overflow: hidden;
+                position: relative;
+                margin: 12;
+              }
+              
+              #carousel ul {
+                list-style: none;
+                width: 900px; /* Anchura total de todas las imágenes */
+                animation: carousel 10s infinite; /* Duración de la animación y bucle infinito */
+              }
+              
+              #carousel li {
+                float: left;
+              }
+              
+              @keyframes carousel {
+                0% { transform: translateX(0); }
+                30% { transform: translateX(-300px); } /* Mostrar segunda imagen */
+                60% { transform: translateX(-600px); } /* Mostrar tercera imagen */
+                100% { transform: translateX(0); } /* Volver a la primera imagen */
+              }
+            </style>
+          </head>
+          <body>
+            <div id="carousel">
+              <ul>
+                <li><img src="../dist/docs/galeria_paquete/galeria_p/${val.imagen}" alt="Imagen 1"></li>
+                
+              </ul>
+            </div>
 
+            <script>
+              // Opcional: Ajustar la duración de la animación y el tiempo de pausa entre imágenes
+              var animationDuration = 10; // Duración en segundos
+              var pauseDuration = 1; // Tiempo de pausa en segundos
+
+              var carousel = document.getElementById('carousel');
+              var carouselList = carousel.querySelector('ul');
+              var carouselItems = carousel.querySelectorAll('li');
+
+              // Calcular la anchura total del carrusel
+              var totalWidth = carouselItems.length * carousel.offsetWidth;
+              carouselList.style.width = totalWidth + 'px';
+
+              // Ajustar la duración de la animación y el tiempo de pausa entre imágenes
+              carouselList.style.animationDuration = animationDuration + 's';
+              carouselList.style.animationDelay = pauseDuration + 's';
+            </script>
+          </body>`
+        );
+      });
       $("#galeria").html(vergaleria); 
     
 
