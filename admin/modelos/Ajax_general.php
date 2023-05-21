@@ -134,7 +134,7 @@
     }
     /* ══════════════════════════════════════ TIPO Paquete  ══════════════════════════════════════ */
     public function select2_paquete() {
-      $sql = "SELECT `idpaquete`, `nombre`, `duracion`, `descripcion`, `imagen`, `estado` FROM `paquete` WHERE estado='1' AND estado_delete = '1' ORDER BY nombre ASC;";
+      $sql = "SELECT `idpaquete`, `nombre`, `cant_dias`, `cant_noches`, `descripcion`, `imagen`, `estado` FROM `paquete` WHERE estado='1' AND estado_delete = '1' ORDER BY nombre ASC;";
       return ejecutarConsulta($sql);
     }
 

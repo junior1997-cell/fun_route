@@ -15,13 +15,13 @@
     }
 
     //Implementamos un método para insertar registros
-    public function insertar($nombre, $cant_dias, $descripcion, $imagen1)
+    public function insertar($nombre, $cant_dias,$cant_noches, $descripcion, $imagen1)
     {
-      $sql ="INSERT INTO paquete(nombre, cant_dias, descripcion, imagen) VALUES ('$nombre','$cant_dias','$descripcion','$imagen1')";
+      $sql ="INSERT INTO paquete(nombre, cant_dias,cant_noches, descripcion, imagen) VALUES ('$nombre','$cant_dias','$cant_noches','$descripcion','$imagen1')";
       $crear= ejecutarConsulta_retornarID($sql); if ( $crear['status'] == false) {return $crear; }  
 
       //add registro en nuestra bitacora
-		  $sql_d = "$nombre, $cant_dias, $descripcion, $imagen1";
+		  $sql_d = "$nombre, $cant_dias,$cant_noches, $descripcion, $imagen1";
 
 		  $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5,'idpaquete','".$crear['data']."','$sql_d','$this->id_usr_sesion')";
 		  $bitacora = ejecutarConsulta_retornarID($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
@@ -30,14 +30,14 @@
     }
 
     //implementamos un metodo para editar registros
-    public function editar($idpaquete, $nombre, $cant_dias, $descripcion, $imagen1)
+    public function editar($idpaquete, $nombre, $cant_dias, $cant_noches, $descripcion, $imagen1)
     {
       // var_dump($idpago_trabajador,$idmes_pago_trabajador_p,$nombre_mes,$monto,$fecha_pago,$descripcion,$comprobante);die();
-      $sql="UPDATE paquete SET nombre='$nombre',cant_dias='$cant_dias',descripcion='$descripcion',imagen='$imagen1' WHERE idpaquete='$idpaquete';";
+      $sql="UPDATE paquete SET nombre='$nombre',cant_dias='$cant_dias',cant_noches='$cant_noches',descripcion='$descripcion',imagen='$imagen1' WHERE idpaquete='$idpaquete';";
       $editar= ejecutarConsulta($sql); if ( $editar['status'] == false) {return $editar; }  
 
       //add registro en nuestra bitacora
-		  $sql_d = "$idpaquete, $nombre, $cant_dias, $descripcion, $imagen1";
+		  $sql_d = "$idpaquete, $nombre, $cant_dias, $cant_noches, $descripcion, $imagen1";
 
 		  $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (6,'idpaquete','$idpaquete','$sql_d','$this->id_usr_sesion')";
 		  $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
@@ -84,7 +84,7 @@
     //Implementamos un método para listar los registros
     public function tbla_principal()
     {
-      $sql="SELECT idpaquete, nombre, cant_dias, descripcion, imagen, estado 
+      $sql="SELECT idpaquete, nombre, cant_dias,cant_noches, descripcion, imagen, estado 
       FROM paquete WHERE estado = 1 and estado_delete = 1";
       return ejecutarConsultaArray($sql);		
     }

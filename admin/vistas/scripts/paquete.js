@@ -39,6 +39,8 @@ function limpiar_paquete() {
   $("#idpaquete").val("");
   $("#nombre").val("");
   $("#cant_dias").val("");
+  $("#cant_noches").val("");
+  $("#descipcion").val("");
   $("#imagen").val("");
   
   // Limpiamos las validaciones
@@ -50,16 +52,19 @@ function limpiar_paquete() {
 }
 
 function show_hide_form(flag) {
-	if (flag == 1)	{		
-		$("#mostrar-tabla").show();
-    $("#mostrar-form").hide();
+	if (flag == 1)	{	// tabla principal	
+		$("#div-tabla-paquete").show();
+    $("#div-tabla-galeria").hide();
     $(".btn-regresar").hide();
-    $(".btn-agregar").show();
-	}	else	{
-		$("#mostrar-tabla").hide();
-    $("#mostrar-form").show();
+    $(".btn-agregar-paquete").show();
+    $(".btn-agregar-galeria").hide();
+    $('#h1-nombre-paquete').html('');
+	}	else if (flag == 2)	{// tabla galeria
+		$("#div-tabla-paquete").hide();
+    $("#div-tabla-galeria").show();
     $(".btn-regresar").show();
-    $(".btn-agregar").hide();
+    $(".btn-agregar-paquete").hide();
+    $(".btn-agregar-galeria").show();
 	}
 }
 
@@ -157,6 +162,7 @@ function mostrar_paquete(idpaquete) {
     $("#idpaquete").val(e.data.idpaquete).trigger("change");
     $("#nombre").val(e.data.nombre).trigger("change");
     $("#cant_dias").val(e.data.cant_dias).trigger("change");
+    $("#cant_noches").val(e.data.cant_noches).trigger("change");
     $("#descripcion").val(e.data.descripcion);
     
     if (e.data.imagen == "" || e.data.imagen == null  ) {
@@ -202,8 +208,12 @@ function eliminar_paquete(idpaquete) {
     false
   );
 }
-// :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N   P R O V E E D O R  ::::::::::::::::::::::::::::::::::::::::::::::::::::
+// :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N  GALERIA  ::::::::::::::::::::::::::::::::::::::::::::::::::::
+function entrar_a_galeria(idpaquete, nombre) {// importa el orden
 
+  show_hide_form(2);
+  $('#h1-nombre-paquete').html(`- ${nombre}`);
+}
 // .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
 $(function () {   
 
@@ -214,12 +224,14 @@ $(function () {
     rules: {
       nombre:{ required: true, minlength:4, maxlength:100 },
       cant_dias: { required: true, minlength:2, maxlength:20},
+      cant_noches: { required: true, minlength:2, maxlength:20},
       descripcion: { minlength:4 },
       
     },
     messages: {
       nombre:{ required: "Campo requerido", minlength: "Minimo 3 caracteres", maxlength: "Maximo 100 Caracteres" },
       cant_dias: { required: "Campo requerido", min: "Minimo 2 caracteres", max: "Maximo 20 Caracteres" },
+      cant_noches: { required: "Campo requerido", min: "Minimo 2 caracteres", max: "Maximo 20 Caracteres" },
       descripcion: {minlength: "Minimo 4 Caracteres"},
     },
 

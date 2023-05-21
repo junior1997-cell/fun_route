@@ -28,7 +28,7 @@
       $idpaquete	  	    = isset($_POST["idpaquete"])? limpiarCadena($_POST["idpaquete"]):"";
       $nombre             = isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
       $correo             = isset($_POST["correo"])? limpiarCadena($_POST["correo"]):"";
-      $comentario			    = isset($_POST["comentario"])? limpiarCadena($_POST["comentario"]):"";
+      $nota			          = isset($_POST["nota"])? limpiarCadena($_POST["nota"]):"";
       $fecha			        = isset($_POST["fecha"])? limpiarCadena($_POST["fecha"]):"";
       
       switch ($_GET["op"]) {
@@ -46,7 +46,7 @@
 
           if (empty($idcomentario)){
             
-            $rspta=$comentario->insertar($nombre, $correo, $comentario, $fecha, $estrella);
+           // $rspta=$comentario->insertar($nombre, $correo, $comentario, $fecha, $estrella);
             
             echo json_encode($rspta, true);
   
@@ -59,26 +59,28 @@
               if ( !empty($img1_ant) ) { unlink("../dist/docs/paquete/perfil/" . $img1_ant);  }
             }            
 
-            // editamos un comentario existente
-            $rspta=$comentario->editar($nombre, $correo, $comentario, $fecha, $estrella)
-            echo json_encode($rspta, true);
+            // editamos un paquete existente
+            //$rspta=$comentario->editar($nombre, $correo, $nota, $fecha, $estrella);
+            
+            //echo json_encode($rspta, true);
+
           }            
 
         break;
 
         case 'desactivar':
 
-          $rspta=$comentario->desactivar($_GET["id_tabla"]);
+         //$rspta=$comentario->desactivar($_GET["id_tabla"]);
 
-          echo json_encode($rspta, true);
+         // echo json_encode($rspta, true);
 
         break;
 
         case 'eliminar':
 
-          $rspta=$comentario->eliminar($_GET["id_tabla"]);
+          //$rspta=$comentario->eliminar($_GET["id_tabla"]);
 
-          echo json_encode($rspta, true);
+          //echo json_encode($rspta, true);
 
         break;
 
@@ -105,14 +107,11 @@
               
               $data[]=array(
                 "0"=>$cont++,
-                "1"=>'<button class="btn btn-info btn-sm" onclick="ver_detalle_compras(' . $value['idpaquete'] .', \''.$value['nombre']. '\')" data-toggle="tooltip" data-original-title="Ver detalle compra"><i class="fa fa-eye"></i></button>' . 
-                ' <button class="btn btn-warning btn-sm" onclick="copiar_o_ver_editar_venta(' . $value['idpaquete'] . ', 2)" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
-                ' <button class="btn btn-danger  btn-sm" onclick="eliminar_compra(' . $value['idpaquete'] .', \''.encodeCadenaHtml($value['nombre']). '\')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i> </button>',
-                "2"=>$value['nombre'],
-                "3"=>$value['correo'],
-                "4"=> '<textarea cols="30" rows="1" class="textarea_datatable" readonly="">' . $value['comentario'] . '</textarea>',
-                "5"=>$value['fecha'],
-                "6"=>$value['estrella'],
+                "1"=>$value['nombre'],
+                "2"=>$value['correo'],
+                "3"=> '<textarea cols="30" rows="1" class="textarea_datatable" readonly="">' . $value['nota'] . '</textarea>',
+                "4"=>$value['fecha'],
+                "5"=>$value['estrella'],
 
               );
             }

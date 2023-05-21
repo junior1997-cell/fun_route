@@ -35,12 +35,12 @@
                 <div class="container-fluid">
                   <div class="row mb-2">
                     <div class="col-sm-6">
-                      <h1>Paquetes</h1>
+                      <h1>Comentario</h1>
                     </div>
                     <div class="col-sm-6">
                       <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="otro_ingreso.php">Home</a></li>
-                        <li class="breadcrumb-item active">Paquetes</li>
+                        <li class="breadcrumb-item active">Comentario</li>
                       </ol>
                     </div>
                   </div>
@@ -54,15 +54,7 @@
                   <div class="row">
                     <div class="col-12">
                       <div class="card card-primary card-outline">
-                        <div class="card-header">
-                          <h3 class="card-title btn-regresar" style="display: none;">
-                            <button type="button" class="btn bg-gradient-warning" onclick="limpiar_form(); show_hide_form(1);"><i class="fas fa-arrow-left"></i> Regresar</button>                            
-                          </h3>
-                          <h3 class="card-title btn-agregar">
-                            <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-paquete" onclick="limpiar_form(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar</button>
-                            Administra de manera eficiente Paquetes.
-                          </h3>
-                        </div>
+                        
                         <!-- /.card-header -->
                         <div class="card-body">
 
@@ -71,7 +63,6 @@
                               <thead>
                                 <tr>
                                   <th class="text-center">#</th>
-                                  <th class="">Acciones</th>
                                   <th class="">Nombre</th>
                                   <th data-toggle="tooltip" data-original-title="Correo">Correo</th>
                                   <th data-toggle="tooltip" data-original-title="Comentario">Comentario</th>
@@ -83,7 +74,6 @@
                               <tfoot>
                                 <tr>
                                   <th class="text-center">#</th>
-                                  <th class="">Acciones</th>
                                   <th class="">Nombre</th>
                                   <th data-toggle="tooltip" data-original-title="Correo">Correo</th>
                                   <th data-toggle="tooltip" data-original-title="Comentario">Comentario</th>
@@ -106,73 +96,58 @@
                 <!-- /.container-fluid -->                 
                 
                 <!-- Modal agregar paquete -->
-                <div class="modal fade" id="modal-agregar-paquete">
+                <div class="modal fade" id="modal-comentario">
                   <div class="modal-dialog modal-dialog-scrollable modal-lg">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h4 class="modal-title">Agregar paquete</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span class="text-danger" aria-hidden="true">&times;</span>
-                        </button>
+ 
                       </div>
-
                       <div class="modal-body">
                         <!-- form start -->
                         <form id="form-paquete" name="form-paquete" method="POST">
                           <div class="card-body row">                               
                             
                             <!-- id paquete -->
-                            <input type="hidden" name="idpaquete" id="idpaquete" />
+                            <input type="hidden" name="idcomentario" id="idcomentario" />
 
                             <!-- Nombre -->
                             <div class="col-lg-10">
                               <div class="form-group">
                                 <label for="nombre">Nombre</label>
-                                <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Nombre del paquete" />
+                                <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Nombre" />
                               </div>
                             </div>
 
-                            <!-- duracion -->
+                            <!-- correo -->
                             <div class="col-lg-2">
                               <div class="form-group">
-                                <label for="duracion">Duración</label>
-                                <input type="number" name="duracion" class="form-control" id="duracion" placeholder="Duración" />
+                                <label for="correo">correo</label>
+                                <input type="number" name="correo" class="form-control" id="correo" placeholder="Correo" />
                               </div>
                             </div>
 
-                            <!--Descripcion-->
+                            <!--Comentario-->
                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                               <div class="form-group ">
-                                <label for="descripcion_pago">Descripción</label> <br />
-                                <textarea name="descripcion" id="descripcion" class="form-control" rows="2"></textarea>
+                                <label for="nota">Comentario</label> <br />
+                                <textarea name="nota" id="nota" class="form-control" rows="2"></textarea>
                               </div>
                             </div>
+                             <!--fecha-->
+                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                              <div class="form-group ">
+                                <label for="fecha">Fecha</label> <br />
+                                <textarea name="fecha" id="fecha" class="form-control" rows="2"></textarea>
+                              </div>
+                            </div>
+                             <!--Estrella-->
+                             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                              <div class="form-group ">
+                                <label for="estrella">Estrella</label> <br />
+                                <textarea name="estrella" id="estrella" class="form-control" rows="2"></textarea>
+                              </div>
 
-                            <!-- Factura -->
-                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6" >   
-                              <!-- linea divisoria -->
-                              <div class="borde-arriba-naranja mt-4"> </div>                            
-                              <div class="row text-center">
-                                <div class="col-md-12" style="padding-top: 15px; padding-bottom: 5px;">
-                                  <label for="cip" class="control-label" > Imagen </label>
-                                </div>
-                                <div class="col-6 col-md-6 text-center">
-                                  <button type="button" class="btn btn-success btn-block btn-xs" id="doc1_i"> <i class="fas fa-upload"></i> Subir.</button>
-                                  <input type="hidden" id="doc_old_1" name="doc_old_1" />
-                                  <input style="display: none;" id="doc1" type="file" name="doc1" accept="application/pdf, image/*" class="docpdf" /> 
-                                </div>
-                                <div class="col-6 col-md-6 text-center">
-                                  <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'otro_ingreso', 'comprobante');">
-                                  <i class="fas fa-redo"></i> Recargar.
-                                  </button>
-                                </div>
-                              </div>                              
-                              <div id="doc1_ver" class="text-center mt-4">
-                                <img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >
-                              </div>
-                              <div class="text-center" id="doc1_nombre"><!-- aqui va el nombre del pdf --></div>
                             </div>
-    
                           </div>
                           <!-- /.card-body -->
                           <button type="submit" style="display: none;" id="submit-form-comentario">Submit</button>
@@ -186,52 +161,6 @@
                   </div>
                 </div> 
 
-                <!--===============Modal-ver-comprobante =========-->
-                <div class="modal fade" id="modal-ver-comprobante">
-                  <div class="modal-dialog modal-dialog-scrollable modal-lg">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h4 class="modal-title">Paquetes: <span class="nombre_comprobante text-bold"></span> </h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span class="text-danger" aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="row">
-                          <div class="col-6 col-md-6">
-                            <a class="btn btn-xs btn-block btn-warning" href="#" id="iddescargar" download="" type="button"><i class="fas fa-download"></i> Descargar</a>
-                          </div>
-                          <div class="col-6 col-md-6">
-                            <a class="btn btn-xs btn-block btn-info" href="#" id="ver_completo"  target="_blank" type="button"><i class="fas fa-expand"></i> Ver completo.</a>
-                          </div>
-                          <div class="col-12 col-md-12 mt-2">
-                            <div id="ver_fact_pdf" width="auto"></div>
-                          </div>
-                        </div>                          
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!--MODAL - VER DETALLE DE OTRO INGRESO -->
-                <div class="modal fade" id="modal-ver-otro-ingreso">
-                  <div class="modal-dialog modal-dialog-scrollable modal-xm">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h4 class="modal-title">Datos Paquetes</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span class="text-danger" aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-
-                      <div class="modal-body"> 
-                        <div id="datos_otro_ingreso" class="class-style">
-                          <!-- vemos los datos del trabajador -->
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
               </section>
               <!-- /.content -->

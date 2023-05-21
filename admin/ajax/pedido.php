@@ -43,8 +43,15 @@
 
         case 'mostrar':
 
-          $rspta=$pedido->mostrar($idpaquete);
+          $rspta=$pedido->mostrar($idpaquete,$idpedido);
           //Codificar el resultado utilizando json
+          echo json_encode($rspta, true);
+
+        break;
+        case 'vendido':
+
+          $rspta=$pedido->vendido($_POST["idpedido"]);
+
           echo json_encode($rspta, true);
 
         break;
@@ -61,24 +68,24 @@
             foreach ($rspta['data'] as $key => $value) {        
 
               $imagen = (empty($value['imgpaquete']) ? '../dist/svg/user_default.svg' : '../dist/docs/paquete/perfil/'.$value['imgpaquete']) ;
-             
+              $estadovisto = ($value['estado_visto']==1 ? '<span class="text-center badge badge-success">Visto</span>' : '<span class="text-center badge badge-danger">No Visto</span>' );// true:false
+              $estadovendido = ($value['estado_vendido']==1 ? '<span class="text-center badge badge-success">Vendido</span>' : '<span class="text-center badge badge-danger">No Vendido</span>' );// true:false
               
               $data[]=array(
                 "0"=>$cont++,
-                "1"=>' <button class="btn btn-info btn-sm" onclick="mostrar_pedido(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Ver"><i class="fa fa-eye"></i></button>' .
+                "1"=>' <button class="btn btn-info btn-sm" onclick="mostrar_pedido(' . $value['idpaquete'] .', '.$value['idpedido']. ')" data-toggle="tooltip" data-original-title="Ver"><i class="fa fa-eye"></i></button>' .
                 ' <button class="btn btn-danger  btn-sm" onclick="eliminar_pedido(' . $value['idpedido'] .')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>'.
-                ' <button class="btn btn-success  btn-sm" onclick="ver_pedido(' . $value['idpedido'] .')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fa-solid fa-cart-shopping"></i></button>',
+                ' <button class="btn btn-success  btn-sm" onclick="vendido(' . $value['idpedido'] .')" data-toggle="tooltip" data-original-title="Vender"><i class="fa-solid fa-cart-shopping"></i></button>',
                 "2"=>'<div class="user-block">
                   <img class="profile-user-img img-responsive img-circle cursor-pointer" src="'. $imagen .'" alt="User Image" onerror="'.$imagen_error.'" onclick="ver_img_paquete(\'' . $imagen . '\', \''.encodeCadenaHtml($value['nombre']).'\');" data-toggle="tooltip" data-original-title="Ver foto">
                   <span class="username"><p class="text-primary m-b-02rem" >'. $value['paquete'] .'</p></span>
-                  <span class="description"><b>Duración: </b>'. $value['duracion'] .'  </span>
+                  <span class="description"><b>Duración: </b>'. $value['cant_dias'] .' - '.$value['cant_dias'] .'</span>
                 </div>',
                 "3"=>$value['nombre'],
                 "4"=>$value['correo'],
                 "5"=>$value['telefono'],
                 "6"=> '<textarea cols="30" rows="2" class="textarea_datatable" readonly="">' . $value['descripcionpedido'] . '</textarea>',
-                "7"=>'<span class="text-center badge badge-danger">Visto</span>'. ' <span class="text-center badge badge-danger">Vendido</span>'
-                
+                "7"=> $estadovisto .' '. $estadovendido,
 
               );
             }

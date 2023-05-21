@@ -84,7 +84,7 @@
     //Implementamos un método para listar los registros
     public function tbla_principal()
     {
-      $sql="SELECT gp.idgaleria_paquete, gp.idpaquete, gp.imagen, gp.descripcion as descripciongaleria, p.nombre, p.duracion, p.descripcion as descripcionpaquete
+      $sql="SELECT gp.idgaleria_paquete, gp.idpaquete, gp.imagen, gp.descripcion as descripciongaleria, p.nombre, p.cant_dias,p.cant_noches, p.descripcion as descripcionpaquete
       FROM galeria_paquete AS gp, paquete AS p
       WHERE gp.idpaquete=p.idpaquete AND gp.estado=1 AND p.estado=1 AND gp.estado_delete=1 AND p.estado_delete=1;";
       return ejecutarConsultaArray($sql);		
