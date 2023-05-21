@@ -15,10 +15,12 @@ if (!isset($_SESSION["nombre"])) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>GaleriaPaquete | Admin Fun Route</title>
-    
+
 
     <?php $title = "Galeria_paquete";
     require 'head.php'; ?>
+    <!-- Ekko Lightbox -->
+    <link rel="stylesheet" href="../plugins/ekko-lightbox/ekko-lightbox.css">
 
   </head>
 
@@ -219,91 +221,85 @@ if (!isset($_SESSION["nombre"])) {
               <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h4 class="modal-title">Detalle Pedido: <span class="ver_paquete text-bold"></span> </h4>
+                    <h4 class="modal-title">Detalles del pedido:</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span class="text-danger" aria-hidden="true">&times;</span>
+                      <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <!-- Mostrar en html detalles pedido-->
                   <div class="modal-body">
-                    <div class="tab-content" id="custom-tabs-two-tabContent">
-                      <div class="row">
-                        <div class="col-12 col-sm-12">
-                          <div class="card card-orange card-tabs">
-                            <div class="card-header p-0 pt-0">
-                              <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
-                                <li class="nav-item">
-                                  <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#custom-tabs-two-home" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Paquete</a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link" id="custom-tabs-two-profile-tab" data-toggle="pill" href="#custom-tabs-two-profile" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Itinerario</a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link" id="custom-tabs-two-messages-tab" data-toggle="pill" href="#custom-tabs-two-messages" role="tab" aria-controls="custom-tabs-two-messages" aria-selected="false">Galeria</a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link" id="custom-tabs-two-settings-tab" data-toggle="pill" href="#custom-tabs-two-settings" role="tab" aria-controls="custom-tabs-two-settings" aria-selected="false">Mapa</a>
-                                </li>
-                              </ul>
-                            </div>
-                            <div class="card-body">
-                              <div class="tab-pane fade show active" id="custom-tabs-two-home" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
-                                <!--cuadro de recepcion paquete-->
-                                <div id="paquete">
-
-                                </div>
-
-                              </div>
-                              <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
-                                <!-- Para mostrar itinerario-->
-                                <div id="itinerario">
-
-                                </div>
-                              </div>
-                              <div class="tab-pane fade" id="custom-tabs-two-messages" role="tabpanel" aria-labelledby="custom-tabs-two-messages-tab">
-                                <!-- Para mostrar galeria del paquete-->
-                                <div id="galeria">
-
-                                </div>
-
-                              </div>
-                                <div class="tab-pane fade" id="custom-tabs-two-settings" role="tabpanel" aria-labelledby="custom-tabs-two-settings-tab">
-                                  <div id="mapa">
-                                      
-                                </div>
-                              </div>
-                            </div>
+                    <div class="card card-orange card-tabs">
+                      <div class="card-header p-0 pt-1">
+                        <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                          <li class="nav-item">
+                            <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Paquete</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Itinerario</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Galeria</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">Mapa</a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="card-body">
+                        <div class="tab-content" id="custom-tabs-one-tabContent">
+                          <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                            <div id="paquete1"></div>
+                          </div>
+                          <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                            <div id="itinerario"></div>
+                          </div>
+                          <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+                            <div id="galeria"></div>
+                          </div>
+                          <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+                            <div id="mapa"></div>
                           </div>
                         </div>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
 
 
-          </section>
-          <!-- /.content -->
+          <?php
+        } else {
+          require 'noacceso.php';
+        }
+        require 'footer.php';
+          ?>
         </div>
+        <!-- /.content-wrapper -->
 
-      <?php
-      } else {
-        require 'noacceso.php';
-      }
-      require 'footer.php';
-      ?>
-    </div>
-    <!-- /.content-wrapper -->
+        <?php require 'script.php'; ?>
+        <!-- Ekko Lightbox -->
+        <script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+        <!-- Funciones del modulo -->
+        <script type="text/javascript" src="scripts/pedido.js"></script>
 
-    <?php require 'script.php'; ?>
-    
-    <!-- Funciones del modulo -->
-    <script type="text/javascript" src="scripts/pedido.js"></script>
+        <script>
+          $(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+          });
+        </script>
+        <script>
+          $(function() {
+            $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+              event.preventDefault();
+              $(this).ekkoLightbox({
+                alwaysShowClose: true
+              });
+            });
 
-    <script>
-      $(function() {
-        $('[data-toggle="tooltip"]').tooltip();
-      });
-    </script>
 
+          })
+        </script>
   </body>
 
   </html>

@@ -91,7 +91,7 @@
         if ($rspta['status'] == true) {
 
           foreach ($rspta['data'] as $key => $value) {
-            $data .= '<option  value=' . $value['idpaquete'] . ' >' . $value['nombre'] . ' - '. $value['duracion'] . '</option>';
+            $data .= '<option  value=' . $value['idpaquete'] . ' >' . $value['nombre'] . ' - '. $value['cant_dias'] .' - '. $value['cant_noches']. '</option>';
           }
 
           $retorno = array(

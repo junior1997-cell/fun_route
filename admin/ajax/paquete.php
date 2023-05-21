@@ -26,7 +26,8 @@
       
       $idpaquete	  	      = isset($_POST["idpaquete"])? limpiarCadena($_POST["idpaquete"]):"";
       $nombre               = isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
-      $cant_dias             = isset($_POST["cant_dias"])? limpiarCadena($_POST["cant_dias"]):"";
+      $cant_dias            = isset($_POST["cant_dias"])? limpiarCadena($_POST["cant_dias"]):"";
+      $cant_noches          = isset($_POST["cant_noches"])? limpiarCadena($_POST["cant_noches"]):"";
       $descripcion			    = isset($_POST["descripcion"])? limpiarCadena($_POST["descripcion"]):"";
       
       switch ($_GET["op"]) {
@@ -45,7 +46,7 @@
 
           if (empty($idpaquete)){
             
-            $rspta=$paquete->insertar($nombre,$cant_dias,$descripcion, $imagen1);
+            $rspta=$paquete->insertar($nombre,$cant_dias,$cant_noches,$descripcion, $imagen1);
             
             echo json_encode($rspta, true);
   
@@ -59,7 +60,7 @@
             }            
 
             // editamos un paquete existente
-            $rspta=$paquete->editar($idpaquete, $nombre, $cant_dias, $descripcion, $imagen1);
+            $rspta=$paquete->editar($idpaquete, $nombre, $cant_dias,$cant_noches, $descripcion, $imagen1);
             
             echo json_encode($rspta, true);
           }            
@@ -109,13 +110,14 @@
                 ' <button class="btn btn-warning btn-sm" onclick="mostrar_paquete(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
                 ' <button class="btn btn-danger  btn-sm" onclick="eliminar_paquete(' . $value['idpaquete'] .')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
                 "2"=>$value['nombre'],
-                "3"=>$value['cant_dias'].' Días',
+                "3"=> '<textarea cols="30" rows="1" class="textarea_datatable" readonly="">' . $value['cant_dias'].' Días' .' - '.  $value['cant_noches'].' Noches'. '</textarea>',
                 "4"=> '<textarea cols="30" rows="1" class="textarea_datatable" readonly="">' . $value['descripcion'] . '</textarea>',
                 "5"=>'<div class="user-block">
                       <img class="profile-user-img img-responsive img-circle cursor-pointer" src="'. $imagen .'" alt="User Image" onerror="'.$imagen_error.'" onclick="ver_img_paquete(\'' . $imagen . '\', \''.encodeCadenaHtml($value['nombre']).'\');" data-toggle="tooltip" data-original-title="Ver foto">
                      </div>',
                 "6"=>'<button class="btn btn-info btn-sm" onclick="itinerario(' . $value['idpaquete'] .')" data-toggle="tooltip" data-original-title="Ver itinerario"> <i class="fa fa-eye"></i></button>',
-                "7"=>'<button class="btn btn-info btn-sm" onclick="itinerario(' . $value['idpaquete'] .')" data-toggle="tooltip" data-original-title="Ver galería"> <i class="fa fa-eye"></i></button>',
+                "7"=>'<button class="btn btn-info btn-sm" onclick="entrar_a_galeria(' . $value['idpaquete'] .',\''.$value['nombre'].'\')" data-toggle="tooltip" data-original-title="Ver galería"> <i class="fa fa-eye"></i></button>', // para conkatenar el texto
+                
 
               );
             }

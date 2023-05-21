@@ -439,20 +439,23 @@ function guardar_y_editar_pedido(e) {
   });
 }
 
-function mostrar_pedido(idpaquete) {
+function mostrar_pedido(idpaquete, idpedido) {
+  //variables del array
   $("#cargando-1-fomulario").hide();
   $("#cargando-2-fomulario").show();
 
   $("#modal-ver-pedido").modal("show");
-
   $.post(
     "../ajax/pedido.php?op=mostrar",
-    { idpaquete: idpaquete },
+    { idpaquete: idpaquete, idpedido: idpedido },
     function (e, status) {
       e = JSON.parse(e);
       console.log("jolll");
       console.log(e);
-      var imagen = (e.paquete.imagen === undefined || e.paquete.imagen === '') ? '../dist/svg/user_default.svg' : `../dist/docs/paquete/perfil/${e.paquete.imagen}`;
+      var imagen =
+        e.paquete.imagen === undefined || e.paquete.imagen === ""
+          ? "../dist/svg/user_default.svg"
+          : `../dist/docs/paquete/perfil/${e.paquete.imagen}`;
       verdatos = ` 
                 <div class="col-12 col-sm-12 col-md-12 d-flex align-items-stretch flex-column">
                   <div class="card bg-light d-flex flex-fill">
@@ -460,7 +463,8 @@ function mostrar_pedido(idpaquete) {
                       <div class="row">
                         <div class="col-7">
                           <h2 class="lead"><b>${e.paquete.nombre}</b></h2>
-                          <p class="text-muted text-sm"><b>Duracion: </b> ${e.paquete.duracion}</p>
+                          <p class="text-muted text-sm"><b>Duracion de Dias: </b> ${e.paquete.cant_dias}</p>
+                          <p class="text-muted text-sm"><b>Duracion de Noches: </b> ${e.paquete.cant_noches}</p>
                           <ul class="ml-4 mb-0 fa-ul text-muted">
                             <li class="small"><span class="fa-li"></span> ${e.paquete.descripcion}</li>
                           </ul>
@@ -471,11 +475,11 @@ function mostrar_pedido(idpaquete) {
                       </div>
                     </div>
                   </div>
-                </div>`
+                </div>`;
 
-      $("#paquete").html(verdatos);
-      
-      var datositinerario= `
+      $("#paquete1").html(verdatos);
+
+      var datositinerario = `
                 <div class="p-2 row">
                   <div class="col-12 " id="accordion">
                     <div class="card card-success card-outline">
@@ -502,96 +506,52 @@ function mostrar_pedido(idpaquete) {
                         <div class="card-body">${e.paquete.incluye}</div>
                       </div>
                     </div>
-                    <div class="card card-orange card-outline">
-                      <a class="d-block w-100" data-toggle="collapse" href="#collapseTwo">
+                    <div class="card card-primary card-outline">
+                    <a class="d-block w-100" data-toggle="collapse" href="#collapseThree">
                         <div class="card-header">
-                          <h4 class="card-title w-100">
-                            No Incluye
-                          </h4>
+                            <h4 class="card-title w-100">
+                                No Incluye
+                            </h4>
                         </div>
-                      </a>
-                      <div id="collapseThree" class="collapse" data-parent="#accordion">
+                    </a>
+                    <div id="collapseThree" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
                         <div class="card-body">${e.paquete.no_incluye}</div>
-                      </div>
+                        </div>
                     </div>
-                    </div>
+                </div>
+                    
                   </div>
-              </div>`
-              $("#itinerario").html(datositinerario);
+                </div>`;
+      $("#itinerario").html(datositinerario);
 
-      var vergaleria = '';
+      var vergaleria = "";
       e.data.forEach((val, index) => {
         vergaleria = vergaleria.concat(`
-          <head>
-            <style>
-              #carousel {
-                width: 800px;
-                height: 400px;
-                overflow: hidden;
-                position: relative;
-                margin: 12;
-              }
-              
-              #carousel ul {
-                list-style: none;
-                width: 900px; /* Anchura total de todas las imágenes */
-                animation: carousel 10s infinite; /* Duración de la animación y bucle infinito */
-              }
-              
-              #carousel li {
-                float: left;
-              }
-              
-              @keyframes carousel {
-                0% { transform: translateX(0); }
-                30% { transform: translateX(-300px); } /* Mostrar segunda imagen */
-                60% { transform: translateX(-600px); } /* Mostrar tercera imagen */
-                100% { transform: translateX(0); } /* Volver a la primera imagen */
-              }
-            </style>
-          </head>
-          <body>
-            <div id="carousel">
-              <ul>
-                <li><img src="../dist/docs/galeria_paquete/galeria_p/${val.imagen}" alt="Imagen 1"></li>
-                
-              </ul>
-            </div>
+        <div class="col-sm-2">
+          <a href="../dist/docs/galeria_paquete/galeria_p/${val.imagen}?text=${
+          index + 1
+        }" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
+            <img src="../dist/docs/galeria_paquete/galeria_p/${
+              val.imagen
+            }?text=${index + 1}" class="img-fluid mb-2" alt="white sample"/>
+          </a>
+        </div>
 
-            <script>
-              // Opcional: Ajustar la duración de la animación y el tiempo de pausa entre imágenes
-              var animationDuration = 10; // Duración en segundos
-              var pauseDuration = 1; // Tiempo de pausa en segundos
-
-              var carousel = document.getElementById('carousel');
-              var carouselList = carousel.querySelector('ul');
-              var carouselItems = carousel.querySelectorAll('li');
-
-              // Calcular la anchura total del carrusel
-              var totalWidth = carouselItems.length * carousel.offsetWidth;
-              carouselList.style.width = totalWidth + 'px';
-
-              // Ajustar la duración de la animación y el tiempo de pausa entre imágenes
-              carouselList.style.animationDuration = animationDuration + 's';
-              carouselList.style.animationDelay = pauseDuration + 's';
-            </script>
-          </body>`
-        );
+       `);
       });
-      $("#galeria").html(vergaleria); 
-    
+      $("#galeria").html(`<div class="row">${vergaleria}</div>`);
 
       $(".jq_image_zoom").zoom({ on: "grab" });
 
       $("#cargando-1-fomulario").show();
       $("#cargando-2-fomulario").hide();
+      tabla_pedido.ajax.reload(null, false);
     }
   ).fail(function (e) {
     ver_errores(e);
   });
 }
-
-
 
 //Función para desactivar registros
 function eliminar_galeria_paquete(idpedido) {
@@ -616,6 +576,38 @@ function eliminar_galeria_paquete(idpedido) {
     false
   );
 }
+//Función para activar registros
+function vendido(idpedido) {
+  Swal.fire({
+    title: "¿Está Seguro que este pedido se a vendido?",
+    text: "Este pedido se registrara como vendido",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#28a745",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, vender!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.post(
+        "../ajax/pedido.php?op=vendido",
+        { idpedido: idpedido },
+        function (e) {
+          try {
+            e = JSON.parse(e);
+            if (e.status == true) {
+              Swal.fire("Vendido!", "El pedido a sido vendido.", "success");
+              tabla_pedido.ajax.reload(null, false);
+            } else {
+              ver_errores(e);
+            }
+          } catch (e) { ver_errores(e);}
+        }
+      ).fail(function (e) {
+        ver_errores(e);
+      }); // todos los post tienen que tener
+    }
+  });
+}
 // :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N   P R O V E E D O R  ::::::::::::::::::::::::::::::::::::::::::::::::::::
 //Función limpiar
 function limpiar_pedido() {
@@ -633,7 +625,6 @@ function limpiar_pedido() {
 
   $(".tooltip").removeClass("show").addClass("hidde");
 }
-
 
 // .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
 $(function () {
