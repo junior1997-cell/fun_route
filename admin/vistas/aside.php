@@ -153,7 +153,7 @@
         <li class="nav-item " id="bloc_LogisticaPaquetes">
           <a href="#" class="nav-link bg-color-2c2c2c" id="mLogisticaPaquetes" style="padding-left: 7px;">
             <i class="nav-icon far fa-circle"></i>
-            <p class="font-size-14px">LOGÍSTICA DE PAQUETES <i class="fas fa-angle-left right"></i></p>
+            <p class="font-size-14px">ADM. PAQUETES & TUORS<i class="fas fa-angle-left right"></i></p>
           </a>
           <ul class="nav nav-treeview">
 
@@ -168,33 +168,22 @@
                   <!-- Paquetes -->
                   <li class="nav-item ">
                     <a href="paquete.php" class="nav-link" id="lPaquetes">
-                      <i class="nav-icon fas fa-cart-plus"></i> <p>Paquetes</p>
+                      <i class="nav-icon fas fa-map"></i> <p>Paquetes</p>
                     </a>
                   </li>
                   <!-- Comentario -->
                   <li class="nav-item ">
                     <a href="comentario.php" class="nav-link" id="lComentario">
-                      <i class="nav-icon fas fa-tasks"></i> <p>Comentarios</p>
+                      <i class="nav-icon fas fa-comment"></i> <p>Comentarios</p>
                     </a>
                   </li> 
-                  <!-- Itinerario -->
-                  <li class="nav-item ">
-                    <a href="itinerario.php" class="nav-link" id="lItinerario">
-                      <i class="nav-icon fas fa-chart-line"></i> <p>Itinerario</p>
-                    </a>
-                  </li>
                   <!-- Galeria Paquete -->
                   <li class="nav-item ">
                     <a href="galeria_paquete.php" class="nav-link" id="lGaleriaPaquete">
-                      <i class="nav-icon fas fa-chart-line"></i> <p>Galeria Paquete</p>
+                      <i class="nav-icon fas fa-photo-video"></i> <p>Galeria Paquete</p>
                     </a>
                   </li>
-                    <!-- Pedido -->
-                  <li class="nav-item ">
-                    <a href="pedido.php" class="nav-link" id="lPedido">
-                      <i class="nav-icon fas fa-chart-line"></i> <p>Pedido</p>
-                    </a>
-                  </li>
+
                 </ul>
               </li>
             <?php  }  ?>  
@@ -202,9 +191,9 @@
             <?php if ($_SESSION['compra_grano']==1) {  ?>   
               <!-- COMPRAS -->      
               <li class="nav-item  b-radio-3px" id="bloc_ComprasGrano">
-                <a href="#" class="nav-link pl-2" id="mCompraGrano">
-                  <img src="../dist/svg/plomo-grano-cafe-ico.svg" class="nav-icon lComprasGrano-img" alt="" style="width: 21px !important;" >
-                  <p>Paquetes a Medida <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">2</span></p>
+                <a href="#" class="nav-link pl-2" id="mlPaquetesMedida">
+                <i class="fa-solid  fas fa-passport"></i>
+                  <p>Paquetes a Medida <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">3</span></p>
                 </a>
                 <ul class="nav nav-treeview">
                   <!-- Compras del proyecto -->
@@ -229,7 +218,56 @@
                   </li> 
                 </ul>
               </li>
-            <?php  }  ?>                   
+            <?php  }  ?>    
+
+
+            
+            <?php if ($_SESSION['almacen_abono']==1) {  ?>   
+              <!-- Tours -->      
+              <li class="nav-item  b-radio-3px" id="bloc_lTours">
+                <a href="#" class="nav-link pl-2" id="mlTours">
+                <i class="fa-solid fas fa-sun"></i>
+                  <p>Tours <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">3</span></p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <!-- Tours -->
+                  <li class="nav-item ">
+                    <a href="tours.php" class="nav-link" id="lTours">
+                      <i class="nav-icon fas fa-suitcase"></i> <p>Tours</p>
+                    </a>
+                  </li>
+                  <!-- Comentario -->
+                  <li class="nav-item ">
+                    <a href="comentario_tours.php" class="nav-link" id="lComentarioTours">
+                      <i class="nav-icon fas fa-comment"></i> <p>Comentarios-Tours</p>
+                    </a>
+                  </li> 
+                  <!-- Galeria Tours -->
+                  <li class="nav-item ">
+                    <a href="galeria_tours.php" class="nav-link" id="lGaleriaPaquete">
+                      <i class="nav-icon fas fa-photo-video"></i> <p>Galeria Tours</p>
+                    </a>
+                  </li>
+
+                </ul>
+              </li>
+            <?php  }  ?>  
+
+            <?php if ($_SESSION['almacen_abono']==1) {  ?>
+              <!-- RESUMEN DE GASTOS -->
+              <li class="nav-item ">
+                <!-- <a href="pedido.php" class="nav-link pl-2" id="lPedido">
+                  <i class="nav-icon fas fa-dollar-sign "></i>
+                  <p>Pedido</p>
+                </a> -->
+                <a href="pedido.php" class="nav-link pl-2" id="lPedido">
+                <i class="fa-solid  fas fa-dollar-sign"></i>
+                  <p>Pedido </p>
+                </a>
+              </li>
+            <?php  }  ?>
+            
+            
             
           </ul>
         </li> 
