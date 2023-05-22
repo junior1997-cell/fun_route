@@ -26,7 +26,7 @@ function init() {
 
   // ══════════════════════════════════════ INITIALIZE SUMERNOTE ══════════════════════════════════
   $('#incluye').summernote(); $('#no_incluye').summernote();  $('#recomendaciones').summernote();
-  $('#actividad').summernote({ placeholder: 'Descripión de las actividades', tabsize: 4, height: 300 });
+  $('#actividad').summernote({ placeholder: 'Descripión de las actividades'});
   
  // incluye,no_incluye recomendaciones
   // Formato para telefono
