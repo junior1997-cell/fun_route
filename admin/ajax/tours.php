@@ -24,10 +24,22 @@
       $imagen_error = "this.src='../dist/svg/user_default.svg'";
       $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
       
-      $idtours	  	      = isset($_POST["idtours"])? limpiarCadena($_POST["idtours"]):"";
-      $nombre               = isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
-      $cant_dias             = isset($_POST["cant_dias"])? limpiarCadena($_POST["cant_dias"]):"";
-      $descripcion			    = isset($_POST["descripcion"])? limpiarCadena($_POST["descripcion"]):"";
+      $idtours		            = isset($_POST["idtours"])? limpiarCadena($_POST["idtours"]):"";
+      $nombre                 = isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
+      $idtipo_tours           = isset($_POST["idtipo_tours"])? limpiarCadena($_POST["idtipo_tours"]):"";
+      $descripcion			      = isset($_POST["descripcion"])? limpiarCadena($_POST["descripcion"]):"";
+      $imagen1                = isset($_POST["doc1"])? limpiarCadena($_POST["doc1"]):"";
+      $incluye                = isset($_POST["incluye"])? limpiarCadena($_POST["incluye"]):"";
+      $no_incluye             = isset($_POST["no_incluye"])? limpiarCadena($_POST["no_incluye"]):"";
+      $recomendaciones        = isset($_POST["recomendaciones"])? limpiarCadena($_POST["recomendaciones"]):"";
+      $actividad              = isset($_POST["actividad"])? limpiarCadena($_POST["actividad"]):"";
+      $costo                  = isset($_POST["costo"])? limpiarCadena($_POST["costo"]):"";
+      $estado_descuento       = isset($_POST["estado_descuento"])? limpiarCadena($_POST["estado_descuento"]):"";
+      $porcentaje_descuento   = isset($_POST["porcentaje_descuento"])? limpiarCadena($_POST["porcentaje_descuento"]):"";
+      $monto_descuento        = isset($_POST["monto_descuento"])? limpiarCadena($_POST["monto_descuento"]):"";
+
+      //$idtours,$nombre,$idtipo_tours,$descripcion,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1
+
       
       switch ($_GET["op"]) {
 
@@ -45,7 +57,7 @@
 
           if (empty($idtours)){
             
-            $rspta=$tours->insertar($nombre,$cant_dias,$descripcion, $imagen1);
+            $rspta=$tours->insertar($nombre,$idtipo_tours,$descripcion,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1);
             
             echo json_encode($rspta, true);
   
@@ -59,7 +71,7 @@
             }            
 
             // editamos un tours existente
-            $rspta=$tours->editar($idtours, $nombre, $cant_dias, $descripcion, $imagen1);
+            $rspta=$tours->editar($idtours,$nombre,$idtipo_tours,$descripcion,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1);
             
             echo json_encode($rspta, true);
           }            
@@ -94,7 +106,7 @@
 
           $rspta=$tours->tbla_principal();
           
-          //Vamos a declarar un array
+          //Vamos a declarar un array En Promoción , Sin Promocionar
           $data= Array(); $cont=1;
 
           if ($rspta['status'] == true) {
@@ -102,21 +114,20 @@
             foreach ($rspta['data'] as $key => $value) {        
 
               $imagen = (empty($value['imagen']) ? '../dist/svg/user_default.svg' : '../dist/docs/tours/perfil/'.$value['imagen']) ;
+              $estado_descuento = ($value['estado_descuento']==1 ? '<span class="text-center badge badge-warning">En Promoción</span>' : '<span class="text-center badge badge-info">Sin Promocionar</span>' );// true:false
               
               $data[]=array(
                 "0"=>$cont++,
-                "1"=>'<button class="btn btn-info btn-sm" onclick="ver_detalle_compras(' . $value['idtours'] .')" data-toggle="tooltip" data-original-title="Ver detalle compra"><i class="fa fa-eye"></i></button>' . 
+                "1"=>'<button class="btn btn-info btn-sm" onclick="ver_detalle_tours(' . $value['idtours'] .')" data-toggle="tooltip" data-original-title="Ver detalle compra"><i class="fa fa-eye"></i></button>' . 
                 ' <button class="btn btn-warning btn-sm" onclick="mostrar_tours(' . $value['idtours'] . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
-                ' <button class="btn btn-danger  btn-sm" onclick="eliminar_tours(' . $value['idtours'] .')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
+                ' <button class="btn btn-danger  btn-sm" onclick="eliminar_tours(' . $value['idtours'] .'.,\'' . $value['nombre'] . '\')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
                 "2"=>$value['nombre'],
-                "3"=>$value['cant_dias'].' Días',
-                "4"=> '<textarea cols="30" rows="1" class="textarea_datatable" readonly="">' . $value['descripcion'] . '</textarea>',
-                "5"=>'<div class="user-block">
+                "3"=>$value['tipo_tours'],
+                "4"=> '<textarea cols="30" rows="2" class="textarea_datatable" readonly="">' . $value['descripcion'] . '</textarea>',
+                "5"=>'<div class="user-block center">
                       <img class="profile-user-img img-responsive img-circle cursor-pointer" src="'. $imagen .'" alt="User Image" onerror="'.$imagen_error.'" onclick="ver_img_tours(\'' . $imagen . '\', \''.encodeCadenaHtml($value['nombre']).'\');" data-toggle="tooltip" data-original-title="Ver foto">
                      </div>',
-                "6"=>'<button class="btn btn-info btn-sm" onclick="itinerario(' . $value['idtours'] .')" data-toggle="tooltip" data-original-title="Ver itinerario"> <i class="fa fa-eye"></i></button>',
-                "7"=>'<button class="btn btn-info btn-sm" onclick="itinerario(' . $value['idtours'] .')" data-toggle="tooltip" data-original-title="Ver galería"> <i class="fa fa-eye"></i></button>',
-
+                "6"=>$estado_descuento,
               );
             }
             $results = array(
@@ -146,7 +157,7 @@
             $retorno = array(
               'status' => true, 
               'message' => 'Salió todo ok', 
-              'data' => '<option value="0">NINGUNO</option>'.$data, 
+              'data' => '<option value="1">NINGUNO</option>'.$data, 
             );
     
             echo json_encode($retorno, true);

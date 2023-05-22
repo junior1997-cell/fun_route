@@ -75,11 +75,10 @@
                             <th class="text-center">#</th>
                             <th class="">Acciones</th>
                             <th class="">Nombre</th>
-                            <th data-toggle="tooltip" data-original-title="Duración">Duración</th>
+                            <th data-toggle="tooltip" data-original-title="">Tipo</th>
                             <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
                             <th>Imagen</th>
-                            <th>Itenerario</th>
-                            <th>Galería</th>
+                            <th>Estado</th>
                           </tr>
                         </thead>
                         <tbody></tbody>
@@ -88,11 +87,10 @@
                             <th class="text-center">#</th>
                             <th class="">Acciones</th>
                             <th class="">Nombre</th>
-                            <th data-toggle="tooltip" data-original-title="Duración">Duración</th>
+                            <th data-toggle="tooltip" data-original-title="">Tipo</th>
                             <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
                             <th>Imagen</th>
-                            <th>Itenerario</th>
-                            <th>Galería</th>
+                            <th>Estado</th>
                           </tr>
                         </tfoot>
                       </table>
@@ -113,7 +111,7 @@
             <div class="modal-dialog modal-dialog-scrollable modal-lg">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h4 class="modal-title">Agregar Tours</h4>
+                  <h4 class="modal-title titulo">Agregar Tours</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span class="text-danger" aria-hidden="true">&times;</span>
                   </button>
@@ -144,7 +142,7 @@
                     <div class="tab-content" id="custom-content-below-tabContent">
                       <div class="tab-pane fade show active" id="custom-content-below-home" role="tabpanel" aria-labelledby="custom-content-below-home-tab">
                         <!-- Datos tours -->
-                        <div class="card-body row">
+                        <div class="card-body row datos_tours">
                           <!-- id tours -->
                           <input type="hidden" name="idtours" id="idtours" />
 
@@ -188,7 +186,7 @@
                                 <input style="display: none;" id="doc1" type="file" name="doc1" accept="application/pdf, image/*" class="docpdf" />
                               </div>
                               <div class="col-6 col-md-6 text-center">
-                                <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'otro_ingreso', 'comprobante');"><i class="fas fa-redo"></i> Recargar.</button>
+                                <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'tours', 'perfil');"><i class="fas fa-redo"></i> Recargar.</button>
                               </div>
                             </div>
                             <div id="doc1_ver" class="text-center mt-4">
@@ -204,7 +202,7 @@
 
                       <div class="tab-pane fade" id="custom-content-below-profile" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
                         <!-- OTROS -->
-                        <div class="card-body row">
+                        <div class="card-body row otros">
                             
                           <!--incluye -->
                           <div class="col-12 col-sm-12 col-md-12 col-lg-12">
@@ -245,7 +243,7 @@
 
                       <div class="tab-pane fade" id="custom-content-below-messages" role="tabpanel" aria-labelledby="custom-content-below-messages-tab">
                         <!-- ITINERARIO -->
-                        <div class="card-body row">
+                        <div class="card-body row itinerario">
                             
                           <!--ITINERARIO -->
                           <div class="col-12 col-sm-12 col-md-12 col-lg-12">
@@ -257,9 +255,9 @@
      
                         </div>
                       </div>
-                      <!-- /.tab-panel -->
+                      <!-- /.tab-panel  datos_tours,otros,itinerario,costos-->
                       <div class="tab-pane fade" id="custom-content-below-asistencia" role="tabpanel" aria-labelledby="custom-content-below-asistencia-tab">
-                       <div class="card-body row">
+                       <div class="card-body row costos">
                           <!-- costo -->
                           <div class="col-12 col-sm-6 col-md-6 col-lg-3">
                             <div class="form-group">
@@ -301,7 +299,7 @@
                     <button type="submit" style="display: none;" id="submit-form-tours">Submit</button>
                   </form>
                 </div>
-                <div class="modal-footer justify-content-between">
+                <div class="modal-footer justify-content-between btn_footer">
                   <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                   <button type="submit" class="btn btn-success" id="guardar_registro_tours">Guardar Cambios</button>
                 </div>
