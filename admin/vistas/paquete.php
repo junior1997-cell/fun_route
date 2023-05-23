@@ -66,7 +66,7 @@ if (!isset($_SESSION["nombre"])) {
                       <h3 class="card-title btn-agregar">
                         <button type="button" class="btn bg-gradient-warning btn-regresar" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-arrow-left"></i> Regresar</button>
                         <button type="button" class="btn bg-gradient-success btn-agregar-paquete" data-toggle="modal" data-target="#modal-agregar-paquete" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar Paquete</button>
-                        <!--<button type="button" class="btn bg-gradient-success btn-agregar-galeria" data-toggle="modal" data-target="#modal-agregar-galeria_paquete" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar Galeria</button>-->
+                        <button type="button" class="btn bg-gradient-success btn-agregar-galeria" data-toggle="modal" data-target="#modal-agregar-galeria_paquete" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar Galeria</button>
 
                         Administra de manera eficiente Paquetes.
                       </h3>
