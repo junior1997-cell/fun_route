@@ -253,7 +253,12 @@ function entrar_a_galeria(idpaquete, nombre) {// importa el orden
 
 function ver_actividad(){
   $("#nombre_tours").val("");
+  var codigoHTML = '';
   var idtours=$("#idtours").val();
+  var  textarea=`<div class="form-group">
+  <label for="actividades">Descripcion Actividad </label> <br />
+  <textarea name="actividad[]" id="actividad" class="form-control"></textarea>
+</div>`;
 
   $.post("../ajax/paquete.php?op=ver_actividad", { idtours: idtours }, function (e, status) {
     
@@ -267,14 +272,44 @@ function ver_actividad(){
       agregarElemento(e.data.idtours);
       //El valor no existe en el array
       toastr.success("AGREGADO CORRECTAMENTE !!");
-      generarCodigo(); // Generar el código HTML actualizado
+      //generarCodigo(); // Generar el código HTML actualizado
+
+      for (var i = 0; i < miArray.length; i++) {
+       
+        codigoHTML = `<hr style="height: 1px; background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+                    <div class="row">
+                      <!-- Nombre Tours -->
+                      <div class="col-12 col-sm-12 col-md-8 col-lg-9">
+                        <div class="form-group">
+                          <label for="nombre_tours">Nombre <sup class="text-danger">(unico*)</sup></label>
+                          <input type="text" name="nombre_tours[]" class="form-control" id="nombre_tours" value="${e.data.nombre}" placeholder="Tours" readonly />
+                        </div>
+                      </div>
+    
+                      <!-- Numero de Dia-->
+                      <div class="col-12 col-sm-12 col-md-4 col-lg-3">
+                        <div class="form-group">
+                          <label for="idnumero_orden">Num. Día <sup class="text-danger">(unico*)</sup></label>
+                          <input type="number" name="numero_orden[]" class="form-control" id="numero_orden" placeholder="N° Día" />
+    
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                          <label for="actividades">Descripcion Actividad </label> <br />
+                          <textarea name="actividad[]" id="actividad_${i}" class="form-control"></textarea>
+                        </div>
+                      </div>
+                    </div>`;
+
+                    $(`#actividad_${i}`).summernote('code', e.data.actividad);        
+      }
+      ;
+    
+      $('.codigoGenerado').append(codigoHTML); // Agregar el contenido al elemento con el ID "codigoGenerado"
 
     }
 
-
-    $("#nombre_tours").val(e.data.nombre);
-    
-    $('#actividad').summernote ('code', e.data.actividad);
     
   }).fail( function(e) { ver_errores(e); } );
   
@@ -284,35 +319,7 @@ function ver_actividad(){
 function generarCodigo() {
   var codigoHTML = ''; // Variable para almacenar el código HTML generado
 
-  for (var i = 0; i < miArray.length; i++) {
-    codigoHTML = `<hr style="height: 1px; background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
-                <div class="row">
-                  <!-- Nombre Tours -->
-                  <div class="col-12 col-sm-12 col-md-8 col-lg-9">
-                    <div class="form-group">
-                      <label for="nombre_tours">Nombre <sup class="text-danger">(unico*)</sup></label>
-                      <input type="text" name="nombre_tours[]" class="form-control" id="nombre_tours" placeholder="Tours" readonly />
-                    </div>
-                  </div>
 
-                  <!-- Numero de Dia-->
-                  <div class="col-12 col-sm-12 col-md-4 col-lg-3">
-                    <div class="form-group">
-                      <label for="idnumero_orden">Num. Día <sup class="text-danger">(unico*)</sup></label>
-                      <input type="number" name="numero_orden[]" class="form-control" id="numero_orden" placeholder="N° Día" />
-
-                    </div>
-                  </div>
-                  <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="form-group">
-                      <label for="actividades">Descripcion Actividad </label> <br />
-                      <textarea name="actividad[]" id="actividad" class="form-control"></textarea>
-                    </div>
-                  </div>
-                </div>`
-  }
-
-  $('.codigoGenerado').append(codigoHTML); // Agregar el contenido al elemento con el ID "codigoGenerado"
 }
 
 function agregarElemento(id) {
