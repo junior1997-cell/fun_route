@@ -97,9 +97,10 @@
     // Consulta ID TOURS
     public  function selec2tours()
     {
-      $sql="SELECT idtours as id, nombre FROM tours WHERE estado=1 and estado_delete=1;";
+      // var_dump($id);die();
+      $sql="SELECT idtours as id, nombre FROM tours WHERE idtours!= 1 and estado=1 and estado_delete=1;";
       return ejecutarConsultaArray($sql);	
-
+      // var_dump($id);die();
     }
     // Consulta Actividad
     public  function ver_actividad($idtours)

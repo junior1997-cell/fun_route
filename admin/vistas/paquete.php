@@ -64,15 +64,7 @@ if (!isset($_SESSION["nombre"])) {
                   <div class="card card-primary card-outline">
                     <div class="card-header">
                       <h3 class="card-title btn-agregar">
-<<<<<<< HEAD
                       <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-paquete" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar</button>
-=======
-                        <button type="button" class="btn bg-gradient-warning btn-regresar" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-arrow-left"></i> Regresar</button>
-                        <button type="button" class="btn bg-gradient-success btn-agregar-paquete" data-toggle="modal" data-target="#modal-agregar-paquete" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar Paquete</button>
-                        <button type="button" class="btn bg-gradient-success btn-agregar-galeria" data-toggle="modal" data-target="#modal-agregar-galeria_paquete" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar Galeria</button>
-
->>>>>>> d2a3c9b7981a0d36eff174b098eee065f56dd638
-                        Administra de manera eficiente Paquetes.
                       </h3>
                       <h3 class="card-title btn-regresar"  style="display: none;">
                         <button type="button" class="btn bg-gradient-warning btn-regresar" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-arrow-left"></i> Regresar</button>
@@ -312,31 +304,9 @@ if (!isset($_SESSION["nombre"])) {
                               <div class="col-12 pl-0">
                                 <div class="text-primary"><label for="">ACTIVIDADES </label></div>
                               </div>
-                              <div class="card col-12 px-3 py-3" style="box-shadow: 0 0 1px rgb(0 0 0), 0 1px 3px rgb(0 0 0 / 60%);">
-                                <div class="row">
-                                  <!-- Nombre Tours -->
-                                  <div class="col-12 col-sm-12 col-md-8 col-lg-9">
-                                    <div class="form-group">
-                                      <label for="nombre_tours">Nombre <sup class="text-danger">(unico*)</sup></label>
-                                      <input type="text" name="nombre_tours" class="form-control" id="nombre_tours" placeholder="Tours" readonly />
-                                    </div>
-                                  </div>
-
-                                  <!-- Numero de Dia-->
-                                  <div class="col-12 col-sm-12 col-md-4 col-lg-3">
-                                    <div class="form-group">
-                                      <label for="idnumero_orden">Num. Día <sup class="text-danger">(unico*)</sup></label>
-                                      <input type="number" name="numero_orden" class="form-control" id="numero_orden" placeholder="N° Día" />
-
-                                    </div>
-                                  </div>
-                                  <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="form-group">
-                                      <label for="actividades">Descripcion Actividad </label> <br />
-                                      <textarea name="actividad" id="actividad" class="form-control"></textarea>
-                                    </div>
-                                  </div>
-                                </div>
+                              <div class="card col-12 px-3 py-3 codigoGenerado" style="box-shadow: 0 0 1px rgb(0 0 0), 0 1px 3px rgb(0 0 0 / 60%);" >
+                                  <!-- agregando -->
+                                  
                               </div>
 
                             </div>

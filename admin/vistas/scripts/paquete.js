@@ -1,4 +1,5 @@
 var tabla_paquete;
+var miArray = [];
 
 //Función que se ejecuta al inicio
 function init() {
@@ -16,7 +17,7 @@ function init() {
   
   tbla_principal();
    // ══════════════════════════════════════ S E L E C T 2 ═════════════════════════════════════════
-   lista_select2("../ajax/paquete.php?op=selec2tours", '#idtours', null);
+   lista_select2(`../ajax/paquete.php?op=selec2tours`, '#idtours', null);
    
   // ══════════════════════════════════════ INITIALIZE SELECT2 ════════════════════════════════════
   $("#idtours").select2({theme:"bootstrap4", placeholder: "Selec. tours.", allowClear: true, });
@@ -249,13 +250,28 @@ function entrar_a_galeria(idpaquete, nombre) {// importa el orden
   $('#h1-nombre-paquete').html(`- ${nombre}`);
 }
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::Capturar JQUERRY:::::::::::::::::::::::::::::::::::::::::::::
+
 function ver_actividad(){
   $("#nombre_tours").val("");
   var idtours=$("#idtours").val();
-  console.log(idtours);
+
   $.post("../ajax/paquete.php?op=ver_actividad", { idtours: idtours }, function (e, status) {
     
-    e = JSON.parse(e); console.log('jolll'); console.log(e);    
+    e = JSON.parse(e); console.log(e);  
+
+    // Utilizando el método includes()
+    if (miArray.includes(e.data.idtours)) {
+      // "El valor existe en el array
+      toastr.warning("NO ES POSIBLE AGREGAR NUEVAMENTE !!");
+    } else {
+      agregarElemento(e.data.idtours);
+      //El valor no existe en el array
+      toastr.success("AGREGADO CORRECTAMENTE !!");
+      generarCodigo(); // Generar el código HTML actualizado
+
+    }
+
+
     $("#nombre_tours").val(e.data.nombre);
     
     $('#actividad').summernote ('code', e.data.actividad);
@@ -263,6 +279,46 @@ function ver_actividad(){
   }).fail( function(e) { ver_errores(e); } );
   
 
+}
+
+function generarCodigo() {
+  var codigoHTML = ''; // Variable para almacenar el código HTML generado
+
+  for (var i = 0; i < miArray.length; i++) {
+    codigoHTML = `<hr style="height: 1px; background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+                <div class="row">
+                  <!-- Nombre Tours -->
+                  <div class="col-12 col-sm-12 col-md-8 col-lg-9">
+                    <div class="form-group">
+                      <label for="nombre_tours">Nombre <sup class="text-danger">(unico*)</sup></label>
+                      <input type="text" name="nombre_tours[]" class="form-control" id="nombre_tours" placeholder="Tours" readonly />
+                    </div>
+                  </div>
+
+                  <!-- Numero de Dia-->
+                  <div class="col-12 col-sm-12 col-md-4 col-lg-3">
+                    <div class="form-group">
+                      <label for="idnumero_orden">Num. Día <sup class="text-danger">(unico*)</sup></label>
+                      <input type="number" name="numero_orden[]" class="form-control" id="numero_orden" placeholder="N° Día" />
+
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                      <label for="actividades">Descripcion Actividad </label> <br />
+                      <textarea name="actividad[]" id="actividad" class="form-control"></textarea>
+                    </div>
+                  </div>
+                </div>`
+  }
+
+  $('.codigoGenerado').append(codigoHTML); // Agregar el contenido al elemento con el ID "codigoGenerado"
+}
+
+function agregarElemento(id) {
+ if (!miArray.includes(id)) {
+    miArray.push(id);
+  }
 }
 
 // .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
