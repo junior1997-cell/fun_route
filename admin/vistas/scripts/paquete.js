@@ -15,10 +15,19 @@ function init() {
   $("#lPaquetes").addClass("active");
   
   tbla_principal();
+   // ══════════════════════════════════════ S E L E C T 2 ═════════════════════════════════════════
+   lista_select2("../ajax/paquete.php?op=selec2tours", '#idtours', null);
+   
+  // ══════════════════════════════════════ INITIALIZE SELECT2 ════════════════════════════════════
+  $("#idtours").select2({theme:"bootstrap4", placeholder: "Selec. tours.", allowClear: true, });
 
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════ 
   $("#guardar_registro_paquete").on("click", function (e) { $("#submit-form-paquete").submit(); });
-
+  $('#descripcion').summernote();
+  $('#incluye').summernote();
+  $('#no_incluye').summernote();
+  $('#recomendaciones').summernote();
+  $('#actividad').summernote();
   // Formato para telefono
   $("[data-mask]").inputmask();
 }
@@ -36,12 +45,22 @@ function doc1_eliminar() {
 
 //Función limpiar
 function limpiar_paquete() {
+   // Paquete
   $("#idpaquete").val("");
   $("#nombre").val("");
   $("#cant_dias").val("");
   $("#cant_noches").val("");
   $("#descipcion").val("");
   $("#imagen").val("");
+
+  //OTROS
+  $("#incluye").val("");
+  $("#no_incluye").val("");
+  $("#recomendaciones").val("");
+  $("#mapa").val("");
+
+  // COSTOS
+  $("#costo").val("");
   
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
@@ -60,8 +79,8 @@ function show_hide_form(flag) {
     $(".btn-agregar-galeria").hide();
     $('#h1-nombre-paquete').html('');
 	}	else if (flag == 2)	{// tabla galeria
-		$("#div-tabla-paquete").hide();
-    $("#div-tabla-galeria").show();
+		$("#div-tabla-paquete").show();
+    $("#div-tabla-galeria").hide();
     $(".btn-regresar").show();
     $(".btn-agregar-paquete").hide();
     $(".btn-agregar-galeria").show();
@@ -159,11 +178,26 @@ function mostrar_paquete(idpaquete) {
     
     e = JSON.parse(e); console.log('jolll'); console.log(e);    
 
+    // Paquete
     $("#idpaquete").val(e.data.idpaquete).trigger("change");
     $("#nombre").val(e.data.nombre).trigger("change");
     $("#cant_dias").val(e.data.cant_dias).trigger("change");
     $("#cant_noches").val(e.data.cant_noches).trigger("change");
     $("#descripcion").val(e.data.descripcion);
+    
+    //Otros
+    $("#incluye").val(e.data.incluye);
+    $("#no_incluye").val(e.data.no_incluye);
+    $("#recomendaciones").val(e.data.recomendaciones);
+    $("#mapa").val(e.data.mapa);
+    
+    //Costo
+    $("#estado_descuento").val(e.data.estado_descuento);
+    $("#porcentaje_descuento").val(e.data.porcentaje_descuento);
+    $("#monto_descuento").val(e.data.monto_descuento);
+   
+
+
     
     if (e.data.imagen == "" || e.data.imagen == null  ) {
 
@@ -214,6 +248,23 @@ function entrar_a_galeria(idpaquete, nombre) {// importa el orden
   show_hide_form(2);
   $('#h1-nombre-paquete').html(`- ${nombre}`);
 }
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::Capturar JQUERRY:::::::::::::::::::::::::::::::::::::::::::::
+function ver_actividad(){
+  $("#nombre_tours").val("");
+  var idtours=$("#idtours").val();
+  console.log(idtours);
+  $.post("../ajax/paquete.php?op=ver_actividad", { idtours: idtours }, function (e, status) {
+    
+    e = JSON.parse(e); console.log('jolll'); console.log(e);    
+    $("#nombre_tours").val(e.data.nombre);
+    
+    $('#actividad').summernote ('code', e.data.actividad);
+    
+  }).fail( function(e) { ver_errores(e); } );
+  
+
+}
+
 // .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
 $(function () {   
 
@@ -269,4 +320,60 @@ function ver_img_paquete(file, nombre) {
   $("#modal-ver-imagen-paquete").modal("show");
   $('#imagen-paquete').html(`<span class="jq_image_zoom"><img class="img-thumbnail" src="${file}" onerror="this.src='../dist/svg/404-v2.svg';" alt="Perfil" width="100%"></span>`);
   $('.jq_image_zoom').zoom({ on:'grab' });
+}
+
+function calcular_monto_descuento() { 
+
+  var costo =$('#costo').val(); 
+    
+  var porcentaje =$('#porcentaje_descuento').val(); 
+
+  if (porcentaje==null || porcentaje=="") {
+    toastr.warning("Porcentaje no asignado !!");
+    
+  }else{
+    var calculando = (costo*porcentaje)/100;
+
+    console.log(calculando);
+
+    $('#monto_descuento').val(calculando)
+
+  }
+
+}
+
+function funtion_switch() {  
+  $("#estado_descuento").val(0);
+
+  var isChecked = $('#estado_switch').prop('checked');
+
+  if (isChecked) {
+
+    $("#estado_descuento").val(1)
+    $('#porcentaje_descuento').removeAttr('readonly'); 
+
+    var costo =$('#costo').val(); 
+
+    if (costo==null || costo=="") {
+  
+      toastr.warning("Precio Regualr no asignado !!");
+      $('#porcentaje_descuento').attr('readonly', 'readonly');
+        
+    }else{
+
+      $('#porcentaje_descuento').removeAttr('readonly'); 
+
+      calcular_monto_descuento();
+    }
+
+  } else {
+
+    $("#estado_descuento").val(0);
+
+    $("#porcentaje_descuento").val('0');
+    $("#monto_descuento").val('0.00');
+    $('#porcentaje_descuento').attr('readonly', 'readonly');
+
+  }
+
 }
