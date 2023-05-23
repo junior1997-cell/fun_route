@@ -59,11 +59,14 @@ if (!isset($_SESSION["nombre"])) {
                   <div class="card card-primary card-outline">
                     <div class="card-header">
                       <h3 class="card-title btn-agregar">
-                        <button type="button" class="btn bg-gradient-warning btn-regresar" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-arrow-left"></i> Regresar</button>
-                        <button type="button" class="btn bg-gradient-success btn-agregar-paquete" data-toggle="modal" data-target="#modal-agregar-paquete" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar Paquete</button>
-                        <button type="button" class="btn bg-gradient-success btn-agregar-galeria" data-toggle="modal" data-target="#modal-agregar-galeria" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar Galeria</button>
-                        <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-galeria_paquete" onclick="limpiar_galeria_paquete(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar</button>
+                      <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-paquete" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar</button>
                         Administra de manera eficiente Paquetes.
+                      </h3>
+                      <h3 class="card-title btn-regresar"  style="display: none;">
+                        <button type="button" class="btn bg-gradient-warning btn-regresar" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-arrow-left"></i> Regresar</button>
+                      </h3>
+                      <h3 class="card-title btn-agregar-galeria"  style="display: none;">
+                        <button type="button" class="btn bg-gradient-success btn-agregar-galeria" data-toggle="modal" data-target="#modal-agregar-galeria" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar Galeria</button>
                       </h3>
 
                     </div>
@@ -99,7 +102,7 @@ if (!isset($_SESSION["nombre"])) {
                           </tfoot>
                         </table>
                       </div>
-                      <div id="div-tabla-galeria">
+                      <div id="div-tabla-galeria"  style="display: none;">
                         <table id="tabla-galeria" class="table table-bordered table-striped display" style="width: 100% !important;">
                           <thead>
                             <tr>
