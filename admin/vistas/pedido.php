@@ -247,17 +247,87 @@ if (!isset($_SESSION["nombre"])) {
                       <div class="card-body">
                         <div class="tab-content" id="custom-tabs-one-tabContent">
                           <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-                            <div id="paquete1"></div>
+                            <!-- form start -->
+                            <form id="form-paquete" name="form-paquete" method="POST">
+                              <div class="card-body row">
+
+                                <!-- id paquete -->
+                                <input type="hidden" name="idpaquete" id="idpaquete" />
+
+                                <!-- Nombre -->
+                                <div class="col-lg-8">
+                                  <div class="form-group">
+                                    <label for="nombre">Nombre</label>
+                                    <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Nombre del paquete" />
+                                  </div>
+                                </div>
+
+                                <!-- cant_dias -->
+                                <div class="col-lg-2">
+                                  <div class="form-group">
+                                    <label for="cant_dias">Duración</label>
+                                    <input type="number" name="cant_dias" class="form-control" id="cant_dias" placeholder="Dias" />
+                                  </div>
+                                </div>
+                                <!-- cant_dias -->
+                                <div class="col-lg-2">
+                                  <div class="form-group">
+                                    <label for="cant_noches">Duración</label>
+                                    <input type="number" name="cant_noches" class="form-control" id="cant_noches" placeholder="Noches" />
+                                  </div>
+                                </div>
+
+                                <!--Descripcion-->
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                  <div class="form-group ">
+                                    <label for="descripcion_pago">Descripción</label> <br />
+                                    <textarea name="descripcion" id="descripcion" class="form-control" rows="2"></textarea>
+                                  </div>
+                                </div>
+
+                                <!-- Factura -->
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                  <!-- linea divisoria -->
+                                  <div class="borde-arriba-naranja mt-4"> </div>
+                                  <div class="row text-center">
+                                    <div class="col-md-12" style="padding-top: 15px; padding-bottom: 5px;">
+                                      <label for="cip" class="control-label"> Imagen </label>
+                                    </div>
+                                    <div class="col-6 col-md-6 text-center">
+                                      <button type="button" class="btn btn-success btn-block btn-xs" id="doc1_i"> <i class="fas fa-upload"></i> Subir.</button>
+                                      <input type="hidden" id="doc_old_1" name="doc_old_1" />
+                                      <input style="display: none;" id="doc1" type="file" name="doc1" accept="application/pdf, image/*" class="docpdf" />
+                                    </div>
+                                    <div class="col-6 col-md-6 text-center">
+                                      <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'otro_ingreso', 'comprobante');">
+                                        <i class="fas fa-redo"></i> Recargar.
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <div id="doc1_ver" class="text-center mt-4">
+                                    <img src="../dist/svg/doc_uploads.svg" alt="" width="50%">
+                                  </div>
+                                  <div class="text-center" id="doc1_nombre"><!-- aqui va el nombre del pdf --></div>
+                                </div>
+
+                              </div>
+                              <!-- /.card-body -->
+                              <button type="submit" style="display: none;" id="submit-form-paquete">Submit</button>
+                            </form>
                           </div>
-                          <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-                            <div id="itinerario"></div>
+                          <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success" id="guardar_registro_paquete">Guardar Cambios</button>
                           </div>
-                          <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
-                            <div id="galeria"></div>
-                          </div>
-                          <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
-                            <div id="mapa"></div>
-                          </div>
+                        </div>
+                        <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                          <div id="itinerario"></div>
+                        </div>
+                        <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+                          <div id="galeria"></div>
+                        </div>
+                        <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+                          <div id="mapa"></div>
                         </div>
                       </div>
                     </div>
@@ -265,41 +335,42 @@ if (!isset($_SESSION["nombre"])) {
                 </div>
               </div>
             </div>
-
-
-
-          <?php
-        } else {
-          require 'noacceso.php';
-        }
-        require 'footer.php';
-          ?>
         </div>
-        <!-- /.content-wrapper -->
 
-        <?php require 'script.php'; ?>
-        <!-- Ekko Lightbox -->
-        <script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
-        <!-- Funciones del modulo -->
-        <script type="text/javascript" src="scripts/pedido.js"></script>
 
-        <script>
-          $(function() {
-            $('[data-toggle="tooltip"]').tooltip();
+
+      <?php
+      } else {
+        require 'noacceso.php';
+      }
+      require 'footer.php';
+      ?>
+    </div>
+    <!-- /.content-wrapper -->
+
+    <?php require 'script.php'; ?>
+    <!-- Ekko Lightbox -->
+    <script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+    <!-- Funciones del modulo -->
+    <script type="text/javascript" src="scripts/pedido.js"></script>
+
+    <script>
+      $(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+    </script>
+    <script>
+      $(function() {
+        $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+          event.preventDefault();
+          $(this).ekkoLightbox({
+            alwaysShowClose: true
           });
-        </script>
-        <script>
-          $(function() {
-            $(document).on('click', '[data-toggle="lightbox"]', function(event) {
-              event.preventDefault();
-              $(this).ekkoLightbox({
-                alwaysShowClose: true
-              });
-            });
+        });
 
 
-          })
-        </script>
+      })
+    </script>
   </body>
 
   </html>
