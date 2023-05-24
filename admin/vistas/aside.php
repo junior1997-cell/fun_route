@@ -236,7 +236,7 @@
                       <i class="nav-icon fas fa-suitcase"></i> <p>Tours</p>
                     </a>
                   </li>
-                  <!-- Comentario -->
+                  <!-- Comentario Tours -->
                   <li class="nav-item ">
                     <a href="comentario_tours.php" class="nav-link" id="lComentarioTours">
                       <i class="nav-icon fas fa-comment"></i> <p>Comentarios-Tours</p>

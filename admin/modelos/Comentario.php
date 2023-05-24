@@ -14,20 +14,6 @@
       $this->id_usr_sesion = $id_usr_sesion;
     }
 
-    //Implementamos un método para insertar registros
-    public function insertar($nombre, $correo, $nota, $fecha, $estrella)
-    {
-      $sql ="INSERT INTO `comentario`(`nombre`, `correo`, `comentario`, `fecha`, `estrella`) VALUES ('$nombre','$correo','$nota','$fecha','$estrella')";
-      return ejecutarConsulta($sql);
-    }
-
-    //implementamos un metodo para editar registros
-    public function editar($idcomentario,$idpaquete, $nombre, $correo, $nota, $fecha, $estrella)
-    {
-      // var_dump($idpago_trabajador,$idmes_pago_trabajador_p,$nombre_mes,$monto,$fecha_pago,$descripcion,$comprobante);die();
-      $sql="";
-      return ejecutarConsulta($sql);
-    }
 
     public function mostrar($idcomentario)
     {
@@ -39,7 +25,8 @@
     //Implementamos un método para listar los registros
     public function tbla_principal()
     {
-      $sql="SELECT c.idcomentario, c.idpaquete, c.nombre, c.correo, c.nota, c.fecha, c.estrella ,p.nombre, p.cant_dias,p.cant_noches, p.descripcion FROM comentario as c , paquete as p WHERE c.idpaquete=p.idpaquete";
+      $sql="SELECT c.idcomentario_paquete, c.idpaquete, c.nombre, c.correo, c.comentario, c.fecha, c.estrella ,p.nombre, p.cant_dias,p.cant_noches, p.descripcion FROM comentario_paquete as c , paquete as p WHERE c.idpaquete=p.idpaquete";
+      
       return ejecutarConsultaArray($sql);		
     }
     //total pagos por  total_pago_trabajador
