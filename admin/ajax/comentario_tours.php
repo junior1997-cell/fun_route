@@ -15,9 +15,9 @@
     //Validamos el acceso solo al usuario logueado y autorizado.
     if ($_SESSION['recurso'] == 1) {
 
-      require_once "../modelos/Comentario.php";
+      require_once "../modelos/Comentario_tours.php";
 
-      $comentario = new Comentario($_SESSION['idusuario']);
+      $comentario_tours = new Comentario_tours($_SESSION['idusuario']);
 
       date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y h.i.s A");
 
@@ -25,7 +25,7 @@
       $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
       
       $idcomentario	  	  = isset($_POST["idcomentario"])? limpiarCadena($_POST["idcomentario"]):"";
-      $idpaquete	  	    = isset($_POST["idpaquete"])? limpiarCadena($_POST["idpaquete"]):"";
+      $idtours	  	      = isset($_POST["idtours"])? limpiarCadena($_POST["idtours"]):"";
       $nombre             = isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
       $correo             = isset($_POST["correo"])? limpiarCadena($_POST["correo"]):"";
       $nota			          = isset($_POST["nota"])? limpiarCadena($_POST["nota"]):"";
@@ -86,7 +86,7 @@
 
         case 'mostrar':
 
-          $rspta=$comentario->mostrar($idcomentario);
+          $rspta=$comentario_tours->mostrar($idcomentario_tours);
           //Codificar el resultado utilizando json
           echo json_encode($rspta, true);
 
@@ -94,7 +94,7 @@
 
         case 'tbla_principal':          
 
-          $rspta=$comentario->tbla_principal();
+          $rspta=$comentario_tours->tbla_principal();
           
           //Vamos a declarar un array
           $data= Array(); $cont=1;
@@ -107,11 +107,14 @@
               
               $data[]=array(
                 "0"=>$cont++,
-                "1"=>$value['nombre'],
-                "2"=>$value['correo'],
-                "3"=> '<textarea cols="30" rows="1" class="textarea_datatable" readonly="">' . $value['comentario'] . '</textarea>',
-                "4"=>$value['fecha'],
-                "5"=>$value['estrella'],
+                "1"=>'<div class="user-block">
+                        <span class="username"><p class="text-primary m-b-02rem" >'. $value['nombre'] .'</p></span>
+                        </div>',
+                "2"=>$value['name_comentario'],
+                "3"=>$value['correo'],
+                "4"=> '<textarea cols="30" rows="2" class="textarea_datatable" readonly="">' . $value['comentario'] . '</textarea>',
+                "5"=>$value['fecha'],
+                "6"=>$value['estrella'],
 
               );
             }

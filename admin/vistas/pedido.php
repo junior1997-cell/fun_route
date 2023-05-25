@@ -132,7 +132,7 @@ if (!isset($_SESSION["nombre"])) {
                       <div class="card-body row">
 
                         <!-- id pedido -->
-                        <input type="hidden" name="idpedido" id="idpedido" />
+                        <input type="hidden" name="idpedido_paquete" id="idpedido_paquete" />
 
                         <!-- Id paquete -->
                         <div class="col-12 col-sm-12 col-md-12 col-lg-12">

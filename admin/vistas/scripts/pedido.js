@@ -439,7 +439,7 @@ function guardar_y_editar_pedido(e) {
   });
 }
 
-function mostrar_pedido(idpaquete, idpedido) {
+function mostrar_pedido(idpaquete, idpedido_paquete) {
   //variables del array
   $("#cargando-1-fomulario").hide();
   $("#cargando-2-fomulario").show();
@@ -447,7 +447,7 @@ function mostrar_pedido(idpaquete, idpedido) {
   $("#modal-ver-pedido").modal("show");
   $.post(
     "../ajax/pedido.php?op=mostrar",
-    { idpaquete: idpaquete, idpedido: idpedido },
+    { idpaquete: idpaquete, idpedido_paquete: idpedido_paquete },
     function (e, status) {
       e = JSON.parse(e);
       console.log("jolll");
@@ -554,11 +554,11 @@ function mostrar_pedido(idpaquete, idpedido) {
 }
 
 //Función para desactivar registros
-function eliminar_galeria_paquete(idpedido) {
+function eliminar_galeria_paquete(idpedido_paquete) {
   crud_eliminar_papelera(
     "../ajax/pedido.php?op=desactivar",
     "../ajax/pedido.php?op=eliminar",
-    idpedido,
+    idpedido_paquete,
     "!Elija una opción¡",
     `<b class="text-danger"><del>...</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`,
     function () {
@@ -577,7 +577,7 @@ function eliminar_galeria_paquete(idpedido) {
   );
 }
 //Función para activar registros
-function vendido(idpedido) {
+function vendido(idpedido_paquete) {
   Swal.fire({
     title: "¿Está Seguro que este pedido se a vendido?",
     text: "Este pedido se registrara como vendido",
@@ -590,7 +590,7 @@ function vendido(idpedido) {
     if (result.isConfirmed) {
       $.post(
         "../ajax/pedido.php?op=vendido",
-        { idpedido: idpedido },
+        { idpedido_paquete: idpedido_paquete },
         function (e) {
           try {
             e = JSON.parse(e);
@@ -611,7 +611,7 @@ function vendido(idpedido) {
 // :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N   P R O V E E D O R  ::::::::::::::::::::::::::::::::::::::::::::::::::::
 //Función limpiar
 function limpiar_pedido() {
-  $("#idpedido").val("");
+  $("#idpedido_paquete").val("");
   $("#idpaquete").val("");
   $("#idnombre").val("");
   $("#idcorreo").val("");

@@ -24,7 +24,7 @@
       $imagen_error = "this.src='../dist/svg/user_default.svg'";
       $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
       
-      $idpedido	  	                = isset($_POST["idpedido"])? limpiarCadena($_POST["idpedido"]):"";
+      $idpedido_paquete	  	                = isset($_POST["idpedido_paquete"])? limpiarCadena($_POST["idpedido_paquete"]):"";
       $idpaquete	  	              = isset($_POST["idpaquete"])? limpiarCadena($_POST["idpaquete"]):"";
       $nombre	  	                  = isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
       $correo	  	                  = isset($_POST["correo"])? limpiarCadena($_POST["correo"]):"";
@@ -43,14 +43,14 @@
 
         case 'mostrar':
 
-          $rspta=$pedido->mostrar($idpaquete,$idpedido);
+          $rspta=$pedido->mostrar($idpaquete,$idpedido_paquete);
           //Codificar el resultado utilizando json
           echo json_encode($rspta, true);
 
         break;
         case 'vendido':
 
-          $rspta=$pedido->vendido($_POST["idpedido"]);
+          $rspta=$pedido->vendido($_POST["idpedido_paquete"]);
 
           echo json_encode($rspta, true);
 
@@ -73,9 +73,9 @@
               
               $data[]=array(
                 "0"=>$cont++,
-                "1"=>' <button class="btn btn-info btn-sm" onclick="mostrar_pedido(' . $value['idpaquete'] .', '.$value['idpedido']. ')" data-toggle="tooltip" data-original-title="Ver"><i class="fa fa-eye"></i></button>' .
-                ' <button class="btn btn-danger  btn-sm" onclick="eliminar_pedido(' . $value['idpedido'] .')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>'.
-                ' <button class="btn btn-success  btn-sm" onclick="vendido(' . $value['idpedido'] .')" data-toggle="tooltip" data-original-title="Vender"><i class="fa-solid fa-cart-shopping"></i></button>',
+                "1"=>' <button class="btn btn-info btn-sm" onclick="mostrar_pedido(' . $value['idpaquete'] .', '.$value['idpedido_paquete']. ')" data-toggle="tooltip" data-original-title="Ver"><i class="fa fa-eye"></i></button>' .
+                ' <button class="btn btn-danger  btn-sm" onclick="eliminar_pedido(' . $value['idpedido_paquete'] .')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>'.
+                ' <button class="btn btn-success  btn-sm" onclick="vendido(' . $value['idpedido_paquete'] .')" data-toggle="tooltip" data-original-title="Vender"><i class="fa-solid fa-cart-shopping"></i></button>',
                 "2"=>'<div class="user-block">
                   <img class="profile-user-img img-responsive img-circle cursor-pointer" src="'. $imagen .'" alt="User Image" onerror="'.$imagen_error.'" onclick="ver_img_paquete(\'' . $imagen . '\', \''.encodeCadenaHtml($value['nombre']).'\');" data-toggle="tooltip" data-original-title="Ver foto">
                   <span class="username"><p class="text-primary m-b-02rem" >'. $value['paquete'] .'</p></span>
