@@ -28,7 +28,7 @@ function init() {
   $('#incluye').summernote();
   $('#no_incluye').summernote();
   $('#recomendaciones').summernote();
-  $('#actividad').summernote();
+  // $('#actividad').summernote();
   // Formato para telefono
   $("[data-mask]").inputmask();
 }
@@ -252,7 +252,7 @@ function entrar_a_galeria(idpaquete, nombre) {// importa el orden
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::Capturar JQUERRY:::::::::::::::::::::::::::::::::::::::::::::
 
 function ver_actividad(){
-  $("#nombre_tours").val("");
+  // $("#nombre_tours").val("");
   var codigoHTML = '';
   var idtours=$("#idtours").val();
   var  textarea=`<div class="form-group">
@@ -275,9 +275,14 @@ function ver_actividad(){
       //generarCodigo(); // Generar el código HTML actualizado
 
       for (var i = 0; i < miArray.length; i++) {
+
+        console.log(miArray);
        
-        codigoHTML = `<hr style="height: 1px; background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
-                    <div class="row">
+        codigoHTML = `<hr class="tours_${e.data.idtours}" style="height: 1px; background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+                    <div class="row tours_${e.data.idtours}">
+                    <div class="col-12 text-center">
+                      <span class="text-danger cursor-pointer" aria-hidden="true" data-toggle="tooltip" data-original-title="Eliminar" onclick="eliminar_tours(${e.data.idtours})" >&times;</span>
+                    </div>
                       <!-- Nombre Tours -->
                       <div class="col-12 col-sm-12 col-md-8 col-lg-9">
                         <div class="form-group">
@@ -297,16 +302,19 @@ function ver_actividad(){
                       <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                         <div class="form-group">
                           <label for="actividades">Descripcion Actividad </label> <br />
-                          <textarea name="actividad[]" id="actividad_${i}" class="form-control"></textarea>
+                          <textarea name="actividad[]" id="actividad" class="form-control actividad">${ e.data.actividad}</textarea>
                         </div>
                       </div>
                     </div>`;
 
-                    $(`#actividad_${i}`).summernote('code', e.data.actividad);        
+                   
+                    // console.log('i '+i);     
       }
-      ;
+      
     
       $('.codigoGenerado').append(codigoHTML); // Agregar el contenido al elemento con el ID "codigoGenerado"
+      $(`.actividad`).summernote();   
+      $('[data-toggle="tooltip"]').tooltip();
 
     }
 
@@ -316,9 +324,8 @@ function ver_actividad(){
 
 }
 
-function generarCodigo() {
-  var codigoHTML = ''; // Variable para almacenar el código HTML generado
-
+function eliminar_tours(id) {
+  $(`.tours_${id}`).remove();
 
 }
 
