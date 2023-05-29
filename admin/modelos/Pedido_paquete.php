@@ -2,7 +2,7 @@
   //Incluímos inicialmente la conexión a la base de datos
   require "../config/Conexion_v2.php";
   // global $total;
-  class Pedido
+  class Pedido_paquete
   {
 
     //Implementamos nuestro variable global
@@ -37,44 +37,51 @@
 		  return $eliminar;
     }
     //mostrar en un arrary los datos para pasar al html
-    public function mostrar($idpaquete,$idpedido)
+    public function mostrar($idpaquete,$idpedido_paquete)
     {
       $data = [];
 
-      $sql_1="SELECT p.idpaquete, p.nombre, p.cant_dias, p.cant_noches, p.descripcion, p.imagen FROM paquete as p WHERE p.idpaquete='$idpaquete';";
+      $sql_1="SELECT p.idpaquete, p.nombre, p.cant_dias, p.cant_noches, p.descripcion, p.imagen,p.incluye,p.no_incluye,
+      p.recomendaciones,p.mapa,p.costo,p.estado_descuento,p.porcentaje_descuento,monto_descuento 
+      FROM paquete as p WHERE p.idpaquete='$idpaquete';";
       $datospaquete = ejecutarConsultaSimpleFila($sql_1); if ($datospaquete['status'] == false) { return  $datospaquete;}
       
-      //$sql_2="UPDATE pedido_paquete SET estado_visto='1' WHERE idpedido='$idpedido';";
-      //$visto = ejecutarConsulta($sql_2); if ($visto['status'] == false) { return  $visto;}
+      $sql_2="UPDATE pedido_paquete SET estado_visto='1' WHERE idpedido_paquete='$idpedido_paquete';";
+      $visto = ejecutarConsulta($sql_2); if ($visto['status'] == false) { return  $visto;}
 
-      $sql_3="SELECT i.iditinerario, i.mapa, i.incluye, i.no_incluye,i.recomendaciones FROM itinerario as i WHERE i.idpaquete='$idpaquete';";
-      $datositinerario = ejecutarConsultaSimpleFila($sql_3); if ($datositinerario['status'] == false) { return  $datositinerario;}
+      $sql_3="SELECT i.iditinerario, i.idpaquete, i.idtours, i.actividad, i.numero_orden, t.nombre as tours 
+      FROM itinerario as i, tours as t WHERE i.idtours=t.idtours and i.idpaquete='$idpaquete';";
+      $datositinerario = ejecutarConsultaArray($sql_3); if ($datositinerario['status'] == false) { return  $datositinerario;}
 
-      $sql_4="SELECT gp.idgaleria_paquete, gp.imagen,gp.descripcion FROM galeria_paquete as gp WHERE gp.idpaquete='$idpaquete';";
-      $datosgaleria = ejecutarConsultaArray($sql_4); if ($datosgaleria['status'] == false) { return  $datosgaleria;}
-
-      foreach ($datosgaleria['data'] as $key => $value) {
+      foreach ($datositinerario['data'] as $key => $value) {
         
         $data[] = array(
           'orden'               => $key+1,
-          'idgaleria_paquete'   => $value['idgaleria_paquete'],  
-          'imagen'              => $value['imagen'], 
-          'descripcion'         => $value['descripcion'], 
+          'iditinerario'        => $value['iditinerario'],  
+          'idpaquete'           => $value['idpaquete'], 
+          'idtours'             => $value['idtours'], 
+          'actividad'           => $value['actividad'], 
+          'numero_orden'        => $value['numero_orden'], 
+          'tours'               => $value['tours'], 
            
         );
       }
         $paquete = [
-          'idpaquete'         => $datospaquete['data']['idpaquete'],
-          'nombre'            => $datospaquete['data']['nombre'],
-          'cant_dias'         => $datospaquete['data']['cant_dias'],
-          'cant_noches'       => $datospaquete['data']['cant_noches'],
-          'descripcion'       => $datospaquete['data']['descripcion'],
-          'imagen'            => $datospaquete['data']['imagen'],
-          'iditinerario'      => $datositinerario['data']['iditinerario'],
-          'mapa'              => $datositinerario['data']['mapa'],
-          'incluye'           => $datositinerario['data']['incluye'],
-          'no_incluye'        => $datositinerario['data']['no_incluye'],
-          'recomendaciones'   => $datositinerario['data']['recomendaciones'],
+          'idpaquete'                     => $datospaquete['data']['idpaquete'],
+          'nombre'                        => $datospaquete['data']['nombre'],
+          'cant_dias'                     => $datospaquete['data']['cant_dias'],
+          'cant_noches'                   => $datospaquete['data']['cant_noches'],
+          'descripcion'                   => $datospaquete['data']['descripcion'],
+          'imagen'                        => $datospaquete['data']['imagen'],
+          'incluye'                       => $datospaquete['data']['incluye'],
+          'no_incluye'                    => $datospaquete['data']['no_incluye'],
+          'recomendaciones'               => $datospaquete['data']['recomendaciones'],
+          'mapa'                          => $datospaquete['data']['mapa'],
+          'costo'                         => $datospaquete['data']['costo'],
+          'estado_descuento'              => $datospaquete['data']['estado_descuento'],
+          'porcentaje_descuento'          => $datospaquete['data']['porcentaje_descuento'],
+          'monto_descuento'               => $datospaquete['data']['monto_descuento'],
+          
         ];
       
       return $retorno=['status'=>true, 'message'=>'todo oka ps', 'data'=>$data,'paquete'=>$paquete];

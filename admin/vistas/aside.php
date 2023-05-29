@@ -260,7 +260,7 @@
                   <i class="nav-icon fas fa-dollar-sign "></i>
                   <p>Pedido</p>
                 </a> -->
-                <a href="pedido.php" class="nav-link pl-2" id="lPedido">
+                <a href="pedido_paquete.php" class="nav-link pl-2" id="lPedido_paquete">
                 <i class="fa-solid  fas fa-dollar-sign"></i>
                   <p>Pedido </p>
                 </a>

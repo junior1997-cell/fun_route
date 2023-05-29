@@ -19,8 +19,10 @@ if (!isset($_SESSION["nombre"])) {
 
     <?php $title = "Galeria_paquete";
     require 'head.php'; ?>
+
     <!-- Ekko Lightbox -->
     <link rel="stylesheet" href="../plugins/ekko-lightbox/ekko-lightbox.css">
+    <link rel="stylesheet" href="../dist/css/switch.css">
 
   </head>
 
@@ -79,7 +81,7 @@ if (!isset($_SESSION["nombre"])) {
                               <th class="text-center">#</th>
                               <th class="">Acciones</th>
                               <th class="">Nombre Paquete </th>
-                              <th class="">Nombre Pedido </th>
+                              <th class="">Nombre Cliente </th>
                               <th class="">Correo </th>
                               <th class="">Telefono </th>
                               <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
@@ -177,7 +179,7 @@ if (!isset($_SESSION["nombre"])) {
                         <div class="col-md-12" style="padding-top: 15px; padding-bottom: 5px;">
                           <label for="cip" class="control-label"> Imagen </label>
                         </div>
-                        <div class="col-6 col-md-6 text-center">
+                        <div class="col-2 col-md-2 text-center">
                           <button type="button" class="btn btn-success btn-block btn-xs" id="doc1_i"> <i class="fas fa-upload"></i> Subir.</button>
                           <input type="hidden" id="doc_old_1" name="doc_old_1" />
                           <input style="display: none;" id="doc1" type="file" name="doc1" accept="application/pdf, image/*" class="docpdf" />
@@ -221,7 +223,7 @@ if (!isset($_SESSION["nombre"])) {
               <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h4 class="modal-title">Detalles del pedido:</h4>
+                    <h4 class="modal-title">Detalles del Paquete:</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -234,100 +236,37 @@ if (!isset($_SESSION["nombre"])) {
                             <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Paquete</a>
                           </li>
                           <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Itinerario</a>
+                            <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Detalles</a>
                           </li>
                           <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Galeria</a>
+                            <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill" href="#custom-tabs-one-messages" role="tab" aria-controls="custom-tabs-one-messages" aria-selected="false">Itinerario</a>
                           </li>
                           <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">Mapa</a>
+                            <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">otros</a>
                           </li>
                         </ul>
                       </div>
                       <div class="card-body">
                         <div class="tab-content" id="custom-tabs-one-tabContent">
                           <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-                            <!-- form start -->
-                            <form id="form-paquete" name="form-paquete" method="POST">
-                              <div class="card-body row">
+                            
+                            <div id="paquete1"></div>
 
-                                <!-- id paquete -->
-                                <input type="hidden" name="idpaquete" id="idpaquete" />
-
-                                <!-- Nombre -->
-                                <div class="col-lg-8">
-                                  <div class="form-group">
-                                    <label for="nombre">Nombre</label>
-                                    <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Nombre del paquete" />
-                                  </div>
-                                </div>
-
-                                <!-- cant_dias -->
-                                <div class="col-lg-2">
-                                  <div class="form-group">
-                                    <label for="cant_dias">Duración</label>
-                                    <input type="number" name="cant_dias" class="form-control" id="cant_dias" placeholder="Dias" />
-                                  </div>
-                                </div>
-                                <!-- cant_dias -->
-                                <div class="col-lg-2">
-                                  <div class="form-group">
-                                    <label for="cant_noches">Duración</label>
-                                    <input type="number" name="cant_noches" class="form-control" id="cant_noches" placeholder="Noches" />
-                                  </div>
-                                </div>
-
-                                <!--Descripcion-->
-                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                                  <div class="form-group ">
-                                    <label for="descripcion_pago">Descripción</label> <br />
-                                    <textarea name="descripcion" id="descripcion" class="form-control" rows="2"></textarea>
-                                  </div>
-                                </div>
-
-                                <!-- Factura -->
-                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                  <!-- linea divisoria -->
-                                  <div class="borde-arriba-naranja mt-4"> </div>
-                                  <div class="row text-center">
-                                    <div class="col-md-12" style="padding-top: 15px; padding-bottom: 5px;">
-                                      <label for="cip" class="control-label"> Imagen </label>
-                                    </div>
-                                    <div class="col-6 col-md-6 text-center">
-                                      <button type="button" class="btn btn-success btn-block btn-xs" id="doc1_i"> <i class="fas fa-upload"></i> Subir.</button>
-                                      <input type="hidden" id="doc_old_1" name="doc_old_1" />
-                                      <input style="display: none;" id="doc1" type="file" name="doc1" accept="application/pdf, image/*" class="docpdf" />
-                                    </div>
-                                    <div class="col-6 col-md-6 text-center">
-                                      <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'otro_ingreso', 'comprobante');">
-                                        <i class="fas fa-redo"></i> Recargar.
-                                      </button>
-                                    </div>
-                                  </div>
-                                  <div id="doc1_ver" class="text-center mt-4">
-                                    <img src="../dist/svg/doc_uploads.svg" alt="" width="50%">
-                                  </div>
-                                  <div class="text-center" id="doc1_nombre"><!-- aqui va el nombre del pdf --></div>
-                                </div>
-
-                              </div>
-                              <!-- /.card-body -->
-                              <button type="submit" style="display: none;" id="submit-form-paquete">Submit</button>
-                            </form>
                           </div>
-                          <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-success" id="guardar_registro_paquete">Guardar Cambios</button>
+                          <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                           
+                            <div id="detalles"></div> 
+
                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-                          <div id="itinerario"></div>
-                        </div>
-                        <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
-                          <div id="galeria"></div>
-                        </div>
-                        <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
-                          <div id="mapa"></div>
+                          <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
+                            
+                          <div id="veritinerario"></div>
+                          </div>
+                          <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+                            
+                            
+
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -349,10 +288,11 @@ if (!isset($_SESSION["nombre"])) {
     <!-- /.content-wrapper -->
 
     <?php require 'script.php'; ?>
+   
     <!-- Ekko Lightbox -->
     <script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
     <!-- Funciones del modulo -->
-    <script type="text/javascript" src="scripts/pedido.js"></script>
+    <script type="text/javascript" src="scripts/pedido_paquete.js"></script>
 
     <script>
       $(function() {

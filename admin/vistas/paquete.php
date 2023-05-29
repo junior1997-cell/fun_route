@@ -64,12 +64,12 @@ if (!isset($_SESSION["nombre"])) {
                   <div class="card card-primary card-outline">
                     <div class="card-header">
                       <h3 class="card-title btn-agregar">
-                      <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-paquete" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar</button>
+                        <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-paquete" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar</button>
                       </h3>
-                      <h3 class="card-title btn-regresar"  style="display: none;">
+                      <h3 class="card-title btn-regresar" style="display: none;">
                         <button type="button" class="btn bg-gradient-warning btn-regresar" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-arrow-left"></i> Regresar</button>
                       </h3>
-                      <h3 class="card-title btn-agregar-galeria"  style="display: none;">
+                      <h3 class="card-title btn-agregar-galeria" style="display: none;">
                         <button type="button" class="btn bg-gradient-success btn-agregar-galeria" data-toggle="modal" data-target="#modal-agregar-galeria" onclick="limpiar_paquete(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar Galeria</button>
                       </h3>
 
@@ -105,7 +105,7 @@ if (!isset($_SESSION["nombre"])) {
                           </tfoot>
                         </table>
                       </div>
-                      <div id="div-tabla-galeria"  style="display: none;">
+                      <div id="div-tabla-galeria" style="display: none;">
                         <table id="tabla-galeria" class="table table-bordered table-striped display" style="width: 100% !important;">
                           <thead>
                             <tr>
@@ -304,9 +304,9 @@ if (!isset($_SESSION["nombre"])) {
                               <div class="col-12 pl-0">
                                 <div class="text-primary"><label for="">ACTIVIDADES </label></div>
                               </div>
-                              <div class="card col-12 px-3 py-3 codigoGenerado" style="box-shadow: 0 0 1px rgb(0 0 0), 0 1px 3px rgb(0 0 0 / 60%);" >
-                                  <!-- agregando -->
-                                  
+                              <div class="card col-12 px-3 py-3 codigoGenerado" style="box-shadow: 0 0 1px rgb(0 0 0), 0 1px 3px rgb(0 0 0 / 60%);">
+                                <!-- agregando -->
+
                               </div>
 
                             </div>
@@ -381,10 +381,10 @@ if (!isset($_SESSION["nombre"])) {
                 </div>
               </div>
 
-          </section>
-          <!-- /.content -->
-        </div>
-        <!-- Tabla Galeria-->
+            </section>
+            <!-- /.content -->
+          </div>
+          <!-- Tabla Galeria-->
 
 
       <?php
