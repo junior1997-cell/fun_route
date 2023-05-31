@@ -15,16 +15,16 @@
     //Validamos el acceso solo al usuario logueado y autorizado.
     if ($_SESSION['recurso'] == 1) {
 
-      require_once "../modelos/Pedido.php";
+      require_once "../modelos/Pedido_paquete.php";
 
-      $pedido = new Pedido($_SESSION['idusuario']);
+      $pedido = new Pedido_paquete($_SESSION['idusuario']);
 
       date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y h.i.s A");
 
       $imagen_error = "this.src='../dist/svg/user_default.svg'";
       $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
       
-      $idpedido_paquete	  	                = isset($_POST["idpedido_paquete"])? limpiarCadena($_POST["idpedido_paquete"]):"";
+      $idpedido_paquete	  	        = isset($_POST["idpedido_paquete"])? limpiarCadena($_POST["idpedido_paquete"]):"";
       $idpaquete	  	              = isset($_POST["idpaquete"])? limpiarCadena($_POST["idpaquete"]):"";
       $nombre	  	                  = isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
       $correo	  	                  = isset($_POST["correo"])? limpiarCadena($_POST["correo"]):"";
@@ -48,6 +48,7 @@
           echo json_encode($rspta, true);
 
         break;
+        
         case 'vendido':
 
           $rspta=$pedido->vendido($_POST["idpedido_paquete"]);

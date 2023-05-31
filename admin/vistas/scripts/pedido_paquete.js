@@ -6,13 +6,13 @@ function init() {
 
   $("#bloc_LogisticaPaquetes").addClass("menu-open");
 
-  $("#bloc_lPedido").addClass("menu-open bg-color-191f24");
+  $("#bloc_lPedido_paquete").addClass("menu-open bg-color-191f24");
 
   //$("#mlPedido").addClass("active");
 
-  $("#mlPedido").addClass("active bg-green");
+  $("#mlPedido_paquete").addClass("active bg-green");
 
-  $("#lPedido").addClass("active");
+  $("#lPedido_paquete").addClass("active");
 
   tbla_principal();
 
@@ -133,7 +133,7 @@ function tbla_principal() {
       dom: "<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
       buttons: ["copyHtml5", "excelHtml5", "pdf"],
       ajax: {
-        url: "../ajax/pedido.php?op=tbla_principal",
+        url: "../ajax/pedido_paquete.php?op=tbla_principal",
         type: "get",
         dataType: "json",
         error: function (e) {
@@ -399,7 +399,7 @@ function guardar_y_editar_pedido(e) {
   var formData = new FormData($("#form-galeria-pedido")[0]);
 
   $.ajax({
-    url: "../ajax/pedido.php?op=guardar_y_editar_pedido",
+    url: "../ajax/pedido_paquete.php?op=guardar_y_editar_pedido",
     type: "POST",
     data: formData,
     contentType: false,
@@ -446,7 +446,7 @@ function mostrar_pedido(idpaquete, idpedido_paquete) {
 
   $("#modal-ver-pedido").modal("show");
   $.post(
-    "../ajax/pedido.php?op=mostrar",
+    "../ajax/pedido_paquete.php?op=mostrar",
     { idpaquete: idpaquete, idpedido_paquete: idpedido_paquete },
     function (e, status) {
       e = JSON.parse(e);
@@ -463,11 +463,14 @@ function mostrar_pedido(idpaquete, idpedido_paquete) {
                       <div class="row">
                         <div class="col-7">
                           <h2 class="lead"><b>${e.paquete.nombre}</b></h2>
-                          <p class="text-muted text-sm"><b>Duracion de Dias: </b> ${e.paquete.cant_dias}</p>
-                          <p class="text-muted text-sm"><b>Duracion de Noches: </b> ${e.paquete.cant_noches}</p>
+                          <p class="text-muted text-sm"> ${e.paquete.cant_dias} <b> Dias</b> / ${e.paquete.cant_noches} <b> Noches</b></p>
+                          <ul class="ml-4 mb-0 fa-ul text-muted">
+                            <label for="costo">Precio = S/. ${e.paquete.costo} </label>
+                          </ul>
                           <ul class="ml-4 mb-0 fa-ul text-muted">
                             <li class="small"><span class="fa-li"></span> ${e.paquete.descripcion}</li>
                           </ul>
+                          
                         </div>
                         <div class="col-5 text-center">
                           <img src="${imagen}" alt="user-avatar" class="img-rounded img-fluid">
@@ -479,7 +482,7 @@ function mostrar_pedido(idpaquete, idpedido_paquete) {
 
       $("#paquete1").html(verdatos);
 
-      var datositinerario = `
+      var datosdetalle = `
                 <div class="p-2 row">
                   <div class="col-12 " id="accordion">
                     <div class="card card-success card-outline">
@@ -506,7 +509,7 @@ function mostrar_pedido(idpaquete, idpedido_paquete) {
                         <div class="card-body">${e.paquete.incluye}</div>
                       </div>
                     </div>
-                    <div class="card card-primary card-outline">
+                    <div class="card card-orange card-outline">
                     <a class="d-block w-100" data-toggle="collapse" href="#collapseThree">
                         <div class="card-header">
                             <h4 class="card-title w-100">
@@ -519,11 +522,43 @@ function mostrar_pedido(idpaquete, idpedido_paquete) {
                         <div class="card-body">${e.paquete.no_incluye}</div>
                         </div>
                     </div>
-                </div>
+                    </div>
+                    <div class="card card-gray card-outline">
+                    <a class="d-block w-100" data-toggle="collapse" href="#collapseFour">
+                        <div class="card-header">
+                            <h4 class="card-title w-100">
+                                Recomendaciones
+                            </h4>
+                        </div>
+                    </a>
+                    <div id="collapseFour" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                        <div class="card-body">${e.paquete.descripcion}</div>
+                        </div>
+                    </div>
+                    </div>
                     
                   </div>
                 </div>`;
-      $("#itinerario").html(datositinerario);
+      $("#detalles").html(datosdetalle);
+
+      var datositinerario=`
+                  
+                    
+                        <div>
+                          
+                          <h2 class="lead"><b>${e.data.nombre}</b></h2>
+                        </div>
+                      
+    
+                    
+                     
+                        <div>
+                          
+                          <li class="small"><span class="fa-li"></span> ${e.data.actividad}</li>
+                        </div>
+                     `
+                    $("#veritinerario").html(datositinerario);
 
       var vergaleria = "";
       e.data.forEach((val, index) => {
@@ -556,8 +591,8 @@ function mostrar_pedido(idpaquete, idpedido_paquete) {
 //Función para desactivar registros
 function eliminar_galeria_paquete(idpedido_paquete) {
   crud_eliminar_papelera(
-    "../ajax/pedido.php?op=desactivar",
-    "../ajax/pedido.php?op=eliminar",
+    "../ajax/pedido_paquete.php?op=desactivar",
+    "../ajax/pedido_paquete.php?op=eliminar",
     idpedido_paquete,
     "!Elija una opción¡",
     `<b class="text-danger"><del>...</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`,
@@ -589,7 +624,7 @@ function vendido(idpedido_paquete) {
   }).then((result) => {
     if (result.isConfirmed) {
       $.post(
-        "../ajax/pedido.php?op=vendido",
+        "../ajax/pedido_paquete.php?op=vendido",
         { idpedido_paquete: idpedido_paquete },
         function (e) {
           try {
@@ -693,7 +728,7 @@ init();
 function ver_img_paquete(file, nombre) {
   $(".nombre-paquete").html(nombre);
   $(".tooltip").removeClass("show").addClass("hidde");
-  $("#modal-ver-imagen-paquete").modal("show");
+  $("#modal-ver-imagen-paquet").modal("show");
   $("#imagen-paquete").html(
     `<span class="jq_image_zoom"><img class="img-thumbnail" src="${file}" onerror="this.src='../dist/svg/404-v2.svg';" alt="Perfil" width="100%"></span>`
   );
