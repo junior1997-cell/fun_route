@@ -83,11 +83,12 @@ if (!isset($_SESSION["nombre"])) {
                             <tr>
                               <th class="text-center">#</th>
                               <th class="">Acciones</th>
-                              <th class="">Nombre</th>
+                              <th class="">Paquete</th>
                               <th data-toggle="tooltip" data-original-title="Duración">Duración</th>
                               <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
                               <th>Imagen</th>
-
+                              <th>Precio Regular</th>
+                              <th>Estado</th>
                             </tr>
                           </thead>
                           <tbody></tbody>
@@ -95,46 +96,18 @@ if (!isset($_SESSION["nombre"])) {
                             <tr>
                               <th class="text-center">#</th>
                               <th class="">Acciones</th>
-                              <th class="">Nombre</th>
+                              <th class="">Paquete</th>
                               <th data-toggle="tooltip" data-original-title="Duración">Duración</th>
                               <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
                               <th>Imagen</th>
+                              <th>Precio Regular</th>
+                              <th>Estado</th>
 
 
                             </tr>
                           </tfoot>
                         </table>
                       </div>
-                      <div id="div-tabla-galeria"  style="display: none;">
-                        <table id="tabla-galeria" class="table table-bordered table-striped display" style="width: 100% !important;">
-                          <thead>
-                            <tr>
-                              <th class="text-center">#</th>
-                              <th class="">Acciones</th>
-                              <th class="">Nombre</th>
-                              <th data-toggle="tooltip" data-original-title="Duración">Duración</th>
-                              <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
-                              <th>Imagen</th>
-                              <th>Itenerario</th>
-                              <th>Galería</th>
-                            </tr>
-                          </thead>
-                          <tbody></tbody>
-                          <tfoot>
-                            <tr>
-                              <th class="text-center">#</th>
-                              <th class="">Acciones</th>
-                              <th class="">Nombre</th>
-                              <th data-toggle="tooltip" data-original-title="Duración">Duración</th>
-                              <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
-                              <th>Imagen</th>
-                              <th>Costo</th>
-                              <th>Galería</th>
-                            </tr>
-                          </tfoot>
-                        </table>
-                      </div>
-
                     </div>
                     <!-- /.card-body -->
                   </div>
@@ -148,7 +121,7 @@ if (!isset($_SESSION["nombre"])) {
 
             <!-- Modal agregar paquete -->
             <div class="modal fade" id="modal-agregar-paquete">
-              <div class="modal-dialog modal-dialog-scrollable modal-lg">
+              <div class="modal-dialog modal-dialog-scrollable modal-xl">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h4 class="modal-title">Agregar</h4>
@@ -220,7 +193,7 @@ if (!isset($_SESSION["nombre"])) {
                                 </div>
                               </div>
 
-                              <!-- Factura -->
+                              <!-- IMAGEN -->
                               <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                 <!-- linea divisoria -->
                                 <div class="borde-arriba-naranja mt-4"></div>
@@ -290,14 +263,14 @@ if (!isset($_SESSION["nombre"])) {
                             <!-- ITINERARIO -->
                             <div class="card-body row itinerario">
                               <!--ITINERARIO -->
-                              <!--<div class="col-12 col-sm-12 col-md-12 col-lg-12">-->
 
                               <!-- Id Tours -->
                               <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-group">
-                                  <label for="idtours">Tours <sup class="text-danger">(unico*)</sup></label>
-                                  <select name="idtours" id="idtours" class="form-control select2" style="width: 100%;" onchange="ver_actividad();">
+                                  <label for="list_tours">Tours <sup class="text-danger">(unico*)</sup></label>
+                                  <select name="list_tours" id="list_tours" class="form-control select2" style="width: 100%;" onchange="ver_actividad();">
                                   </select>
+                                  
                                 </div>
                               </div>
 
@@ -306,6 +279,10 @@ if (!isset($_SESSION["nombre"])) {
                               </div>
                               <div class="card col-12 px-3 py-3 codigoGenerado" style="box-shadow: 0 0 1px rgb(0 0 0), 0 1px 3px rgb(0 0 0 / 60%);" >
                                   <!-- agregando -->
+                                  <div class="alert alert-warning alert-dismissible alerta">
+                                    <h5><i class="icon fas fa-exclamation-triangle"></i> Alerta!</h5>
+                                    NO TIENES NUNGINA ACTIVIDAD ASIGNADA A TU PAQUETE
+                                  </div>
                                   
                               </div>
 
@@ -318,7 +295,7 @@ if (!isset($_SESSION["nombre"])) {
                               <div class="col-12 col-sm-6 col-md-6 col-lg-3">
                                 <div class="form-group">
                                   <label for="costo">Precio Regular</label>
-                                  <input type="text" name="costo" class="form-control" id="costo" placeholder="Precio Regular" onkeyup="funtion_switch();" />
+                                  <input type="number" name="costo" class="form-control" id="costo" placeholder="Precio Regular" onkeyup="funtion_switch();" />
                                 </div>
                               </div>
                               <!-- Estado descuento -->
@@ -361,9 +338,8 @@ if (!isset($_SESSION["nombre"])) {
                   </div>
                 </div>
               </div>
-              <!--modal de agregar galeria-->
 
-              <!-- MODAL - imagen valor-->
+              <!-- MODAL - imagen-->
               <div class="modal fade bg-color-02020280" id="modal-ver-imagen-paquete">
                 <div class="modal-dialog modal-dialog-centered modal-md">
                   <div class="modal-content bg-color-0202022e shadow-none border-0">
