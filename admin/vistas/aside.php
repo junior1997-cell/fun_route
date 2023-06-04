@@ -171,9 +171,9 @@
                       <i class="nav-icon fas fa-map"></i> <p>Paquetes</p>
                     </a>
                   </li>
-                  <!-- Comentario -->
+                  <!-- Comentario_paquete -->
                   <li class="nav-item ">
-                    <a href="comentario.php" class="nav-link" id="lComentario">
+                    <a href="comentario_paquete.php" class="nav-link" id="lComentario_paquete">
                       <i class="nav-icon fas fa-comment"></i> <p>Comentarios</p>
                     </a>
                   </li> 

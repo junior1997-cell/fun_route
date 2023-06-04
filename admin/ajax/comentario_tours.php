@@ -68,19 +68,35 @@
 
         break;
 
+        case 'verificar':
+
+          $rspta=$comentario_tours->verificar($_POST["idcomentario_tours"]);
+ 
+           echo json_encode($rspta, true);
+ 
+        break;
+
+        case 'no_verificar':
+
+          $rspta=$comentario_tours->no_verificar($_POST["idcomentario_tours"]);
+ 
+           echo json_encode($rspta, true);
+ 
+        break;
+
         case 'desactivar':
 
-         //$rspta=$comentario->desactivar($_GET["id_tabla"]);
+         $rspta=$comentario_tours->desactivar($_GET["id_tabla"]);
 
-         // echo json_encode($rspta, true);
+          echo json_encode($rspta, true);
 
         break;
 
         case 'eliminar':
 
-          //$rspta=$comentario->eliminar($_GET["id_tabla"]);
+          $rspta=$comentario_tours->eliminar($_GET["id_tabla"]);
 
-          //echo json_encode($rspta, true);
+          echo json_encode($rspta, true);
 
         break;
 
@@ -105,16 +121,37 @@
 
               $imagen = (empty($value['imagen']) ? '../dist/svg/user_default.svg' : '../dist/docs/paquete/perfil/'.$value['imagen']) ;
               
+                // Obtén el número de estrellas del hotel
+                $numeroEstrellas = $value['estrella'];
+                
+                // Genera las estrellas en base al número obtenido
+                $estrellasHTML = '';
+                for ($i = 0; $i < 5; $i++) {
+                    if ($i < $numeroEstrellas) {
+                        $estrellasHTML .= '★'; // Estrella llena
+                    } else {
+                        $estrellasHTML .= '☆'; // Estrella vacía
+                    }
+                }
+                $estadovisto = ($value['estado_aceptado']==1 ? '<span class="text-center badge badge-success">Verificado</span>' : '<span class="text-center badge badge-danger">Sin Verificar</span>' );// true:fals
               $data[]=array(
                 "0"=>$cont++,
-                "1"=>'<div class="user-block">
+                "1"=> $value['estado_aceptado'] ? ' <div class=" text-center">   
+                <button class="btn btn-warning btn-sm" onclick="desactivar_comentario(' . $value['idcomentario_tours'] . ')" data-toggle="tooltip" data-original-title="Desactivado"><i class="fas fa-times"></i></button>
+                <button class="btn btn-danger  btn-sm" onclick="eliminar_comentario_tours(' . $value['idcomentario_tours'] . ')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>
+                        </div>' : ' <div class=" text-center">   
+                        <button class="btn btn-info btn-sm" onclick="verificar_comentario(' . $value['idcomentario_tours'] . ')" data-toggle="tooltip" data-original-title="Verificar"><i class="fas fa-check"></i></button>
+                        <button class="btn btn-danger  btn-sm" onclick="eliminar_comentario_tours(' . $value['idcomentario_tours'] . ')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>
+                                </div>',
+                "2"=>'<div class="user-block">
                         <span class="username"><p class="text-primary m-b-02rem" >'. $value['nombre'] .'</p></span>
                         </div>',
-                "2"=>$value['name_comentario'],
-                "3"=>$value['correo'],
-                "4"=> '<textarea cols="30" rows="2" class="textarea_datatable" readonly="">' . $value['comentario'] . '</textarea>',
-                "5"=>$value['fecha'],
-                "6"=>$value['estrella'],
+                "3"=>$value['name_comentario'],
+                "4"=>$value['correo'],
+                "5"=> '<textarea cols="30" rows="2" class="textarea_datatable" readonly="">' . $value['comentario'] . '</textarea>',
+                "6" => date('d-m-Y', strtotime($value['fecha'])),
+                "7"=>'<div class="rating text-warning text-center">'.$estrellasHTML.'</div>',
+                "8"=>' <div class=" text-center">'.$estadovisto.'</div>',
 
               );
             }

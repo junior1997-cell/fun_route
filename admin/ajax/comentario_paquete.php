@@ -15,16 +15,16 @@
     //Validamos el acceso solo al usuario logueado y autorizado.
     if ($_SESSION['recurso'] == 1) {
 
-      require_once "../modelos/Comentario.php";
+      require_once "../modelos/Comentario_paquete.php";
 
-      $comentario = new Comentario($_SESSION['idusuario']);
+      $comentario_paq = new Comentario_paquete($_SESSION['idusuario']);
 
       date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y h.i.s A");
 
       $imagen_error = "this.src='../dist/svg/user_default.svg'";
       $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
       
-      $idcomentario	  	  = isset($_POST["idcomentario"])? limpiarCadena($_POST["idcomentario"]):"";
+      $idcomentario_paquete	  	  = isset($_POST["idcomentario_paquete"])? limpiarCadena($_POST["idcomentario_paquete"]):"";
       $idpaquete	  	    = isset($_POST["idpaquete"])? limpiarCadena($_POST["idpaquete"]):"";
       $nombre             = isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
       $correo             = isset($_POST["correo"])? limpiarCadena($_POST["correo"]):"";
@@ -33,7 +33,7 @@
       
       switch ($_GET["op"]) {
 
-        case 'guardar_y_editar_comentario':
+        case 'guardar_y_editar_comentario_paquete':
 
           // imgen de perfil
           if (!file_exists($_FILES['doc1']['tmp_name']) || !is_uploaded_file($_FILES['doc1']['tmp_name'])) {
@@ -44,9 +44,9 @@
             move_uploaded_file($_FILES["doc1"]["tmp_name"], "../dist/docs/paquete/perfil/" . $imagen1);						
 					}
 
-          if (empty($idcomentario)){
+          if (empty($idcomentario_paquete)){
             
-           // $rspta=$comentario->insertar($nombre, $correo, $comentario, $fecha, $estrella);
+           // $rspta=$comentario_paquete->insertar($nombre, $correo, $comentario_paquete, $fecha, $estrella);
             
             echo json_encode($rspta, true);
   
@@ -60,7 +60,7 @@
             }            
 
             // editamos un paquete existente
-            //$rspta=$comentario->editar($nombre, $correo, $nota, $fecha, $estrella);
+            //$rspta=$comentario_paquete->editar($nombre, $correo, $nota, $fecha, $estrella);
             
             //echo json_encode($rspta, true);
 
@@ -68,25 +68,42 @@
 
         break;
 
+        case 'verificar':
+
+          $rspta=$comentario_paq->verificar($_POST["idcomentario_paquete"]);
+ 
+           echo json_encode($rspta, true);
+ 
+        break;
+
+        case 'no_verificar':
+
+          $rspta=$comentario_paq->no_verificar($_POST["idcomentario_paquete"]);
+ 
+           echo json_encode($rspta, true);
+ 
+        break;
+ 
+
         case 'desactivar':
 
-         //$rspta=$comentario->desactivar($_GET["id_tabla"]);
+         $rspta=$comentario_paq->desactivar($_GET["id_tabla"]);
 
-         // echo json_encode($rspta, true);
+          echo json_encode($rspta, true);
 
         break;
 
         case 'eliminar':
 
-          //$rspta=$comentario->eliminar($_GET["id_tabla"]);
+          $rspta=$comentario_paq->eliminar($_GET["id_tabla"]);
 
-          //echo json_encode($rspta, true);
+          echo json_encode($rspta, true);
 
         break;
 
         case 'mostrar':
 
-          $rspta=$comentario->mostrar($idcomentario);
+          $rspta=$comentario_paq->mostrar($idcomentario_paquete);
           //Codificar el resultado utilizando json
           echo json_encode($rspta, true);
 
@@ -94,10 +111,10 @@
 
         case 'tbla_principal':          
 
-          $rspta=$comentario->tbla_principal();
+          $rspta=$comentario_paq->tbla_principal();
           
           //Vamos a declarar un array
-          $data= Array(); $cont=1;
+          $data= array(); $cont=1;
 
           if ($rspta['status'] == true) {
 
@@ -105,20 +122,41 @@
 
               $imagen = (empty($value['imagen']) ? '../dist/svg/user_default.svg' : '../dist/docs/paquete/perfil/'.$value['imagen']) ;
               
+              // Obtén el número de estrellas del hotel
+              $numeroEstrellas = $value['estrella'];
+                
+              // Genera las estrellas en base al número obtenido
+              $estrellasHTML = '';
+              for ($i = 0; $i < 5; $i++) {
+                  if ($i < $numeroEstrellas) {
+                      $estrellasHTML .= '★'; // Estrella llena
+                  } else {
+                      $estrellasHTML .= '☆'; // Estrella vacía
+                  }
+              }
+              $estadovisto = ($value['estado_aceptado']==1 ? '<span class="text-center badge badge-success">Verificado</span>' : '<span class="text-center badge badge-danger">Sin Verificar</span>' );// true:fals
               $data[]=array(
                 "0"=>$cont++,
-                "1"=>$value['nombre'],
-                "2"=>$value['correo'],
-                "3"=> '<textarea cols="30" rows="1" class="textarea_datatable" readonly="">' . $value['comentario'] . '</textarea>',
-                "4"=>$value['fecha'],
-                "5"=>$value['estrella'],
-
+                "1"=> $value['estado_aceptado'] ? ' <div class=" text-center">   
+                <button class="btn btn-warning btn-sm" onclick="desactivar_comentario(' . $value['idcomentario_paquete'] . ')" data-toggle="tooltip" data-original-title="Desactivado"><i class="fas fa-times"></i></button>
+                <button class="btn btn-danger  btn-sm" onclick="eliminar_comentario_paquete(' . $value['idcomentario_paquete'] . ')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>
+                        </div>' : ' <div class=" text-center">   
+                        <button class="btn btn-info btn-sm" onclick="verificar_comentario(' . $value['idcomentario_paquete'] . ')" data-toggle="tooltip" data-original-title="Verificar"><i class="fas fa-check"></i></button>
+                        <button class="btn btn-danger  btn-sm" onclick="eliminar_comentario_paquete(' . $value['idcomentario_paquete'] . ')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>
+                                </div>',
+                "2"=>$value['nombre'],
+                "3"=>$value['correo'],
+                "4"=> '<textarea cols="30" rows="1" class="textarea_datatable" readonly="">' . $value['comentario'] . '</textarea>',
+                "5" => date('d-m-Y', strtotime($value['fecha'])),
+                "6"=>'<div class="rating text-warning text-center">'.$estrellasHTML.'</div>',
+                "7" =>' <div class=" text-center">'.$estadovisto.'</div>',
               );
+              
             }
             $results = array(
               "sEcho"=>1, //Información para el datatables
               "iTotalRecords"=>count($data), //enviamos el total registros al datatable
-              "iTotalDisplayRecords"=>1, //enviamos el total registros a visualizar
+              "iTotalDisplayRecords" => 1, //enviamos el total registros a visualizar
               "data"=>$data);
             echo json_encode($results, true);
 

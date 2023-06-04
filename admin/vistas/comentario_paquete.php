@@ -15,7 +15,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Paquetes | Admin Fun Route</title>
         
-        <?php $title = "Comentario"; require 'head.php'; ?>
+        <?php $title = "Comentario_paquete"; require 'head.php'; ?>
           
       </head>
       <body class="hold-transition sidebar-collapse sidebar-mini layout-fixed layout-navbar-fixed">
@@ -35,19 +35,18 @@
                 <div class="container-fluid">
                   <div class="row mb-2">
                     <div class="col-sm-6">
-                      <h1>Comentario</h1>
+                      <h1>Comentario Paquete</h1>
                     </div>
                     <div class="col-sm-6">
                       <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="otro_ingreso.php">Home</a></li>
-                        <li class="breadcrumb-item active">Comentario</li>
+                        <li class="breadcrumb-item active">Comentario Paquete</li>
                       </ol>
                     </div>
                   </div>
                 </div>
                 <!-- /.container-fluid -->
               </section>
-
               <!-- Main content -->
               <section class="content">
                 <div class="container-fluid">
@@ -59,26 +58,30 @@
                         <div class="card-body">
 
                           <div id="mostrar-tabla">
-                            <table id="tabla-comentario" class="table table-bordered table-striped display" style="width: 100% !important;">
+                            <table id="tabla-comentario-paquete" class="table table-bordered table-striped display" style="width: 100% !important;">
                               <thead>
                                 <tr>
                                   <th class="text-center">#</th>
+                                  <th class="">Acciones</th>
                                   <th class="">Nombre</th>
                                   <th data-toggle="tooltip" data-original-title="Correo">Correo</th>
                                   <th data-toggle="tooltip" data-original-title="Comentario">Comentario</th>
                                   <th data-toggle="tooltip" data-original-title="Fecha">Fecha</th>
                                   <th>Estrella</th>
+                                  <th>Estado</th>
                                 </tr>
                               </thead>
                               <tbody></tbody>
                               <tfoot>
                                 <tr>
                                   <th class="text-center">#</th>
+                                  <th class="">Acciones</th>
                                   <th class="">Nombre</th>
                                   <th data-toggle="tooltip" data-original-title="Correo">Correo</th>
                                   <th data-toggle="tooltip" data-original-title="Comentario">Comentario</th>
                                   <th data-toggle="tooltip" data-original-title="Fecha">Fecha</th>
                                   <th>Estrella</th>
+                                  <th>Estado</th>
                                 </tr>
                               </tfoot>
                             </table>
@@ -96,7 +99,7 @@
                 <!-- /.container-fluid -->                 
                 
                 <!-- Modal agregar paquete -->
-                <div class="modal fade" id="modal-comentario">
+                <div class="modal fade" id="modal-comentario-paquete">
                   <div class="modal-dialog modal-dialog-scrollable modal-lg">
                     <div class="modal-content">
                       <div class="modal-header">
@@ -108,7 +111,7 @@
                           <div class="card-body row">                               
                             
                             <!-- id paquete -->
-                            <input type="hidden" name="idcomentario" id="idcomentario" />
+                            <input type="hidden" name="idcomentario_paquete" id="idcomentario_paquete" />
 
                             <!-- Nombre -->
                             <div class="col-lg-10">
@@ -146,16 +149,16 @@
                                 <label for="estrella">Estrella</label> <br />
                                 <textarea name="estrella" id="estrella" class="form-control" rows="2"></textarea>
                               </div>
-
                             </div>
+
                           </div>
                           <!-- /.card-body -->
-                          <button type="submit" style="display: none;" id="submit-form-comentario">Submit</button>
+                          <button type="submit" style="display: none;" id="submit-form-comentario-paquete">Submit</button>
                         </form>
                       </div>
                       <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" id="guardar_registro_comentario">Guardar Cambios</button>
+                        <button type="submit" class="btn btn-success" id="guardar_registro_comentario_paquete">Guardar Cambios</button>
                       </div>
                     </div>
                   </div>
@@ -178,7 +181,7 @@
         <?php require 'script.php'; ?>
         
         <!-- Funciones del modulo -->
-        <script type="text/javascript" src="scripts/comentario.js"></script>
+        <script type="text/javascript" src="scripts/comentario_paquete.js"></script>
 
         <script> $(function () { $('[data-toggle="tooltip"]').tooltip(); }); </script>
         

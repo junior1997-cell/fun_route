@@ -4,22 +4,22 @@ var tabla_comentario;
 function init() {
   //Activamos el "aside"
 
-  $("#bloc_LogisticaComentario").addClass("menu-open");
+  $("#bloc_LogisticaComentario_paquete").addClass("menu-open");
 
-  $("#bloc_lComentario").addClass("menu-open bg-color-191f24");
+  $("#bloc_lComentario_paquete").addClass("menu-open bg-color-191f24");
 
-  $("#mlComentario").addClass("active");
+  $("#mlComentario_paquete").addClass("active");
 
-  $("#mlComentario").addClass("active bg-green");
+  $("#mlComentario_paquete").addClass("active bg-green");
 
-  $("#lComentario").addClass("active");
+  $("#lComentario_paquete").addClass("active");
 
   
   tbla_principal();
 
   
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════ 
-  $("#guardar_registro_comentario").on("click", function (e) { $("#submit-form-comentario").submit(); });
+  $("#guardar_registro_comentario_paquete").on("click", function (e) { $("#submit-form-comentario-paquete").submit(); });
 
   // ══════════════════════════════════════ INITIALIZE SELECT2 - OTRO INGRESO  ══════════════════════════════════════
   $("#idpersona").select2({ theme: "bootstrap4", placeholder: "Selecione un proveedor o productor", allowClear: true,   });
@@ -45,7 +45,7 @@ function show_hide_form(flag) {
 
 //Función Listar
 function tbla_principal() {
-  tabla_comentario = $("#tabla-comentario").dataTable({
+  tabla_comentario_paquete = $("#tabla-comentario-paquete").dataTable({
     responsive: true,
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]], //mostramos el menú de registros a revisar
     aProcessing: true, //Activamos el procesamiento del datatables
@@ -53,7 +53,7 @@ function tbla_principal() {
     dom: "<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
     buttons: ["copyHtml5", "excelHtml5", "pdf"],
     ajax: {
-      url: "../ajax/comentario.php?op=tbla_principal",
+      url: "../ajax/comentario_paquete.php?op=tbla_principal",
       type: "get",
       dataType: "json",
       error: function (e) {
@@ -101,12 +101,12 @@ function tbla_principal() {
 
 
 //Función para guardar o editar
-function guardar_y_editar_comentario(e) {
+function guardar_y_editar_comentario_paquete(e) {
   // e.preventDefault(); //No se activará la acción predeterminada del evento
-  var formData = new FormData($("#form-comentario")[0]);
+  var formData = new FormData($("#form-comentario-paquete")[0]);
 
   $.ajax({
-    url: "../ajax/comentario.php?op=guardar_y_editar_comentario",
+    url: "../ajax/comentario_paquete.php?op=guardar_y_editar_comentario_paquete",
     type: "POST",
     data: formData,
     contentType: false,
@@ -118,7 +118,7 @@ function guardar_y_editar_comentario(e) {
 
           Swal.fire("Correcto!", "El registro se guardo correctamente.", "success");
 
-          tabla_comentario.ajax.reload(null, false);
+          tabla_comentario_paquete.ajax.reload(null, false);
 
           limpiar_form();    
 
@@ -134,23 +134,23 @@ function guardar_y_editar_comentario(e) {
     error: function (jqXhr) { ver_errores(jqXhr); },
   });
 }
-function mostrar_comentario(idcomentario) {
+function mostrar_comentario_paquete(idcomentario_paquete) {
 
-  limpiar_comentario();
+  limpiar_comentario_paquete();
   
   $("#cargando-1-fomulario").hide();
   $("#cargando-2-fomulario").show();
 
-  $("#modal-agregar-comentario").modal("show");
+  $("#modal-agregar-comentario-paquete").modal("show");
 
-  $.post("../ajax/comentario.php?op=mostrar", { idcomentario: idcomentario }, function (e, status) {
+  $.post("../ajax/comentario_paquete.php?op=mostrar_comentario_paquete", { idcomentario_paquete: idcomentario_paquete }, function (e, status) {
     
     e = JSON.parse(e); console.log('jolll'); console.log(e);    
 
-    $("#idcomentario").val(e.data.idcomentario).trigger("change");
+    $("#idcomentario_paquete").val(e.data.idcomentario_paquete).trigger("change");
     $("#nombre").val(e.data.nombre).trigger("change");
     $("#correo").val(e.data.correo).trigger("change");
-    $("#nota").val(e.data.comentario).trigger("change");
+    $("#nota").val(e.data.comentario_paquete).trigger("change");
     $("#fecha").val(e.data.fecha).trigger("change");
     $("#estrella").val(e.data.estrella);
     
@@ -180,15 +180,15 @@ function mostrar_comentario(idcomentario) {
 }
 
 
-//Función para desactivar registros
-function eliminar(idcomentario) {
+//Función para eliminar comt_paq
+function eliminar_comentario_paquete(idcomentario_paquete, nombre) {
 
   crud_eliminar_papelera(
-    "../ajax/comentario.php?op=desactivar",
-    "../ajax/comentario.php?op=eliminar", 
-    idcomentario, 
+    "../ajax/comentario_paquete.php?op=desactivar",
+    "../ajax/comentario_paquete.php?op=eliminar", 
+    idcomentario_paquete, 
     "!Elija una opción¡", 
-    `<b class="text-danger"><del>${nombre} : ${numero_comprobante}</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
+    `<b class="text-danger"><del>${nombre}</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
     function(){ sw_success('♻️ Papelera! ♻️', "Tu registro ha sido reciclado." ) }, 
     function(){ sw_success('Eliminado!', 'Tu registro ha sido Eliminado.' ) }, 
     function(){ tabla_comentario.ajax.reload(null, false); },
@@ -198,6 +198,81 @@ function eliminar(idcomentario) {
     false
   );
 }
+
+//Función para verificar comt_paq
+function verificar_comentario(idcomentario_paquete) {
+  Swal.fire({
+    title: "¿Está seguro de que desea verificar este comentario?",
+    text: "Este comentario se verificará",
+    icon: "success",
+    showCancelButton: true,
+    confirmButtonColor: "#3567dc",
+    cancelButtonColor: "#6c757d",
+    confirmButtonText: "Sí, verificar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.post(
+        "../ajax/comentario_paquete.php?op=verificar",
+        { idcomentario_paquete: idcomentario_paquete},
+        function (response) {
+          try {
+            response = JSON.parse(response);
+            if (response.status == true) {
+              Swal.fire("Verificado", "El comentario ha sido verificado.", "success");
+              // Aquí puedes realizar cualquier otra acción después de verificar el comentario
+              tbla_principal();
+            } else {
+              ver_errores(response);
+            }
+          } catch (e) {
+            ver_errores(e);
+          }
+        }
+      ).fail(function (response) {
+        ver_errores(response);
+      });
+    }
+  });
+}
+
+//Función para desactivar la verificación de comt_paq
+function desactivar_comentario(idcomentario_paquete) {
+  Swal.fire({
+    title: "¿Está seguro de que desea desactivar la verificación de este comentario?",
+    text: "Este comentario se desactivará",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#dc3b35",
+    cancelButtonColor: "#6c757d",
+    confirmButtonText: "Sí, dasactivar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.post(
+        "../ajax/comentario_paquete.php?op=no_verificar",
+        { idcomentario_paquete: idcomentario_paquete},
+        function (response) {
+          try {
+            response = JSON.parse(response);
+            if (response.status == true) {
+              Swal.fire("Desactivado", "El comentario ha sido desactivado.", "success");
+              // Aquí puedes realizar cualquier otra acción después de verificar el comentario
+              tbla_principal();
+            } else {
+              ver_errores(response);
+            }
+          } catch (e) {
+            ver_errores(e);
+          }
+        }
+      ).fail(function (response) {
+        ver_errores(response);
+      });
+    }
+  });
+}
+
+
+
 // :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N   P R O V E E D O R  ::::::::::::::::::::::::::::::::::::::::::::::::::::
 // .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
 $(function () {   
@@ -211,7 +286,7 @@ $(function () {
   $("#idtipopersona").on('change', function() { $(this).trigger('blur'); });
 
 
-  $("#form-comentario").validate({
+  $("#form-comentario-paquete").validate({
     ignore: '.select2-input, .select2-focusser',
     rules: {
       nombre:{ required: true, minlength:4, maxlength:100 },
@@ -246,7 +321,7 @@ $(function () {
     },
 
     submitHandler: function (e) {
-      guardar_y_editar_comentario(e);
+      guardar_y_editar_comentario_paquete(e);
     },
 
   });
