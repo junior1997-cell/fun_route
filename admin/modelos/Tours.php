@@ -95,7 +95,7 @@
     {
       $sql="SELECT t.idtours,t.idtipo_tours,t.nombre, t.descripcion, t.imagen, t.costo,t.estado_descuento, tt.nombre as tipo_tours 
       FROM tours as t, tipo_tours as tt 
-      WHERE t.idtipo_tours=tt.idtipo_tours and t.estado=1 and t.estado_delete=1;";
+      WHERE t.idtipo_tours=tt.idtipo_tours and t.idtours>1  and t.estado=1 and t.estado_delete=1;";
       return ejecutarConsultaArray($sql);		
     }
 

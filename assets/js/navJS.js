@@ -51,6 +51,8 @@ function openCity(cityName) {
 }
 
 
+
+
 let listElements = document.querySelectorAll('.list__button--click');
 
 listElements.forEach(listElement => {
@@ -69,4 +71,26 @@ listElements.forEach(listElement => {
     })
 });
 
+/*function openCity(evt, cityName) {
+  // Declare all variables
+  var i, content, tab_btn;
+
+  // Get all elements with class="tabcontent" and hide them
+  content = document.getElementsByClassName("content");
+  for (i = 0; i < content.length; i++) {
+    content[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tab_btn = document.getElementsByClassName("tab_btn");
+  for (i = 0; i < tab_btn.length; i++) {
+    tab_btn[i].className = tab_btn[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+
+  
+}*/
 
