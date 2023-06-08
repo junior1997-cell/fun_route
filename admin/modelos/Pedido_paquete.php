@@ -25,13 +25,13 @@
 		
 		  return $eliminar;
     }
-    public function vendido($idpedido){
-      $sql="UPDATE pedido_paquete SET estado_vendido='1', user_updated= '$this->id_usr_sesion' WHERE idpedido='$idpedido'";
+    public function vendido($idpedido_paquete){
+      $sql="UPDATE pedido_paquete SET estado_vendido='1', user_updated= '$this->id_usr_sesion' WHERE idpedido_paquete='$idpedido_paquete'";
       $eliminar =  ejecutarConsulta($sql); if ( $eliminar['status'] == false) {return $eliminar; }  
 
       //add registro en nuestra bitacora
-      $sql_d = $idpedido;
-      $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (4,'pedido','$idpedido','$sql_d','$this->id_usr_sesion')";
+      $sql_d = $idpedido_paquete;
+      $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (4,'pedido_paquete','$idpedido_paquete','$sql_d','$this->id_usr_sesion')";
 		  $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
 		
 		  return $eliminar;
@@ -49,8 +49,12 @@
       $sql_2="UPDATE pedido_paquete SET estado_visto='1' WHERE idpedido_paquete='$idpedido_paquete';";
       $visto = ejecutarConsulta($sql_2); if ($visto['status'] == false) { return  $visto;}
 
+      //$sql_4="UPDATE pedido_paquete SET estado_vendido='1' WHERE idpedido_paquete='$idpedido_paquete';";
+      //$vendido = ejecutarConsulta($sql_4); if ($vendido['status'] == false) { return  $vendido;}
+
+
       $sql_3="SELECT i.iditinerario, i.idpaquete, i.idtours, i.actividad, i.numero_orden, t.nombre as tours 
-      FROM itinerario as i, tours as t WHERE i.idtours=t.idtours and i.idpaquete='$idpaquete';";
+      FROM itinerario as i, tours as t WHERE i.idtours=t.idtours and i.idpaquete='$idpaquete' order by i.numero_orden asc;";
       $datositinerario = ejecutarConsultaArray($sql_3); if ($datositinerario['status'] == false) { return  $datositinerario;}
 
       foreach ($datositinerario['data'] as $key => $value) {
@@ -84,7 +88,7 @@
           
         ];
       
-      return $retorno=['status'=>true, 'message'=>'todo oka ps', 'data'=>$data,'paquete'=>$paquete];
+      return $retorno=['status'=>true, 'message'=>'todo oka ps', 'data'=>['itinerario'=>$data,'paquete'=>$paquete]];
     }
 
     //Implementamos un método para listar los registros

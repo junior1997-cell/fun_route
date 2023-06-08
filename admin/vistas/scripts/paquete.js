@@ -214,6 +214,7 @@ function mostrar_paquete(idpaquete) {
       $(".alerta").show();
     }else{
       $(".alerta").hide();
+      
       e.itinerario.forEach(element => {
         
         console.log(element.actividad);

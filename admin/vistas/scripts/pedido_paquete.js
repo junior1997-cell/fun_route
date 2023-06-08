@@ -453,22 +453,22 @@ function mostrar_pedido(idpaquete, idpedido_paquete) {
       console.log("jolll");
       console.log(e);
       var imagen =
-        e.paquete.imagen === undefined || e.paquete.imagen === ""
+        e.data.paquete.imagen === undefined || e.data.paquete.imagen === ""
           ? "../dist/svg/user_default.svg"
-          : `../dist/docs/paquete/perfil/${e.paquete.imagen}`;
+          : `../dist/docs/paquete/perfil/${e.data.paquete.imagen}`;
       verdatos = ` 
                 <div class="col-12 col-sm-12 col-md-12 d-flex align-items-stretch flex-column">
                   <div class="card bg-light d-flex flex-fill">
                     <div class="card-body pt-0">
                       <div class="row">
                         <div class="col-7">
-                          <h2 class="lead"><b>${e.paquete.nombre}</b></h2>
-                          <p class="text-muted text-sm"> ${e.paquete.cant_dias} <b> Dias</b> / ${e.paquete.cant_noches} <b> Noches</b></p>
+                          <h2 class="lead"><b>${e.data.paquete.nombre}</b></h2>
+                          <p class="text-muted text-sm"> ${e.data.paquete.cant_dias} <b> Dias</b> / ${e.data.paquete.cant_noches} <b> Noches</b></p>
                           <ul class="ml-4 mb-0 fa-ul text-muted">
-                            <label for="costo">Precio = S/. ${e.paquete.costo} </label>
+                            <label for="costo">Precio = S/. ${e.data.paquete.costo} </label>
                           </ul>
                           <ul class="ml-4 mb-0 fa-ul text-muted">
-                            <li class="small"><span class="fa-li"></span> ${e.paquete.descripcion}</li>
+                            <li class="small"><span class="fa-li"></span> ${e.data.paquete.descripcion}</li>
                           </ul>
                           
                         </div>
@@ -494,7 +494,7 @@ function mostrar_pedido(idpaquete, idpedido_paquete) {
                         </div>
                       </a>
                       <div id="collapseOne" class="collapse show" data-parent="#accordion">
-                        <div class="card-body">${e.paquete.mapa}</div>
+                        <div class="card-body">${e.data.paquete.mapa}</div>
                       </div>
                     </div>
                     <div class="card card-secondary card-outline">
@@ -506,7 +506,7 @@ function mostrar_pedido(idpaquete, idpedido_paquete) {
                         </div>
                       </a>
                       <div id="collapseTwo" class="collapse" data-parent="#accordion">
-                        <div class="card-body">${e.paquete.incluye}</div>
+                        <div class="card-body">${e.data.paquete.incluye}</div>
                       </div>
                     </div>
                     <div class="card card-orange card-outline">
@@ -519,7 +519,7 @@ function mostrar_pedido(idpaquete, idpedido_paquete) {
                     </a>
                     <div id="collapseThree" class="collapse" data-parent="#accordion">
                         <div class="card-body">
-                        <div class="card-body">${e.paquete.no_incluye}</div>
+                        <div class="card-body">${e.data.paquete.no_incluye}</div>
                         </div>
                     </div>
                     </div>
@@ -533,7 +533,7 @@ function mostrar_pedido(idpaquete, idpedido_paquete) {
                     </a>
                     <div id="collapseFour" class="collapse" data-parent="#accordion">
                         <div class="card-body">
-                        <div class="card-body">${e.paquete.descripcion}</div>
+                        <div class="card-body">${e.data.paquete.descripcion}</div>
                         </div>
                     </div>
                     </div>
@@ -542,25 +542,33 @@ function mostrar_pedido(idpaquete, idpedido_paquete) {
                 </div>`;
       $("#detalles").html(datosdetalle);
 
-      var datositinerario=`
-                  
-                    
-                        <div>
-                          
-                          <h2 class="lead"><b>${e.data.nombre}</b></h2>
-                        </div>
-                      
-    
-                    
-                     
-                        <div>
-                          
-                          <li class="small"><span class="fa-li"></span> ${e.data.actividad}</li>
-                        </div>
-                     `
-                    $("#veritinerario").html(datositinerario);
+      if (e.data.itinerario==null || e.data.itinerario=="") {
+        $(".alerta").show();
+      }else{
+        $(".alerta").hide();
+        var datositinerario="";
+        e.data.itinerario.forEach((val,key) => {
+          
+          console.log(val.actividad);
+        
+              datositinerario =datositinerario.concat(`
+              <div class="card card-row card-default">
+                <div class="card-header bg-color-48acc6">  
+                </div>
+                <div class="card-body">
+                <label for="Orden">${ val.numero_orden}</label>
+                <textarea class="form-control actividad">${ val.actividad}</textarea>
+                </div>
+              </div>`);
+        });
+        
+      
+        $('#veritinerario').html(datositinerario); // Agregar el contenido al elemento con el ID "codigoGenerado"
+         
+  
+      }
 
-      var vergaleria = "";
+      /*var vergaleria = "";
       e.data.forEach((val, index) => {
         vergaleria = vergaleria.concat(`
         <div class="col-sm-2">
@@ -575,7 +583,7 @@ function mostrar_pedido(idpaquete, idpedido_paquete) {
 
        `);
       });
-      $("#galeria").html(`<div class="row">${vergaleria}</div>`);
+      $("#galeria").html(`<div class="row">${vergaleria}</div>`);*/
 
       $(".jq_image_zoom").zoom({ on: "grab" });
 
@@ -635,7 +643,9 @@ function vendido(idpedido_paquete) {
             } else {
               ver_errores(e);
             }
-          } catch (e) { ver_errores(e);}
+          } catch (e) {
+            ver_errores(e);
+          }
         }
       ).fail(function (e) {
         ver_errores(e);
