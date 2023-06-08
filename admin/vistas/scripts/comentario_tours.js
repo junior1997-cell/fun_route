@@ -1,4 +1,4 @@
-var tabla_comentario_tours;
+var tabla_comentario;
 
 //Función que se ejecuta al inicio
 function init() {
@@ -100,7 +100,7 @@ function tbla_principal() {
 }
 
 
-function mostrar_comentario(idcomentario) {
+function mostrar_comentario(idcomentario_tours) {
 
   limpiar_comentario();
   
@@ -143,6 +143,97 @@ function mostrar_comentario(idcomentario) {
     $("#cargando-1-fomulario").show();
     $("#cargando-2-fomulario").hide();
   }).fail( function(e) { ver_errores(e); } );
+}
+
+//Función para desactivar registros
+function eliminar_comentario_tours(idcomentario_tours, nombre) {
+
+  crud_eliminar_papelera(
+    "../ajax/comentario_tours.php?op=desactivar",
+    "../ajax/comentario_tours.php?op=eliminar", 
+    idcomentario_tours, 
+    "!Elija una opción¡", 
+    `<b class="text-danger"><del>${nombre}</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
+    function(){ sw_success('♻️ Papelera! ♻️', "Tu registro ha sido reciclado." ) }, 
+    function(){ sw_success('Eliminado!', 'Tu registro ha sido Eliminado.' ) }, 
+    function(){ tabla_comentario.ajax.reload(null, false); },
+    false, 
+    false, 
+    false,
+    false
+  );
+}
+
+//Función para verificar comt_tours
+function verificar_comentario(idcomentario_tours) {
+  Swal.fire({
+    title: "¿Está seguro de que desea verificar este comentario?",
+    text: "Este comentario se verificará",
+    icon: "success",
+    showCancelButton: true,
+    confirmButtonColor: "#3567dc",
+    cancelButtonColor: "#6c757d",
+    confirmButtonText: "Sí, verificar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.post(
+        "../ajax/comentario_tours.php?op=verificar",
+        { idcomentario_tours: idcomentario_tours},
+        function (response) {
+          try {
+            response = JSON.parse(response);
+            if (response.status == true) {
+              Swal.fire("Verificado", "El comentario ha sido verificado.", "success");
+              // Aquí puedes realizar cualquier otra acción después de verificar el comentario
+              tbla_principal();
+            } else {
+              ver_errores(response);
+            }
+          } catch (e) {
+            ver_errores(e);
+          }
+        }
+      ).fail(function (response) {
+        ver_errores(response);
+      });
+    }
+  });
+}
+
+//Función para desactivar la verificación de comt_tours
+function desactivar_comentario(idcomentario_tours) {
+  Swal.fire({
+    title: "¿Está seguro de que desea desactivar la verificación de este comentario?",
+    text: "Este comentario se desactivará",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#dc3b35",
+    cancelButtonColor: "#6c757d",
+    confirmButtonText: "Sí, dasactivar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.post(
+        "../ajax/comentario_tours.php?op=no_verificar",
+        { idcomentario_tours: idcomentario_tours},
+        function (response) {
+          try {
+            response = JSON.parse(response);
+            if (response.status == true) {
+              Swal.fire("Desactivado", "El comentario ha sido desactivado.", "success");
+              // Aquí puedes realizar cualquier otra acción después de verificar el comentario
+              tbla_principal();
+            } else {
+              ver_errores(response);
+            }
+          } catch (e) {
+            ver_errores(e);
+          }
+        }
+      ).fail(function (response) {
+        ver_errores(response);
+      });
+    }
+  });
 }
 
 // :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N   P R O V E E D O R  ::::::::::::::::::::::::::::::::::::::::::::::::::::
