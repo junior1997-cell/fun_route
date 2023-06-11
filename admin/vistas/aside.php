@@ -72,7 +72,31 @@
                   <i class="nav-icon fa-solid fa-lightbulb"></i>
                   <p>Valores</p>
                 </a>
-              </li>  
+              </li>
+              
+              <!--  Politicas Generales  -->
+              <li class="nav-item  b-radio-3px" id="bloc_lPaquetes">
+                <a href="#" class="nav-link pl-2" id="mlPaquetes">
+                <i class="fa-solid fa-boxes-stacked"></i>
+                  <p>Politicas Generales <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">3</span></p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <!-- Paquetes -->
+                  <li class="nav-item ">
+                    <a href="politica_paquete.php" class="nav-link" id="Paquetes">
+                      <i class="nav-icon fas fa-map"></i> <p>Paquetes</p>
+                    </a>
+                  </li>
+                  <!-- Tours -->
+                  <li class="nav-item ">
+                    <a href="politica_tours.php" class="nav-link" id="tours">
+                      <i class="nav-icon fas fa-comment"></i> <p>Tours</p>
+                    </a>
+                  </li> 
+                </ul>
+              </li>
+
+
             </ul>
           </li>
         <?php  }  ?>
