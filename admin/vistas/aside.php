@@ -35,15 +35,13 @@
         <?php  }  ?>
         <?php if ($_SESSION['acceso']==1) {  ?>
           <!-- ACCESOS -->
-          <li class="nav-item  b-radio-3px" id="bloc_datos_generales">
-            <a href="#" class="nav-link pl-2" id="mAccesos">
+
+          <li class="nav-item " id="bloc_empresa">
+            <a href="#" class="nav-link" id="mempresa" style="padding-left: 7px;">
               <i class="nav-icon fa-sharp fa-solid fa-city"></i>
-              <p>
-                Empresa
-                <i class="fas fa-angle-left right"></i>
-                <span class="badge badge-info right">4</span>
-              </p>
+              <p class="font-size-14px">Empresa<i class="fas fa-angle-left right"></i><span class="badge badge-info right">5</span></p>
             </a>
+
             <ul class="nav nav-treeview ">
               <!--  Datos Generales  -->
               <li class="nav-item ">
@@ -66,7 +64,7 @@
                   <p>CEO - Reseña</p>
                 </a>
               </li>   
-              <!--  Misión y Visión  -->
+              <!--  valores  -->
               <li class="nav-item ">
                 <a href="valores.php" class="nav-link" id="lvalores">
                   <i class="nav-icon fa-solid fa-lightbulb"></i>
@@ -75,28 +73,26 @@
               </li>
               
               <!--  Politicas Generales  -->
-              <li class="nav-item  b-radio-3px" id="bloc_lPaquetes">
-                <a href="#" class="nav-link pl-2" id="mlPaquetes">
-                <i class="fa-solid fa-boxes-stacked"></i>
-                  <p>Politicas Generales <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">3</span></p>
+              <li class="nav-item" id="bloc_lPoliticas">
+                <a href="#" class="nav-link pl-3" id="mlPoliticas">
+                <i class="nav-icon fas fa-balance-scale"></i>
+                  <p> Politicas Generales <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">2</span></p>
                 </a>
                 <ul class="nav nav-treeview">
                   <!-- Paquetes -->
                   <li class="nav-item ">
-                    <a href="politica_paquete.php" class="nav-link" id="Paquetes">
+                    <a href="politica_paquete.php" class="nav-link pl-4" id="lPoliticas">
                       <i class="nav-icon fas fa-map"></i> <p>Paquetes</p>
                     </a>
                   </li>
                   <!-- Tours -->
                   <li class="nav-item ">
-                    <a href="politica_tours.php" class="nav-link" id="tours">
-                      <i class="nav-icon fas fa-comment"></i> <p>Tours</p>
+                    <a href="politica_tours.php" class="nav-link pl-4" id="lTours">
+                      <i class="nav-icon fas fa-suitcase"></i> <p>Tours</p>
                     </a>
                   </li> 
                 </ul>
               </li>
-
-
             </ul>
           </li>
         <?php  }  ?>

@@ -38,7 +38,14 @@ if (!isset($_SESSION["nombre"])) {
     $estado_descuento     = isset($_POST["estado_descuento"]) ? limpiarCadena($_POST["estado_descuento"]) : "";
     $porcentaje_descuento = isset($_POST["porcentaje_descuento"]) ? limpiarCadena($_POST["porcentaje_descuento"]) : "";
     $monto_descuento      = isset($_POST["monto_descuento"]) ? limpiarCadena($_POST["monto_descuento"]) : "";
-//$estado_descuento,$porcentaje_descuento,$monto_descuento,$_POST['idtours'],$_POST['nombre_tours'],$_POST['numero_orden'],$_POST['actividad']
+    //---------------G A L E R I A-------------------
+    $idpaqueteg          = isset($_POST["idpaqueteg"]) ? limpiarCadena($_POST["idpaqueteg"]) : "";
+    $idgaleria_paquete   = isset($_POST["idgaleria_paquete"]) ? limpiarCadena($_POST["idgaleria_paquete"]) : "";
+    $descripcion_g       = isset($_POST["descripcion_g"]) ? limpiarCadena($_POST["descripcion_g"]) : "";
+    $img_galeria         = isset($_POST["doc2"]) ? limpiarCadena($_POST["doc2"]) : "";
+    //$idpaqueteg,$idgaleria_paquete,$descripcion_g,$img_galeria
+
+
     switch ($_GET["op"]) {
 
       case 'guardar_y_editar_paquete':
@@ -81,7 +88,7 @@ if (!isset($_SESSION["nombre"])) {
           echo json_encode($rspta, true);
         }
 
-        break;
+      break;
 
       case 'desactivar':
 
@@ -137,8 +144,8 @@ if (!isset($_SESSION["nombre"])) {
                       <img class="profile-user-img img-responsive img-circle cursor-pointer" src="' . $imagen . '" alt="User Image" onerror="' . $imagen_error . '" onclick="ver_img_paquete(\'' . $imagen . '\', \'' . encodeCadenaHtml($value['nombre']) . '\');" data-toggle="tooltip" data-original-title="Ver foto">
                      </div>',
               "6" =>'S/ '.$value['costo'],
-              "7" => $estado_descuento
-
+              "7" => $estado_descuento,
+              "8" => '<button class="btn btn-info btn-sm" onclick="galeria(' . $value['idpaquete'] . ', \'' . encodeCadenaHtml($value['nombre']) . '\')" data-toggle="tooltip" data-original-title="Galería">Galería <i class="fa fa-eye"></i></button>'
 
             );
           }
@@ -186,11 +193,55 @@ if (!isset($_SESSION["nombre"])) {
 
           echo json_encode($rspta, true);
         }
+      break;
+        /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
+        /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
+        /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
+        /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
+        //$idpaqueteg,$idgaleria_paquete,$descripcion_g,$img_galeria
+        case 'guardar_y_editar_galeria':
+
+          // imgen de perfil
+          if (!file_exists($_FILES['doc2']['tmp_name']) || !is_uploaded_file($_FILES['doc2']['tmp_name'])) {
+            $imagen2 = $_POST["doc_old_2"];
+            $flat_img2 = false;
+          } else {
+            //guardar imagen
+            $ext2 = explode(".", $_FILES["doc2"]["name"]);
+            $flat_img2 = true;
+            $imagen2 = $date_now . ' ' . random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext2);
+            move_uploaded_file($_FILES["doc2"]["tmp_name"], "../dist/docs/paquete/galeria/" . $imagen2);
+          }
+  
+          if (empty($idgaleria_paquete)) {
+  
+            $rspta = $paquete->insertar_galeria($idpaqueteg,$descripcion_g,$imagen2);
+  
+            echo json_encode($rspta, true);
+          }
+  
         break;
-        default:
-        $rspta = ['status' => 'error_code', 'message' => 'Te has confundido en escribir en el <b>swich.</b>', 'data' => []];
-        echo json_encode($rspta, true);
+        
+        case 'mostrar_galeria':
+          $rspta = $paquete->mostrar_galeria($_POST['idpaquete']);
+          echo json_encode($rspta, true);
         break;
+
+        case 'eliminar_imagen':
+          $rspta = $paquete->eliminar_imagen($_POST['idgaleria_paquete']);
+          echo json_encode($rspta, true);
+        break;
+
+
+
+
+
+
+
+      default:
+      $rspta = ['status' => 'error_code', 'message' => 'Te has confundido en escribir en el <b>swich.</b>', 'data' => []];
+      echo json_encode($rspta, true);
+      break;
     }
 
     //Fin de las validaciones de acceso
