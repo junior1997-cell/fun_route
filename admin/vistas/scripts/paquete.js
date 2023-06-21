@@ -1,6 +1,7 @@
 var tabla_paquete;
 var miArray = [];
 var codigoHTML='';
+var idpaquete_r='', nombre_r="";
 //Función que se ejecuta al inicio
 function init() {
   //Activamos el "aside"
@@ -22,8 +23,9 @@ function init() {
   // ══════════════════════════════════════ INITIALIZE SELECT2 ════════════════════════════════════
   $("#list_tours").select2({theme:"bootstrap4", placeholder: "Selecionar Tours.", allowClear: true, });
 
-  // ══════════════════════════════════════ G U A R D A R   F O R M ════════════════════════════════════
+  // ══════════════════════════════════════ G U A R D A R   F O R MS ════════════════════════════════════
   $("#guardar_registro_paquete").on("click", function (e) { $("#submit-form-paquete").submit(); });
+  $("#guardar_registro_galeria").on("click", function (e) { $("#submit-form-galeria").submit(); });
 
   // ══════════════════════════════════════ S U M M E R N O T E ══════════════════════════════════════ 
   $('#descripcion').summernote(); $('#incluye').summernote(); $('#no_incluye').summernote();  $('#recomendaciones').summernote();
@@ -60,14 +62,16 @@ function limpiar_paquete() {
   $("#mapa").val("");
 
   //itinerario
-  // codigoHTML ='';
-  // $('.codigoGenerado').remove();
-  // eliminar_tours(id);
   $(".alerta").show();
   // COSTOS
   $("#costo").val("");
   $("#porcentaje_descuento").val("");
   $("#monto_descuento").val("");
+
+  $("#doc_old_1").val("");
+  $("#doc1").val("");  
+  $('#doc1_ver').html(`<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >`);
+  $('#doc1_nombre').html("");
   
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
@@ -80,17 +84,19 @@ function limpiar_paquete() {
 function show_hide_form(flag) {
 	if (flag == 1)	{	// tabla principal	
 		$("#div-tabla-paquete").show();
-    $("#div-tabla-galeria").hide();
+    $("#div-galeria").hide();
     $(".btn-regresar").hide();
     $(".btn-agregar-paquete").show();
     $(".btn-agregar-galeria").hide();
     $('#h1-nombre-paquete').html('');
+    $(".btn-agregar").show();
 	}	else if (flag == 2)	{// tabla galeria
-		$("#div-tabla-paquete").show();
-    $("#div-tabla-galeria").hide();
+		$("#div-tabla-paquete").hide();
+    $("#div-galeria").show();
     $(".btn-regresar").show();
     $(".btn-agregar-paquete").hide();
     $(".btn-agregar-galeria").show();
+    $(".btn-agregar").hide();
 	}
 }
 
@@ -305,11 +311,165 @@ function eliminar_paquete(idpaquete) {
     false
   );
 }
-// :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N  GALERIA  ::::::::::::::::::::::::::::::::::::::::::::::::::::
-function entrar_a_galeria(idpaquete, nombre) {// importa el orden
+// :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N  G A L E R I A  ::::::::::::::::::::::::::::::::::::::::::::::::::::
+// :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N  G A L E R I A  ::::::::::::::::::::::::::::::::::::::::::::::::::::
+// :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N  G A L E R I A  ::::::::::::::::::::::::::::::::::::::::::::::::::::
 
+// abrimos el navegador de archivos
+$("#doc2_i").click(function() {  $('#doc2').trigger('click'); });
+$("#doc2").change(function(e) {  addImageApplication(e,$("#doc2").attr("id")) });
+
+// Eliminamos
+function doc2_eliminar() {
+	$("#doc2").val("");
+	$("#doc2_ver").html('<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >');
+	$("#doc2_nombre").html("");
+}
+
+function galeria(idpaquete, nombre) {
+
+  idpaquete_r=idpaquete; nombre_r=nombre;
   show_hide_form(2);
-  $('#h1-nombre-paquete').html(`- ${nombre}`);
+
+  $('.nombre_galeria').html(`Galería del paquete - ${nombre}`);
+  $("#idpaqueteg").val(idpaquete)
+  $('.imagenes_galeria').append('');
+
+  $.post("../ajax/paquete.php?op=mostrar_galeria", { idpaquete: idpaquete }, function (e, status) {
+    
+    e = JSON.parse(e);  console.log(e);    
+
+    if (e.data==null || e.data=="") {
+      $(".g_imagenes").hide(); $(".sin_imagenes").show();
+    }else{
+      $(".sin_imagenes").hide(); $(".g_imagenes").show();
+
+      $('.imagenes_galeria').empty();
+
+      e.data.forEach(element => {
+        //style="border: 2px solid black;"
+        codigoHTML =codigoHTML.concat(`<div class="col-sm-2 pb-2 pt-2" style="border: 2px solid #837f7f;">
+        <a href="../dist/docs/paquete/galeria/${element.imagen}?text=1" data-toggle="lightbox" data-title="${element.descripcion}" data-gallery="gallery">
+         <img src="../dist/docs/paquete/galeria/${element.imagen}?text=1" class="img-fluid mb-2" alt="white sample"/>
+        </a>
+        <div class="text-center text-white" style="background-color: #1f7387; cursor: pointer; border-radius: 0.25rem;" onclick="eliminar_img(${element.idgaleria_paquete},'${element.descripcion}');">Eliminar
+        </div>
+
+      </div> `);
+
+      });
+    
+      $('.imagenes_galeria').append(codigoHTML); // Agregar el contenido 
+
+      $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox({
+          alwaysShowClose: true
+        });
+      });
+
+      // $('.filter-container').filterizr({gutterPixels: 3});
+      $('.btn[data-filter]').on('click', function() {
+        $('.btn[data-filter]').removeClass('active');
+        $(this).addClass('active');
+      });
+    }
+
+    $('.jq_image_zoom').zoom({ on:'grab' });
+     
+    
+    $("#cargando-3-fomulario").show();
+    $("#cargando-4-fomulario").hide();
+  }).fail( function(e) { ver_errores(e); } );
+
+}
+
+function limpiar_galeria () { 
+  $('#descripcion_g').val("");
+  $('#idgaleria_paquete').val("");
+
+  $("#doc_old_2").val("");
+  $("#doc2").val("");  
+  $('#doc2_ver').html(`<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >`);
+  $('#doc2_nombre').html("");
+
+  // Limpiamos las validaciones
+  $(".form-control").removeClass('is-valid');
+  $(".form-control").removeClass('is-invalid');
+  $(".error.invalid-feedback").remove();
+
+  $(".tooltip").removeClass("show").addClass("hidde");
+
+ }
+ function eliminar_img(idgaleria_paquete,descripcion) {  
+  Swal.fire({
+    title: "¿Está seguro de que desea eliminar esta imagen?",
+    text: `${descripcion} se eliminara`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3567dc",
+    cancelButtonColor: "#6c757d",
+    confirmButtonText: "Sí, Eliminar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.post(
+        "../ajax/paquete.php?op=eliminar_imagen",
+        { idgaleria_paquete: idgaleria_paquete},
+        function (response) {
+          try {
+            response = JSON.parse(response);
+            if (response.status == true) {
+              Swal.fire("Verificado", "El comentario ha sido verificado.", "success");
+              // Aquí puedes realizar cualquier otra acción después de verificar el comentario
+              // tbla_principal();
+            } else {
+              ver_errores(response);
+            }
+          } catch (e) {
+            ver_errores(e);
+          }
+        }
+      ).fail(function (response) {
+        ver_errores(response);
+      });
+    }
+  });
+
+ }
+
+//Función para guardar o editar
+function guardar_y_editar_galeria(e) {
+  // e.preventDefault(); //No se activará la acción predeterminada del evento
+  var formData = new FormData($("#form-galeria")[0]);
+
+  $.ajax({
+    url: "../ajax/paquete.php?op=guardar_y_editar_galeria",
+    type: "POST",
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function (e) {
+      try {
+        e = JSON.parse(e);
+        if (e.status == true) {
+
+          Swal.fire("Correcto!", "El registro se guardo correctamente.", "success");
+          galeria(idpaquete_r, nombre_r);
+          // tabla_paquete.ajax.reload(null, false);
+          $('#modal-agregar-galeria').modal('hide'); //
+          limpiar_galeria();   
+
+        } else {
+          ver_errores(e);
+        }
+      } catch (err) { console.log('Error: ', err.message); toastr.error('<h5 class="font-size-16px">Error temporal!!</h5> puede intentalo mas tarde, o comuniquese con <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>'); }      
+      $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
+    },
+    beforeSend: function () {
+      $("#guardar_registro").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+    },
+    error: function (jqXhr) { ver_errores(jqXhr); },
+  });
 }
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::Capturar JQUERRY:::::::::::::::::::::::::::::::::::::::::::::
 
@@ -438,6 +598,38 @@ $(function () {
 
     submitHandler: function (e) {
       guardar_y_editar_paquete(e);
+    },
+
+  });
+
+  $("#form-galeria").validate({
+    ignore: '.select2-input, .select2-focusser',
+    rules: {
+      descripcion_g: { minlength:4 },
+      
+    },
+    messages: {
+      descripcion_g: {minlength: "Minimo 4 Caracteres"},
+    },
+
+    errorElement: "span",
+
+    errorPlacement: function (error, element) {
+      error.addClass("invalid-feedback");
+
+      element.closest(".form-group").append(error);
+    },
+
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass("is-invalid").removeClass("is-valid");
+    },
+
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass("is-invalid").addClass("is-valid");
+    },
+
+    submitHandler: function (e) {
+      guardar_y_editar_galeria(e);
     },
 
   });
