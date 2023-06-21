@@ -21,6 +21,9 @@ function init() {
   // ══════════════════════════════════════ G U A R D A R   F O R M ═══════════════════════════════
   $("#guardar_registro_tours").on("click", function (e) { console.log('Provando guardar'); $("#submit-form-tours").submit(); });
 
+  // ══════════════════════════════════════ G U A R D A R   F O R M TOURS ══════════════════════════════════════ 
+  $("#guardar_registro_galeria_tours").on("click", function (e) { $("#submit-form-galeria_tours").submit(); });
+
   // ══════════════════════════════════════ INITIALIZE SELECT2 ════════════════════════════════════
   $("#idtipo_tours").select2({theme:"bootstrap4", placeholder: "Selec. tipo tours.", allowClear: true, });
 
@@ -37,6 +40,9 @@ function init() {
 // abrimos el navegador de archivos
 $("#doc1_i").click(function() {  $('#doc1').trigger('click'); });
 $("#doc1").change(function(e) {  addImageApplication(e,$("#doc1").attr("id")) });
+// abrimos el navegador de archivos
+$("#doc2_i").click(function() {  $('#doc1').trigger('click'); });
+$("#doc2").change(function(e) {  addImageApplication(e,$("#doc2").attr("id")) });
 
 // Eliminamos el doc 1
 function doc1_eliminar() {
@@ -87,12 +93,17 @@ function show_hide_form(flag) {
 		$("#mostrar-tabla").show();
     $("#mostrar-form").hide();
     $(".btn-regresar").hide();
+    $(".btn-agregar-galeria").hide();
+    
     $(".btn-agregar").show();
+    $("#galeria").hide();
 	}	else	{
 		$("#mostrar-tabla").hide();
     $("#mostrar-form").show();
     $(".btn-regresar").show();
+    $(".btn-agregar-galeria").show();
     $(".btn-agregar").hide();
+    $("#galeria").show();
 	}
 }
 
@@ -158,6 +169,7 @@ function guardar_y_editar_tours(e) {
 
           tabla_tours.ajax.reload(null, false);
           $('#modal-agregar-tours').modal('hide'); //
+          
           limpiar_tours();   
 
         } else {
@@ -172,6 +184,7 @@ function guardar_y_editar_tours(e) {
     error: function (jqXhr) { ver_errores(jqXhr); },
   });
 }
+
 
 function mostrar_tours(idtours) {
 
@@ -373,6 +386,124 @@ $(function () {
 
 });
 
+// .....::::::::::::::::::::::::::::::::::::: F U N C I O N E S   G A L E R I A  :::::::::::::::::::::::::::::::::::::::..
+//funcion limpiargaleria
+//guardar y editar
+//mostrar
+//Función limpiar
+function limpiar_form() {
+  $("#idotro_ingreso").val("");
+  $("#fecha_i").val("");  
+  $("#nro_comprobante").val("");
+  $("#ruc").val("");
+  $("#razon_social").val("");
+  $("#direccion").val("");
+  $("#subtotal").val("");
+  $("#igv").val("");
+  $("#precio_parcial").val("");
+  $("#descripcion").val("");
+
+  $("#doc_old_1").val("");
+  $("#doc1").val("");  
+  $('#doc1_ver').html(`<img src="../dist/svg/pdf_trasnparent.svg" alt="" width="50%" >`);
+  $('#doc1_nombre').html("");
+
+  $("#idpersona").val("null").trigger("change");
+  $("#tipo_comprobante").val("null").trigger("change");
+  $("#forma_pago").val("null").trigger("change");
+
+  $("#val_igv").val(""); 
+  $("#tipo_gravada").val(""); 
+
+  // Limpiamos las validaciones
+  $(".form-control").removeClass('is-valid');
+  $(".form-control").removeClass('is-invalid');
+  $(".error.invalid-feedback").remove();
+}
+
+function mostrar_galeria_paquete(idgaleria_paquete) {
+
+  limpiar_galeria_paquete();
+  
+  $("#cargando-1-fomulario").hide();
+  $("#cargando-2-fomulario").show();
+
+  $("#modal-agregar-galeria_paquete").modal("show");
+
+  $.post("../ajax/galeria_paquete.php?op=mostrar", { idgaleria_paquete: idgaleria_paquete }, function (e, status) {
+    
+    e = JSON.parse(e); console.log('jolll'); console.log(e);    
+
+    $("#idgaleria_paquete").val(e.data.idgaleria_paquete).trigger("change");
+    $("#idpaquete").val(e.data.nombre);
+    $("#descripcion").val(e.data.descripcion);
+    
+    if (e.data.imagen == "" || e.data.imagen == null  ) {
+
+      $("#doc1_ver").html('<img src="../dist/svg/pdf_trasnparent.svg" alt="" width="50%" >');
+
+      $("#doc1_nombre").html('');
+
+      $("#doc_old_1").val(""); $("#doc1").val("");
+
+    } else {
+
+      $("#doc_old_1").val(e.data.imagen); 
+
+      $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Baucher.${extrae_extencion(e.data.imagen)}</i></div></div>`);
+      // cargamos la imagen adecuada par el archivo
+      $("#doc1_ver").html(doc_view_extencion(e.data.imagen,'galeria_paquete', 'galeria_p', '100%', '210' ));   //ruta imagen    
+          
+    }
+    $('.jq_image_zoom').zoom({ on:'grab' });
+     
+    
+    $("#cargando-1-fomulario").show();
+    $("#cargando-2-fomulario").hide();
+  }).fail( function(e) { ver_errores(e); } );
+}
+//Función para guardar o editar
+function guardar_y_editar_galeria_tours(e) {
+  // e.preventDefault(); //No se activará la acción predeterminada del evento
+  var formData = new FormData($("#form-galeria-tours")[0]);
+
+  $.ajax({
+    url: "../ajax/tours.php?op=guardar_y_editar_galeria_tours",
+    type: "POST",
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function (e) {
+      try {
+        e = JSON.parse(e);
+        if (e.status == true) {
+
+          Swal.fire("Correcto!", "El registro se guardo correctamente.", "success");
+
+          tabla_galeria_paquete.ajax.reload(null, false);
+          $('#modal-agregar-galeria_tours').modal('hide'); //
+          limpiar_form();    
+
+        } else {
+          ver_errores(e);
+        }
+      } catch (err) { console.log('Error: ', err.message); toastr.error('<h5 class="font-size-16px">Error temporal!!</h5> puede intentalo mas tarde, o comuniquese con <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>'); }      
+      $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
+    },
+    beforeSend: function () {
+      $("#guardar_registro").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+    },
+    error: function (jqXhr) { ver_errores(jqXhr); },
+  });
+}
+function galeria(idtours) {
+  show_hide_form(2);
+  $('#idgtours_t').val(idtours);
+
+  //esta func lo utilizaremos para mostrar todas las imagenes
+
+}
+
 // .....::::::::::::::::::::::::::::::::::::: F U N C I O N E S    A L T E R N A S  :::::::::::::::::::::::::::::::::::::::..
 
 init();
@@ -382,6 +513,15 @@ function ver_img_tours(file, nombre) {
   $(".tooltip").removeClass("show").addClass("hidde");
   $("#modal-ver-imagen-tours").modal("show");
   $('#imagen-tours').html(`<span class="jq_image_zoom"><img class="img-thumbnail" src="${file}" onerror="this.src='../dist/svg/404-v2.svg';" alt="Perfil" width="100%"></span>`);
+  $('.jq_image_zoom').zoom({ on:'grab' });
+}
+
+// ver imagen DEL TOURS
+function ver_img_galeria_tours(file, nombre) {
+  $('.nombre-galeria_tours').html(nombre);
+  $(".tooltip").removeClass("show").addClass("hidde");
+  $("#modal-ver-imagen-galeria_tours").modal("show");
+  $('#imagen-galeria_tours').html(`<span class="jq_image_zoom"><img class="img-thumbnail" src="${file}" onerror="this.src='../dist/svg/404-v2.svg';" alt="Perfil" width="100%"></span>`);
   $('.jq_image_zoom').zoom({ on:'grab' });
 }
 
