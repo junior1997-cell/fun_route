@@ -333,8 +333,8 @@ function galeria(idpaquete, nombre) {
 
   $('.nombre_galeria').html(`Galería del paquete - ${nombre}`);
   $("#idpaqueteg").val(idpaquete)
-  $('.imagenes_galeria').append('');
-
+  $('.imagenes_galeria').html('');
+  var codigoHTML="";
   $.post("../ajax/paquete.php?op=mostrar_galeria", { idpaquete: idpaquete }, function (e, status) {
     
     e = JSON.parse(e);  console.log(e);    
@@ -344,8 +344,8 @@ function galeria(idpaquete, nombre) {
     }else{
       $(".sin_imagenes").hide(); $(".g_imagenes").show();
 
-      $('.imagenes_galeria').empty();
-
+      // $('.imagenes_galeria').filterizr('destroy');
+      
       e.data.forEach(element => {
         //style="border: 2px solid black;"
         codigoHTML =codigoHTML.concat(`<div class="col-sm-2 pb-2 pt-2" style="border: 2px solid #837f7f;">
@@ -359,7 +359,7 @@ function galeria(idpaquete, nombre) {
 
       });
     
-      $('.imagenes_galeria').append(codigoHTML); // Agregar el contenido 
+      $('.imagenes_galeria').html(codigoHTML); // Agregar el contenido 
 
       $(document).on('click', '[data-toggle="lightbox"]', function(event) {
         event.preventDefault();
@@ -368,11 +368,6 @@ function galeria(idpaquete, nombre) {
         });
       });
 
-      // $('.filter-container').filterizr({gutterPixels: 3});
-      $('.btn[data-filter]').on('click', function() {
-        $('.btn[data-filter]').removeClass('active');
-        $(this).addClass('active');
-      });
     }
 
     $('.jq_image_zoom').zoom({ on:'grab' });
@@ -422,6 +417,7 @@ function limpiar_galeria () {
               Swal.fire("Verificado", "El comentario ha sido verificado.", "success");
               // Aquí puedes realizar cualquier otra acción después de verificar el comentario
               // tbla_principal();
+              galeria(idpaquete_r, nombre_r);
             } else {
               ver_errores(response);
             }

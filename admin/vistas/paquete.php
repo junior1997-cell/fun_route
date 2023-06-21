@@ -134,7 +134,7 @@ if (!isset($_SESSION["nombre"])) {
                               <!-- agregando -->
                               <div class="alert alert-warning alert-dismissible alerta">
                                 <h5><i class="icon fas fa-exclamation-triangle"></i> Alerta!</h5>
-                                NO TIENES NUNGINA ACTIVIDAD ASIGNADA A TU PAQUETE
+                                NO TIENES NUNGINA IMAGEN ASIGNADA A TU PAQUETE
                               </div>
                           </div>
 
@@ -495,8 +495,8 @@ if (!isset($_SESSION["nombre"])) {
     <script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
     <!-- Plugion summernote -->
     <script src="../plugins/summernote/summernote-bs4.min.js"></script>
-   <!-- Filterizr-->
-   <!-- <script src="../plugins/filterizr/jquery.filterizr.min.js"></script> -->
+    <!-- Filterizr-->
+    <script src="../plugins/filterizr/jquery.filterizr.min.js"></script>
     <!-- Funciones del modulo -->
     <script type="text/javascript" src="scripts/paquete.js"></script>
 

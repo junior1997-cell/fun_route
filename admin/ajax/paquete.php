@@ -65,8 +65,8 @@ if (!isset($_SESSION["nombre"])) {
         if (empty($idpaquete)) {
 
           $rspta = $paquete->insertar($nombre, $cant_dias, $cant_noches, $descripcion, $imagen1, $incluye, $no_incluye, 
-          $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento,$_POST['idtours'],
-          $_POST['nombre_tours'],$_POST['numero_orden'],$_POST['actividad']);
+          $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento,isset($_POST['idtours']),
+          isset($_POST['nombre_tours']),isset($_POST['numero_orden']),isset($_POST['actividad']));
 
           echo json_encode($rspta, true);
         } else {
