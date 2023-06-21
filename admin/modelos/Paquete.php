@@ -211,7 +211,30 @@
       return ejecutarConsultaSimpleFila($sql);	
 
     }
+    //=========================S E C C I O N   G A L E R  I A =============================
+    //=========================S E C C I O N   G A L E R  I A =============================
+    //=========================S E C C I O N   G A L E R  I A =============================
+    function insertar_galeria($idpaqueteg,$descripcion_g,$imagen2) {
+      $sql="INSERT INTO galeria_paquete(idpaquete, imagen, descripcion) 
+      VALUES ('$idpaqueteg','$imagen2','$descripcion_g')";
+      return ejecutarConsulta($sql);
+    }
+    function mostrar_galeria($idgaleria){
+      $sql = "SELECT * FROM galeria_paquete WHERE idpaquete='$idgaleria';";
+      return ejecutarConsultaArray($sql);
+      
+    }
+    function eliminar_imagen($idgaleria_paquete){
+      
+      $sql="SELECT imagen FROM galeria_paquete WHERE idgaleria_paquete = '$idgaleria_paquete'; ";
+      $datos_f1 =ejecutarConsultaSimpleFila($sql); if ( $datos_f1['status'] == false) {return $datos_f1; }
+      if (!empty($datos_f1)) { unlink("../dist/docs/paquete/galeria/" . $datos_f1['data']['imagen']); }
 
+      $sql1="DELETE FROM galeria_paquete WHERE idgaleria_paquete='$idgaleria_paquete';";
+      return ejecutarConsulta($sql1);
+
+    }
+      
   }
 
 ?>

@@ -17,7 +17,7 @@
      
       </head>
       <body class="hold-transition sidebar-mini sidebar-collapse layout-fixed layout-navbar-fixed ">
-        
+
         <div class="wrapper">
           <!-- Preloader -->
           <div class="preloader flex-column justify-content-center align-items-center">
