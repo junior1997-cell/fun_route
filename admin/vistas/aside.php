@@ -41,7 +41,7 @@
               <p>
                 Empresa
                 <i class="fas fa-angle-left right"></i>
-                <span class="badge badge-info right">4</span>
+                <span class="badge badge-info right">5</span>
               </p>
             </a>
             <ul class="nav nav-treeview ">
@@ -59,14 +59,14 @@
                   <p> Misión y Visión </p>
                 </a>
               </li>    
-              <!--  Misión y Visión  -->
+              <!--  reseña  -->
               <li class="nav-item ">
                 <a href="ceo_resenia.php" class="nav-link" id="lceo_resenia">
                   <i class="nav-icon fa-solid fa-globe"></i>
                   <p>CEO - Reseña</p>
                 </a>
               </li>   
-              <!--  Misión y Visión  -->
+              <!-- valores -->
               <li class="nav-item ">
                 <a href="valores.php" class="nav-link" id="lvalores">
                   <i class="nav-icon fa-solid fa-lightbulb"></i>
@@ -75,15 +75,15 @@
               </li>
               
               <!--  Politicas Generales  -->
-              <li class="nav-item  b-radio-3px" id="bloc_lPaquetes">
-                <a href="#" class="nav-link pl-2" id="mlPaquetes">
+              <li class="nav-item  b-radio-3px" id="bloc_Politicas">
+                <a href="#" class="nav-link pl-2" id="KPoliticas">
                 <i class="fa-solid fa-boxes-stacked"></i>
-                  <p>Politicas Generales <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">3</span></p>
+                  <p>Politicas Generales <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">2</span></p>
                 </a>
                 <ul class="nav nav-treeview">
                   <!-- Paquetes -->
                   <li class="nav-item ">
-                    <a href="politica_paquete.php" class="nav-link" id="Paquetes">
+                    <a href="politica_paquete.php" class="nav-link" id="3Paquetes">
                       <i class="nav-icon fas fa-map"></i> <p>Paquetes</p>
                     </a>
                   </li>

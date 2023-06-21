@@ -11,26 +11,15 @@
     
     require_once "../modelos/Politicas.php";
 
-    $politica = new Politica($_SESSION['idusuario']);
+    $politica = new politicas($_SESSION['idusuario']);
 
       //============D A T O S========================
 
-      $id           = isset($_POST["idnosotros"])? limpiarCadena($_POST["idnosotros"]):"";
-      $mision       = isset($_POST["mision"])? limpiarCadena($_POST["mision"]):"";
-      $vision       = isset($_POST["vision"])? limpiarCadena($_POST["vision"]):"";
-
-      $palabras_ceo = isset($_POST["palabras_ceo"])? limpiarCadena($_POST["palabras_ceo"]):"";
-      $resenia_h    = isset($_POST["resenia_h"])? limpiarCadena($_POST["resenia_h"]):"";
-
-      $direccion   = isset($_POST["direccion"])? limpiarCadena($_POST["direccion"]):"";
-      $nombre       = isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
-      $ruc          = isset($_POST["ruc"])? limpiarCadena($_POST["ruc"]):"";
-      $celular      = isset($_POST["celular"])? limpiarCadena($_POST["celular"]):"";
-      $telefono     = isset($_POST["telefono"])? limpiarCadena($_POST["telefono"]):"";
-      $latitud      = isset($_POST["latitud"])? limpiarCadena($_POST["latitud"]):"";
-      $longuitud    = isset($_POST["longuitud"])? limpiarCadena($_POST["longuitud"]):"";
-      $correo       = isset($_POST["correo"])? limpiarCadena($_POST["correo"]):"";
-      $horario      = isset($_POST["horario"])? limpiarCadena($_POST["horario"]):"";
+      $id           = isset($_POST["idpoliticas"])? limpiarCadena($_POST["idpoliticas"]):"";
+      $condiciones_generales  = isset($_POST["condiciones_generales"])? limpiarCadena($_POST["condiciones_generales"]):"";
+      $reservas     = isset($_POST["reservas"])? limpiarCadena($_POST["reservas"]):"";
+      $pago = isset($_POST["pago"])? limpiarCadena($_POST["pago"]):"";
+      $cancelacion    = isset($_POST["cancelacion"])? limpiarCadena($_POST["cancelacion"]):"";
 
     switch ($_GET["op"]) {
 
@@ -39,20 +28,20 @@
         echo json_encode($rspta);		
       break;
 
-      case 'actualizar_mision_vision':
+      case 'actualizar_politicas':
 
         if (empty($id)){
           echo "Los datos no se pudieron actualizar";
         }else {
 
           // editamos un documento existente
-          $rspta=$politica->actualizar_mision_vision( $id, $mision, $vision);
+          $rspta=$politica->actualizar_politicas( $id, $condiciones_generales, $reservas, $pago, $cancelacion);
           
           echo json_encode( $rspta, true) ;
         }            
 
       break;
-
+      /*
       case 'actualizar_ceo_resenia':
 
         if (empty($id)){
@@ -66,6 +55,7 @@
         }            
 
       break;
+      */
 
       case 'actualizar_datos_generales':
 
@@ -74,7 +64,7 @@
         }else {
 
           // editamos un documento existente
-          $rspta=$politica->actualizar_datos_generales( $id,$direccion,$nombre,$ruc,$celular,$telefono,$latitud,$longuitud,$correo,$horario );
+          $rspta=$politica->actualizar_datos_generales( $id,$condiciones_generales,$reservas,$pago,$cancelacion );
           
           echo json_encode( $rspta, true) ;
         }            

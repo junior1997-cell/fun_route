@@ -6,13 +6,13 @@ function init() {
 
   $("#mAccesos").addClass("active");
 
-  $("#lmision_vision").addClass("active");
+  $("#3Politicas").addClass("active");
 
 
   $("#actualizar_registro").on("click", function (e) { actualizar_datos_generales_mv(e);});
 
-  $('#mision').summernote(); $('#vision').summernote();
-  $('#mision').summernote ('disable');   $('#vision').summernote ('disable');
+  $('#condiciones_generales').summernote(); $('#reservas').summernote(); $('#pago').summernote(); $('#cancelacion').summernote();
+  $('#condiciones_generales').summernote ('disable'); $('#reservas').summernote ('disable'); $('#pago').summernote ('disable'); $('#cancelacion').summernote ('disable');
 
   mostrar();
   
@@ -25,20 +25,24 @@ function activar_editar(estado) {
     $(".editar").hide();
     $(".actualizar").show();
 
-    $('#mision').summernote ('enable');
-    $('#vision').summernote ('enable');
-
+    $('#condiciones_generales').summernote ('enable');
+    $('#reservas').summernote ('enable');
+    $('#pago').summernote ('enable');
+    $('#cancelacion').summernote ('enable');
+    
     toastr.success('Campos habiliados para editar!!!')
 
   }
 
-  if (estado=="2") {
+  if (estado=="2") {//modificado de 2 a 0
 
     $(".editar").show();
     $(".actualizar").hide();
 
-    $('#mision').summernote ('disable');
-    $('#vision').summernote ('disable');
+    $('#condiciones_generales').summernote ('disable');
+    $('#reservas').summernote ('disable');
+    $('#pago').summernote ('enable');
+    $('#cancelacion').summernote ('enable');
 
   }
 
@@ -56,10 +60,12 @@ function mostrar() {
       $("#cargando-1-fomulario").show();
       $("#cargando-2-fomulario").hide();
 
-      $("#idnosotros").val(e.data.idnosotros);
+      $("#idpoliticas").val(e.data.idpoliticas);
 
-      $('#mision').summernote ('code', e.data.mision);
-      $('#vision').summernote ('code', e.data.vision);
+      $('#condiciones_generales').summernote ('code', e.data.condiciones_generales);
+      $('#reservas').summernote ('code', e.data.reservas);
+      $('#pago').summernote ('code', e.data.pago);
+      $('#cancelacion').summernote ('code', e.data.cancelacion);
       
     }else{
       ver_errores(e);
@@ -70,10 +76,10 @@ function mostrar() {
 
 function actualizar_datos_generales_mv(e) {
   // e.preventDefault(); //No se activará la acción predeterminada del evento
-  var formData = new FormData($("#form-datos-misionvision")[0]);
+  var formData = new FormData($("#form-datos-politicas")[0]);
 
   $.ajax({
-    url: "../ajax/politicas.php?op=actualizar_mision_vision",
+    url: "../ajax/politicas.php?op=actualizar_politicas",
     type: "POST",
     data: formData,
     contentType: false,

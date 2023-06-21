@@ -11,9 +11,9 @@
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Misión y Visión | Admin Fun Route</title>
+        <title>Políticas Generales | Admin Fun Route</title>
 
-        <?php $title = "Misión y Visión"; require 'head.php'; ?>
+        <?php $title = "Políticas Generales"; require 'head.php'; ?>
         <!-- summernote -->
         <link rel="stylesheet" href="../plugins/summernote/summernote-bs4.min.css">
      
@@ -39,7 +39,7 @@
                   <div class="container-fluid">
                     <div class="row mb-2">
                       <div class="col-sm-6">
-                        <h1 class="m-0">Misión y Visión</h1>
+                        <h1 class="m-0">Politicas Generales</h1>
                       </div>
                       <!-- /.col -->
                       <div class="col-sm-6">
@@ -65,26 +65,42 @@
 
                         <div class="modal-body">
                               <!-- form start -->
-                              <form id="form-datos-misionvision" name="form-datos-misionvision" method="POST">
+                              <form id="form-datos-politicas" name="form-datos-politicas" method="POST">
                                 <div class="card-body">
 
                                   <div class="row" id="cargando-1-fomulario">
                                     <!-- id -->
-                                    <input type="hidden" name="idnosotros" id="idnosotros" />
+                                    <input type="hidden" name="idpoliticas" id="idpoliticas" />
                                     
-                                    <!-- Mision-->
+                                    <!-- condiciones-->
                                     <div class="col-12 col-sm-12 col-md-12 col-lg-6">
                                       <div class="form-group">
-                                        <label for="mision">Misión <sup class="text-danger">*</sup> </label> 
-                                        <textarea name="mision" id="mision" class="form-control" rows="10"></textarea>
+                                        <label for="condiciones_generales">Condiciones Generales <sup class="text-danger">*</sup> </label> 
+                                        <textarea name="condiciones_generales" id="condiciones_generales" class="form-control" rows="10"></textarea>
                                       </div>
                                     </div>
 
-                                     <!-- Vision-->
+                                     <!-- reservas-->
                                      <div class="col-12 col-sm-12 col-md-12 col-lg-6">
                                       <div class="form-group">
-                                        <label for="vision">Visión <sup class="text-danger">*</sup> </label> 
-                                        <textarea name="vision" id="vision" class="form-control" rows="10"></textarea>
+                                        <label for="reservas"> Políticas de Reservas <sup class="text-danger">*</sup> </label> 
+                                        <textarea name="reservas" id="reservas" class="form-control" rows="10"></textarea>
+                                      </div>
+                                    </div>
+
+                                    <!-- pago -->
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                                      <div class="form-group">
+                                        <label for="pago"> Políticas de Pago <sup class="text-danger">*</sup> </label> 
+                                        <textarea name="pago" id="pago" class="form-control" rows="10"></textarea>
+                                      </div>
+                                    </div>
+
+                                    <!-- cancelacion -->
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                                      <div class="form-group">
+                                        <label for="cancelacion">Políticas de Cancelacion <sup class="text-danger">*</sup> </label> 
+                                        <textarea name="cancelacion" id="cancelacion" class="form-control" rows="10"></textarea>
                                       </div>
                                     </div>
 
@@ -108,7 +124,7 @@
                                         
                                 </div>
                                 <!-- /.card-body -->
-                                <button type="submit" style="display: none;" id="submit-form-actualizar-misionvision">Submit</button>
+                                <button type="submit" style="display: none;" id="submit-form-actualizar-politicas">Submit</button>
                               </form>
                             </div>
                             <div class="modal-footer justify-content-end">
