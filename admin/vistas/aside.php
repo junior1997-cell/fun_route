@@ -39,15 +39,11 @@
           <li class="nav-item " id="bloc_empresa">
             <a href="#" class="nav-link" id="mempresa" style="padding-left: 7px;">
               <i class="nav-icon fa-sharp fa-solid fa-city"></i>
-<<<<<<< HEAD
               <p>
                 Empresa
                 <i class="fas fa-angle-left right"></i>
                 <span class="badge badge-info right">5</span>
               </p>
-=======
-              <p class="font-size-14px">Empresa<i class="fas fa-angle-left right"></i><span class="badge badge-info right">5</span></p>
->>>>>>> 0a1cf5dc4a7d4e25b9eeb3f10d0767cbd48c9bcc
             </a>
 
             <ul class="nav nav-treeview ">
@@ -72,11 +68,9 @@
                   <p>CEO - Reseña</p>
                 </a>
               </li>   
-<<<<<<< HEAD
+
               <!-- valores -->
-=======
-              <!--  valores  -->
->>>>>>> 0a1cf5dc4a7d4e25b9eeb3f10d0767cbd48c9bcc
+
               <li class="nav-item ">
                 <a href="valores.php" class="nav-link" id="lvalores">
                   <i class="nav-icon fa-solid fa-lightbulb"></i>
@@ -85,26 +79,16 @@
               </li>
               
               <!--  Politicas Generales  -->
-<<<<<<< HEAD
-              <li class="nav-item  b-radio-3px" id="bloc_Politicas">
-                <a href="#" class="nav-link pl-2" id="KPoliticas">
-                <i class="fa-solid fa-boxes-stacked"></i>
-                  <p>Politicas Generales <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">2</span></p>
-=======
               <li class="nav-item" id="bloc_lPoliticas">
                 <a href="#" class="nav-link pl-3" id="mlPoliticas">
                 <i class="nav-icon fas fa-balance-scale"></i>
                   <p> Politicas Generales <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">2</span></p>
->>>>>>> 0a1cf5dc4a7d4e25b9eeb3f10d0767cbd48c9bcc
+
                 </a>
                 <ul class="nav nav-treeview">
                   <!-- Paquetes -->
                   <li class="nav-item ">
-<<<<<<< HEAD
-                    <a href="politica_paquete.php" class="nav-link" id="3Paquetes">
-=======
                     <a href="politica_paquete.php" class="nav-link pl-4" id="lPoliticas">
->>>>>>> 0a1cf5dc4a7d4e25b9eeb3f10d0767cbd48c9bcc
                       <i class="nav-icon fas fa-map"></i> <p>Paquetes</p>
                     </a>
                   </li>
