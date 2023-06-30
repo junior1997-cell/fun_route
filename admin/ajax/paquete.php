@@ -44,8 +44,11 @@ if (!isset($_SESSION["nombre"])) {
     $descripcion_g       = isset($_POST["descripcion_g"]) ? limpiarCadena($_POST["descripcion_g"]) : "";
     $img_galeria         = isset($_POST["doc2"]) ? limpiarCadena($_POST["doc2"]) : "";
     //$idpaqueteg,$idgaleria_paquete,$descripcion_g,$img_galeria
-
-
+    $idtours =isset($_POST['idtours']) ? $_POST['idtours'] : "0";
+    $nombre_tours = isset($_POST['nombre_tours'])? $_POST['nombre_tours'] : "";
+    $numero_orden = isset($_POST['numero_orden'])? $_POST['numero_orden'] : "";
+    $actividad  = isset($_POST['actividad'])? $_POST['actividad'] : "";
+    
     switch ($_GET["op"]) {
 
       case 'guardar_y_editar_paquete':
@@ -65,8 +68,7 @@ if (!isset($_SESSION["nombre"])) {
         if (empty($idpaquete)) {
 
           $rspta = $paquete->insertar($nombre, $cant_dias, $cant_noches, $descripcion, $imagen1, $incluye, $no_incluye, 
-          $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento,isset($_POST['idtours']),
-          isset($_POST['nombre_tours']),isset($_POST['numero_orden']),isset($_POST['actividad']));
+          $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento,$idtours,$nombre_tours,$numero_orden,$actividad);
 
           echo json_encode($rspta, true);
         } else {
@@ -82,8 +84,8 @@ if (!isset($_SESSION["nombre"])) {
 
           // editamos un paquete existente
           $rspta = $paquete->editar($idpaquete,$nombre, $cant_dias, $cant_noches, $descripcion, $imagen1, $incluye, $no_incluye, 
-            $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento,$_POST['iditinerario'],$_POST['idtours'],
-            $_POST['nombre_tours'],$_POST['numero_orden'],$_POST['actividad']);
+            $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento,$_POST['iditinerario'],
+            $idtours,$nombre_tours,$numero_orden,$actividad);
 
           echo json_encode($rspta, true);
         }
@@ -194,48 +196,43 @@ if (!isset($_SESSION["nombre"])) {
           echo json_encode($rspta, true);
         }
       break;
-        /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
-        /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
-        /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
-        /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
-        //$idpaqueteg,$idgaleria_paquete,$descripcion_g,$img_galeria
-        case 'guardar_y_editar_galeria':
+      /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
+      /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
+      /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
+      /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
+      //$idpaqueteg,$idgaleria_paquete,$descripcion_g,$img_galeria
+      case 'guardar_y_editar_galeria':
 
-          // imgen de perfil
-          if (!file_exists($_FILES['doc2']['tmp_name']) || !is_uploaded_file($_FILES['doc2']['tmp_name'])) {
-            $imagen2 = $_POST["doc_old_2"];
-            $flat_img2 = false;
-          } else {
-            //guardar imagen
-            $ext2 = explode(".", $_FILES["doc2"]["name"]);
-            $flat_img2 = true;
-            $imagen2 = $date_now . ' ' . random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext2);
-            move_uploaded_file($_FILES["doc2"]["tmp_name"], "../dist/docs/paquete/galeria/" . $imagen2);
-          }
-  
-          if (empty($idgaleria_paquete)) {
-  
-            $rspta = $paquete->insertar_galeria($idpaqueteg,$descripcion_g,$imagen2);
-  
-            echo json_encode($rspta, true);
-          }
-  
-        break;
-        
-        case 'mostrar_galeria':
-          $rspta = $paquete->mostrar_galeria($_POST['idpaquete']);
+        // imgen de perfil
+        if (!file_exists($_FILES['doc2']['tmp_name']) || !is_uploaded_file($_FILES['doc2']['tmp_name'])) {
+          $imagen2 = $_POST["doc_old_2"];
+          $flat_img2 = false;
+        } else {
+          //guardar imagen
+          $ext2 = explode(".", $_FILES["doc2"]["name"]);
+          $flat_img2 = true;
+          $imagen2 = $date_now . ' ' . random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext2);
+          move_uploaded_file($_FILES["doc2"]["tmp_name"], "../dist/docs/paquete/galeria/" . $imagen2);
+        }
+
+        if (empty($idgaleria_paquete)) {
+
+          $rspta = $paquete->insertar_galeria($idpaqueteg,$descripcion_g,$imagen2);
+
           echo json_encode($rspta, true);
-        break;
+        }
 
-        case 'eliminar_imagen':
-          $rspta = $paquete->eliminar_imagen($_POST['idgaleria_paquete']);
-          echo json_encode($rspta, true);
-        break;
+      break;
+      
+      case 'mostrar_galeria':
+        $rspta = $paquete->mostrar_galeria($_POST['idpaquete']);
+        echo json_encode($rspta, true);
+      break;
 
-
-
-
-
+      case 'eliminar_imagen':
+        $rspta = $paquete->eliminar_imagen($_POST['idgaleria_paquete']);
+        echo json_encode($rspta, true);
+      break;
 
 
       default:

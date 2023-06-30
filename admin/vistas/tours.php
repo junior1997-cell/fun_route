@@ -23,7 +23,7 @@ if (!isset($_SESSION["nombre"])) {
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/adminlte.min.css">
     <!-- Font Awesome -->
-  <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
 
     <!-- summernote -->
     <link rel="stylesheet" href="../plugins/summernote/summernote-bs4.min.css">
@@ -69,7 +69,7 @@ if (!isset($_SESSION["nombre"])) {
                     <div class="card-header">
                       <h3 class="card-title btn-regresar" style="display: none;">
                         <button type="button" class="btn bg-gradient-warning" onclick="show_hide_form(1);"><i class="fas fa-arrow-left"></i> Regresar</button>
-                        <button type="button" class="btn bg-gradient-success btn-agregar-galeria" data-toggle="modal" onclick="show_hide_form(2);" data-target="#modal-agregar-galeria_tours"><i class="fas fa-plus-circle"></i> Galeria</button>
+                        <button type="button" class="btn bg-gradient-success btn-agregar-galeria" data-toggle="modal" onclick="show_hide_form(2); limpiar_galeria();" data-target="#modal-agregar-galeria_tours"><i class="fas fa-plus-circle"></i> Galeria</button>
                       </h3>
                       <h3 class="card-title btn-agregar">
                         <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-tours" onclick="limpiar_tours(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar</button>
@@ -110,41 +110,30 @@ if (!isset($_SESSION["nombre"])) {
                       </div>
                       <div id="galeria" style="display: none;">
 
-                        <!-- Diseño de la galeria-->
-                        <section class="content">
-                          <div class="container-fluid">
-                            <div class="row">
-                              <div class="col-12">
-                                <div class="card card-primary">
-                                  <div class="card-header">
-                                    <h4 class="card-title">Galeria</h4>
-                                  </div>
-                                  <div class="card-body">
-                                    <div class="row">
-                                      <div class="col-sm-2">
-                                        <a href="https://via.placeholder.com/1200/FFFFFF.png?text=1" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
-                                          <img src="https://via.placeholder.com/300/FFFFFF?text=1" class="img-fluid mb-2" alt="white sample" />
-                                        </a>
-                                      </div>
-                                      <div class="col-sm-2">
-                                        <a href="https://via.placeholder.com/1200/000000.png?text=2" data-toggle="lightbox" data-title="sample 2 - black" data-gallery="gallery">
-                                          <img src="https://via.placeholder.com/300/000000?text=2" class="img-fluid mb-2" alt="black sample" />
-                                        </a>
-                                      </div>
-                                      <div class="col-sm-2">
-                                        <a href="https://via.placeholder.com/1200/FF0000/FFFFFF.png?text=3" data-toggle="lightbox" data-title="sample 3 - red" data-gallery="gallery">
-                                          <img src="https://via.placeholder.com/300/FF0000/FFFFFF?text=3" class="img-fluid mb-2" alt="red sample" />
-                                        </a>
-                                      </div>
-                                      
-                                    </div>
-                                  </div>
-                                </div>
+                        <div class="col-12 g_imagenes">
+                          <div class="card card-primary">
+                            <div class="card-header">
+                              <h4 class="card-title nombre_galeria"></h4>
+                            </div>
+                            <div class="card-body">
+                              <div class="row imagenes_galeria">
+
                               </div>
                             </div>
                           </div>
-                        </section>
+                        </div>
 
+                        <div class="col-12 sin_imagenes">
+
+                          <div class="card col-12 px-3 py-3" style="box-shadow: 0 0 1px rgb(0 0 0), 0 1px 3px rgb(0 0 0 / 60%);">
+                            <!-- agregando -->
+                            <div class="alert alert-warning alert-dismissible alerta">
+                              <h5><i class="icon fas fa-exclamation-triangle"></i> Alerta!</h5>
+                              NO TIENES NUNGINA IMAGEN ASIGNADA A TOURS
+                            </div>
+                          </div>
+
+                        </div>
 
                       </div>
 
@@ -205,7 +194,7 @@ if (!isset($_SESSION["nombre"])) {
                             <input type="hidden" name="idtours" id="idtours" />
 
                             <!-- Nombre -->
-                            <div class="col-12 col-sm-12 col-md-8 col-lg-9">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                               <div class="form-group">
                                 <label for="nombre">Nombre</label>
                                 <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Nombre del tours" />
@@ -213,12 +202,19 @@ if (!isset($_SESSION["nombre"])) {
                             </div>
 
                             <!-- Tipo Tours -->
-                            <div class="col-12 col-sm-12 col-md-4 col-lg-3">
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                               <div class="form-group">
                                 <label for="idtipo_tours">Tipo Tours</label>
                                 <select name="idtipo_tours" id="idtipo_tours" class="form-control select2" style="width: 100%;">
                                   <!-- Aqui listamos los tipos de tours -->
                                 </select>
+                              </div>
+                            </div>
+                            <!-- duracion -->
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                              <div class="form-group">
+                                <label for="Duración">Duración</label>
+                                <input type="text" name="duracion" class="form-control" id="duracion" placeholder="Duración" />
                               </div>
                             </div>
 
@@ -283,14 +279,6 @@ if (!isset($_SESSION["nombre"])) {
                               <div class="form-group">
                                 <label for="recomendaciones">Recomendaciones <sup class="text-danger">*</sup> </label>
                                 <textarea name="recomendaciones" id="recomendaciones" class="form-control" rows="10"></textarea>
-                              </div>
-                            </div>
-
-                            <!-- mapa-->
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                              <div class="form-group">
-                                <label for="mapa">Mapa <sup class="text-danger">*</sup> </label>
-                                <!-- <textarea name="mapa" id="mapa" class="form-control" rows="10"></textarea> -->
                               </div>
                             </div>
 
@@ -391,7 +379,7 @@ if (!isset($_SESSION["nombre"])) {
               <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h4 class="modal-title">Agregar Galeria</h4>
+                    <h4 class="modal-title">Agregar Galería</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span class="text-danger" aria-hidden="true">&times;</span>
                     </button>
@@ -404,37 +392,34 @@ if (!isset($_SESSION["nombre"])) {
 
                         <!-- id galeria Tours -->
                         <input type="hidden" name="idgaleria_tours" id="idgaleria_tours" />
-                        <input type="text" name="idtours_t" id="idtours_t" />
+                        <input type="hidden" name="idtours_t" id="idtours_t" />
 
-                        <!--Descripcion-->
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                          <div class="form-group ">
-                            <label for="descripcion_tours">Descripción</label> <br />
-                            <textarea name="descripcion_g" id="descripcion_g" class="form-control" rows="2"></textarea>
+                        <!-- Descripción -->
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                          <div class="form-group">
+                            <label for="direccion">Descripción</label>
+                            <input type="text" name="descripcion_g" class="form-control" id="descripcion_g" placeholder="Descripción" />
                           </div>
                         </div>
-
-                        <!-- Factura -->
-                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <!-- imagen perfil -->
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                           <!-- linea divisoria -->
-                          <div class="borde-arriba-naranja mt-4"> </div>
+                          <div class="borde-arriba-naranja mt-4"></div>
                           <div class="row text-center">
                             <div class="col-md-12" style="padding-top: 15px; padding-bottom: 5px;">
                               <label for="cip" class="control-label"> Imagen </label>
                             </div>
                             <div class="col-6 col-md-6 text-center">
-                              <button type="button" class="btn btn-success btn-block btn-xs" id="doc2_i"> <i class="fas fa-upload"></i> Subir.</button>
+                              <button type="button" class="btn btn-success btn-block btn-xs" id="doc2_i"><i class="fas fa-upload"></i> Subir.</button>
                               <input type="hidden" id="doc_old_2" name="doc_old_2" />
                               <input style="display: none;" id="doc2" type="file" name="doc2" accept="application/pdf, image/*" class="docpdf" />
                             </div>
                             <div class="col-6 col-md-6 text-center">
-                              <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'otro_ingreso', 'comprobante');">
-                                <i class="fas fa-redo"></i> Recargar.
-                              </button>
+                              <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'paquete', 'galeria');"><i class="fas fa-redo"></i> Recargar.</button>
                             </div>
                           </div>
-                          <div id="doc1_ver" class="text-center mt-4">
-                            <img src="../dist/svg/doc_uploads.svg" alt="" width="50%">
+                          <div id="doc2_ver" class="text-center mt-4">
+                            <img src="../dist/svg/doc_uploads.svg" alt="" width="50%" />
                           </div>
                           <div class="text-center" id="doc2_nombre"><!-- aqui va el nombre del pdf --></div>
                         </div>

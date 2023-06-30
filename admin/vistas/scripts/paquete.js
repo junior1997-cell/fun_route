@@ -396,6 +396,7 @@ function limpiar_galeria () {
   $(".tooltip").removeClass("show").addClass("hidde");
 
  }
+ 
  function eliminar_img(idgaleria_paquete,descripcion) {  
   Swal.fire({
     title: "¿Está seguro de que desea eliminar esta imagen?",

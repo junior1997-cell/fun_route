@@ -29,27 +29,31 @@
 		  $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5,'idpaquete','".$crear['data']."','$sql_d','$this->id_usr_sesion')";
 		  $bitacora = ejecutarConsulta_retornarID($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }
       
-      $num_elementos = 0;
-      $sw = true;
-      // var_dump(count($idtours));die();
-      while ($num_elementos < count($idtours)) {
+      if ($idtours == "" || $idtours == 0) {return $crear; }else{
 
-        $sql = "INSERT INTO itinerario(idpaquete, idtours, actividad, numero_orden) 
-        VALUES ('".$crear['data']."','$idtours[$num_elementos]','$actividad[$num_elementos]','$numero_orden[$num_elementos]')";
-        $sw = ejecutarConsulta_retornarID($sql); if ($sw['status'] == false) {    return $sw ; }
-        # code...
-        $idpaquete = $sw['data'];
-        //add registro en nuestra bitacora
-        $sql_d = $crear['data'].' '.'$idtours[$num_elementos]'.' '.'$actividad[$num_elementos]'.' '.'$numero_orden[$num_elementos]';
+        $num_elementos = 0;
+        $sw = true;
+        // var_dump(count($idtours));die();
+        while ($num_elementos < count($idtours)) {
 
-        $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5,'itinerario','$idpaquete','$sql_d','$this->id_usr_sesion')";
-        $bitacora = ejecutarConsulta_retornarID($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }
+          $sql = "INSERT INTO itinerario(idpaquete, idtours, actividad, numero_orden) 
+          VALUES ('".$crear['data']."','$idtours[$num_elementos]','$actividad[$num_elementos]','$numero_orden[$num_elementos]')";
+          $sw = ejecutarConsulta_retornarID($sql); if ($sw['status'] == false) {    return $sw ; }
+          # code...
+          $idpaquete = $sw['data'];
+          //add registro en nuestra bitacora
+          $sql_d = $crear['data'].' '.'$idtours[$num_elementos]'.' '.'$actividad[$num_elementos]'.' '.'$numero_orden[$num_elementos]';
 
-        $num_elementos = $num_elementos + 1;
-        
-      }    
-		
-		  return $sw;
+          $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5,'itinerario','$idpaquete','$sql_d','$this->id_usr_sesion')";
+          $bitacora = ejecutarConsulta_retornarID($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }
+
+          $num_elementos = $num_elementos + 1;
+          
+        }    
+      
+        return $sw;
+       
+      }
     }
 
     //implementamos un metodo para editar registros
@@ -77,28 +81,32 @@
 		  $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (6,'idpaquete','$idpaquete','$sql_d','$this->id_usr_sesion')";
 		  $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; } 
       
-
-      $num_elementos = 0;
-      $sw = true;
-      // var_dump(count($idtours));die();
-      while ($num_elementos < count($idtours)) {
-
-        $sql = "INSERT INTO itinerario(idpaquete, idtours, actividad, numero_orden) 
-        VALUES ('$idpaquete','$idtours[$num_elementos]','$actividad[$num_elementos]','$numero_orden[$num_elementos]')";
-        $sw = ejecutarConsulta_retornarID($sql); if ($sw['status'] == false) {    return $sw ; }
-        # code...
-        $itinerario = $sw['data'];
-        //add registro en nuestra bitacora
-        $sql_d = $idpaquete.' '.'$idtours[$num_elementos]'.' '.'$actividad[$num_elementos]'.' '.'$numero_orden[$num_elementos]';
-
-        $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5,'itinerario','$itinerario','$sql_d','$this->id_usr_sesion')";
-        $bitacora = ejecutarConsulta_retornarID($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }
-
-        $num_elementos = $num_elementos + 1;
+      if ($idtours !== "" || $idtours !== 0) {return $crear; }else{
         
-      }    
-		
-		  return $sw;
+        $num_elementos = 0;
+        $sw = true;
+        // var_dump(count($idtours));die();
+        while ($num_elementos < count($idtours)) {
+
+          $sql = "INSERT INTO itinerario(idpaquete, idtours, actividad, numero_orden) 
+          VALUES ('$idpaquete','$idtours[$num_elementos]','$actividad[$num_elementos]','$numero_orden[$num_elementos]')";
+          $sw = ejecutarConsulta_retornarID($sql); if ($sw['status'] == false) {    return $sw ; }
+          # code...
+          $itinerario = $sw['data'];
+          //add registro en nuestra bitacora
+          $sql_d = $idpaquete.' '.'$idtours[$num_elementos]'.' '.'$actividad[$num_elementos]'.' '.'$numero_orden[$num_elementos]';
+
+          $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5,'itinerario','$itinerario','$sql_d','$this->id_usr_sesion')";
+          $bitacora = ejecutarConsulta_retornarID($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }
+
+          $num_elementos = $num_elementos + 1;
+          
+        }    
+      
+        return $sw;
+                # code...
+       
+      }
     }
 
     //Implementamos un método para desactivar registros
