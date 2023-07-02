@@ -24,7 +24,7 @@
     switch ($_GET["op"]) {
 
       case 'mostrar':
-        $rspta=$politica->mostrar();
+        $rspta=$politica->mostrar($_POST['idpolitica']);
         echo json_encode($rspta);		
       break;
 

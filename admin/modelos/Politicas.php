@@ -14,9 +14,9 @@ Class Politicas
   }
 
 		//mostrar_comprobante
-		public function mostrar(){
+		public function mostrar($idpolitica){
 		
-			$sql="SELECT * FROM politicas WHERE idpoliticas='1'";
+			$sql="SELECT * FROM politicas WHERE idpoliticas='$idpolitica';";
 			return ejecutarConsultaSimpleFila($sql);
 		}
 	

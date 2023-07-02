@@ -11,9 +11,9 @@
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Políticas Generales | Admin Fun Route</title>
+        <title>Políticas | Admin Fun Route</title>
 
-        <?php $title = "Políticas Generales"; require 'head.php'; ?>
+        <?php $title = "Políticas"; require 'head.php'; ?>
         <!-- summernote -->
         <link rel="stylesheet" href="../plugins/summernote/summernote-bs4.min.css">
      
@@ -39,7 +39,7 @@
                   <div class="container-fluid">
                     <div class="row mb-2">
                       <div class="col-sm-6">
-                        <h1 class="m-0">Politicas Generales Paquete</h1>
+                        <h1 class="m-0">Politicas Generales Tours</h1>
                       </div>
                       <!-- /.col -->
                       <div class="col-sm-6">
@@ -63,15 +63,15 @@
                       <div class="col-12">
                         <div class="card card-primary card-outline">
 
-                        <div class="modal-body" onload="loaded();">
+                        <div class="modal-body" onload="loadede();">
                               <!-- form start -->
                               <form id="form-datos-politicas" name="form-datos-politicas" method="POST">
                                 <div class="card-body">
 
                                   <div class="row" id="cargando-1-fomulario">
-                                    <input type="hidden" id="name_P_tt" value="politicas_paquete">
                                     <!-- id -->
-                                    <input type="hidden" name="idpoliticas" id="idpoliticas" value="1" />
+                                    <input type="hidden" id="name_P_tt" value="politicas_tours">
+                                    <input type="hidden" name="idpoliticas" id="idpoliticas" value="2" />
                                     
                                     <!-- condiciones-->
                                     <div class="col-12 col-sm-12 col-md-12 col-lg-6">
