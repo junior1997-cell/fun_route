@@ -88,7 +88,7 @@ function tbla_principal_item(id_proyecto) {
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]], //mostramos el menú de registros a revisar
     aProcessing: true, //Activamos el procesamiento del datatables
     aServerSide: true, //Paginación y filtrado realizados por el servidor
-    dom: "<Bl<f>rtip>", //Definimos los elementos del control de tabla
+    dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
     buttons: [
       { extend: 'copyHtml5', footer: true, exportOptions: { columns: [0,2,3,4], } }, 
       { extend: 'excelHtml5', footer: true, exportOptions: { columns: [0,2,3,4], }, title: 'Grupos - Concreto y Agregado' },      
@@ -442,7 +442,7 @@ function tbla_principal_concreto(id_proyecto, idtipo_tierra, columna_bombeado, n
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]], //mostramos el menú de registros a revisar
     aProcessing: true, //Activamos el procesamiento del datatables
     aServerSide: true, //Paginación y filtrado realizados por el servidor
-    dom: "<Bl<f>rtip>", //Definimos los elementos del control de tabla
+    dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
     buttons: [
       { extend: 'copyHtml5', footer: true, exportOptions: { columns: bombeado_export, }, title: removeCaracterEspecial(nombre_item), }, 
       { extend: 'excelHtml5', footer: true, exportOptions: { columns: bombeado_export, }, title: removeCaracterEspecial(nombre_item), }, 
@@ -719,7 +719,7 @@ function tbla_comprobantes_compras(id_compra, num_orden) {
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]], //mostramos el menú de registros a revisar
     aProcessing: true, //Activamos el procesamiento del datatables
     aServerSide: true, //Paginación y filtrado realizados por el servidor
-    dom: "<Bl<f>rtip>", //Definimos los elementos del control de tabla
+    dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
     buttons: [ ],
     ajax: {
       url: `../ajax/concreto_agregado.php?op=tbla_comprobantes_compra&id_compra=${id_compra}&num_orden=${num_orden}`,
@@ -765,7 +765,7 @@ function tbla_principal_resumen(idproyecto) {
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]], //mostramos el menú de registros a revisar
     aProcessing: true, //Activamos el procesamiento del datatables
     aServerSide: true, //Paginación y filtrado realizados por el servidor
-    dom: "<Bl<f>rtip>", //Definimos los elementos del control de tabla
+    dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
     buttons: [
       { extend: 'copyHtml5', footer: true, exportOptions: { columns: [0,1,2,3,4,5,6], } }, 
       { extend: 'excelHtml5', footer: true, exportOptions: { columns: [0,1,2,3,4,5,6], } }, 
