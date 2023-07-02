@@ -39,6 +39,11 @@
       $monto_descuento        = isset($_POST["monto_descuento"])? limpiarCadena($_POST["monto_descuento"]):"";
 
       //$idtours,$nombre,$idtipo_tours,$descripcion,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1
+      // galeria tours
+      $idgaleria_tours		   = isset($_POST["idgaleria_tours"])? limpiarCadena($_POST["idgaleria_tours"]):"";
+      $idtours_t		         = isset($_POST["idtours_t"])? limpiarCadena($_POST["idtours_t"]):"";
+      $descripcion_g		     = isset($_POST["descripcion_g"])? limpiarCadena($_POST["descripcion_g"]):"";
+      $doc2		               = isset($_POST["doc2"])? limpiarCadena($_POST["doc2"]):"";
 
       
       switch ($_GET["op"]) {
@@ -128,6 +133,7 @@
                       <img class="profile-user-img img-responsive img-circle cursor-pointer" src="'. $imagen .'" alt="User Image" onerror="'.$imagen_error.'" onclick="ver_img_tours(\'' . $imagen . '\', \''.encodeCadenaHtml($value['nombre']).'\');" data-toggle="tooltip" data-original-title="Ver foto">
                      </div>',
                 "6"=>$estado_descuento,
+                "7"=>'<button class="btn btn-info btn-sm" onclick="galeria(' . $value['idtours'] .', \'' . encodeCadenaHtml($value['nombre']) . '\')" data-toggle="tooltip" data-original-title="Ver detalle compra">Galería <i class="fa fa-eye"></i></button>',
               );
             }
             $results = array(
@@ -167,6 +173,43 @@
             echo json_encode($rspta, true); 
           }
         break;
+
+        /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
+        /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
+        //$idpaqueteg,$idgaleria_paquete,$descripcion_g,$img_galeria
+        case 'guardar_y_editar_galeria':
+
+          // imgen de perfil
+          if (!file_exists($_FILES['doc2']['tmp_name']) || !is_uploaded_file($_FILES['doc2']['tmp_name'])) {
+            $imagen2 = $_POST["doc_old_2"];
+            $flat_img2 = false;
+          } else {
+            //guardar imagen
+            $ext2 = explode(".", $_FILES["doc2"]["name"]);
+            $flat_img2 = true;
+            $imagen2 = $date_now . ' ' . random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext2);
+            move_uploaded_file($_FILES["doc2"]["tmp_name"], "../dist/docs/tours/galeria/" . $imagen2);
+          }
+
+          if (empty($idgaleria_tours)) {
+
+            $rspta = $tours->insertar_galeria($idtours_t,$descripcion_g,$imagen2);
+
+            echo json_encode($rspta, true);
+          }
+
+        break;
+        
+        case 'mostrar_galeria':
+          $rspta = $tours->mostrar_galeria($_POST['idtours']);
+          echo json_encode($rspta, true);
+        break;
+
+        case 'eliminar_imagen':
+          $rspta = $tours->eliminar_imagen($_POST['idgaleria_tours']);
+          echo json_encode($rspta, true);
+        break;
+
 
 
         default: 

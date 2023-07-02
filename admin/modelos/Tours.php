@@ -95,7 +95,7 @@
     {
       $sql="SELECT t.idtours,t.idtipo_tours,t.nombre, t.descripcion, t.imagen, t.costo,t.estado_descuento, tt.nombre as tipo_tours 
       FROM tours as t, tipo_tours as tt 
-      WHERE t.idtipo_tours=tt.idtipo_tours and t.estado=1 and t.estado_delete=1;";
+      WHERE t.idtipo_tours=tt.idtipo_tours and t.idtours>1  and t.estado=1 and t.estado_delete=1;";
       return ejecutarConsultaArray($sql);		
     }
 
@@ -109,6 +109,32 @@
     {
       $sql="SELECT idtipo_tours as id, nombre FROM tipo_tours WHERE estado=1 and estado_delete=1;";
       return ejecutarConsultaArray($sql);	
+
+    }
+
+    //=========================S E C C I O N   G A L E R  I A =============================
+    //=========================S E C C I O N   G A L E R  I A =============================
+
+    function insertar_galeria($idtours ,$descripcion_g,$imagen2) {
+      $sql="INSERT INTO galeria_tours(idtours, imagen, descripcion) 
+      VALUES ('$idtours ','$imagen2','$descripcion_g')";
+      return ejecutarConsulta($sql);
+    }
+
+    function mostrar_galeria($idtours){
+      $sql = "SELECT * FROM galeria_tours WHERE idtours ='$idtours';";
+      return ejecutarConsultaArray($sql);
+      
+    }
+    
+    function eliminar_imagen($idgaleria_tours){
+      
+      $sql="SELECT imagen FROM galeria_tours WHERE idgaleria_tours = '$idgaleria_tours'; ";
+      $datos_f1 =ejecutarConsultaSimpleFila($sql); if ( $datos_f1['status'] == false) {return $datos_f1; }
+      if (!empty($datos_f1)) { unlink("../dist/docs/tours/galeria/" . $datos_f1['data']['imagen']); }
+
+      $sql1="DELETE FROM galeria_tours WHERE idgaleria_tours='$idgaleria_tours';";
+      return ejecutarConsulta($sql1);
 
     }
 

@@ -786,7 +786,7 @@ function re_visualizacion(id, carpeta, sub_carpeta, width='100%', height='310') 
         timer: 1500
       })
 
-      $("#doc"+id+"_ver").html('<img src="../dist/svg/pdf_trasnparent.svg" alt="" width="50%" >');
+      $("#doc"+id+"_ver").html('<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >');
 
 		  $("#doc"+id+"_nombre").html("");
 

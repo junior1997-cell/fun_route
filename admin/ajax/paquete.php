@@ -31,11 +31,24 @@ if (!isset($_SESSION["nombre"])) {
     $cant_noches          = isset($_POST["cant_noches"]) ? limpiarCadena($_POST["cant_noches"]) : "";
     $descripcion          = isset($_POST["descripcion"]) ? limpiarCadena($_POST["descripcion"]) : "";
     $incluye              = isset($_POST["incluye"]) ? limpiarCadena($_POST["incluye"]) : "";
-    $no_incluye            = isset($_POST["no_incluye"]) ? limpiarCadena($_POST["no_incluye"]) : "";
+    $no_incluye           = isset($_POST["no_incluye"]) ? limpiarCadena($_POST["no_incluye"]) : "";
     $recomendaciones      = isset($_POST["recomendaciones"]) ? limpiarCadena($_POST["recomendaciones"]) : "";
-    $mapa                  = isset($_POST["mapa"]) ? limpiarCadena($_POST["mapa"]) : "";
+    $mapa                 = isset($_POST["mapa"]) ? limpiarCadena($_POST["mapa"]) : "";
     $costo                = isset($_POST["costo"]) ? limpiarCadena($_POST["costo"]) : "";
-
+    $estado_descuento     = isset($_POST["estado_descuento"]) ? limpiarCadena($_POST["estado_descuento"]) : "";
+    $porcentaje_descuento = isset($_POST["porcentaje_descuento"]) ? limpiarCadena($_POST["porcentaje_descuento"]) : "";
+    $monto_descuento      = isset($_POST["monto_descuento"]) ? limpiarCadena($_POST["monto_descuento"]) : "";
+    //---------------G A L E R I A-------------------
+    $idpaqueteg          = isset($_POST["idpaqueteg"]) ? limpiarCadena($_POST["idpaqueteg"]) : "";
+    $idgaleria_paquete   = isset($_POST["idgaleria_paquete"]) ? limpiarCadena($_POST["idgaleria_paquete"]) : "";
+    $descripcion_g       = isset($_POST["descripcion_g"]) ? limpiarCadena($_POST["descripcion_g"]) : "";
+    $img_galeria         = isset($_POST["doc2"]) ? limpiarCadena($_POST["doc2"]) : "";
+    //$idpaqueteg,$idgaleria_paquete,$descripcion_g,$img_galeria
+    $idtours =isset($_POST['idtours']) ? $_POST['idtours'] : "0";
+    $nombre_tours = isset($_POST['nombre_tours'])? $_POST['nombre_tours'] : "";
+    $numero_orden = isset($_POST['numero_orden'])? $_POST['numero_orden'] : "";
+    $actividad  = isset($_POST['actividad'])? $_POST['actividad'] : "";
+    
     switch ($_GET["op"]) {
 
       case 'guardar_y_editar_paquete':
@@ -54,7 +67,8 @@ if (!isset($_SESSION["nombre"])) {
 
         if (empty($idpaquete)) {
 
-          $rspta = $paquete->insertar($nombre, $cant_dias, $cant_noches, $descripcion, $imagen1, $incluye, $no_incluye, $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento);
+          $rspta = $paquete->insertar($nombre, $cant_dias, $cant_noches, $descripcion, $imagen1, $incluye, $no_incluye, 
+          $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento,$idtours,$nombre_tours,$numero_orden,$actividad);
 
           echo json_encode($rspta, true);
         } else {
@@ -69,12 +83,14 @@ if (!isset($_SESSION["nombre"])) {
           }
 
           // editamos un paquete existente
-          $rspta = $paquete->editar($idpaquete, $nombre, $cant_dias, $cant_noches, $descripcion, $imagen1, $incluye, $no_incluye, $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento);
+          $rspta = $paquete->editar($idpaquete,$nombre, $cant_dias, $cant_noches, $descripcion, $imagen1, $incluye, $no_incluye, 
+            $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento,$_POST['iditinerario'],
+            $idtours,$nombre_tours,$numero_orden,$actividad);
 
           echo json_encode($rspta, true);
         }
 
-        break;
+      break;
 
       case 'desactivar':
 
@@ -113,21 +129,25 @@ if (!isset($_SESSION["nombre"])) {
           foreach ($rspta['data'] as $key => $value) {
 
             $imagen = (empty($value['imagen']) ? '../dist/svg/user_default.svg' : '../dist/docs/paquete/perfil/' . $value['imagen']);
+            $estado_descuento = ($value['estado_descuento']==1 ? '<span class="text-center badge badge-warning">En Promoción </span><br> <span class="text-center badge badge-warning">Descuento - ' .  $value['porcentaje_descuento'] . ' % </span>' : '<span class="text-center badge badge-info">Sin Promocionar</span>' );// true:false
 
+            $descripcion = (strlen($value['descripcion']) > 130) ? substr($value['descripcion'], 0, 130).' ...' : $value['descripcion'];
+
+            // estado_descuento, porcentaje_descuento, monto_descuento
             $data[] = array(
               "0" => $cont++,
               "1" => '<button class="btn btn-info btn-sm" onclick="ver_detalle_compras(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Ver detalle compra"><i class="fa fa-eye"></i></button>' .
                 ' <button class="btn btn-warning btn-sm" onclick="mostrar_paquete(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
                 ' <button class="btn btn-danger  btn-sm" onclick="eliminar_paquete(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
               "2" => $value['nombre'],
-              "3" => '<textarea cols="30" rows="1" class="textarea_datatable" readonly="">' . $value['cant_dias'] . ' Días' . ' - ' .  $value['cant_noches'] . ' Noches' . '</textarea>',
-              "4" => '<textarea cols="30" rows="1" class="textarea_datatable" readonly="">' . $value['descripcion'] . '</textarea>',
+              "3" => '<span class="text-center badge badge-success">' . $value['cant_dias'] . ' Días' . ' <b>/</b> ' .  $value['cant_noches'] . ' Noches </span>',
+              "4" => $descripcion,
               "5" => '<div class="user-block">
                       <img class="profile-user-img img-responsive img-circle cursor-pointer" src="' . $imagen . '" alt="User Image" onerror="' . $imagen_error . '" onclick="ver_img_paquete(\'' . $imagen . '\', \'' . encodeCadenaHtml($value['nombre']) . '\');" data-toggle="tooltip" data-original-title="Ver foto">
                      </div>',
-              "6" => '<button class="btn btn-info btn-sm" onclick="itinerario(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Ver itinerario"> <i class="fa fa-eye"></i></button>',
-              "7" => '<button class="btn btn-info btn-sm" onclick="entrar_a_galeria(' . $value['idpaquete'] . ',\'' . $value['nombre'] . '\')" data-toggle="tooltip" data-original-title="Ver galería"> <i class="fa fa-eye"></i></button>', // para conkatenar el texto
-
+              "6" =>'S/ '.$value['costo'],
+              "7" => $estado_descuento,
+              "8" => '<button class="btn btn-info btn-sm" onclick="galeria(' . $value['idpaquete'] . ', \'' . encodeCadenaHtml($value['nombre']) . '\')" data-toggle="tooltip" data-original-title="Galería">Galería <i class="fa fa-eye"></i></button>'
 
             );
           }
@@ -175,11 +195,50 @@ if (!isset($_SESSION["nombre"])) {
 
           echo json_encode($rspta, true);
         }
-        break;
-        default:
-        $rspta = ['status' => 'error_code', 'message' => 'Te has confundido en escribir en el <b>swich.</b>', 'data' => []];
+      break;
+      /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
+      /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
+      /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
+      /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
+      //$idpaqueteg,$idgaleria_paquete,$descripcion_g,$img_galeria
+      case 'guardar_y_editar_galeria':
+
+        // imgen de perfil
+        if (!file_exists($_FILES['doc2']['tmp_name']) || !is_uploaded_file($_FILES['doc2']['tmp_name'])) {
+          $imagen2 = $_POST["doc_old_2"];
+          $flat_img2 = false;
+        } else {
+          //guardar imagen
+          $ext2 = explode(".", $_FILES["doc2"]["name"]);
+          $flat_img2 = true;
+          $imagen2 = $date_now . ' ' . random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext2);
+          move_uploaded_file($_FILES["doc2"]["tmp_name"], "../dist/docs/paquete/galeria/" . $imagen2);
+        }
+
+        if (empty($idgaleria_paquete)) {
+
+          $rspta = $paquete->insertar_galeria($idpaqueteg,$descripcion_g,$imagen2);
+
+          echo json_encode($rspta, true);
+        }
+
+      break;
+      
+      case 'mostrar_galeria':
+        $rspta = $paquete->mostrar_galeria($_POST['idpaquete']);
         echo json_encode($rspta, true);
-        break;
+      break;
+
+      case 'eliminar_imagen':
+        $rspta = $paquete->eliminar_imagen($_POST['idgaleria_paquete']);
+        echo json_encode($rspta, true);
+      break;
+
+
+      default:
+      $rspta = ['status' => 'error_code', 'message' => 'Te has confundido en escribir en el <b>swich.</b>', 'data' => []];
+      echo json_encode($rspta, true);
+      break;
     }
 
     //Fin de las validaciones de acceso

@@ -63,24 +63,28 @@
                               <thead>
                                 <tr>
                                   <th class="text-center">#</th>
+                                  <th class="">Acciones</th>
                                   <th class="">Nombre - Tours</th>
                                   <th class="">Nombre - Usuario</th>
                                   <th data-toggle="tooltip" data-original-title="Correo">Correo</th>
                                   <th data-toggle="tooltip" data-original-title="Comentario">Comentario</th>
                                   <th data-toggle="tooltip" data-original-title="Fecha">Fecha</th>
                                   <th>Estrella</th>
+                                  <th>Estado</th>
                                 </tr>
                               </thead>
                               <tbody></tbody>
                               <tfoot>
                                 <tr>
                                   <th class="text-center">#</th>
+                                  <th class="">Acciones</th>
                                   <th class="">Nombre - Tours</th>
                                   <th class="">Nombre - Usuario</th>
                                   <th data-toggle="tooltip" data-original-title="Correo">Correo</th>
                                   <th data-toggle="tooltip" data-original-title="Comentario">Comentario</th>
                                   <th data-toggle="tooltip" data-original-title="Fecha">Fecha</th>
                                   <th>Estrella</th>
+                                  <th>Estado</th>
                                 </tr>
                               </tfoot>
                             </table>

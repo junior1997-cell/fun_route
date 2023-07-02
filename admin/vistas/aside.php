@@ -35,15 +35,17 @@
         <?php  }  ?>
         <?php if ($_SESSION['acceso']==1) {  ?>
           <!-- ACCESOS -->
-          <li class="nav-item  b-radio-3px" id="bloc_datos_generales">
-            <a href="#" class="nav-link pl-2" id="mAccesos">
+
+          <li class="nav-item " id="bloc_empresa">
+            <a href="#" class="nav-link" id="mempresa" style="padding-left: 7px;">
               <i class="nav-icon fa-sharp fa-solid fa-city"></i>
               <p>
                 Empresa
                 <i class="fas fa-angle-left right"></i>
-                <span class="badge badge-info right">4</span>
+                <span class="badge badge-info right">5</span>
               </p>
             </a>
+
             <ul class="nav nav-treeview ">
               <!--  Datos Generales  -->
               <li class="nav-item ">
@@ -59,20 +61,45 @@
                   <p> Misión y Visión </p>
                 </a>
               </li>    
-              <!--  Misión y Visión  -->
+              <!--  reseña  -->
               <li class="nav-item ">
                 <a href="ceo_resenia.php" class="nav-link" id="lceo_resenia">
                   <i class="nav-icon fa-solid fa-globe"></i>
                   <p>CEO - Reseña</p>
                 </a>
               </li>   
-              <!--  Misión y Visión  -->
+
+              <!-- valores -->
+
               <li class="nav-item ">
                 <a href="valores.php" class="nav-link" id="lvalores">
                   <i class="nav-icon fa-solid fa-lightbulb"></i>
                   <p>Valores</p>
                 </a>
-              </li>  
+              </li>
+              
+              <!--  Politicas Generales  -->
+              <li class="nav-item" id="bloc_lPoliticas">
+                <a href="#" class="nav-link pl-3" id="mlPoliticas">
+                <i class="nav-icon fas fa-balance-scale"></i>
+                  <p> Politicas Generales <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">2</span></p>
+
+                </a>
+                <ul class="nav nav-treeview">
+                  <!-- Paquetes -->
+                  <li class="nav-item ">
+                    <a href="politica_paquete.php" class="nav-link pl-4" id="lPoliticas">
+                      <i class="nav-icon fas fa-map"></i> <p>Paquetes</p>
+                    </a>
+                  </li>
+                  <!-- Tours -->
+                  <li class="nav-item ">
+                    <a href="politica_tours.php" class="nav-link pl-4" id="lTours">
+                      <i class="nav-icon fas fa-suitcase"></i> <p>Tours</p>
+                    </a>
+                  </li> 
+                </ul>
+              </li>
             </ul>
           </li>
         <?php  }  ?>
@@ -171,9 +198,9 @@
                       <i class="nav-icon fas fa-map"></i> <p>Paquetes</p>
                     </a>
                   </li>
-                  <!-- Comentario -->
+                  <!-- Comentario_paquete -->
                   <li class="nav-item ">
-                    <a href="comentario.php" class="nav-link" id="lComentario">
+                    <a href="comentario_paquete.php" class="nav-link" id="lComentario_paquete">
                       <i class="nav-icon fas fa-comment"></i> <p>Comentarios</p>
                     </a>
                   </li> 
@@ -260,7 +287,7 @@
                   <i class="nav-icon fas fa-dollar-sign "></i>
                   <p>Pedido</p>
                 </a> -->
-                <a href="pedido.php" class="nav-link pl-2" id="lPedido">
+                <a href="pedido_paquete.php" class="nav-link pl-2" id="lPedido_paquete">
                 <i class="fa-solid  fas fa-dollar-sign"></i>
                   <p>Pedido </p>
                 </a>

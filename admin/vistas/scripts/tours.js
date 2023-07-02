@@ -1,5 +1,5 @@
 var tabla_tours;
-
+var idpaquete_r, nombre_r;
 //Función que se ejecuta al inicio
 function init() {
   //Activamos el "aside"
@@ -19,7 +19,9 @@ function init() {
   lista_select2("../ajax/tours.php?op=selec2tipotours", '#idtipo_tours', null);
 
   // ══════════════════════════════════════ G U A R D A R   F O R M ═══════════════════════════════
-  $("#guardar_registro_tours").on("click", function (e) { console.log('Provando guardar'); $("#submit-form-tours").submit(); });
+  $("#guardar_registro_tours").on("click", function (e) { $("#submit-form-tours").submit(); });
+  $("#guardar_registro_galeria_tours").on("click", function (e) { $("#submit-form-galeria_tours").submit(); });
+  // $("#guardar_registro_galeria").on("click", function (e) { $("#submit-form-galeria").submit(); });
 
   // ══════════════════════════════════════ INITIALIZE SELECT2 ════════════════════════════════════
   $("#idtipo_tours").select2({theme:"bootstrap4", placeholder: "Selec. tipo tours.", allowClear: true, });
@@ -38,10 +40,11 @@ function init() {
 $("#doc1_i").click(function() {  $('#doc1').trigger('click'); });
 $("#doc1").change(function(e) {  addImageApplication(e,$("#doc1").attr("id")) });
 
+
 // Eliminamos el doc 1
 function doc1_eliminar() {
 	$("#doc1").val("");
-	$("#doc1_ver").html('<img src="../dist/svg/pdf_trasnparent.svg" alt="" width="50%" >');
+	$("#doc1_ver").html('<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >');
 	$("#doc1_nombre").html("");
 }
 
@@ -74,6 +77,11 @@ function limpiar_tours() {
  $(".itinerario").css('pointer-events', '');
  $(".costos").css('pointer-events', '');
 
+ $("#doc_old_1").val("");
+ $("#doc1").val("");  
+ $('#doc1_ver').html(`<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >`);
+ $('#doc1_nombre').html("");
+
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
   $(".form-control").removeClass('is-invalid');
@@ -87,12 +95,17 @@ function show_hide_form(flag) {
 		$("#mostrar-tabla").show();
     $("#mostrar-form").hide();
     $(".btn-regresar").hide();
+    $(".btn-agregar-galeria").hide();
+    
     $(".btn-agregar").show();
+    $("#galeria").hide();
 	}	else	{
 		$("#mostrar-tabla").hide();
     $("#mostrar-form").show();
     $(".btn-regresar").show();
+    $(".btn-agregar-galeria").show();
     $(".btn-agregar").hide();
+    $("#galeria").show();
 	}
 }
 
@@ -158,6 +171,7 @@ function guardar_y_editar_tours(e) {
 
           tabla_tours.ajax.reload(null, false);
           $('#modal-agregar-tours').modal('hide'); //
+          
           limpiar_tours();   
 
         } else {
@@ -172,6 +186,7 @@ function guardar_y_editar_tours(e) {
     error: function (jqXhr) { ver_errores(jqXhr); },
   });
 }
+
 
 function mostrar_tours(idtours) {
 
@@ -323,7 +338,163 @@ function eliminar_tours(idtours,nombre) {
     false
   );
 }
-// :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N   P R O V E E D O R  ::::::::::::::::::::::::::::::::::::::::::::::::::::
+// .....::::::::::::::::::::::::::::::::::::: F U N C I O N E S   G A L E R I A  :::::::::::::::::::::::::::::::::::::::..
+// :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N  G A L E R I A  ::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+// abrimos el navegador de archivos
+$("#doc2_i").click(function() {  $('#doc2').trigger('click'); });
+$("#doc2").change(function(e) {  addImageApplication(e,$("#doc2").attr("id")) });
+
+// Eliminamos
+function doc2_eliminar() {
+	$("#doc2").val("");
+	$("#doc2_ver").html('<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >');
+	$("#doc2_nombre").html("");
+}
+
+function limpiar_galeria () { 
+  $('#descripcion_g').val("");
+  $('#idgaleria_tours').val("");
+
+  $("#doc_old_2").val("");
+  $("#doc2").val("");  
+  $('#doc2_ver').html(`<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >`);
+  $('#doc2_nombre').html("");
+
+  // Limpiamos las validaciones
+  $(".form-control").removeClass('is-valid');
+  $(".form-control").removeClass('is-invalid');
+  $(".error.invalid-feedback").remove();
+
+  $(".tooltip").removeClass("show").addClass("hidde");
+ 
+}
+
+function galeria(idtours, nombre) {
+
+  idpaquete_r=idtours; nombre_r=nombre;
+  show_hide_form(2);
+
+  $('.nombre_galeria').html(`Galería del TOURS - ${nombre}`);
+  $('#idtours_t').val(idtours);
+  $('.imagenes_galeria').html('');
+  var codigoHTML="";
+  $.post("../ajax/tours.php?op=mostrar_galeria", { idtours: idtours }, function (e, status) {
+    
+    e = JSON.parse(e);  console.log(e);    
+
+    if (e.data==null || e.data=="") {
+      $(".g_imagenes").hide(); $(".sin_imagenes").show();
+    }else{
+      $(".sin_imagenes").hide(); $(".g_imagenes").show();
+      
+      e.data.forEach(element => {
+        //style="border: 2px solid black;"
+        codigoHTML =codigoHTML.concat(`<div class="col-sm-2 pb-2 pt-2" style="border: 2px solid #837f7f;">
+        <a href="../dist/docs/tours/galeria/${element.imagen}?text=1" data-toggle="lightbox" data-title="${element.descripcion}" data-gallery="gallery">
+         <img src="../dist/docs/tours/galeria/${element.imagen}?text=1" class="img-fluid mb-2" alt="white sample"/>
+        </a>
+        <div class="text-center text-white" style="background-color: #1f7387; cursor: pointer; border-radius: 0.25rem;" onclick="eliminar_img(${element.idgaleria_tours},'${element.descripcion}');">Eliminar
+        </div>
+
+      </div> `);
+
+      });
+    
+      $('.imagenes_galeria').html(codigoHTML); // Agregar el contenido 
+
+      $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox({
+          alwaysShowClose: true
+        });
+      });
+
+    }
+
+    $('.jq_image_zoom').zoom({ on:'grab' });
+     
+    
+    $("#cargando-3-fomulario").show();
+    $("#cargando-4-fomulario").hide();
+  }).fail( function(e) { ver_errores(e); } );
+
+}
+
+
+ 
+function eliminar_img(idgaleria_tours,descripcion) {  
+  Swal.fire({
+    title: "¿Está seguro de que desea eliminar esta imagen?",
+    text: `${descripcion} se eliminara`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3567dc",
+    cancelButtonColor: "#6c757d",
+    confirmButtonText: "Sí, Eliminar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.post(
+        "../ajax/tours.php?op=eliminar_imagen",
+        { idgaleria_tours: idgaleria_tours},
+        function (response) {
+          try {
+            response = JSON.parse(response);
+            if (response.status == true) {
+              Swal.fire("Verificado", "LA imagen ha sido verificado.", "success");
+              // Aquí puedes realizar cualquier otra acción después de verificar el comentario
+              // tbla_principal();
+              galeria(idpaquete_r, nombre_r);
+            } else {
+              ver_errores(response);
+            }
+          } catch (e) {
+            ver_errores(e);
+          }
+        }
+      ).fail(function (response) {
+        ver_errores(response);
+      });
+    }
+  });
+
+ }
+
+//Función para guardar o editar
+function guardar_y_editar_galeria_tours(e) {
+  // e.preventDefault(); //No se activará la acción predeterminada del evento
+  var formData = new FormData($("#form-galeria-tours")[0]);
+
+  $.ajax({
+    url: "../ajax/tours.php?op=guardar_y_editar_galeria",
+    type: "POST",
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function (e) {
+      try {
+        e = JSON.parse(e);
+        if (e.status == true) {
+
+          Swal.fire("Correcto!", "El registro se guardo correctamente.", "success");
+
+          galeria(idpaquete_r, nombre_r);
+          $('#modal-agregar-galeria_tours').modal('hide'); //
+          limpiar_galeria();   
+
+        } else {
+          ver_errores(e);
+        }
+      } catch (err) { console.log('Error: ', err.message); toastr.error('<h5 class="font-size-16px">Error temporal!!</h5> puede intentalo mas tarde, o comuniquese con <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>'); }      
+      $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
+    },
+    beforeSend: function () {
+      $("#guardar_registro").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+    },
+    error: function (jqXhr) { ver_errores(jqXhr); },
+  });
+}
+
 
 // .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
 $(function () {   
@@ -368,6 +539,33 @@ $(function () {
     },
 
   });
+
+  $("#form-galeria-tours").validate({
+    ignore: '.select2-input, .select2-focusser',
+    rules: { descripcion: { minlength:4 }, },
+    messages: { descripcion: {minlength: "Minimo 4 Caracteres"}, },
+
+    errorElement: "span",
+
+    errorPlacement: function (error, element) {
+      error.addClass("invalid-feedback");
+
+      element.closest(".form-group").append(error);
+    },
+
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass("is-invalid").removeClass("is-valid");
+    },
+
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass("is-invalid").addClass("is-valid");
+    },
+
+    submitHandler: function (e) {
+      guardar_y_editar_galeria_tours(e);
+    },
+
+  });
   
   $("#idtipo_tours").rules('add', { required: true, messages: {  required: "Campo requerido" } });
 
@@ -382,6 +580,15 @@ function ver_img_tours(file, nombre) {
   $(".tooltip").removeClass("show").addClass("hidde");
   $("#modal-ver-imagen-tours").modal("show");
   $('#imagen-tours').html(`<span class="jq_image_zoom"><img class="img-thumbnail" src="${file}" onerror="this.src='../dist/svg/404-v2.svg';" alt="Perfil" width="100%"></span>`);
+  $('.jq_image_zoom').zoom({ on:'grab' });
+}
+
+// ver imagen DEL TOURS
+function ver_img_galeria_tours(file, nombre) {
+  $('.nombre-galeria_tours').html(nombre);
+  $(".tooltip").removeClass("show").addClass("hidde");
+  $("#modal-ver-imagen-galeria_tours").modal("show");
+  $('#imagen-galeria_tours').html(`<span class="jq_image_zoom"><img class="img-thumbnail" src="${file}" onerror="this.src='../dist/svg/404-v2.svg';" alt="Perfil" width="100%"></span>`);
   $('.jq_image_zoom').zoom({ on:'grab' });
 }
 

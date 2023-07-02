@@ -400,7 +400,7 @@ $(function () {
 no_select_tomorrow('#fecha_i');
 
 init();
-// ver imagen grande de la persona
+// ver imagen DEL TOURS
 function ver_img_galeria_paquete(file, nombre) {
   $('.nombre-galeria_paquete').html(nombre);
   $(".tooltip").removeClass("show").addClass("hidde");

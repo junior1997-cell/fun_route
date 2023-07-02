@@ -136,7 +136,7 @@
                               </div>
                             </div>
 
-                            <!-- Factura -->
+                            <!-- imagen -->
                             <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6" >   
                               <!-- linea divisoria -->
                               <div class="borde-arriba-naranja mt-4"> </div>                            
