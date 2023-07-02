@@ -13,6 +13,11 @@ function init() {
 
   $("#guardar_registro_tipo_tours").on("click", function (e) { $("#submit-form-tipo-tours").submit(); });
 
+  // Evento para mostrar el lengthMenu nuevamente al hacer clic en un botón (o cualquier otro evento)
+  $('#mostrarLengthMenu').on('click', function() {
+    $('.dataTables_length').css('display', 'block');
+  });
+
   // Formato para telefono
   $("[data-mask]").inputmask();
 }
@@ -72,6 +77,7 @@ function listar_tipo_tours() {
     iDisplayLength: 5,//Paginación
     order: [[ 0, "asc" ]]//Ordenar (columna,orden)
   }).DataTable();
+
 }
 
 //Función para guardar o editar

@@ -18,6 +18,12 @@
     $idhoteles        = isset($_POST["idhoteles"]) ? limpiarCadena($_POST["idhoteles"]) : "";
     $nombre_hotel     = isset($_POST["nombre_hotel"]) ? limpiarCadena($_POST["nombre_hotel"]) : "";
     $nro_estrellas    = isset($_POST["nro_estrellas"]) ? limpiarCadena($_POST["nro_estrellas"]) : "";
+    //-----------HABITACION
+    $idhoteles_G       = isset($_POST["idhoteles_G"]) ? limpiarCadena($_POST["idhoteles_G"]) : "";
+    $idhabitacion      = isset($_POST["idhabitacion"]) ? limpiarCadena($_POST["idhabitacion"]) : "";
+    $nombre_habitacion = isset($_POST["nombre_habitacion"]) ? limpiarCadena($_POST["nombre_habitacion"]) : "";
+
+    //$idhoteles_G,$idhabitacion, $nombre_habitacion
 
     switch ($_GET["op"]) {
       case 'guardaryeditar_hotel':
@@ -73,8 +79,7 @@
               "2" => '<div >'.$reg->nombre. '<br>
                   <span class="rating text-warning text-center">'.$estrellasHTML.'</span>                
                   </div>',
-              "3" => $reg->estrellas,
-              "4" => ($reg->estado ? '<span class="text-center badge badge-success">Activado</span>' : '<span class="text-center badge badge-danger">Desactivado</span>').$toltip,
+              "3" => '<span class="btn btn-info btn-sm" onclick="listar_habitacion(' . $reg->idhoteles .', \'' . encodeCadenaHtml($reg->nombre) . '\')">Ver <i class="fa fa-eye"></i></span>',
             ];
           }
           $results = [
@@ -89,7 +94,68 @@
         }
 
       break;
-      
+
+      //==========================HABITACIONES========================
+      //==========================HABITACIONES========================
+      //==========================HABITACIONES========================
+
+      case 'guardaryeditar_habitacion':
+        if (empty($idhabitacion)) {
+          $rspta = $hotel->insertar_habitacion($idhoteles_G, $nombre_habitacion);
+          echo json_encode( $rspta, true) ;
+        } else {
+          $rspta = $hotel->editar_habitacion($idhabitacion,$idhoteles_G, $nombre_habitacion);
+          echo json_encode( $rspta, true) ;
+        }
+      break;
+
+      case 'desactivar_habitacion':
+        $rspta = $hotel->desactivar_habitacion($_GET["id_tabla"]);
+        echo json_encode( $rspta, true) ;
+      break;
+
+      case 'eliminar_habitacion':
+        $rspta = $hotel->eliminar_habitacion($_GET["id_tabla"]);
+        echo json_encode( $rspta, true) ;
+      break;
+
+      case 'mostrar_habitacion':
+        $rspta = $hotel->mostrar_habitacion($idhabitacion);
+        //Codificar el resultado utilizando json
+        echo json_encode( $rspta, true) ;
+      break;
+
+      case 'listar_habatacion':
+        $rspta = $hotel->listar_habatacion( $_GET['idhoteles']);
+        //Vamos a declarar un array
+        $data = [];  $cont = 1;       
+
+        if ($rspta['status'] == true) {
+          while ($reg = $rspta['data']->fetch_object()) {
+
+            $data[] = [
+              "0" => $cont++,
+              "1" => '<button class="btn btn-warning btn-sm" onclick="mostrar_habitacion(' . $reg->idhabitacion . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
+                  ' <button class="btn btn-danger  btn-sm" onclick="eliminar_habitacion(' . $reg->idhabitacion .', \'' . encodeCadenaHtml($reg->nombre) . '\')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
+              "2" => $reg->nombre,
+              "3" => '<span class="btn btn-info btn-sm" onclick="listar_habitacion(' . $reg->idhabitacion .', \'' . encodeCadenaHtml($reg->nombre) . '\')">Ver <i class="fa fa-eye"></i></span>',
+            ];
+          }
+          $results = [
+            "sEcho" => 1, //Información para el datatables
+            "iTotalRecords" => count($data), //enviamos el total registros al datatable
+            "iTotalDisplayRecords" => count($data), //enviamos el total registros a visualizar
+            "aaData" => $data,
+          ];
+          echo json_encode($results, true);
+        } else {
+          echo $rspta['code_error'] .' - '. $rspta['message'] .' '. $rspta['data'];
+        }
+
+      break;
+      //==========================FIN HABITACIONES====================
+      //==========================FIN HABITACIONES====================
+      //==========================FIN HABITACIONES====================
       case 'salir':
         //Limpiamos las variables de sesión
         session_unset();

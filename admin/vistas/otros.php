@@ -35,6 +35,10 @@ if (!isset($_SESSION["nombre"])) {
         padding: 8px;
         /* Agrega un relleno interno para mayor espacio entre el contenido y el borde */
       }
+
+      /* .dataTables_length {
+          display: none;
+        } */
     </style>
 
   </head>
@@ -63,10 +67,10 @@ if (!isset($_SESSION["nombre"])) {
                     <div class="card-header p-0 pt-1 border-bottom-0">
                       <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
                         <li class="nav-item">
-                          <a class="nav-link active" id="custom-tabs-three-producto-tab" data-toggle="pill" href="#custom-tabs-three-producto" role="tab" aria-controls="custom-tabs-three-producto" aria-selected="true"><i class="fas fa-building"></i> Bancos</a>
+                          <a class="nav-link active" id="custom-tabs-three-producto-tab mostrarLengthMenu" data-toggle="pill" href="#custom-tabs-three-producto" role="tab" aria-controls="custom-tabs-three-producto" aria-selected="true"><i class="fas fa-building"></i> Bancos</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" id="custom-tabs-three-persona-tab" data-toggle="pill" href="#custom-tabs-three-persona" role="tab" aria-controls="custom-tabs-three-persona" aria-selected="false"><i class="fas fa-shopping-cart"></i> TIPOS </a>
+                          <a class="nav-link" id="custom-tabs-three-persona-tab mostrarLengthMenu" data-toggle="pill" href="#custom-tabs-three-persona" role="tab" aria-controls="custom-tabs-three-persona" aria-selected="false"><i class="fas fa-shopping-cart"></i> TIPOS </a>
                         </li>
                         <li class="nav-item">
                           <a class="nav-link" id="custom-tabs-three-compra-tab" data-toggle="pill" href="#custom-tabs-three-compra" role="tab" aria-controls="custom-tabs-three-compra" aria-selected="false"><i class="fas fa-hotel"></i> HOTELES</a>
@@ -319,54 +323,27 @@ if (!isset($_SESSION["nombre"])) {
                             <div class="card card-primary card-outline">
                               <div class="card-header">
                                 <h3 class="card-title">
-                                  <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-hotel" onclick="limpiar_tipo_tours();"><i class="fas fa-plus-circle"></i> Agregar</button>
+
+                                  <button type="button" class="btn bg-gradient-primary" data-toggle="modal" data-target="#modal-agregar-habitacion" onclick="limpiar_habitacion();"><i class="fas fa-plus-circle"></i> Agregar</button>
                                   HABITACIÓN
                                 </h3>
                               </div>
                               <div class="card-body">
-                                <table class="table">
-
-                                  <tr>
-
-                                    <th>#</th>
-
-                                    <th>OP</th>
-
-                                    <th>Nombre</th>
-
-                                  </tr>
-
-                                  <tr>
-
-                                    <td>Soleado</td>
-
-                                    <td>Mayormente soleado</td>
-
-                                    <td>Parcialmente nublado</td>
-
-                                  </tr>
-
-                                  <tr>
-
-                                    <td>19°C</td>
-
-                                    <td>17°C</td>
-
-                                    <td>12°C</td>
-
-                                  </tr>
-
-                                  <tr>
-
-                                    <td>E 13 km/h</td>
-
-                                    <td>E 11 km/h</td>
-
-                                    <td>S 16 km/h</td>
-
-                                  </tr>
-
-                                </table>
+                                <div class="vacio alert alert-warning" role="alert"> Elegir un Hotel! </div>
+                                <div class="text-center" style="background-color: #b9deff; margin-bottom: 4px;"> <strong class="name_hotel"></strong> </div>
+                                <div class="mTable" style="display: none;">
+                                  <table id="tabla-habitacion" class="table table-bordered table-striped display" style="width: 100% !important;">
+                                    <thead>
+                                      <tr>
+                                        <th class="text-center">#</th>
+                                        <th class=""><i class="fas fa-gears"></i></th>
+                                        <th>Nombre</th>
+                                        <th><i class="fas fa-arrow-right"></i></th>
+                                      </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                  </table>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -378,54 +355,26 @@ if (!isset($_SESSION["nombre"])) {
                             <div class="card card-primary card-outline">
                               <div class="card-header">
                                 <h3 class="card-title">
-                                  <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-tipo-tours" onclick="limpiar_tipo_tours();"><i class="fas fa-plus-circle"></i> Agregar</button>
+                                  <button type="button" class="btn bg-gradient-primary" data-toggle="modal" data-target="#modal-agregar-tipo-tours" onclick="limpiar_tipo_tours();"><i class="fas fa-plus-circle"></i> Agregar</button>
                                   CARACTERISTICAS DE HABITACIÓN
                                 </h3>
                               </div>
                               <div class="card-body">
-                                <table class="table">
-
-                                  <tr>
-
-                                    <th>#</th>
-
-                                    <th>OP</th>
-
-                                    <th>Nombre</th>
-
-                                  </tr>
-
-                                  <tr>
-
-                                    <td>Soleado</td>
-
-                                    <td>Mayormente soleado</td>
-
-                                    <td>Parcialmente nublado</td>
-
-                                  </tr>
-
-                                  <tr>
-
-                                    <td>19°C</td>
-
-                                    <td>17°C</td>
-
-                                    <td>12°C</td>
-
-                                  </tr>
-
-                                  <tr>
-
-                                    <td>E 13 km/h</td>
-
-                                    <td>E 11 km/h</td>
-
-                                    <td>S 16 km/h</td>
-
-                                  </tr>
-
-                                </table>
+                                <div class="vacio alert alert-warning" role="alert"> Elegir una Habitación! </div>
+                                <div class="text-center" style="background-color: #b9deff; margin-bottom: 4px;"> <strong class="name_hotel"></strong> </div>
+                                <div class="mTable" style="display: none;">
+                                  <table id="tabla-caracteristicas" class="table table-bordered table-striped display" style="width: 100% !important;">
+                                    <thead>
+                                      <tr>
+                                        <th class="text-center">#</th>
+                                        <th class=""><i class="fas fa-gears"></i></th>
+                                        <th>Nombre</th>
+                                        <th><i class="fas fa-arrow-right"></i></th>
+                                      </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                  </table>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -834,6 +783,66 @@ if (!isset($_SESSION["nombre"])) {
             </div>
           </div>
 
+          <!-- MODAL - HABITACIONES -->
+          <div class="modal fade" id="modal-agregar-habitacion">
+            <div class="modal-dialog modal-dialog-scrollable modal-md">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">HABITACIÓN</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-danger" aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-body">
+                  <!-- form start -->
+                  <form id="form-habitacion" name="form-habitacion" method="POST" autocomplete="off">
+                    <div class="card-body">
+                      <div class="row" id="cargando-11-fomulario">
+                        <!-- id idunidad_medida -->
+                        <input type="hidden" name="idhoteles_G" id="idhoteles_G" />
+                        <input type="hidden" name="idhabitacion" id="idhabitacion" />
+
+                        <!-- nombre_habitacion -->
+                        <div class="col-lg-12">
+                          <div class="form-group">
+                            <label for="nombre_habitacion">Nombre</label>
+                            <input type="text" name="nombre_habitacion" id="nombre_habitacion" class="form-control" placeholder="Nombre Habitación" />
+                          </div>
+                        </div>
+                        <!-- idhoteles_G,idhabitacion, nombre_habitacion -->
+
+                        <!-- barprogress -->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px;">
+                          <div class="progress" id="barra_progress_habitacion_div">
+                            <div id="barra_progress_habitacion" class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%;">
+                              0%
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="row" id="cargando-12-fomulario" style="display: none;">
+                        <div class="col-lg-12 text-center">
+                          <i class="fas fa-spinner fa-pulse fa-6x"></i><br />
+                          <br />
+                          <h4>Cargando...</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <button type="submit" style="display: none;" id="submit-form-habitacion">Submit</button>
+                  </form>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="limpiar_habitacion();">Close</button>
+                  <button type="submit" class="btn btn-success" id="guardar_registro_habitacion">Guardar Cambios</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       <?php
@@ -846,12 +855,12 @@ if (!isset($_SESSION["nombre"])) {
     <!-- /.content-wrapper -->
 
     <?php require 'script.php'; ?>
-
+    <script type="text/javascript" src="scripts/hotel.js"></script>
     <script type="text/javascript" src="scripts/otros.js"></script>
     <script type="text/javascript" src="scripts/bancos.js"></script>
     <script type="text/javascript" src="scripts/tipo.js"></script>
     <script type="text/javascript" src="scripts/tipo_tours.js"></script>
-    <script type="text/javascript" src="scripts/hotel.js"></script>
+
 
     <script>
       $(function() {

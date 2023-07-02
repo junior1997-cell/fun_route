@@ -89,6 +89,11 @@ function listar_bancos() {
       { targets: [9], visible: false, searchable: false, },      
     ],
   }).DataTable();
+  
+  // Evento para mostrar el lengthMenu nuevamente al hacer clic en un botón (o cualquier otro evento)
+  $('#mostrarLengthMenu').on('click', function() {
+    $('.dataTables_length').css('display', 'block');
+  });
 }
 
 //Función para guardar o editar

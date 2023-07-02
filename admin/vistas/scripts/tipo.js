@@ -41,7 +41,12 @@ function listar_tipo() {
     aServerSide: true,//Paginación y filtrado realizados por el servidor
     dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",//Definimos los elementos del control de tabla
     buttons: [
-      { extend: 'copyHtml5', footer: true, exportOptions: { columns: [0,2,3], } }, { extend: 'excelHtml5', footer: true, exportOptions: { columns: [0,2,3], } }, { extend: 'pdfHtml5', footer: false, exportOptions: { columns: [0,2], } } ,
+      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i>', className: "btn bg-gradient-info", action: function ( e, dt, node, config ) { tabla_tipo.ajax.reload(); toastr_success('Exito!!', 'Actualizando tabla', 400); } },
+
+      { extend: 'copyHtml5', footer: true, exportOptions: { columns: [0,2,3], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "px-2 btn bg-gradient-gray", }, 
+      { extend: 'excelHtml5', footer: true, exportOptions: { columns: [0,2,3], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "px-2 btn bg-gradient-success",  }, 
+      { extend: 'pdfHtml5', footer: false, exportOptions: { columns: [0,2], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "px-2 btn bg-gradient-danger", } ,
+    
     ],
     ajax:{
       url: '../ajax/tipo.php?op=listar_tipo',
@@ -68,6 +73,10 @@ function listar_tipo() {
     iDisplayLength: 5,//Paginación
     order: [[ 0, "asc" ]]//Ordenar (columna,orden)
   }).DataTable();
+  // Evento para mostrar el lengthMenu nuevamente al hacer clic en un botón (o cualquier otro evento)
+  $('#mostrarLengthMenu').on('click', function() {
+    $('.dataTables_length').css('display', 'block');
+  });
 }
 
 //Función para guardar o editar
