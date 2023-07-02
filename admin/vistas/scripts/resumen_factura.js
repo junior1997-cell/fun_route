@@ -54,7 +54,7 @@ function tbla_principal(nube_idproyecto, empresa_a_cargo, fecha_1, fecha_2, id_p
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]],//mostramos el menú de registros a revisar
     aProcessing: true,//Activamos el procesamiento del datatables
     aServerSide: true,//Paginación y filtrado realizados por el servidor
-    dom: '<Bl<f>rtip>',//Definimos los elementos del control de tabla
+    dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",//Definimos los elementos del control de tabla
     buttons: [
       { extend: 'copyHtml5', footer: true, exportOptions: { columns: [0,3,4,5,6,7,8,9,10,11,12], } }, 
       { extend: 'excelHtml5', title: name_export, footer: true, exportOptions: { columns: [0,3,4,5,6,7,8,9,10,11,12], } ,
@@ -147,7 +147,7 @@ function tbla_principal_visto_bueno(nube_idproyecto, empresa_a_cargo, fecha_1, f
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]],//mostramos el menú de registros a revisar
     aProcessing: true,//Activamos el procesamiento del datatables
     aServerSide: true,//Paginación y filtrado realizados por el servidor
-    dom: '<Bl<f>rtip>',//Definimos los elementos del control de tabla
+    dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",//Definimos los elementos del control de tabla
     buttons: [
       { extend: 'copyHtml5', footer: true, exportOptions: { columns: [0,3,4,5,6,7,8,9,10,11,12], } }, 
       { extend: 'excelHtml5', title: name_export, footer: true, exportOptions: { columns: [0,3,4,5,6,7,8,9,10,11,12], } ,
@@ -311,7 +311,7 @@ function comprobante_multiple(id_tabla, fecha, tipo_comprobante, serie_comproban
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]], //mostramos el menú de registros a revisar
     aProcessing: true, //Activamos el procesamiento del datatables
     aServerSide: true, //Paginación y filtrado realizados por el servidor
-    dom: "<Bl<f>rtip>", //Definimos los elementos del control de tabla
+    dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
     buttons: [ ],
     ajax: {
       url: `../ajax/resumen_facturas.php?op=tbla_comprobantes_multiple_${carpeta}&id_tabla=${id_tabla}`,

@@ -79,7 +79,7 @@ function listar() {
       lengthMenu: [5, 10, 25, 75, 100], //mostramos el menú de registros a revisar
       aProcessing: true, //Activamos el procesamiento del datatables
       aServerSide: true, //Paginación y filtrado realizados por el servidor
-      dom: "<Bl<f>rtip>", //Definimos los elementos del control de tabla
+      dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
       buttons: ["copyHtml5", "excelHtml5", "csvHtml5", "pdf"],
       ajax: {
         url: "../ajax/ingreso.php?op=listar",
@@ -106,7 +106,7 @@ function listarArticulos() {
   tabla = $("#tblarticulos").dataTable({
       aProcessing: true, //Activamos el procesamiento del datatables
       aServerSide: true, //Paginación y filtrado realizados por el servidor
-      dom: "Bfrtip", //Definimos los elementos del control de tabla
+      dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
       buttons: [],
       ajax: {
         url: "../ajax/ingreso.php?op=listarArticulos",
