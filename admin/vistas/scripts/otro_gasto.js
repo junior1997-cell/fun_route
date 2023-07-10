@@ -247,11 +247,12 @@ function listar(fecha_1, fecha_2, id_proveedor, comprobante) {
       aProcessing: true, //Activamos el procesamiento del datatables
       aServerSide: true, //Paginación y filtrado realizados por el servidor
       dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
-      buttons: [
-        { extend: 'copyHtml5', footer: true, exportOptions: { columns: [0,12,11,13,14,15,3,6,7,8,16,17,9], } }, 
-        { extend: 'excelHtml5', footer: true, exportOptions: { columns: [0,12,11,13,14,15,3,6,7,8,16,17,9], } }, 
-        { extend: 'pdfHtml5', footer: false, exportOptions: { columns: [0,12,11,13,14,15,3,6,7,8,16,17,9], }, orientation: 'landscape', pageSize: 'LEGAL',  }, 
-        {extend: "colvis"} ,
+      buttons: [      
+        { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i>', className: "btn bg-gradient-info", action: function ( e, dt, node, config ) { tabla.ajax.reload(null, false); toastr_success('Exito!!', 'Actualizando tabla', 400); } },
+        { extend: 'copyHtml5', exportOptions: { columns: [0,12,11,13,14,15,3,6,7,8,16,17,9], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray", footer: true,  }, 
+        { extend: 'excelHtml5', exportOptions: { columns: [0,12,11,13,14,15,3,6,7,8,16,17,9], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success", footer: true,  }, 
+        { extend: 'pdfHtml5', exportOptions: { columns: [0,12,11,13,14,15,3,6,7,8,16,17,9], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
+        { extend: "colvis", text: `Columnas`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
       ],
       ajax: {
         url: `../ajax/otro_gasto.php?op=listar&idproyecto=${idproyecto}&fecha_1=${fecha_1}&fecha_2=${fecha_2}&id_proveedor=${id_proveedor}&comprobante=${comprobante}`,

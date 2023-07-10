@@ -121,74 +121,75 @@ function show_hide_form(flag) {
 
 //Función Listar
 function tbla_principal() {
-  tabla_pedido = $("#tabla-pedido")
-    .dataTable({
-      responsive: true,
-      lengthMenu: [
-        [-1, 5, 10, 25, 75, 100, 200],
-        ["Todos", 5, 10, 25, 75, 100, 200],
-      ], //mostramos el menú de registros a revisar
-      aProcessing: true, //Activamos el procesamiento del datatables
-      aServerSide: true, //Paginación y filtrado realizados por el servidor
-      dom: "<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
-      buttons: ["copyHtml5", "excelHtml5", "pdf"],
-      ajax: {
-        url: "../ajax/pedido_paquete.php?op=tbla_principal",
-        type: "get",
-        dataType: "json",
-        error: function (e) {
-          console.log(e.responseText);
-        },
+  tabla_pedido = $("#tabla-pedido").dataTable({
+    responsive: true,
+    lengthMenu: [[-1, 5, 10, 25, 75, 100, 200], ["Todos", 5, 10, 25, 75, 100, 200], ], //mostramos el menú de registros a revisar
+    aProcessing: true, //Activamos el procesamiento del datatables
+    aServerSide: true, //Paginación y filtrado realizados por el servidor
+    dom: "<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
+    buttons: [      
+      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i>', className: "btn bg-gradient-info", action: function ( e, dt, node, config ) { tabla_pedido.ajax.reload(null, false); toastr_success('Exito!!', 'Actualizando tabla', 400); } },
+      { extend: 'copyHtml5', exportOptions: { columns: [0,1,2,3], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray", footer: true,  }, 
+      { extend: 'excelHtml5', exportOptions: { columns: [0,1,2,3], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success", footer: true,  }, 
+      { extend: 'pdfHtml5', exportOptions: { columns: [0,1,2,3], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
+      { extend: "colvis", text: `Columnas`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
+    ],
+    ajax: {
+      url: "../ajax/pedido_paquete.php?op=tbla_principal",
+      type: "get",
+      dataType: "json",
+      error: function (e) {
+        console.log(e.responseText);
       },
-      createdRow: function (row, data, ixdex) {
-        // columna: #
-        if (data[0] != "") {
-          $("td", row).eq(0).addClass("text-center");
-        }
-        // columna: sub total
-        if (data[1] != "") {
-          $("td", row).eq(1).addClass("text-nowrap");
-        }
-        // columna: sub total
-        if (data[5] != "") {
-          $("td", row).eq(5).addClass("text-nowrap text-right");
-        }
-        // columna: igv
-        if (data[6] != "") {
-          $("td", row).eq(6).addClass("text-nowrap text-right");
-        }
-        // columna: total
-        if (data[7] != "") {
-          $("td", row).eq(7).addClass("text-nowrap text-right");
-        }
+    },
+    createdRow: function (row, data, ixdex) {
+      // columna: #
+      if (data[0] != "") {
+        $("td", row).eq(0).addClass("text-center");
+      }
+      // columna: sub total
+      if (data[1] != "") {
+        $("td", row).eq(1).addClass("text-nowrap");
+      }
+      // columna: sub total
+      if (data[5] != "") {
+        $("td", row).eq(5).addClass("text-nowrap text-right");
+      }
+      // columna: igv
+      if (data[6] != "") {
+        $("td", row).eq(6).addClass("text-nowrap text-right");
+      }
+      // columna: total
+      if (data[7] != "") {
+        $("td", row).eq(7).addClass("text-nowrap text-right");
+      }
+    },
+    language: {
+      lengthMenu: "Mostrar: _MENU_ registros",
+      buttons: {
+        copyTitle: "Tabla Copiada",
+        copySuccess: { _: "%d líneas copiadas", 1: "1 línea copiada" },
       },
-      language: {
-        lengthMenu: "Mostrar: _MENU_ registros",
-        buttons: {
-          copyTitle: "Tabla Copiada",
-          copySuccess: { _: "%d líneas copiadas", 1: "1 línea copiada" },
-        },
-        sLoadingRecords:
-          '<i class="fas fa-spinner fa-pulse fa-lg"></i> Cargando datos...',
-      },
-      footerCallback: function (tfoot, data, start, end, display) {
-        // var api1 = this.api(); var total1 = api1.column( 6 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
-        // $( api1.column( 6 ).footer() ).html( `<span class="float-left">S/</span> <span class="float-right">${formato_miles(total1)}</span>` );
-        // var api2 = this.api(); var total2 = api2.column( 7 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
-        // $( api2.column( 7 ).footer() ).html( `<span class="float-left">S/</span> <span class="float-right">${formato_miles(total2)}</span>` );
-        // var api3 = this.api(); var total3 = api3.column( 8 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
-        // $( api3.column( 8 ).footer() ).html( `<span class="float-left">S/</span> <span class="float-right">${formato_miles(total3)}</span>` );
-      },
-      bDestroy: true,
-      iDisplayLength: 10, //Paginación
-      order: [[0, "asc"]], //Ordenar (columna,orden)
-      columnDefs: [
-        // //{ targets: [], visible: false, searchable: false, },
-        // { targets: [5], render: $.fn.dataTable.render.moment('YYYY-MM-DD', 'DD/MM/YYYY'), },
-        // { targets: [6,7,8], render: function (data, type) { var number = $.fn.dataTable.render.number(',', '.', 2).display(data); if (type === 'display') { let color = 'numero_positivos'; if (data < 0) {color = 'numero_negativos'; } return `<span class="float-left">S/</span> <span class="float-right ${color} "> ${number} </span>`; } return number; }, },
-      ],
-    })
-    .DataTable();
+      sLoadingRecords:
+        '<i class="fas fa-spinner fa-pulse fa-lg"></i> Cargando datos...',
+    },
+    footerCallback: function (tfoot, data, start, end, display) {
+      // var api1 = this.api(); var total1 = api1.column( 6 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
+      // $( api1.column( 6 ).footer() ).html( `<span class="float-left">S/</span> <span class="float-right">${formato_miles(total1)}</span>` );
+      // var api2 = this.api(); var total2 = api2.column( 7 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
+      // $( api2.column( 7 ).footer() ).html( `<span class="float-left">S/</span> <span class="float-right">${formato_miles(total2)}</span>` );
+      // var api3 = this.api(); var total3 = api3.column( 8 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
+      // $( api3.column( 8 ).footer() ).html( `<span class="float-left">S/</span> <span class="float-right">${formato_miles(total3)}</span>` );
+    },
+    bDestroy: true,
+    iDisplayLength: 10, //Paginación
+    order: [[0, "asc"]], //Ordenar (columna,orden)
+    columnDefs: [
+      // //{ targets: [], visible: false, searchable: false, },
+      // { targets: [5], render: $.fn.dataTable.render.moment('YYYY-MM-DD', 'DD/MM/YYYY'), },
+      // { targets: [6,7,8], render: function (data, type) { var number = $.fn.dataTable.render.number(',', '.', 2).display(data); if (type === 'display') { let color = 'numero_positivos'; if (data < 0) {color = 'numero_negativos'; } return `<span class="float-left">S/</span> <span class="float-right ${color} "> ${number} </span>`; } return number; }, },
+    ],
+  }).DataTable();
 }
 
 //segun tipo de comprobante
