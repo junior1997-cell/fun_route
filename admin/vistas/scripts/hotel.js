@@ -11,6 +11,7 @@ function init() {
 
   $("#guardar_registro_hotel").on("click", function (e) { $("#submit-form-hotel").submit(); });
   $("#guardar_registro_habitacion").on("click", function (e) { $("#submit-form-habitacion").submit(); });
+  $("#guardar_registro_caracteristicas_h").on("click", function (e) { $("#submit-form-caracteristicas_h").submit(); });
 
   // Formato para telefono
   $("[data-mask]").inputmask();
@@ -66,7 +67,7 @@ function listar_hotel() {
       if (data[4] != '') { $("td", row).eq(4).addClass("text-center"); }
     },
     language: {
-      lengthMenu: "Mostrar: _MENU_ registros",
+      lengthMenu: "Mostrar: _MENU_",
       buttons: { copyTitle: "Tabla Copiada", copySuccess: { _: "%d líneas copiadas", 1: "1 línea copiada", }, },
       sLoadingRecords: '<i class="fas fa-spinner fa-pulse fa-lg"></i> Cargando datos...'
     },
@@ -76,6 +77,32 @@ function listar_hotel() {
   }).DataTable();
   // Ocultar el lengthMenu mediante jQuery
    $('.dataTables_length').css('display', 'none');
+
+  // Referencia a la fila previamente seleccionada
+  var filaSeleccionadaAnterior = null;
+
+  // Agregar el evento onclick a las filas de la tabla
+  $('#tabla-hotel tbody').on('mouseenter', 'tr', function () {
+    $(this).css('cursor', 'pointer');
+    }).on('mouseleave', 'tr', function () {
+        $(this).css('cursor', 'default');
+    }).on('click', 'tr', function () {
+      // Eliminar el estilo de fila-seleccionada de la fila anterior
+      if (filaSeleccionadaAnterior !== null) {
+        filaSeleccionadaAnterior.css('background-color', '');
+      }
+
+      // Aplicar el estilo a la nueva fila seleccionada
+      $(this).css('background-color', 'rgba(67, 189, 201, 0.23)');
+      // Guardar la referencia de la nueva fila seleccionada
+      filaSeleccionadaAnterior = $(this);
+
+      // Obtener los datos de la fila seleccionada
+      var datosFila = tabla_hotel.row(this).data();
+      // Hacer lo que desees con los datos de la fila
+      //filaSelecc_tabajador(datosFila[1],datosFila[2],datosFila[3],datosFila[4]);
+      listar_habitacion(datosFila[3],datosFila[4]);
+  });
 }
 
 //Función para guardar o editar
@@ -203,6 +230,7 @@ function limpiar_habitacion() {
 
 //Función Listar
 function listar_habitacion(idhoteles,nombre) {
+  console.log(idhoteles+'   '+nombre);
   $("#idhoteles_G").val(idhoteles);
   $(".vacio").hide(); $(".mTable").show();
 
@@ -224,7 +252,7 @@ function listar_habitacion(idhoteles,nombre) {
 
     ],
     ajax:{
-      url: '../ajax/hotel.php?op=listar_habatacion&idhoteles=' + idhoteles,
+      url: '../ajax/hotel.php?op=listar_habitacion&idhoteles=' + idhoteles,
       type : "get",
       dataType : "json",						
       error: function(e){
@@ -250,6 +278,32 @@ function listar_habitacion(idhoteles,nombre) {
   }).DataTable();
   // Ocultar el lengthMenu mediante jQuery
    $('.dataTables_length').css('display', 'none');
+
+  // Referencia a la fila previamente seleccionada
+  var filaSeleccionadaAnterior = null;
+
+  // Agregar el evento onclick a las filas de la tabla
+  $('#tabla-habitacion tbody').on('mouseenter', 'tr', function () {
+    $(this).css('cursor', 'pointer');
+    }).on('mouseleave', 'tr', function () {
+        $(this).css('cursor', 'default');
+    }).on('click', 'tr', function () {
+      // Eliminar el estilo de fila-seleccionada de la fila anterior
+      if (filaSeleccionadaAnterior !== null) {
+        filaSeleccionadaAnterior.css('background-color', '');
+      }
+
+      // Aplicar el estilo a la nueva fila seleccionada
+      $(this).css('background-color', 'rgba(67, 189, 201, 0.23)');
+      // Guardar la referencia de la nueva fila seleccionada
+      filaSeleccionadaAnterior = $(this);
+
+      // Obtener los datos de la fila seleccionada
+      var datosFila = tabla_habitacion.row(this).data();
+      // Hacer lo que desees con los datos de la fila
+      //filaSelecc_tabajador(datosFila[1],datosFila[2],datosFila[3],datosFila[4]);
+      listar_caracteristicas_h(datosFila[3],datosFila[2]);
+  });
 }
 
 //Función para guardar o editar
@@ -358,8 +412,184 @@ function eliminar_habitacion(idhabitacion, nombre) {
 
 }
 //==========================FIN HABITACIONES====================
-//==========================FIN HABITACIONES====================
-//==========================FIN HABITACIONES====================
+
+//==========================CARACTERISTICAS HABITACIONES====================
+//==========================CARACTERISTICAS HABITACIONES====================
+
+//Función limpiar
+function limpiar_caracteristicas_h() {
+
+  $("#guardar_registro_caracteristicas_h").html('Guardar Cambios').removeClass('disabled');
+
+  $("#iddetalle_habitacion").val("");
+  $("#nombre_caracteristica_h").val("");
+
+  // Limpiamos las validaciones
+  $(".form-control").removeClass('is-valid');
+  $(".form-control").removeClass('is-invalid');
+  $(".error.invalid-feedback").remove();
+}
+
+//Función Listar
+function listar_caracteristicas_h(idhabitacion,nombre_habitacion) {
+  console.log(idhabitacion+'   '+nombre_habitacion);
+  $("#idhabitacion_G").val(idhabitacion);
+  $(".vacio_h").hide(); $(".mTable").show();
+
+  $('.name_habitacion').html(`<i class="fas fa-arrow-right"></i> ${nombre_habitacion}  <sup class="text-danger">*</sup>`);
+
+  tabla_caracteristicas_h=$('#tabla-caracteristicas_h').dataTable({
+    responsive: true,
+    lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]],//mostramos el menú de registros a revisar
+    aProcessing: true,//Activamos el procesamiento del datatables
+    aServerSide: true,//Paginación y filtrado realizados por el servidor
+    dom: '<Bl<f>rtip>',//Definimos los elementos del control de tabla
+    buttons: [
+      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i>', className: "btn bg-gradient-info", action: function ( e, dt, node, config ) { tabla_hotel.ajax.reload(); toastr_success('Exito!!', 'Actualizando tabla', 400); } },
+
+      { extend: 'copyHtml5', footer: true, exportOptions: { columns: [0,2], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "px-2 btn bg-gradient-gray", }, 
+      { extend: 'excelHtml5', footer: true, exportOptions: { columns: [0,2], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "px-2 btn bg-gradient-success",  }, 
+      { extend: 'pdfHtml5', footer: false, exportOptions: { columns: [0,2], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "px-2 btn bg-gradient-danger", } ,
+    
+
+    ],
+    ajax:{
+      url: '../ajax/hotel.php?op=listar_caracteristicas_h&idhabitacion=' + idhabitacion,
+      type : "get",
+      dataType : "json",						
+      error: function(e){
+        console.log(e.responseText);	ver_errores(e);
+      }
+    },
+    createdRow: function (row, data, ixdex) {
+      // columna: #
+      if (data[0] != '') { $("td", row).eq(0).addClass("text-center"); }
+      // columna: #
+      if (data[1] != '') { $("td", row).eq(1).addClass("text-nowrap"); }
+
+    },
+    language: {
+      lengthMenu: "Mostrar: _MENU_",
+      buttons: { copyTitle: "Tabla Copiada", copySuccess: { _: "%d líneas copiadas", 1: "1 línea copiada", }, },
+      sLoadingRecords: '<i class="fas fa-spinner fa-pulse fa-lg"></i> Cargando datos...'
+    },
+    bDestroy: true,
+    iDisplayLength: 5,//Paginación
+    order: [[ 0, "asc" ]]//Ordenar (columna,orden)
+  }).DataTable();
+  // Ocultar el lengthMenu mediante jQuery
+   $('.dataTables_length').css('display', 'none');
+
+}
+
+//Función para guardar o editar
+function guardaryeditar_caracteristicas_h(e) {
+
+  var formData = new FormData($("#form-caracteristicas_h")[0]);
+ 
+  $.ajax({
+    url: "../ajax/hotel.php?op=guardaryeditar_caracteristicas_h",
+    type: "POST",
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function (e) {
+      e = JSON.parse(e);  console.log(e);  
+      if (e.status == true) {
+
+				Swal.fire("Correcto!", "Característica registrada correctamente.", "success");
+
+	      tabla_caracteristicas_h.ajax.reload(null, false);
+         
+				limpiar_caracteristicas_h();
+
+        $("#modal-agregar-caracteristicas_h").modal("hide");        
+        
+        $("#guardar_registro_caracteristicas_h").html('Guardar Cambios').removeClass('disabled');
+			}else{
+				ver_errores(e);	
+			}
+    },
+    xhr: function () {
+
+      var xhr = new window.XMLHttpRequest();
+
+      xhr.upload.addEventListener("progress", function (evt) {
+
+        if (evt.lengthComputable) {
+
+          var percentComplete = (evt.loaded / evt.total)*100;
+          /*console.log(percentComplete + '%');*/
+          $("#barra_progress_caracteristicas_h").css({"width": percentComplete+'%'});
+
+          $("#barra_progress_caracteristicas_h").text(percentComplete.toFixed(2)+" %");
+        }
+      }, false);
+      return xhr;
+    },
+    beforeSend: function () {
+      $("#guardar_registro_caracteristicas_h").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+      $("#barra_progress_caracteristicas_h").css({ width: "0%",  });
+      $("#barra_progress_caracteristicas_h").text("0%");
+    },
+    complete: function () {
+      $("#barra_progress_caracteristicas_h").css({ width: "0%", });
+      $("#barra_progress_caracteristicas_h").text("0%");
+    },
+    error: function (jqXhr) { ver_errores(jqXhr); },
+  });
+}
+
+//mostrar un solo registro
+function mostrar_caracteristicas_h(iddetalle_habitacion) {
+
+  $(".tooltip").removeClass("show").addClass("hidde");
+  $("#cargando-13-fomulario").hide();
+  $("#cargando-14-fomulario").show();
+
+  limpiar_caracteristicas_h();
+
+  $("#modal-agregar-caracteristicas_h").modal("show")
+
+  $.post("../ajax/hotel.php?op=mostrar_caracteristicas_h", { iddetalle_habitacion: iddetalle_habitacion }, function (e, status) {
+
+    e = JSON.parse(e);  console.log(e);  
+
+    if (e.status) {
+      $("#idhabitacion_G").val(e.data.idhabitacion);
+      $("#iddetalle_habitacion").val(e.data.iddetalle_habitacion);
+      $("#nombre_caracteristica_h").val(e.data.nombre);
+
+      $("#cargando-13-fomulario").show();
+      $("#cargando-14-fomulario").hide();
+    } else {
+      ver_errores(e);
+    }
+  }).fail( function(e) { ver_errores(e); } );
+}
+
+//Función para eliminar registros
+function eliminar_caracteristicas_h(idcaracteristicas_h, nombre) {  
+  
+  crud_eliminar_papelera(
+    "../ajax/hotel.php?op=desactivar_caracteristicas_h",
+    "../ajax/hotel.php?op=eliminar_caracteristicas_h", 
+    idcaracteristicas_h, 
+    "!Elija una opción¡", 
+    `<b class="text-danger"><del>${nombre}</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
+    function(){ sw_success('♻️ Papelera! ♻️', "Tu registro ha sido reciclado." ) }, 
+    function(){ sw_success('Eliminado!', 'Tu registro ha sido Eliminado.' ) }, 
+    function(){  tabla_caracteristicas_h.ajax.reload(null, false); },
+    false, 
+    false, 
+    false,
+    false
+  );
+
+}
+
+//==========================FIN CARACTERISTICAS HABITACIONES====================
+//==========================FIN CARACTERISTICAS HABITACIONES====================
 
 
 init();
@@ -422,6 +652,33 @@ $(function () {
     },
     submitHandler: function (e) {
       guardaryeditar_habitacion(e);      
+    },
+  });
+
+  $("#form-caracteristicas_h").validate({
+    rules: {
+      nombre_caracteristica_h: { required: true }, 
+    },
+    messages: {
+      nombre_caracteristica_h: { required: "Por favor ingrese nombre.", },
+    },
+        
+    errorElement: "span",
+
+    errorPlacement: function (error, element) {
+      error.addClass("invalid-feedback");
+      element.closest(".form-group").append(error);
+    },
+
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass("is-invalid").removeClass("is-valid");
+    },
+
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass("is-invalid").addClass("is-valid");   
+    },
+    submitHandler: function (e) {
+      guardaryeditar_caracteristicas_h(e);      
     },
   });
 

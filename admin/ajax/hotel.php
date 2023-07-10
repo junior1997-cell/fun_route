@@ -24,7 +24,11 @@
     $nombre_habitacion = isset($_POST["nombre_habitacion"]) ? limpiarCadena($_POST["nombre_habitacion"]) : "";
 
     //$idhoteles_G,$idhabitacion, $nombre_habitacion
-
+    //-----------CARACTISTICA
+    $idhabitacion_G       = isset($_POST["idhabitacion_G"]) ? limpiarCadena($_POST["idhabitacion_G"]) : "";
+    $iddetalle_habitacion      = isset($_POST["iddetalle_habitacion"]) ? limpiarCadena($_POST["iddetalle_habitacion"]) : "";
+    $nombre_caracteristica_h = isset($_POST["nombre_caracteristica_h"]) ? limpiarCadena($_POST["nombre_caracteristica_h"]) : "";
+     //$idhabitacion_G,$iddetalle_habitacion,$nombre_caracteristica_h
     switch ($_GET["op"]) {
       case 'guardaryeditar_hotel':
         if (empty($idhoteles)) {
@@ -79,7 +83,8 @@
               "2" => '<div >'.$reg->nombre. '<br>
                   <span class="rating text-warning text-center">'.$estrellasHTML.'</span>                
                   </div>',
-              "3" => '<span class="btn btn-info btn-sm" onclick="listar_habitacion(' . $reg->idhoteles .', \'' . encodeCadenaHtml($reg->nombre) . '\')">Ver <i class="fa fa-eye"></i></span>',
+              "3" => $reg->idhoteles,
+              "4" => $reg->nombre,
             ];
           }
           $results = [
@@ -125,8 +130,8 @@
         echo json_encode( $rspta, true) ;
       break;
 
-      case 'listar_habatacion':
-        $rspta = $hotel->listar_habatacion( $_GET['idhoteles']);
+      case 'listar_habitacion':
+        $rspta = $hotel->listar_habitacion( $_GET['idhoteles']);
         //Vamos a declarar un array
         $data = [];  $cont = 1;       
 
@@ -138,7 +143,7 @@
               "1" => '<button class="btn btn-warning btn-sm" onclick="mostrar_habitacion(' . $reg->idhabitacion . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
                   ' <button class="btn btn-danger  btn-sm" onclick="eliminar_habitacion(' . $reg->idhabitacion .', \'' . encodeCadenaHtml($reg->nombre) . '\')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
               "2" => $reg->nombre,
-              "3" => '<span class="btn btn-info btn-sm" onclick="listar_habitacion(' . $reg->idhabitacion .', \'' . encodeCadenaHtml($reg->nombre) . '\')">Ver <i class="fa fa-eye"></i></span>',
+              "3" =>$reg->idhabitacion,
             ];
           }
           $results = [
@@ -154,8 +159,66 @@
 
       break;
       //==========================FIN HABITACIONES====================
-      //==========================FIN HABITACIONES====================
-      //==========================FIN HABITACIONES====================
+     //$idhabitacion_G,$iddetalle_habitacion,$nombre_caracteristica_h
+      //==========================CARACTERISTICAS====================
+      //==========================CARACTERISTICAS====================
+      case 'guardaryeditar_caracteristicas_h':
+        if (empty($iddetalle_habitacion)) {
+          $rspta = $hotel->insertar_caracteristicas_h($idhabitacion_G, $nombre_caracteristica_h);
+          echo json_encode( $rspta, true) ;
+        } else {
+          $rspta = $hotel->editar_caracteristicas_h($iddetalle_habitacion,$idhabitacion_G, $nombre_caracteristica_h);
+          echo json_encode( $rspta, true) ;
+        }
+      break;
+
+      case 'desactivar_caracteristicas_h':
+        $rspta = $hotel->desactivar_caracteristicas_h($_GET["id_tabla"]);
+        echo json_encode( $rspta, true) ;
+      break;
+
+      case 'eliminar_caracteristicas_h':
+        $rspta = $hotel->eliminar_caracteristicas_h($_GET["id_tabla"]);
+        echo json_encode( $rspta, true) ;
+      break;
+
+      case 'mostrar_caracteristicas_h':
+        $rspta = $hotel->mostrar_caracteristicas_h($iddetalle_habitacion);
+        //Codificar el resultado utilizando json
+        echo json_encode( $rspta, true) ;
+      break;
+
+      case 'listar_caracteristicas_h':
+        $rspta = $hotel->listar_caracteristicas_h( $_GET['idhabitacion']);
+        //Vamos a declarar un array
+        $data = [];  $cont = 1;       
+
+        if ($rspta['status'] == true) {
+          while ($reg = $rspta['data']->fetch_object()) {
+
+            $data[] = [
+              "0" => $cont++,
+              "1" => '<button class="btn btn-warning btn-sm" onclick="mostrar_caracteristicas_h(' . $reg->iddetalle_habitacion. ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
+                  ' <button class="btn btn-danger  btn-sm" onclick="eliminar_caracteristicas_h(' . $reg->iddetalle_habitacion.', \'' . encodeCadenaHtml($reg->nombre) . '\')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
+              "2" => $reg->nombre,
+              "3" =>$reg->iddetalle_habitacion,
+            ];
+          }
+          $results = [
+            "sEcho" => 1, //Información para el datatables
+            "iTotalRecords" => count($data), //enviamos el total registros al datatable
+            "iTotalDisplayRecords" => count($data), //enviamos el total registros a visualizar
+            "aaData" => $data,
+          ];
+          echo json_encode($results, true);
+        } else {
+          echo $rspta['code_error'] .' - '. $rspta['message'] .' '. $rspta['data'];
+        }
+
+      break;
+
+      //==========================FIN CARACTERISTICAS====================
+      //==========================FIN CARACTERISTICAS====================
       case 'salir':
         //Limpiamos las variables de sesión
         session_unset();

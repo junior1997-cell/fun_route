@@ -306,7 +306,7 @@ if (!isset($_SESSION["nombre"])) {
                                       <th class="text-center">#</th>
                                       <th class=""><i class="fas fa-gears"></i></th>
                                       <th>Nombre</th>
-                                      <th><i class="fas fa-arrow-right"></i></th>
+                                      <!-- <th><i class="fas fa-arrow-right"></i></th> -->
 
                                     </tr>
                                   </thead>
@@ -338,7 +338,6 @@ if (!isset($_SESSION["nombre"])) {
                                         <th class="text-center">#</th>
                                         <th class=""><i class="fas fa-gears"></i></th>
                                         <th>Nombre</th>
-                                        <th><i class="fas fa-arrow-right"></i></th>
                                       </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -355,21 +354,20 @@ if (!isset($_SESSION["nombre"])) {
                             <div class="card card-primary card-outline">
                               <div class="card-header">
                                 <h3 class="card-title">
-                                  <button type="button" class="btn bg-gradient-primary" data-toggle="modal" data-target="#modal-agregar-tipo-tours" onclick="limpiar_tipo_tours();"><i class="fas fa-plus-circle"></i> Agregar</button>
-                                  CARACTERISTICAS DE HABITACIÓN
+                                  <button type="button" class="btn bg-gradient-primary" data-toggle="modal" data-target="#modal-agregar-caracteristicas_h" onclick="limpiar_caracteristicas_h();"><i class="fas fa-plus-circle"></i> Agregar</button>
+                                  CARACTERÍSTICAS DE HABITACIÓN
                                 </h3>
                               </div>
                               <div class="card-body">
-                                <div class="vacio alert alert-warning" role="alert"> Elegir una Habitación! </div>
-                                <div class="text-center" style="background-color: #b9deff; margin-bottom: 4px;"> <strong class="name_hotel"></strong> </div>
+                                <div class="vacio_h alert alert-warning" role="alert"> Elegir una Habitación! </div>
+                                <div class="text-center" style="background-color: #b9deff; margin-bottom: 4px;"> <strong class="name_habitacion"></strong> </div>
                                 <div class="mTable" style="display: none;">
-                                  <table id="tabla-caracteristicas" class="table table-bordered table-striped display" style="width: 100% !important;">
+                                  <table id="tabla-caracteristicas_h" class="table table-bordered table-striped display" style="width: 100% !important;">
                                     <thead>
                                       <tr>
                                         <th class="text-center">#</th>
                                         <th class=""><i class="fas fa-gears"></i></th>
                                         <th>Nombre</th>
-                                        <th><i class="fas fa-arrow-right"></i></th>
                                       </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -838,6 +836,65 @@ if (!isset($_SESSION["nombre"])) {
                 <div class="modal-footer justify-content-between">
                   <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="limpiar_habitacion();">Close</button>
                   <button type="submit" class="btn btn-success" id="guardar_registro_habitacion">Guardar Cambios</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- MODAL -CARACTERISTICAS HABITACIONES -->
+          <div class="modal fade" id="modal-agregar-caracteristicas_h">
+            <div class="modal-dialog modal-dialog-scrollable modal-md">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">CARACTERÍSTICA</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-danger" aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-body">
+                  <!-- form start -->
+                  <form id="form-caracteristicas_h" name="form-caracteristicas_h" method="POST" autocomplete="off">
+                    <div class="card-body">
+                      <div class="row" id="cargando-13-fomulario">
+                        <!-- id idunidad_medida -->
+                        <input type="hidden" name="iddetalle_habitacion" id="iddetalle_habitacion" />
+                        <input type="hidden" name="idhabitacion_G" id="idhabitacion_G" />
+
+                        <!-- nombre_caracteristica_h -->
+                        <div class="col-lg-12">
+                          <div class="form-group">
+                            <label for="nombre_caracteristica_h">Nombre</label>
+                            <input type="text" name="nombre_caracteristica_h" id="nombre_caracteristica_h" class="form-control" placeholder="Nombre Habitación" />
+                          </div>
+                        </div>
+                        <!-- idhabitacion_G, iddetalle_habitacion, nombre_caracteristica_h -->
+
+                        <!-- barprogress -->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px;">
+                          <div class="progress" id="barra_progress_caracteristicas_h_div">
+                            <div id="barra_progress_caracteristicas_h" class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%;">
+                              0%
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="row" id="cargando-14-fomulario" style="display: none;">
+                        <div class="col-lg-12 text-center">
+                          <i class="fas fa-spinner fa-pulse fa-6x"></i><br />
+                          <br />
+                          <h4>Cargando...</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <button type="submit" style="display: none;" id="submit-form-caracteristicas_h">Submit</button>
+                  </form>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="limpiar_caracteristicas_h();">Close</button>
+                  <button type="submit" class="btn btn-success" id="guardar_registro_caracteristicas_h">Guardar Cambios</button>
                 </div>
               </div>
             </div>

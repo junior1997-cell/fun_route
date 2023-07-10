@@ -169,10 +169,90 @@ Class Hotel
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
-	public function listar_habatacion($idhoteles){
+	public function listar_habitacion($idhoteles){
 		$sql ="SELECT * FROM habitacion WHERE idhoteles='$idhoteles' AND estado=1 and estado_delete=1 ORDER BY idhabitacion ASC;";
 		return ejecutarConsulta($sql);	
 	}
+	//==========================FIN HABITACIONES========================
+
+	//==========================CARACTERISTICAS========================
+	//==========================CARACTERISTICAS========================
+		//Implementamos un método para insertar registros
+		public function insertar_caracteristicas_h($idhabitacion_G, $nombre_caracteristica_h)
+		{
+			$sql="INSERT INTO detalle_habitacion(idhabitacion, nombre) VALUES ('$idhabitacion_G','$nombre_caracteristica_h')";
+			$insertar =  ejecutarConsulta_retornarID($sql); 
+			if ($insertar['status'] == false) {  return $insertar; } 
+			
+			//add registro en nuestra bitacora
+			$sql_d = $idhabitacion_G.', '.$nombre_caracteristica_h;
+			$sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5, 'detalle_habitacion','".$insertar['data']."','$sql_d','$this->id_usr_sesion')";
+			$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }    
+			
+			return $insertar;
+		}
+	
+		//Implementamos un método para editar registros
+		public function editar_caracteristicas_h($iddetalle_habitacion,$idhabitacion_G, $nombre_caracteristica_h)
+		{
+			$sql="UPDATE detalle_habitacion SET nombre='$nombre_caracteristica_h', idhabitacion= '$idhabitacion_G', user_updated= '$this->id_usr_sesion' WHERE iddetalle_habitacion='$iddetalle_habitacion'";
+			$editar =  ejecutarConsulta($sql);
+			if ( $editar['status'] == false) {return $editar; } 
+		
+			//add registro en nuestra bitacora
+			$sql_d = $iddetalle_habitacion.', '.$idhabitacion_G.', '.$nombre_caracteristica_h;
+	
+			$sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (6,'detalle_habitacion','$iddetalle_habitacion','$sql_d','$this->id_usr_sesion')";
+			$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
+					
+			return $editar;
+		}
+	
+		//Implementamos un método para desactivar 
+		public function desactivar_caracteristicas_h($iddetalle_habitacion)
+		{
+			$sql="UPDATE detalle_habitacion SET estado='0',user_trash= '$this->id_usr_sesion' WHERE iddetalle_habitacion='$iddetalle_habitacion'";
+			$desactivar= ejecutarConsulta($sql);
+	
+			if ($desactivar['status'] == false) {  return $desactivar; }
+			
+				$sql_d = $iddetalle_habitacion;
+				//add registro en nuestra bitacora
+				$sql = "INSERT INTO bitacora_bd(idcodigo,nombre_tabla, id_tabla, sql_d, id_user) VALUES (2,'detalle_habitacion','.$iddetalle_habitacion.','$sql_d','$this->id_usr_sesion')";
+				$bitacora = ejecutarConsulta($sql); if ( $bitacora['status'] == false) {return $bitacora; }  
+	
+			return $desactivar;
+		}
+	
+		//Implementamos un método para eliminar 
+		public function eliminar_caracteristicas_h($iddetalle_habitacion)
+		{
+			$sql="UPDATE detalle_habitacion SET estado_delete='0',user_delete= '$this->id_usr_sesion' WHERE iddetalle_habitacion='$iddetalle_habitacion'";
+			$eliminar =  ejecutarConsulta($sql);
+			if ( $eliminar['status'] == false) {return $eliminar; }  
+			
+			//add registro en nuestra bitacora
+			$sql_d = $iddetalle_habitacion;
+			$sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (4,'detalle_habitacion','$iddetalle_habitacion','$sql_d','$this->id_usr_sesion')";
+			$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
+	
+			return $eliminar;
+		}
+	
+		//Implementar un método para mostrar los datos de un registro a modificar
+		public function mostrar_caracteristicas_h($iddetalle_habitacion)
+		{
+			$sql="SELECT * FROM detalle_habitacion WHERE iddetalle_habitacion='$iddetalle_habitacion'";
+			return ejecutarConsultaSimpleFila($sql);
+		}
+	
+		public function listar_caracteristicas_h($idhabitacion){
+			$sql ="SELECT * FROM detalle_habitacion WHERE idhabitacion='$idhabitacion' AND estado=1 and estado_delete=1 ORDER BY iddetalle_habitacion ASC;";
+			return ejecutarConsulta($sql);	
+		}
+	//==========================FIN CARACTERISTICAS========================
+	//==========================FIN CARACTERISTICAS========================
+
 
 	
 }
