@@ -379,10 +379,38 @@ if (!isset($_SESSION["nombre"])) {
 
                         </div>
 
-                      </div>
-                      <div class="row">
-                        <div class="col-12">
-                          caracteristicas hotel
+                      
+
+                        <!-- CARACTERÍSTICAS DEL HOTEL -->
+                      
+                        <div class="col-4">
+                          <div class="container-fluid">
+                            <div class="card card-primary card-outline">
+                              <div class="card-header">
+                                <h3 class="card-title">
+                                  <button type="button" class="btn bg-gradient-primary" data-toggle="modal" data-target="#modal-agregar-caract-hotel" onclick="limpiar_caract_hotel();"><i class="fas fa-plus-circle"></i> Agregar</button>
+                                  CARACTERÍSTICAS DE HOTEL
+                                </h3>
+                              </div>
+                              <div class="card-body">
+                                <div class="vacio alert alert-warning" role="alert"> Elegir un Hotel! </div>
+                                <div class="text-center" style="background-color: #b9deff; margin-bottom: 4px;"> <strong class="name_hoteles"></strong> </div>
+                                <div class="mTable" style="display: none;">
+                                  <table id="tabla-caract-hotel" class="table table-bordered table-striped display" style="width: 100% !important;">
+                                    <thead>
+                                      <tr>
+                                        <th class="text-center">#</th>
+                                        <th class=""><i class="fas fa-gears"></i></th>
+                                        <th>Nombre</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                         </div>
                       </div>
                     </div>
@@ -895,6 +923,66 @@ if (!isset($_SESSION["nombre"])) {
                 <div class="modal-footer justify-content-between">
                   <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="limpiar_caracteristicas_h();">Close</button>
                   <button type="submit" class="btn btn-success" id="guardar_registro_caracteristicas_h">Guardar Cambios</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MODAL - CARACTERISTICAS HOTELES -->
+          <div class="modal fade" id="modal-agregar-caract-hotel">
+            <div class="modal-dialog modal-dialog-scrollable modal-md">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">CARACTERÍSTICAS DE HOTEL</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-danger" aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-body">
+                  <!-- form start -->
+                  <form id="form-caract-hotel" name="form-caract-hotel" method="POST" autocomplete="off">
+                    <div class="card-body">
+                      <div class="row" id="cargando-15-fomulario">
+                        <!-- id idunidad_medida -->
+                        <input type="hidden" name="idhoteles_GN" id="idhoteles_GN" />
+                        <input type="hidden" name="idinstalaciones_hotel" id="idinstalaciones_hotel" />
+
+                        <!-- nombre_habitacion -->
+                        <div class="col-lg-12">
+                          <div class="form-group">
+                            <label for="nombre_c_hotel">Nombre</label>
+                            <input type="text" name="nombre_c_hotel" id="nombre_c_hotel" class="form-control" placeholder="" />
+                          </div>
+                        </div>
+                        <!-- idhoteles_G,idhabitacion, nombre_habitacion -->
+
+                        <!-- barprogress -->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px;">
+                          <div class="progress" id="barra_progress_caract_hotel_div">
+                            <div id="barra_progress_caract_hotel" class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%;">
+                              0%
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="row" id="cargando-16-fomulario" style="display: none;">
+                        <div class="col-lg-12 text-center">
+                          <i class="fas fa-spinner fa-pulse fa-6x"></i><br />
+                          <br />
+                          <h4>Cargando...</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <button type="submit" style="display: none;" id="submit-form-caract-hotel">Submit</button>
+                  </form>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="limpiar_caract_hotel();">Close</button>
+                  <button type="submit" class="btn btn-success" id="guardar_registro_caract_hotel">Guardar Cambios</button>
                 </div>
               </div>
             </div>

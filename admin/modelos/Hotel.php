@@ -253,6 +253,87 @@ Class Hotel
 	//==========================FIN CARACTERISTICAS========================
 	//==========================FIN CARACTERISTICAS========================
 
+	//==========================CARACTERISTICAS HOTEL======================
+	//Implementamos un método para insertar registros
+	public function insertar_caract_hotel($idhoteles_GN, $nombre_c_hotel)
+	{
+		$sql="INSERT INTO instalaciones_hotel (idhoteles, nombre) VALUES ('$idhoteles_GN','$nombre_c_hotel')";
+		$insertar =  ejecutarConsulta_retornarID($sql); 
+		if ($insertar['status'] == false) {  return $insertar; } 
+		
+		//add registro en nuestra bitacora
+		$sql_d = $idhoteles_GN.', '.$nombre_c_hotel;
+		$sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5, 'instalaciones_hotel','".$insertar['data']."','$sql_d','$this->id_usr_sesion')";
+		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }    
+		
+		return $insertar;
+	}
+
+	//Implementamos un método para editar registros
+	public function editar_caract_hotel($idinstalaciones_hotel,$idhoteles_GN, $nombre_c_hotel)
+	{
+		$sql="UPDATE instalaciones_hotel SET nombre='$nombre_c_hotel', idhoteles= '$idhoteles_GN', user_updated= '$this->id_usr_sesion' WHERE idinstalaciones_hotel='$idinstalaciones_hotel'";
+		$editar =  ejecutarConsulta($sql);
+		if ( $editar['status'] == false) {return $editar; } 
+	
+		//add registro en nuestra bitacora
+		$sql_d = $idinstalaciones_hotel.', '.$idhoteles_GN.', '.$nombre_c_hotel;
+
+		$sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (6,'instalaciones_hotel','$idinstalaciones_hotel','$sql_d','$this->id_usr_sesion')";
+		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
+				
+		return $editar;
+	}
+
+		//Implementamos un método para desactivar 
+	public function desactivar_caract_hotel($idinstalaciones_hotel)
+	{
+		$sql="UPDATE instalaciones_hotel SET estado='0',user_trash= '$this->id_usr_sesion' WHERE idinstalaciones_hotel='$idinstalaciones_hotel'";
+		$desactivar= ejecutarConsulta($sql);
+
+		if ($desactivar['status'] == false) {  return $desactivar; }
+		
+      $sql_d = $idinstalaciones_hotel;
+      //add registro en nuestra bitacora
+      $sql = "INSERT INTO bitacora_bd(idcodigo,nombre_tabla, id_tabla, sql_d, id_user) VALUES (2,'instalaciones_hotel','.$idinstalaciones_hotel.','$sql_d','$this->id_usr_sesion')";
+      $bitacora = ejecutarConsulta($sql); if ( $bitacora['status'] == false) {return $bitacora; }  
+
+		return $desactivar;
+	}
+
+	//Implementamos un método para eliminar 
+	public function eliminar_caract_hotel($idinstalaciones_hotel)
+	{
+		$sql="UPDATE instalaciones_hotel SET estado_delete='0',user_delete= '$this->id_usr_sesion' WHERE idinstalaciones_hotel='$idinstalaciones_hotel'";
+		$eliminar =  ejecutarConsulta($sql);
+		if ( $eliminar['status'] == false) {return $eliminar; }  
+		
+		//add registro en nuestra bitacora
+		$sql_d = $idinstalaciones_hotel;
+		$sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (4,'instalaciones_hotel','$idinstalaciones_hotel','$sql_d','$this->id_usr_sesion')";
+		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
+
+		return $eliminar;
+	}
+
+	//Implementar un método para mostrar los datos de un registro a modificar
+	public function mostrar_caract_hotel($idinstalaciones_hotel)
+	{
+		$sql="SELECT * FROM instalaciones_hotel WHERE idinstalaciones_hotel='$idinstalaciones_hotel'";
+		return ejecutarConsultaSimpleFila($sql);
+	}
+
+	public function listar_caract_hotel($idhoteles){
+		$sql ="SELECT * FROM instalaciones_hotel WHERE idhoteles='$idhoteles' AND estado=1 and estado_delete=1 ORDER BY idinstalaciones_hotel ASC;";
+		return ejecutarConsulta($sql);	
+	}
+
+
+	//======================FIN CARACTERISTICAS HOTEL======================
+	//======================FIN CARACTERISTICAS HOTEL======================
+	//======================FIN CARACTERISTICAS HOTEL======================
+
+
 
 	
 }

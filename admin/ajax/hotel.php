@@ -29,6 +29,13 @@
     $iddetalle_habitacion      = isset($_POST["iddetalle_habitacion"]) ? limpiarCadena($_POST["iddetalle_habitacion"]) : "";
     $nombre_caracteristica_h = isset($_POST["nombre_caracteristica_h"]) ? limpiarCadena($_POST["nombre_caracteristica_h"]) : "";
      //$idhabitacion_G,$iddetalle_habitacion,$nombre_caracteristica_h
+
+    //------------------CARACTERISTICAS HOTELES --------------
+    $idhoteles_GN           = isset($_POST["idhoteles_GN"]) ? limpiarCadena($_POST["idhoteles_GN"]) : "";
+    $idinstalaciones_hotel  = isset($_POST["idinstalaciones_hotel"]) ? limpiarCadena($_POST["idinstalaciones_hotel"]) : "";
+    $nombre_c_hotel         = isset($_POST["nombre_c_hotel"]) ? limpiarCadena($_POST["nombre_c_hotel"]) : "";
+    //idinstalaciones_hotel ;  idhoteles_GN  ;  nombre_c_hotel
+
     switch ($_GET["op"]) {
       case 'guardaryeditar_hotel':
         if (empty($idhoteles)) {
@@ -158,7 +165,8 @@
         }
 
       break;
-      //==========================FIN HABITACIONES====================
+      //==========================FIN HABITACIONES===================
+
      //$idhabitacion_G,$iddetalle_habitacion,$nombre_caracteristica_h
       //==========================CARACTERISTICAS====================
       //==========================CARACTERISTICAS====================
@@ -219,6 +227,71 @@
 
       //==========================FIN CARACTERISTICAS====================
       //==========================FIN CARACTERISTICAS====================
+
+      //==========================CARACTERISTICAS HOTELES================
+      case 'guardaryeditar_caract_hotel':
+        if (empty($idinstalaciones_hotel)) {
+          $rspta = $hotel->insertar_caract_hotel($idhoteles_GN, $nombre_c_hotel);
+          echo json_encode( $rspta, true) ;
+        } else {
+          $rspta = $hotel->editar_caract_hotel($idinstalaciones_hotel,$idhoteles_GN, $nombre_c_hotel);
+          echo json_encode( $rspta, true) ;
+        }
+      break;
+
+      case 'desactivar_caract_hotel':
+        $rspta = $hotel->desactivar_caract_hotel($_GET["id_tabla"]);
+        echo json_encode( $rspta, true) ;
+      break;
+
+      case 'eliminar_caract_hotel':
+        $rspta = $hotel->eliminar_caract_hotel($_GET["id_tabla"]);
+        echo json_encode( $rspta, true) ;
+      break;
+
+      case 'mostrar_caract_hotel':
+        $rspta = $hotel->mostrar_caract_hotel($idinstalaciones_hotel);
+        //Codificar el resultado utilizando json
+        echo json_encode( $rspta, true) ;
+      break;
+
+      case 'listar_caract_hotel':
+        $rspta = $hotel->listar_caract_hotel( $_GET['idhoteles']);
+        //Vamos a declarar un array
+        $data = [];  $cont = 1;       
+
+        if ($rspta['status'] == true) {
+          while ($reg = $rspta['data']->fetch_object()) {
+
+            $data[] = [
+              "0" => $cont++,
+              "1" => '<button class="btn btn-warning btn-sm" onclick="mostrar_caract_hotel(' . $reg->idinstalaciones_hotel . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
+                  ' <button class="btn btn-danger  btn-sm" onclick="eliminar_caract_hotel(' . $reg->idinstalaciones_hotel .', \'' . encodeCadenaHtml($reg->nombre) . '\')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
+              "2" => $reg->nombre,
+              "3" =>$reg->idinstalaciones_hotel,
+            ];
+          }
+          $results = [
+            "sEcho" => 1, //Información para el datatables
+            "iTotalRecords" => count($data), //enviamos el total registros al datatable
+            "iTotalDisplayRecords" => count($data), //enviamos el total registros a visualizar
+            "aaData" => $data,
+          ];
+          echo json_encode($results, true);
+        } else {
+          echo $rspta['code_error'] .' - '. $rspta['message'] .' '. $rspta['data'];
+        }
+
+      break;
+
+      //========================FIN CARACTERISTICAS HOTELES==============
+      //========================FIN CARACTERISTICAS HOTELES==============
+      //========================FIN CARACTERISTICAS HOTELES==============
+
+
+
+
+
       case 'salir':
         //Limpiamos las variables de sesión
         session_unset();
