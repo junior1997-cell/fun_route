@@ -316,7 +316,7 @@ if (!isset($_SESSION["nombre"])) {
                                   <!-- agregando -->
                                   <div class="alert alert-warning alert-dismissible alerta">
                                     <h5><i class="icon fas fa-exclamation-triangle"></i> Alerta!</h5>
-                                    NO TIENES NUNGINA ACTIVIDAD ASIGNADA A TU PAQUETE
+                                    NO TIENES NINGUNA ACTIVIDAD ASIGNADA A TU PAQUETE
                                   </div>
                               </div>
                                   
