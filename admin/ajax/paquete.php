@@ -38,16 +38,17 @@ if (!isset($_SESSION["nombre"])) {
     $estado_descuento     = isset($_POST["estado_descuento"]) ? limpiarCadena($_POST["estado_descuento"]) : "";
     $porcentaje_descuento = isset($_POST["porcentaje_descuento"]) ? limpiarCadena($_POST["porcentaje_descuento"]) : "";
     $monto_descuento      = isset($_POST["monto_descuento"]) ? limpiarCadena($_POST["monto_descuento"]) : "";
+    $resumen              = isset($_POST["resumen"]) ? limpiarCadena($_POST["resumen"]) : "" ;
     //---------------G A L E R I A-------------------
     $idpaqueteg          = isset($_POST["idpaqueteg"]) ? limpiarCadena($_POST["idpaqueteg"]) : "";
     $idgaleria_paquete   = isset($_POST["idgaleria_paquete"]) ? limpiarCadena($_POST["idgaleria_paquete"]) : "";
     $descripcion_g       = isset($_POST["descripcion_g"]) ? limpiarCadena($_POST["descripcion_g"]) : "";
     $img_galeria         = isset($_POST["doc2"]) ? limpiarCadena($_POST["doc2"]) : "";
     //$idpaqueteg,$idgaleria_paquete,$descripcion_g,$img_galeria
-    $idtours =isset($_POST['idtours']) ? $_POST['idtours'] : "0";
-    $nombre_tours = isset($_POST['nombre_tours'])? $_POST['nombre_tours'] : "";
-    $numero_orden = isset($_POST['numero_orden'])? $_POST['numero_orden'] : "";
-    $actividad  = isset($_POST['actividad'])? $_POST['actividad'] : "";
+    $idtours             =isset($_POST['idtours']) ? $_POST['idtours'] : "0";
+    $nombre_tours        =isset($_POST['nombre_tours'])? $_POST['nombre_tours'] : "";
+    $numero_orden        =isset($_POST['numero_orden'])? $_POST['numero_orden'] : "";
+    $actividad           =isset($_POST['actividad'])? $_POST['actividad'] : "";
     
     switch ($_GET["op"]) {
 
@@ -67,8 +68,8 @@ if (!isset($_SESSION["nombre"])) {
 
         if (empty($idpaquete)) {
 
-          $rspta = $paquete->insertar($nombre, $cant_dias, $cant_noches, $descripcion, $imagen1, $incluye, $no_incluye, 
-          $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento,$idtours,$nombre_tours,$numero_orden,$actividad);
+          $rspta = $paquete->insertar($nombre, $cant_dias, $cant_noches, $descripcion, $imagen1, $incluye, $no_incluye,
+          $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento, $resumen, $idtours,$nombre_tours,$numero_orden,$actividad);
 
           echo json_encode($rspta, true);
         } else {
@@ -83,8 +84,8 @@ if (!isset($_SESSION["nombre"])) {
           }
 
           // editamos un paquete existente
-          $rspta = $paquete->editar($idpaquete,$nombre, $cant_dias, $cant_noches, $descripcion, $imagen1, $incluye, $no_incluye, 
-            $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento,$_POST['iditinerario'],
+          $rspta = $paquete->editar($idpaquete,$nombre, $cant_dias, $cant_noches, $descripcion, $imagen1, $incluye, $no_incluye,
+            $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento, $resumen, $_POST['iditinerario'],
             $idtours,$nombre_tours,$numero_orden,$actividad);
 
           echo json_encode($rspta, true);
@@ -98,7 +99,7 @@ if (!isset($_SESSION["nombre"])) {
 
         echo json_encode($rspta, true);
 
-        break;
+      break;
 
       case 'eliminar':
 
@@ -106,7 +107,7 @@ if (!isset($_SESSION["nombre"])) {
 
         echo json_encode($rspta, true);
 
-        break;
+      break;
 
       case 'mostrar':
 
@@ -114,7 +115,7 @@ if (!isset($_SESSION["nombre"])) {
         //Codificar el resultado utilizando json
         echo json_encode($rspta, true);
 
-        break;
+      break;
 
       case 'tbla_principal':
 
@@ -161,7 +162,7 @@ if (!isset($_SESSION["nombre"])) {
         } else {
           echo $rspta['code_error'] . ' - ' . $rspta['message'] . ' ' . $rspta['data'];
         }
-        break;
+      break;
 
         case 'ver_actividad':
 
@@ -169,7 +170,7 @@ if (!isset($_SESSION["nombre"])) {
           //Codificar el resultado utilizando json
           echo json_encode($rspta, true);
   
-          break;
+        break;
         /* ══════════════════════════════════════ T I P O  T O U R S ══════════════════════════════════ */
       case 'selec2tours':
 

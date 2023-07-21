@@ -54,7 +54,8 @@ function limpiar_tours() {
   $("#idtipo_tours").val("").trigger("change");
   $("#nombre").val("");
   $("#imagen").val("");
-  $("#descripcion").val("");
+  $("#resumen_actividad").val("");
+  $("#resumen_comida").val("");
 
  // -------OTROS----------
  
@@ -212,7 +213,8 @@ function mostrar_tours(idtours) {
     $("#idtours").val(e.data.idtours).trigger("change");
     $("#idtipo_tours").val(e.data.idtipo_tours).trigger("change");
     $("#nombre").val(e.data.nombre).trigger("change");
-    $("#descripcion").val(e.data.descripcion);
+    $("#resumen_actividad").val(e.data.resumen_actividad);
+    $("#resumen_comida").val(e.data.resumen_comida);
 
     $("#incluye").summernote ('code', e.data.incluye);
     $("#no_incluye").summernote ('code', e.data.no_incluye);
@@ -280,7 +282,8 @@ function ver_detalle_tours(idtours) {
     $("#idtours").val(e.data.idtours).trigger("change");
     $("#idtipo_tours").val(e.data.idtipo_tours).trigger("change");
     $("#nombre").val(e.data.nombre).trigger("change");
-    $("#descripcion").val(e.data.descripcion);
+    $("#resumen_actividad").val(e.data.resumen_actividad);
+    $("#resumen_comida").val(e.data.resumen_comida);
 
     $("#incluye").summernote ('code', e.data.incluye);
     $("#no_incluye").summernote ('code', e.data.no_incluye);
@@ -513,14 +516,14 @@ $(function () {
       
       idtipo_tours: { required: true},
       nombre:{ required: true, minlength:4, maxlength:100 },
-      descripcion: { minlength:4 },
+      resumen_actividad: { minlength:4 },
       costo: { required: true},
       
     },
     messages: {
       idtipo_tours: { required: "Campo requerido"},
       nombre:{ required: "Campo requerido", minlength: "Minimo 3 caracteres", maxlength: "Maximo 100 Caracteres" },
-      descripcion: {minlength: "Minimo 4 Caracteres"},
+      resumen_actividad: {minlength: "Minimo 4 Caracteres"},
       costo: { required: "Campo requerido"},
     },
 

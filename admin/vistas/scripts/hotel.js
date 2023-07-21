@@ -1,5 +1,7 @@
 var tabla_hotel;
 var tabla_habitacion;
+var tabla_caract_hotel;
+var idhoteles_R = "", nombre_R = "";
 //Función que se ejecuta al inicio
 function init() {
   
@@ -13,6 +15,7 @@ function init() {
   $("#guardar_registro_habitacion").on("click", function (e) { $("#submit-form-habitacion").submit(); });
   $("#guardar_registro_caracteristicas_h").on("click", function (e) { $("#submit-form-caracteristicas_h").submit(); });
   $("#guardar_registro_caract_hotel").on("click", function (e) { $("#submit-form-caract-hotel").submit(); });
+  $("#guardar_registro_galeria_hotel").on("click", function (e) { $("#submit-form-galeria-hotel").submit(); });
 
   // Formato para telefono
   $("[data-mask]").inputmask();
@@ -101,6 +104,7 @@ function listar_hotel() {
       //filaSelecc_tabajador(datosFila[1],datosFila[2],datosFila[3],datosFila[4]);
       listar_habitacion(datosFila[3],datosFila[4]);
       listar_caract_hotel(datosFila[3],datosFila[4]);
+      listar_galeria_hotel(datosFila[3],datosFila[4]);
   });
 }
 
@@ -671,7 +675,7 @@ function guardaryeditar_caract_hotel(e) {
       e = JSON.parse(e);  console.log(e);  
       if (e.status == true) {
 
-				Swal.fire("Correcto!", "características del hotel registrado correctamente.", "success");
+				Swal.fire("Correcto!", " Instalación del hotel registrado correctamente.", "success");
 
 	      tabla_caract_hotel.ajax.reload(null, false);
          
@@ -765,6 +769,170 @@ function eliminar_caract_hotel(idinstalaciones_hotel, nombre) {
 //============================= FIN CARACTERISTICAS HOTEL=======================
 //============================= FIN CARACTERISTICAS HOTEL=======================
 
+
+
+//=================================== GALERIA HOTEL ============================
+//=================================== GALERIA HOTEL ============================
+//=================================== GALERIA HOTEL ============================
+// abrimos el navegador de archivos
+$("#imagen_H_i").click(function() {  $('#imagen_H').trigger('click'); });
+$("#imagen_H").change(function(e) {  addImageApplication(e,$("#imagen_H").attr("id")) });
+
+// Eliminamos
+function eliminar_galeria() {
+	$("#imagen_H").val("");
+	$("#imagen_H_ver").html('<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >');
+	$("#imagen_H_nombre").html("");
+}
+
+//Función Listar
+function listar_galeria_hotel(idhoteles, nombre) {
+
+  idhoteles_R = idhoteles; nombre_R = nombre;
+  $("#idhotelesG").val(idhoteles);
+  $(".vacio").hide(); $(".mGaleria").show();
+  var codigoHTML="";
+  $('.nombre_galeria').html(`Galería del hotel - ${nombre}`);
+  $('.imagenes_galeria').html('');
+  $.post("../ajax/hotel.php?op=listar_galeria_hotel", { idhoteles: idhoteles }, function (e, status) {
+    
+    e = JSON.parse(e);  console.log(e);
+
+    if (e.data==null || e.data=="") {
+      $(".g_imagenes").hide(); $(".sin_imagenes").show();
+    }else{
+      $(".sin_imagenes").hide(); $(".g_imagenes").show();
+
+      // $('.imagenes_galeria').filterizr('destroy');
+      
+      e.data.forEach(element => {
+        //style="border: 2px solid black;"
+        codigoHTML =codigoHTML.concat(`<div class="col-sm-2 pb-2 pt-2" style="border: 2px solid #837f7f;">
+        <a href="../dist/docs/galeria_hotel/${element.imagen}?text=1" data-toggle="lightbox" data-title="${element.descripcion}" data-gallery="gallery">
+         <img src="../dist/docs/galeria_hotel/${element.imagen}?text=1" class="img-fluid mb-2" alt="white sample"/>
+        </a>
+        <div class="text-center text-white" style="background-color: #1f7387; cursor: pointer; border-radius: 0.25rem;" onclick="eliminar_imagen_hotel(${element.idgaleria_hotel},'${element.descripcion}');">Eliminar
+        </div>
+
+      </div> `);
+
+      });
+    
+      $('.imagenes_galeria').html(codigoHTML); // Agregar el contenido 
+
+      $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox({
+          alwaysShowClose: true
+        });
+      });
+
+    }
+
+    $('.jq_image_zoom').zoom({ on:'grab' });
+     
+    
+    $("#cargando-17-fomulario").show();
+    $("#cargando-18-fomulario").hide();
+  }).fail( function(e) { ver_errores(e); } );
+
+}
+
+function limpiar_galeria_hotel () { 
+  $('#descripcion_G').val("");
+  $('#idgaleria_hotel').val("");
+
+  $("#doc_old").val("");
+  $("#imagen_H").val("");  
+  $('#imagen_H_ver').html(`<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >`);
+  $('#imagen_H_nombre').html("");
+  // Limpiamos las validaciones
+  $(".form-control").removeClass('is-valid');
+  $(".form-control").removeClass('is-invalid');
+  $(".error.invalid-feedback").remove();
+
+  $(".tooltip").removeClass("show").addClass("hidde");
+
+ }
+
+ function eliminar_imagen_hotel(idgaleria_hotel,descripcion) {  
+  Swal.fire({
+    title: "¿Está seguro de que desea eliminar esta imagen?",
+    text: `${descripcion} se eliminara`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3567dc",
+    cancelButtonColor: "#6c757d",
+    confirmButtonText: "Sí, Eliminar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.post(
+        "../ajax/hotel.php?op=eliminar_imagen_hotel",
+        { idgaleria_hotel: idgaleria_hotel},
+        function (response) {
+          try {
+            response = JSON.parse(response);
+            if (response.status == true) {
+              Swal.fire("Verificado", "El comentario ha sido verificado.", "success");
+              listar_galeria_hotel(idhoteles_R, nombre_R);
+              // Aquí puedes realizar cualquier otra acción después de verificar el comentario
+              // tbla_principal();
+            } else {
+              ver_errores(response);
+            }
+          } catch (e) {
+            ver_errores(e);
+          }
+        }
+      ).fail(function (response) {
+        ver_errores(response);
+      });
+    }
+  });
+
+ }
+
+ function guardar_editar_galeria_hotel(e) {
+  // e.preventDefault(); //No se activará la acción predeterminada del evento
+  var formData = new FormData($("#form-galeria-hotel")[0]);
+
+  $.ajax({
+    url: "../ajax/hotel.php?op=guardar_editar_galeria_hotel",
+    type: "POST",
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function (e) {
+      try {
+        e = JSON.parse(e);
+        if (e.status == true) {
+
+          Swal.fire("Correcto!", "El registro se guardo correctamente.", "success");
+          listar_galeria_hotel(idhoteles_R, nombre_R);
+          // tabla_hotel.ajax.reload(null, false);
+          $('#modal-agregar-imagen-hotel').modal('hide'); //
+          limpiar_galeria_hotel();
+
+
+        } else {
+          ver_errores(e);
+        }
+      } catch (err) { console.log('Error: ', err.message); toastr.error('<h5 class="font-size-16px">Error temporal!!</h5> puede intentalo mas tarde, o comuniquese con <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>'); }      
+      $("#guardar_registro_galeria_hotel").html('Guardar Cambios').removeClass('disabled');
+    },
+    beforeSend: function () {
+      $("#guardar_registro_galeria_hotel").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+    },
+    error: function (jqXhr) { ver_errores(jqXhr); },
+  });
+}
+
+
+//=============================== FIN GALERIA HOTEL ============================
+//=============================== FIN GALERIA HOTEL ============================
+//=============================== FIN GALERIA HOTEL ============================
+
+
 init();
 
 $(function () {
@@ -855,7 +1023,6 @@ $(function () {
     },
   });
 
-  // CARACTERÍSTICAS HOTEL
   $("#form-caract-hotel").validate({
     rules: {
       nombre_c_hotel: { required: true }    // terms: { required: true },
@@ -881,6 +1048,37 @@ $(function () {
     submitHandler: function (e) {
       guardaryeditar_caract_hotel(e);      
     },
+  });
+
+  $("#form-galeria-hotel").validate({
+    rules: {
+      descripcion_G: { minlength:4 },
+      
+    },
+    messages: {
+      descripcion_G: {minlength: "Minimo 4 Caracteres"},
+    },
+
+    errorElement: "span",
+
+    errorPlacement: function (error, element) {
+      error.addClass("invalid-feedback");
+
+      element.closest(".form-group").append(error);
+    },
+
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass("is-invalid").removeClass("is-valid");
+    },
+
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass("is-invalid").addClass("is-valid");
+    },
+
+    submitHandler: function (e) {
+      guardar_editar_galeria_hotel(e);
+    },
+
   });
 
 });

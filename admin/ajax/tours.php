@@ -27,7 +27,8 @@
       $idtours		            = isset($_POST["idtours"])? limpiarCadena($_POST["idtours"]):"";
       $nombre                 = isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
       $idtipo_tours           = isset($_POST["idtipo_tours"])? limpiarCadena($_POST["idtipo_tours"]):"";
-      $descripcion			      = isset($_POST["descripcion"])? limpiarCadena($_POST["descripcion"]):"";
+      $resumen_actividad			= isset($_POST["resumen_actividad"])? limpiarCadena($_POST["resumen_actividad"]):"";
+      $resumen_comida			    = isset($_POST["resumen_comida"])? limpiarCadena($_POST["resumen_comida"]):"";
       $imagen1                = isset($_POST["doc1"])? limpiarCadena($_POST["doc1"]):"";
       $incluye                = isset($_POST["incluye"])? limpiarCadena($_POST["incluye"]):"";
       $no_incluye             = isset($_POST["no_incluye"])? limpiarCadena($_POST["no_incluye"]):"";
@@ -37,8 +38,8 @@
       $estado_descuento       = isset($_POST["estado_descuento"])? limpiarCadena($_POST["estado_descuento"]):"";
       $porcentaje_descuento   = isset($_POST["porcentaje_descuento"])? limpiarCadena($_POST["porcentaje_descuento"]):"";
       $monto_descuento        = isset($_POST["monto_descuento"])? limpiarCadena($_POST["monto_descuento"]):"";
-
-      //$idtours,$nombre,$idtipo_tours,$descripcion,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1
+      $alojamiento            = isset($_POST["alojamiento"])? limpiarCadena($_POST["alojamiento"]):"";
+      //$idtours,$nombre,$idtipo_tours,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1
       // galeria tours
       $idgaleria_tours		   = isset($_POST["idgaleria_tours"])? limpiarCadena($_POST["idgaleria_tours"]):"";
       $idtours_t		         = isset($_POST["idtours_t"])? limpiarCadena($_POST["idtours_t"]):"";
@@ -62,7 +63,7 @@
 
           if (empty($idtours)){
             
-            $rspta=$tours->insertar($nombre,$idtipo_tours,$descripcion,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1);
+            $rspta=$tours->insertar($nombre,$alojamiento,$resumen_actividad,$resumen_comida,$idtipo_tours,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1);
             
             echo json_encode($rspta, true);
   
@@ -76,7 +77,7 @@
             }            
 
             // editamos un tours existente
-            $rspta=$tours->editar($idtours,$nombre,$idtipo_tours,$descripcion,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1);
+            $rspta=$tours->editar($idtours,$nombre,$alojamiento,$resumen_actividad,$resumen_comida,$idtipo_tours,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1);
             
             echo json_encode($rspta, true);
           }            
@@ -127,8 +128,8 @@
                 ' <button class="btn btn-warning btn-sm" onclick="mostrar_tours(' . $value['idtours'] . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
                 ' <button class="btn btn-danger  btn-sm" onclick="eliminar_tours(' . $value['idtours'] .'.,\'' . $value['nombre'] . '\')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
                 "2"=>$value['nombre'],
-                "3"=>$value['tipo_tours'],
-                "4"=> '<textarea cols="30" rows="2" class="textarea_datatable" readonly="">' . $value['descripcion'] . '</textarea>',
+                "3"=> ($value['alojamiento'] ? '<div class="text-center"><span class="text-center badge badge-success">Incluye</span></div>' : '<div class="text-center"><span class="text-center badge badge-danger">No Incluye</span></div>').$toltip,
+                "4"=> '<textarea cols="30" rows="2" class="textarea_datatable" readonly="">' . $value['resumen_actividad'] . '</textarea>',
                 "5"=>'<div class="user-block center">
                       <img class="profile-user-img img-responsive img-circle cursor-pointer" src="'. $imagen .'" alt="User Image" onerror="'.$imagen_error.'" onclick="ver_img_tours(\'' . $imagen . '\', \''.encodeCadenaHtml($value['nombre']).'\');" data-toggle="tooltip" data-original-title="Ver foto">
                      </div>',

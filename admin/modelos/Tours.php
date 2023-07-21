@@ -15,17 +15,19 @@
     }
 
     //Implementamos un método para insertar registros
-    public function insertar($nombre,$idtipo_tours,$descripcion,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1)
+    
+    public function insertar($nombre,$alojamiento,$resumen_actividad,$resumen_comida,$idtipo_tours,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1)
     {
-      // var_dump($nombre,$idtipo_tours,$descripcion,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1);die();
-      $sql ="INSERT INTO tours(idtipo_tours, nombre, descripcion, imagen, actividad, incluye, no_incluye, recomendaciones, costo, estado_descuento, porcentaje_descuento, monto_descuento) 
-      VALUES('$idtipo_tours', '$nombre', '$descripcion', '$imagen1', '$actividad', '$incluye', '$no_incluye', '$recomendaciones', '$costo', '$estado_descuento', '$porcentaje_descuento', '$monto_descuento')";
+      $idtipo_tours=1;
+      // var_dump($nombre,$idtipo_tours,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1);die();
+      $sql ="INSERT INTO tours(idtipo_tours, nombre, alojamiento, resumen_actividad, resumen_comida, imagen, actividad, incluye, no_incluye, recomendaciones, costo, estado_descuento, porcentaje_descuento, monto_descuento) 
+      VALUES('$idtipo_tours', '$nombre', '$alojamiento', '$resumen_actividad', '$resumen_comida', '$imagen1', '$actividad', '$incluye', '$no_incluye', '$recomendaciones', '$costo', '$estado_descuento', '$porcentaje_descuento', '$monto_descuento')";
       $crear= ejecutarConsulta_retornarID($sql); if ( $crear['status'] == false) {return $crear; }  
 
       // var_dump($crear);die();
 
       //add registro en nuestra bitacora
-		  $sql_d = "$nombre,$idtipo_tours,$descripcion,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1";
+		  $sql_d = "$nombre,$alojamiento,$resumen_actividad,$resumen_comida,$idtipo_tours,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1";
 
 		  $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5,'idtours','".$crear['data']."','$sql_d','$this->id_usr_sesion')";
 		  $bitacora = ejecutarConsulta_retornarID($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
@@ -34,10 +36,11 @@
     }
 
     //implementamos un metodo para editar registros
-    public function editar($idtours,$nombre,$idtipo_tours,$descripcion,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1)
+    public function editar($idtours,$nombre,$alojamiento,$resumen_actividad,$resumen_comida,$idtipo_tours,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1)
     {
-      // var_dump($idpago_trabajador,$idmes_pago_trabajador_p,$nombre_mes,$monto,$fecha_pago,$descripcion,$comprobante);die();
-      $sql="UPDATE tours SET idtipo_tours='$idtipo_tours', nombre='$nombre', descripcion='$descripcion',
+      $idtipo_tours=1;
+      // var_dump($idpago_trabajador,$idmes_pago_trabajador_p,$nombre_mes,$monto,$fecha_pago,$comprobante);die();
+      $sql="UPDATE tours SET idtipo_tours='$idtipo_tours', nombre='$nombre', alojamiento='$alojamiento', resumen_actividad='$resumen_actividad', resumen_comida='$resumen_comida',
       imagen='$imagen1', actividad='$actividad', incluye='$incluye', no_incluye='$no_incluye',
       recomendaciones='$recomendaciones', costo='$costo', estado_descuento='$estado_descuento',
       porcentaje_descuento='$porcentaje_descuento',monto_descuento='$monto_descuento' WHERE idtours='$idtours';";
@@ -45,7 +48,7 @@
       $editar= ejecutarConsulta($sql); if ( $editar['status'] == false) {return $editar; }  
 
       //add registro en nuestra bitacora
-		  $sql_d = "$idtours,$nombre,$idtipo_tours,$descripcion,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1";
+		  $sql_d = "$idtours,$nombre,$alojamiento,$resumen_actividad,$resumen_comida,$idtipo_tours,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen1";
 
 		  $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (6,'idtours','$idtours','$sql_d','$this->id_usr_sesion')";
 		  $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
@@ -93,7 +96,7 @@
     //Implementamos un método para listar los registros
     public function tbla_principal()
     {
-      $sql="SELECT t.idtours,t.idtipo_tours,t.nombre, t.descripcion, t.imagen, t.costo,t.estado_descuento, tt.nombre as tipo_tours 
+      $sql="SELECT t.idtours,t.idtipo_tours,t.nombre, t.resumen_actividad, t.imagen, t.costo,t.estado_descuento,t.alojamiento, tt.nombre as tipo_tours 
       FROM tours as t, tipo_tours as tt 
       WHERE t.idtipo_tours=tt.idtipo_tours and t.idtours>1  and t.estado=1 and t.estado_delete=1;";
       return ejecutarConsultaArray($sql);		

@@ -21,6 +21,9 @@ if (!isset($_SESSION["nombre"])) {
 
     <!--CSS  switch_MATERIALES-->
     <link rel="stylesheet" href="../dist/css/switch_materiales.css" />
+    <link rel="stylesheet" href="../dist/css/switch.css">
+    <!-- Ekko Lightbox -->
+    <link rel="stylesheet" href="../plugins/ekko-lightbox/ekko-lightbox.css">
 
     <style>
       table {
@@ -74,12 +77,6 @@ if (!isset($_SESSION["nombre"])) {
                         </li>
                         <li class="nav-item">
                           <a class="nav-link" id="custom-tabs-three-compra-tab" data-toggle="pill" href="#custom-tabs-three-compra" role="tab" aria-controls="custom-tabs-three-compra" aria-selected="false"><i class="fas fa-hotel"></i> HOTELES</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" id="custom-tabs-three-venta-tab" data-toggle="pill" href="#custom-tabs-three-venta" role="tab" aria-controls="custom-tabs-three-venta" aria-selected="false"><i class="fas fa-shopping-cart"></i> Venta</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" id="custom-tabs-three-sucursal-tab" data-toggle="pill" href="#custom-tabs-three-sucursal" role="tab" aria-controls="custom-tabs-three-sucursal" aria-selected="false"><i class="fas fa-store-alt"></i> Sucursal</a>
                         </li>
                       </ul>
                     </div>
@@ -290,6 +287,7 @@ if (!isset($_SESSION["nombre"])) {
                     <div class="tab-pane fade" id="custom-tabs-three-compra" role="tabpanel" aria-labelledby="custom-tabs-three-compra-tab">
 
                       <div class="row">
+
                         <div class="col-4">
                           <div class="container-fluid">
                             <div class="card card-primary card-outline">
@@ -315,7 +313,6 @@ if (!isset($_SESSION["nombre"])) {
                               </div>
                             </div>
                           </div>
-
                         </div>
 
                         <div class="col-4">
@@ -346,7 +343,6 @@ if (!isset($_SESSION["nombre"])) {
                               </div>
                             </div>
                           </div>
-
                         </div>
 
                         <div class="col-4">
@@ -368,6 +364,7 @@ if (!isset($_SESSION["nombre"])) {
                                         <th class="text-center">#</th>
                                         <th class=""><i class="fas fa-gears"></i></th>
                                         <th>Nombre</th>
+                                        <th>Estado</th>
                                       </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -379,17 +376,14 @@ if (!isset($_SESSION["nombre"])) {
 
                         </div>
 
-                      
-
                         <!-- CARACTERÍSTICAS DEL HOTEL -->
-                      
                         <div class="col-4">
                           <div class="container-fluid">
                             <div class="card card-primary card-outline">
                               <div class="card-header">
                                 <h3 class="card-title">
                                   <button type="button" class="btn bg-gradient-primary" data-toggle="modal" data-target="#modal-agregar-caract-hotel" onclick="limpiar_caract_hotel();"><i class="fas fa-plus-circle"></i> Agregar</button>
-                                  CARACTERÍSTICAS DE HOTEL
+                                  INSTALACIONES DE HOTEL
                                 </h3>
                               </div>
                               <div class="card-body">
@@ -402,6 +396,8 @@ if (!isset($_SESSION["nombre"])) {
                                         <th class="text-center">#</th>
                                         <th class=""><i class="fas fa-gears"></i></th>
                                         <th>Nombre</th>
+                                        <th>Estado</th>
+
                                       </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -412,17 +408,57 @@ if (!isset($_SESSION["nombre"])) {
                           </div>
 
                         </div>
+
+                        <!-- GALERÍA DEL HOTEL -->
+                        <div class="col-8">
+                          <div class="container-fluid">
+                            <div class="card card-primary card-outline">
+                              <div class="card-header">
+                                <h3 class="card-title">
+                                  <button type="button" class="btn bg-gradient-primary" data-toggle="modal" data-target="#modal-agregar-imagen-hotel" onclick="limpiar_galeria_hotel();"><i class="fas fa-plus-circle"></i> Agregar</button>
+                                  GALERÍA DE HOTEL
+                                </h3>
+                              </div>
+                              <div class="card-body">
+                                <div class="vacio alert alert-warning" role="alert"> Elegir un Hotel! </div>
+                                <div class="text-center" style="background-color: #b9deff; margin-bottom: 4px;"> <strong class="name_hoteles"></strong> </div>
+                                <div class="mGaleria" style="display: none;">
+                                  
+                                  <div class="col-12 g_imagenes">
+                                    <div class="card card-primary">
+                                      <div class="card-header">
+                                        <h4 class="card-title nombre_galeria"></h4>
+                                      </div>
+                                      <div class="card-body">
+                                        <div class="row imagenes_galeria">
+
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-12 sin_imagenes">
+                                    <div class="card col-12 px-3 py-3" style="box-shadow: 0 0 1px rgb(0 0 0), 0 1px 3px rgb(0 0 0 / 60%);" >
+                                        <!-- agregando -->
+                                        <div class="alert alert-warning alert-dismissible alerta">
+                                          <h5><i class="icon fas fa-exclamation-triangle"></i> Alerta!</h5>
+                                          NO TIENES NUNGINA IMAGEN ASIGNADA A TU PAQUETE
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+
                       </div>
+                        
                     </div>
+
+                        
                     <!-- /.tab-3 -->
-
-                    <div class="tab-pane fade" id="custom-tabs-three-venta" role="tabpanel" aria-labelledby="custom-tabs-three-venta-tab">
-                      -- vacio --
-                    </div>
-
-                    <div class="tab-pane fade" id="custom-tabs-three-sucursal" role="tabpanel" aria-labelledby="custom-tabs-three-sucursal-tab">
-                      <!-- vacio  --> vacio
-                    </div>
                   </div>
                 </div>
               </div>
@@ -894,6 +930,14 @@ if (!isset($_SESSION["nombre"])) {
                             <label for="nombre_caracteristica_h">Nombre</label>
                             <input type="text" name="nombre_caracteristica_h" id="nombre_caracteristica_h" class="form-control" placeholder="Nombre Habitación" />
                           </div>
+                          <div class="form-group">
+                            <label for="estado_si_no">Posee</label> <br>
+                            <div class="switch-toggle">
+                              <input type="checkbox" id="estado_switch" onchange="switchFunction();">
+                              <label for="estado_switch"></label>
+                              <input type="hidden" id="estado_si_no" name="estado_si_no" value="0">
+                            </div>
+                          </div>
                         </div>
                         <!-- idhabitacion_G, iddetalle_habitacion, nombre_caracteristica_h -->
 
@@ -928,12 +972,12 @@ if (!isset($_SESSION["nombre"])) {
             </div>
           </div>
 
-          <!-- MODAL - CARACTERISTICAS HOTELES -->
+          <!-- MODAL - INSTALACIONES HOTELES -->
           <div class="modal fade" id="modal-agregar-caract-hotel">
             <div class="modal-dialog modal-dialog-scrollable modal-md">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h4 class="modal-title">CARACTERÍSTICAS DE HOTEL</h4>
+                  <h4 class="modal-title">INATALACIONES DE HOTEL</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span class="text-danger" aria-hidden="true">&times;</span>
                   </button>
@@ -944,7 +988,7 @@ if (!isset($_SESSION["nombre"])) {
                   <form id="form-caract-hotel" name="form-caract-hotel" method="POST" autocomplete="off">
                     <div class="card-body">
                       <div class="row" id="cargando-15-fomulario">
-                        <!-- id idunidad_medida -->
+                        <!-- id hotel e instalaciones -->
                         <input type="hidden" name="idhoteles_GN" id="idhoteles_GN" />
                         <input type="hidden" name="idinstalaciones_hotel" id="idinstalaciones_hotel" />
 
@@ -953,6 +997,14 @@ if (!isset($_SESSION["nombre"])) {
                           <div class="form-group">
                             <label for="nombre_c_hotel">Nombre</label>
                             <input type="text" name="nombre_c_hotel" id="nombre_c_hotel" class="form-control" placeholder="" />
+                          </div>
+                          <div class="form-group">
+                            <label for="estatus">Posee</label> <br>
+                            <div class="switch-toggle">
+                              <input type="checkbox" id="estado_switch2" onchange="switchFunction2();">
+                              <label for="estado_switch2"></label>
+                              <input type="hidden" id="estado_si_no2" name="estado_si_no2" value="0">
+                            </div>
                           </div>
                         </div>
                         <!-- idhoteles_G,idhabitacion, nombre_habitacion -->
@@ -988,6 +1040,109 @@ if (!isset($_SESSION["nombre"])) {
             </div>
           </div>
 
+          
+          <!-- MODAL AGREGAR IMAGEN -->
+          <div class="modal fade" id="modal-agregar-imagen-hotel">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Agregar - Imagen</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-danger" aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-body">
+                  <!-- form start -->
+                  <form id="form-galeria-hotel" name="form-galeria-hotel" method="POST">
+                    <div class="card-body">
+
+                      <div class="row" id="cargando-17-fomulario">
+                        <!-- id hotel -->
+                        <input type="hidden" name="idhotelesG" id="idhotelesG" />
+                        <!-- id galeria paquete  -->
+                        <input type="hidden" name="idgaleria_hotel " id="idgaleria_hotel " />
+
+                        <!-- Descripción -->
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                          <div class="form-group">
+                            <label for="direccion_G">Descripción</label>
+                            <input type="text" name="descripcion_G" class="form-control" id="descripcion_G" placeholder="Descripción" />
+                          </div>
+                        </div>
+                        <!-- imagen perfil -->
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                          <!-- linea divisoria -->
+                          <div class="borde-arriba-naranja mt-4"></div>
+                          <div class="row text-center">
+                            <div class="col-md-12" style="padding-top: 15px; padding-bottom: 5px;">
+                              <label for="cip" class="control-label"> Imagen </label>
+                            </div>
+                            <div class="col-6 col-md-6 text-center">
+                              <button type="button" class="btn btn-success btn-block btn-xs" id="imagen_H_i"><i class="fas fa-upload"></i> Subir.</button>
+                              <input type="hidden" id="doc_old" name="doc_old" />
+                              <input style="display: none;" id="imagen_H" type="file" name="imagen_H" accept="application/pdf, image/*" class="docpdf" />
+                            </div>
+                            <div class="col-6 col-md-6 text-center">
+                              <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'hotel', 'galeria');"><i class="fas fa-redo"></i> Recargar.</button>
+                            </div>
+                          </div>
+                          <div id="imagen_H_ver" class="text-center mt-4">
+                            <img src="../dist/svg/doc_uploads.svg" alt="" width="50%" />
+                          </div>
+                          <div class="text-center" id="imagen_H_nombre"><!-- aqui va el nombre del pdf --></div>
+                        </div>
+
+                        <!-- Progress -->
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <div class="progress" id="div_barra_progress" style="display: none !important;">
+                              <div id="barra_progress" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row" id="cargando-18-fomulario" style="display: none;" >
+                        <div class="col-lg-12 text-center">
+                          <i class="fas fa-spinner fa-pulse fa-6x"></i><br><br>
+                          <h4>Cargando...</h4>
+                        </div>
+                      </div>
+                            
+                    </div>
+                    <!-- /.card-body -->
+                    <button type="submit" style="display: none;" id="submit-form-galeria-hotel">Submit</button>
+                  </form>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-danger" onclick="limpiar_galeria_hotel();" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-success" id="guardar_registro_galeria_hotel">Guardar Cambios</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+            
+
+          <!-- MODAL - VER IMAGEN HOTEL -->
+          <div class="modal fade bg-color-02020280" id="modal-ver-imagen-hotel">
+              <div class="modal-dialog modal-dialog-centered modal-md">
+                <div class="modal-content bg-color-0202022e shadow-none border-0">
+                  <div class="modal-header">
+                    <h4 class="modal-title text-white nombre-hotel"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span class="text-white cursor-pointer" aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div id="imagen-hotel" class="text-center">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
         </div>
 
       <?php
@@ -1005,6 +1160,35 @@ if (!isset($_SESSION["nombre"])) {
     <script type="text/javascript" src="scripts/bancos.js"></script>
     <script type="text/javascript" src="scripts/tipo.js"></script>
     <script type="text/javascript" src="scripts/tipo_tours.js"></script>
+    <!-- Ekko Lightbox -->
+    <script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+
+    <!-- script para cambiar el valor del estado_Si_no -->
+    <script>
+      function switchFunction() {
+        var switchCheckbox = document.getElementById("estado_switch");
+        var hiddenInput = document.getElementById("estado_si_no");
+
+        if (switchCheckbox.checked) {
+          hiddenInput.value = "1";
+        } else {
+          hiddenInput.value = "0";
+        }
+      }
+    </script>
+    <script>
+      function switchFunction2() {
+        var switchCheckbox = document.getElementById("estado_switch2");
+        var hiddenInput = document.getElementById("estado_si_no2");
+
+        if (switchCheckbox.checked) {
+          hiddenInput.value = "1";
+        } else {
+          hiddenInput.value = "0";
+        }
+      }
+    </script>
+
 
 
     <script>

@@ -24,11 +24,12 @@ function init() {
   $("#list_tours").select2({theme:"bootstrap4", placeholder: "Selecionar Tours.", allowClear: true, });
 
   // ══════════════════════════════════════ G U A R D A R   F O R MS ════════════════════════════════════
-  $("#guardar_registro_paquete").on("click", function (e) { $("#submit-form-paquete").submit(); });
+  //$("#guardar_registro_paquete").on("click", function (e) { $("#submit-form-paquete").submit(); console.log('hola'); }); 
   $("#guardar_registro_galeria").on("click", function (e) { $("#submit-form-galeria").submit(); });
 
   // ══════════════════════════════════════ S U M M E R N O T E ══════════════════════════════════════ 
-  $('#descripcion').summernote(); $('#incluye').summernote(); $('#no_incluye').summernote();  $('#recomendaciones').summernote();
+  $('#descripcion').summernote(); $('#incluye').summernote(); $('#no_incluye').summernote();  
+  $('#recomendaciones').summernote(); $('#resumen').summernote();
 
   // Formato para telefono
   $("[data-mask]").inputmask();
@@ -67,6 +68,9 @@ function limpiar_paquete() {
   $("#costo").val("");
   $("#porcentaje_descuento").val("");
   $("#monto_descuento").val("");
+
+  //RESUMEN
+  $("#resumen").summernote('code', '');
 
   $("#doc_old_1").val("");
   $("#doc1").val("");  
@@ -120,7 +124,7 @@ function tbla_principal() {
       type: "get",
       dataType: "json",
       error: function (e) {
-        console.log(e.responseText); verer
+        console.log(e.responseText);
       },
     },
     createdRow: function (row, data, ixdex) {
@@ -151,6 +155,7 @@ function tbla_principal() {
 
 //Función para guardar o editar
 function guardar_y_editar_paquete(e) {
+  console.log('hola2');
   // e.preventDefault(); //No se activará la acción predeterminada del evento
   var formData = new FormData($("#form-paquete")[0]);
 
@@ -168,17 +173,17 @@ function guardar_y_editar_paquete(e) {
           Swal.fire("Correcto!", "El registro se guardo correctamente.", "success");
 
           tabla_paquete.ajax.reload(null, false);
-          $('#modal-agregar-paquete').modal('hide'); //
-          limpiar_paquete();   
+          $('#modal-agregar-paquete').modal('hide');
+          limpiar_paquete();  
 
         } else {
           ver_errores(e);
         }
       } catch (err) { console.log('Error: ', err.message); toastr.error('<h5 class="font-size-16px">Error temporal!!</h5> puede intentalo mas tarde, o comuniquese con <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>'); }      
-      $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
+      $("#guardar_registro_paquete").html('Guardar Cambios').removeClass('disabled');
     },
     beforeSend: function () {
-      $("#guardar_registro").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+      $("#guardar_registro_paquete").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
     },
     error: function (jqXhr) { ver_errores(jqXhr); },
   });
@@ -215,6 +220,8 @@ function mostrar_paquete(idpaquete) {
     $("#estado_descuento").val(e.paquete.estado_descuento);
     $("#porcentaje_descuento").val(e.paquete.porcentaje_descuento);
     $("#monto_descuento").val(e.paquete.monto_descuento);
+    // -------RESUMEN --------
+    $("#resumen").summernote ('code', e.paquete.resumen);
 
     if (e.paquete.estado_descuento == "1") {
       $("#estado_switch").prop("checked", true);
@@ -573,14 +580,12 @@ $(function () {
       nombre:{ required: true, minlength:4, maxlength:100 },
       cant_dias: { required: true, minlength:2, maxlength:20},
       cant_noches: { required: true, minlength:2, maxlength:20},
-      descripcion: { minlength:4 },
       
     },
     messages: {
       nombre:{ required: "Campo requerido", minlength: "Minimo 3 caracteres", maxlength: "Maximo 100 Caracteres" },
       cant_dias: { required: "Campo requerido", min: "Minimo 2 caracteres", max: "Maximo 20 Caracteres" },
       cant_noches: { required: "Campo requerido", min: "Minimo 2 caracteres", max: "Maximo 20 Caracteres" },
-      descripcion: {minlength: "Minimo 4 Caracteres"},
     },
 
     errorElement: "span",
