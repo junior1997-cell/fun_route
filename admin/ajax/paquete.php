@@ -138,7 +138,7 @@ if (!isset($_SESSION["nombre"])) {
             // estado_descuento, porcentaje_descuento, monto_descuento
             $data[] = array(
               "0" => $cont++,
-              "1" => '<button class="btn btn-info btn-sm" onclick="ver_detalle_compras(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Ver detalle compra"><i class="fa fa-eye"></i></button>' .
+              "1" => '<button class="btn btn-info btn-sm" onclick="ver_detalle_paquete(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Ver detalle compra"><i class="fa fa-eye"></i></button>' .
                 ' <button class="btn btn-warning btn-sm" onclick="mostrar_paquete(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
                 ' <button class="btn btn-danger  btn-sm" onclick="eliminar_paquete(' . $value['idpaquete'] .'.,\'' . $value['nombre'] . '\')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
               "2" => $value['nombre'],

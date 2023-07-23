@@ -53,6 +53,7 @@ function limpiar_paquete() {
   $("#cant_dias").val("");
   $("#cant_noches").val("");
   $("#descripcion").summernote('code', '');
+  $("#doc1").val("");
 
   //OTROS
   $("#incluye").summernote('code', '');
@@ -182,7 +183,6 @@ function guardar_y_editar_paquete(e) {
 }
 
 function mostrar_paquete(idpaquete) {
-
   limpiar_paquete();
   
   $("#cargando-1-fomulario").hide();
@@ -197,10 +197,9 @@ function mostrar_paquete(idpaquete) {
     // Paquete
     $("#idpaquete").val(e.paquete.idpaquete);
     $("#nombre").val(e.paquete.nombre);
-    $("#cant_dias").val(e.paquete.cant_dias).trigger("change");
-    $("#cant_noches").val(e.paquete.cant_noches).trigger("change");
+    $("#cant_dias").val(e.paquete.cant_dias);
+    $("#cant_noches").val(e.paquete.cant_noches);
     $("#descripcion").summernote ('code', e.paquete.descripcion);
-    $("#doc1").val(e.paquete.imagen);
     
     //Otros
     $("#incluye").summernote ('code', e.paquete.incluye);
@@ -270,6 +269,78 @@ function mostrar_paquete(idpaquete) {
 
 
     }
+
+    if (e.paquete.imagen == "" || e.paquete.imagen == null  ) {
+
+      $("#doc1_ver").html('<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >');
+
+      $("#doc1_nombre").html('');
+
+      $("#doc_old_1").val(""); $("#doc1").val("");
+
+    } else {
+
+      $("#doc_old_1").val(e.paquete.comprobante); 
+
+      $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>imagen.${extrae_extencion(e.paquete.imagen)}</i></div></div>`);
+      // cargamos la imagen adecuada par el archivo
+      $("#doc1_ver").html(doc_view_extencion(e.paquete.imagen,'paquete', 'perfil', '100%', '210' ));   //ruta imagen    
+          
+    }
+    $('.jq_image_zoom').zoom({ on:'grab' });
+     
+    
+    $("#cargando-1-fomulario").show();
+    $("#cargando-2-fomulario").hide();
+  }).fail( function(e) { ver_errores(e); } );
+}
+
+function ver_detalle_paquete(idpaquete) {
+  limpiar_paquete();
+  $(".btn_footer").hide();
+  $(".titulo").html('Ver datos del Paquete');
+
+  $(".datos_paquete").css('pointer-events', 'none');
+  $(".otros").css('pointer-events', 'none');
+  $(".itinerario").css('pointer-events', 'none');
+  $(".costos").css('pointer-events', 'none');
+
+  $("#cargando-1-fomulario").hide();
+  $("#cargando-2-fomulario").show();
+
+  $("#modal-agregar-paquete").modal("show");
+
+  $.post("../ajax/paquete.php?op=mostrar", { idpaquete: idpaquete }, function (e, status) {
+    
+    e = JSON.parse(e); console.log(e);    
+
+    // Paquete
+    $("#idpaquete").val(e.paquete.idpaquete);
+    $("#nombre").val(e.paquete.nombre);
+    $("#cant_dias").val(e.paquete.cant_dias);
+    $("#cant_noches").val(e.paquete.cant_noches);
+    $("#descripcion").summernote ('code', e.paquete.descripcion);
+    
+    //Otros
+    $("#incluye").summernote ('code', e.paquete.incluye);
+    $("#no_incluye").summernote ('code', e.paquete.no_incluye);
+    $("#recomendaciones").summernote ('code', e.paquete.recomendaciones);
+    $("#mapa").val(e.paquete.mapa);
+    
+    // -------COSTO----------
+    $("#costo").val(e.paquete.costo);
+    $("#estado_descuento").val(e.paquete.estado_descuento);
+    $("#porcentaje_descuento").val(e.paquete.porcentaje_descuento);
+    $("#monto_descuento").val(e.paquete.monto_descuento);
+    $("#list_tours").val(e.itinerario);
+    // -------RESUMEN --------
+    $("#resumen").summernote ('code', e.paquete.resumen);
+
+    if (e.paquete.estado_descuento == "1") {
+      $("#estado_switch").prop("checked", true);
+    } else {
+      $("#estado_switch").prop("checked", false);
+    } 
 
     if (e.paquete.imagen == "" || e.paquete.imagen == null  ) {
 

@@ -163,25 +163,24 @@
           'numero_orden'    => $value['numero_orden'], 
            
         );
-      }
-        $paquete = [
-          'idpaquete'         => $datospaquete['data']['idpaquete'],
-          'nombre'            => $datospaquete['data']['nombre'],
-          'cant_dias'         => $datospaquete['data']['cant_dias'],
-          'cant_noches'       => $datospaquete['data']['cant_noches'],
-          'descripcion'       => $datospaquete['data']['descripcion'],
-          'imagen'            => $datospaquete['data']['imagen'],
-
-          'incluye'              => $datospaquete['data']['incluye'],
-          'no_incluye'           => $datospaquete['data']['no_incluye'],
-          'recomendaciones'      => $datospaquete['data']['recomendaciones'],
-          'mapa'                 => $datospaquete['data']['mapa'],
-          'costo'                => $datospaquete['data']['costo'],
-          'estado_descuento'     => $datospaquete['data']['estado_descuento'],
-          'porcentaje_descuento' => $datospaquete['data']['porcentaje_descuento'],
-          'monto_descuento'      => $datospaquete['data']['monto_descuento'],
-          'resumen'              => $datospaquete['data']['resumen'],
-        ];
+      };
+      $paquete = [
+        'idpaquete'            => $datospaquete['data']['idpaquete'],
+        'nombre'               => $datospaquete['data']['nombre'],
+        'cant_dias'            => $datospaquete['data']['cant_dias'],
+        'cant_noches'          => $datospaquete['data']['cant_noches'],
+        'descripcion'          => $datospaquete['data']['descripcion'],
+        'imagen'               => $datospaquete['data']['imagen'],
+        'incluye'              => $datospaquete['data']['incluye'],
+        'no_incluye'           => $datospaquete['data']['no_incluye'],
+        'recomendaciones'      => $datospaquete['data']['recomendaciones'],
+        'mapa'                 => $datospaquete['data']['mapa'],
+        'costo'                => $datospaquete['data']['costo'],
+        'estado_descuento'     => $datospaquete['data']['estado_descuento'],
+        'porcentaje_descuento' => $datospaquete['data']['porcentaje_descuento'],
+        'monto_descuento'      => $datospaquete['data']['monto_descuento'],
+        'resumen'              => $datospaquete['data']['resumen'],
+      ];
       
       return $retorno=['status'=>true, 'message'=>'todo oka ps', 'itinerario'=>$data,'paquete'=>$paquete];
 

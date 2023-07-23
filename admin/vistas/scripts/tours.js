@@ -1,5 +1,5 @@
 var tabla_tours;
-var idpaquete_r, nombre_r;
+var idtours_r, nombre_r;
 //Función que se ejecuta al inicio
 function init() {
   //Activamos el "aside"
@@ -395,7 +395,7 @@ function limpiar_galeria () {
 
 function galeria(idtours, nombre) {
 
-  idpaquete_r=idtours; nombre_r=nombre;
+  idtours_r=idtours; nombre_r=nombre;
   show_hide_form(2);
 
   $('.nombre_galeria').html(`Galería del TOURS - ${nombre}`);
@@ -465,7 +465,7 @@ function eliminar_img(idgaleria_tours,descripcion) {
               Swal.fire("Verificado", "LA imagen ha sido verificado.", "success");
               // Aquí puedes realizar cualquier otra acción después de verificar el comentario
               // tbla_principal();
-              galeria(idpaquete_r, nombre_r);
+              galeria(idtours_r, nombre_r);
             } else {
               ver_errores(response);
             }
@@ -499,7 +499,7 @@ function guardar_y_editar_galeria_tours(e) {
 
           Swal.fire("Correcto!", "El registro se guardo correctamente.", "success");
 
-          galeria(idpaquete_r, nombre_r);
+          galeria(idtours_r, nombre_r);
           $('#modal-agregar-galeria_tours').modal('hide'); //
           limpiar_galeria();   
 
