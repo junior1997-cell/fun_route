@@ -112,14 +112,14 @@
     //Implementamos un método para desactivar registros
     public function desactivar($idpaquete)
     {
-      $sql="UPDATE paquete SET estado='0',user_trash= '$this->id_usr_sesion' WHERE paquete='$idpaquete'";
+      $sql="UPDATE paquete SET estado='0',user_trash= '$this->id_usr_sesion' WHERE idpaquete='$idpaquete'";
       $desactivar =  ejecutarConsulta($sql);
 
       if ( $desactivar['status'] == false) {return $desactivar; }  
       $sql_d = $idpaquete;
 
       //add registro en nuestra bitacora
-      $sql = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('paquete','.$idpaquete.','Desativar el registro Trabajador','$this->id_usr_sesion')";
+      $sql = "INSERT INTO bitacora_bd(idcodigo,nombre_tabla, id_tabla, sql_d, id_user) VALUES (2,'paquete','.$idpaquete.','$sql_d','$this->id_usr_sesion')";
       $bitacora = ejecutarConsulta($sql); if ( $bitacora['status'] == false) {return $bitacora; }  
 
       return $desactivar;
@@ -188,8 +188,7 @@
     }
 
     //Implementamos un método para listar los registros
-    public function tbla_principal()
-    {
+    public function tbla_principal(){
       $sql="SELECT idpaquete, nombre, cant_dias,cant_noches, descripcion, imagen,
        costo,estado_descuento, porcentaje_descuento, monto_descuento
       FROM paquete WHERE estado = 1 and estado_delete = 1";
@@ -204,16 +203,14 @@
     //==========S E C C I O N   I T I N E R A R I O ==========
 
     // Consulta ID TOURS
-    public  function selec2tours()
-    {
+    public  function selec2tours(){
       // var_dump($id);die();
       $sql="SELECT idtours as id, nombre FROM tours WHERE idtours!= 1 and estado=1 and estado_delete=1;";
       return ejecutarConsultaArray($sql);	
       // var_dump($id);die();
     }
     // Consulta Actividad
-    public  function ver_actividad($idtours)
-    {
+    public  function ver_actividad($idtours){
       //var_dump($idtours);die();
       $sql="SELECT idtours, nombre, actividad FROM tours WHERE idtours='$idtours';";
       return ejecutarConsultaSimpleFila($sql);	

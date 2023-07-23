@@ -84,8 +84,8 @@ if (!isset($_SESSION["nombre"])) {
                               <th class="text-center">#</th>
                               <th class="">Acciones</th>
                               <th class="">Nombre</th>
-                              <th data-toggle="tooltip" data-original-title="">Alojamiento</th>
-                              <th data-toggle="tooltip" data-original-title="Descripcion">Resumen de Actividades</th>
+                              <th data-toggle="tooltip" data-original-title="">Alojamieno</th>
+                              <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
                               <th>Imagen</th>
                               <th>Estado</th>
                               <th>Galeria</th>
@@ -99,7 +99,7 @@ if (!isset($_SESSION["nombre"])) {
                               <th class="">Acciones</th>
                               <th class="">Nombre</th>
                               <th data-toggle="tooltip" data-original-title="">Alojamiento</th>
-                              <th data-toggle="tooltip" data-original-title="Descripcion">Resumen de Actividades</th>
+                              <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
                               <th>Imagen</th>
                               <th>Estado</th>
                               <th>Galeria</th>
@@ -180,7 +180,7 @@ if (!isset($_SESSION["nombre"])) {
 
                       <!-- Mapa-->
                       <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">Mapa</a>
+                        <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">RESUMEN</a>
                       </li>
                     </ul>
                     <!-- ======================================== -->
@@ -201,38 +201,28 @@ if (!isset($_SESSION["nombre"])) {
                               </div>
                             </div>
 
-                            <!-- Alojamiento -->
+                            <!-- Tipo Tours -->
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                               <div class="form-group">
-                                <label for="idtipo_tours">¿Incluye Alojamiento?</label>
-                                <div class="switch-toggle">
-                                  <input type="checkbox" id="estado_switch2" onchange="switchFunction();">
-                                  <label for="estado_switch2"></label>
-                                  <input type="hidden" id="alojamiento" name="alojamiento" value="0">
-                                </div>
+                                <label for="idtipo_tours">Tipo Tours</label>
+                                <select name="idtipo_tours" id="idtipo_tours" class="form-control select2" style="width: 100%;">
+                                  <!-- Aqui listamos los tipos de tours -->
+                                </select>
                               </div>
                             </div>
                             <!-- duracion -->
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                               <div class="form-group">
-                                <label for="Duración">Duración</label>
+                                <label for="duracion">Duración</label>
                                 <input type="text" name="duracion" class="form-control" id="duracion" placeholder="Duración" />
                               </div>
                             </div>
 
-                            <!--Resumen de Actividades-->
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                            <!--Descripcion-->
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                               <div class="form-group">
-                                <label for="resumen_actividad">Resumen de Actividades</label> <br />
-                                <textarea name="resumen_actividad" id="resumen_actividad" class="form-control" rows="2"></textarea>
-                              </div>
-                            </div>
-
-                            <!--Comida-->
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
-                              <div class="form-group">
-                                <label for="resumen_comida">Comida</label> <br />
-                                <textarea name="resumen_comida" id="resumen_comida" class="form-control" rows="2"></textarea>
+                                <label for="descripcion">Descripción</label> <br />
+                                <textarea name="descripcion" id="descripcion" class="form-control" rows="2"></textarea>
                               </div>
                             </div>
 
@@ -350,8 +340,35 @@ if (!isset($_SESSION["nombre"])) {
 
                         </div>
                         <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+                          <div class="card-body row resumen">
+                            <!-- Posee Alojamiento -->
+                            <div class="col-12 col-sm-6 col-md-12 col-lg-3">
+                              <div class="form-group">
+                                <label for="alajamiento">¿Incluye Alojamiento?</label> <br>
+                                <div class="switch-toggle">
+                                  <input type="checkbox" id="estado_switch2" onchange="funtion_switch2();">
+                                  <label for="estado_switch2"></label>
+                                  <input type="hidden" id="alojamiento" name="alojamiento" value="0">
+                                </div>
+                              </div>
+                            </div>
 
-                          hola
+                            <!--resumen de actividades -->
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                              <div class="form-group">
+                                <label for="resumen_actividad">Resumen de Actividades <sup class="text-danger">*</sup> </label>
+                                <textarea name="resumen_actividad" id="resumen_actividad" class="form-control" rows="10"></textarea>
+                              </div>
+                            </div>
+
+                            <!--resumen de comida -->
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                              <div class="form-group">
+                                <label for="resumen_comida">Resumen de Comida <sup class="text-danger">*</sup> </label>
+                                <textarea name="resumen_comida" id="resumen_comida" class="form-control" rows="10"></textarea>
+                              </div>
+                            </div>
+                          </div>
 
                         </div>
                         <!-- /.tab-panel -->
@@ -533,20 +550,6 @@ if (!isset($_SESSION["nombre"])) {
 
     <!-- Funciones del modulo -->
     <script type="text/javascript" src="scripts/tours.js"></script>
-
-    <!-- script para cambiar el valor del alojamiento -->
-    <script>
-      function switchFunction() {
-        var switchCheckbox = document.getElementById("estado_switch2");
-        var hiddenInput = document.getElementById("alojamiento");
-
-        if (switchCheckbox.checked) {
-          hiddenInput.value = "1";
-        } else {
-          hiddenInput.value = "0";
-        }
-      }
-    </script>
 
     <script>
       $(function() {

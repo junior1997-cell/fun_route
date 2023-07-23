@@ -24,7 +24,6 @@ function init() {
   $("#list_tours").select2({theme:"bootstrap4", placeholder: "Selecionar Tours.", allowClear: true, });
 
   // ══════════════════════════════════════ G U A R D A R   F O R MS ════════════════════════════════════
-  //$("#guardar_registro_paquete").on("click", function (e) { $("#submit-form-paquete").submit(); console.log('hola'); }); 
   $("#guardar_registro_galeria").on("click", function (e) { $("#submit-form-galeria").submit(); });
 
   // ══════════════════════════════════════ S U M M E R N O T E ══════════════════════════════════════ 
@@ -54,7 +53,6 @@ function limpiar_paquete() {
   $("#cant_dias").val("");
   $("#cant_noches").val("");
   $("#descripcion").summernote('code', '');
-  $("#imagen").val("");
 
   //OTROS
   $("#incluye").summernote('code', '');
@@ -71,11 +69,6 @@ function limpiar_paquete() {
 
   //RESUMEN
   $("#resumen").summernote('code', '');
-
-  $("#doc_old_1").val("");
-  $("#doc1").val("");  
-  $('#doc1_ver').html(`<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >`);
-  $('#doc1_nombre').html("");
   
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
@@ -155,7 +148,6 @@ function tbla_principal() {
 
 //Función para guardar o editar
 function guardar_y_editar_paquete(e) {
-  console.log('hola2');
   // e.preventDefault(); //No se activará la acción predeterminada del evento
   var formData = new FormData($("#form-paquete")[0]);
 
@@ -208,6 +200,7 @@ function mostrar_paquete(idpaquete) {
     $("#cant_dias").val(e.paquete.cant_dias).trigger("change");
     $("#cant_noches").val(e.paquete.cant_noches).trigger("change");
     $("#descripcion").summernote ('code', e.paquete.descripcion);
+    $("#doc1").val(e.paquete.imagen);
     
     //Otros
     $("#incluye").summernote ('code', e.paquete.incluye);
@@ -278,9 +271,6 @@ function mostrar_paquete(idpaquete) {
 
     }
 
-
-
-       
     if (e.paquete.imagen == "" || e.paquete.imagen == null  ) {
 
       $("#doc1_ver").html('<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >');
@@ -307,14 +297,14 @@ function mostrar_paquete(idpaquete) {
 }
 
 //Función para desactivar registros
-function eliminar_paquete(idpaquete) {
+function eliminar_paquete(idpaquete,nombre) {
 
   crud_eliminar_papelera(
     "../ajax/paquete.php?op=desactivar",
     "../ajax/paquete.php?op=eliminar", 
     idpaquete, 
     "!Elija una opción¡", 
-    `<b class="text-danger"><del>...</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
+    `<b class="text-danger"><del> ${nombre} </del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
     function(){ sw_success('♻️ Papelera! ♻️', "Tu registro ha sido reciclado." ) }, 
     function(){ sw_success('Eliminado!', 'Tu registro ha sido Eliminado.' ) }, 
     function(){ tabla_paquete.ajax.reload(null, false); },

@@ -29,6 +29,9 @@ function init() {
   // ══════════════════════════════════════ INITIALIZE SUMERNOTE ══════════════════════════════════
   $('#incluye').summernote(); $('#no_incluye').summernote();  $('#recomendaciones').summernote();
   $('#actividad').summernote({ placeholder: 'Descripión de las actividades'});
+  $('#resumen_actividad').summernote({ placeholder: 'resumen de las actividades'});
+  $('#resumen_comida').summernote();
+
   
  // incluye,no_incluye recomendaciones
   // Formato para telefono
@@ -51,11 +54,11 @@ function doc1_eliminar() {
 //Función limpiar
 function limpiar_tours() {
   $("#idtours").val("");
-  $("#idtipo_tours").val("").trigger("change");
   $("#nombre").val("");
-  $("#imagen").val("");
-  $("#resumen_actividad").val("");
-  $("#resumen_comida").val("");
+  $("#idtipo_tours").val("").trigger("change");
+  $("#duracion").val("");
+  $("#descripcion").val("");
+  $("#doc1").val("");
 
  // -------OTROS----------
  
@@ -71,17 +74,12 @@ function limpiar_tours() {
  $("#porcentaje_descuento").val("");
  $("#monto_descuento").val("");
 
+ // -------RESUMEN --------
+ $("#resumen_actividad").summernote('code', '');
+ $("#resumen_comida").summernote('code', '');
+ $("#alojamiento").summernote('code', '');
+
  $(".btn_footer").show();
-
- $(".datos_tours").css('pointer-events', '');
- $(".otros").css('pointer-events', '');
- $(".itinerario").css('pointer-events', '');
- $(".costos").css('pointer-events', '');
-
- $("#doc_old_1").val("");
- $("#doc1").val("");  
- $('#doc1_ver').html(`<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >`);
- $('#doc1_nombre').html("");
 
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
@@ -177,10 +175,9 @@ function guardar_y_editar_tours(e) {
           Swal.fire("Correcto!", "El registro se guardo correctamente.", "success");
 
           tabla_tours.ajax.reload(null, false);
-          $('#modal-agregar-tours').modal('hide'); //
-          
-          limpiar_tours();   
-
+          $('#modal-agregar-tours').modal('hide'); 
+          limpiar_tours(); 
+           
         } else {
           ver_errores(e);
         }
@@ -196,10 +193,7 @@ function guardar_y_editar_tours(e) {
 
 
 function mostrar_tours(idtours) {
-
   limpiar_tours();
-  // $(".btn_footer").hide();
-  $(".titulo").html('Ver datos del Tours para editar');
 
   $("#cargando-1-fomulario").hide();
   $("#cargando-2-fomulario").show();
@@ -210,32 +204,43 @@ function mostrar_tours(idtours) {
     
     e = JSON.parse(e); console.log(e);    
 
-    $("#idtours").val(e.data.idtours).trigger("change");
-    $("#idtipo_tours").val(e.data.idtipo_tours).trigger("change");
-    $("#nombre").val(e.data.nombre).trigger("change");
-    $("#resumen_actividad").val(e.data.resumen_actividad);
-    $("#resumen_comida").val(e.data.resumen_comida);
+    $("#idtours").val(e.tours.idtours);
+    $("#nombre").val(e.tours.nombre);
+    $("#idtipo_tours").val(e.tours.idtipo_tours);
+    $("#duracion").val(e.tours.duracion);
+    $("#descripcion").val(e.tours.descripcion);
 
-    $("#incluye").summernote ('code', e.data.incluye);
-    $("#no_incluye").summernote ('code', e.data.no_incluye);
-    $("#recomendaciones").summernote ('code', e.data.recomendaciones);
+    $("#incluye").summernote ('code', e.tours.incluye);
+    $("#no_incluye").summernote ('code', e.tours.no_incluye);
+    $("#recomendaciones").summernote ('code', e.tours.recomendaciones);
      // -------ITINERARIO-------
-    $("#actividad").summernote ('code', e.data.actividad);
+    $("#actividad").summernote ('code', e.tours.actividad);
    
      // -------COSTO----------
-    $("#costo").val(e.data.costo);
-    $("#estado_descuento").val(e.data.estado_descuento);
-    $("#porcentaje_descuento").val(e.data.porcentaje_descuento);
-    $("#monto_descuento").val(e.data.monto_descuento);
+    $("#costo").val(e.tours.costo);
+    $("#estado_descuento").val(e.tours.estado_descuento);
+    $("#porcentaje_descuento").val(e.tours.porcentaje_descuento);
+    $("#monto_descuento").val(e.tours.monto_descuento);
 
-    if (e.data.estado_descuento == "1") {
+    if (e.tours.estado_descuento == "1") {
       $("#estado_switch").prop("checked", true);
     } else {
       $("#estado_switch").prop("checked", false);
-    } 
+    }
 
-        
-    if (e.data.imagen == "" || e.data.imagen == null  ) {
+    // --------- RESUMEN ------
+    $("#resumen_actividad").summernote ('code', e.tours.resumen_actividad);
+    $("#resumen_comida").summernote ('code', e.tours.resumen_comida);
+    $("#alojamiento").val(e.tours.alojamiento);
+
+    if (e.tours.alojamiento == "1") {
+      $("#estado_switch2").prop("checked", true);
+    } else {
+      $("#estado_switch2").prop("checked", false);
+    }
+
+
+    if (e.tours.imagen == "" || e.tours.imagen == null  ) {
 
       $("#doc1_ver").html('<img src="../dist/svg/pdf_trasnparent.svg" alt="" width="50%" >');
 
@@ -245,11 +250,9 @@ function mostrar_tours(idtours) {
 
     } else {
 
-      $("#doc_old_1").val(e.data.comprobante); 
-
-      $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Baucher.${extrae_extencion(e.data.imagen)}</i></div></div>`);
+      $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Baucher.${extrae_extencion(e.tours.imagen)}</i></div></div>`);
       // cargamos la imagen adecuada par el archivo
-      $("#doc1_ver").html(doc_view_extencion(e.data.imagen,'tours', 'perfil', '100%', '210' ));   //ruta imagen    
+      $("#doc1_ver").html(doc_view_extencion(e.tours.imagen,'tours', 'perfil', '100%', '210' ));   //ruta imagen    
           
     }
     $('.jq_image_zoom').zoom({ on:'grab' });
@@ -279,32 +282,43 @@ function ver_detalle_tours(idtours) {
     
     e = JSON.parse(e); console.log(e);    
 
-    $("#idtours").val(e.data.idtours).trigger("change");
-    $("#idtipo_tours").val(e.data.idtipo_tours).trigger("change");
-    $("#nombre").val(e.data.nombre).trigger("change");
-    $("#resumen_actividad").val(e.data.resumen_actividad);
-    $("#resumen_comida").val(e.data.resumen_comida);
+    $("#idtours").val(e.tours.idtours).trigger("change");
+    $("#nombre").val(e.tours.nombre).trigger("change");
+    $("#idtipo_tours").val(e.tours.idtipo_tours).trigger("change");
+    $("#duracion").val(e.tours.duracion);
+    $("#descripcion").val(e.tours.descripcion);
 
-    $("#incluye").summernote ('code', e.data.incluye);
-    $("#no_incluye").summernote ('code', e.data.no_incluye);
-    $("#recomendaciones").summernote ('code', e.data.recomendaciones);
+    $("#incluye").summernote ('code', e.tours.incluye);
+    $("#no_incluye").summernote ('code', e.tours.no_incluye);
+    $("#recomendaciones").summernote ('code', e.tours.recomendaciones);
      // -------ITINERARIO-------
-    $("#actividad").summernote ('code', e.data.actividad);
+    $("#actividad").summernote ('code', e.tours.actividad);
    
      // -------COSTO----------
-    $("#costo").val(e.data.costo);
-    $("#estado_descuento").val(e.data.estado_descuento);
-    $("#porcentaje_descuento").val(e.data.porcentaje_descuento);
-    $("#monto_descuento").val(e.data.monto_descuento);
+    $("#costo").val(e.tours.costo);
+    $("#estado_descuento").val(e.tours.estado_descuento);
+    $("#porcentaje_descuento").val(e.tours.porcentaje_descuento);
+    $("#monto_descuento").val(e.tours.monto_descuento);
 
-    if (e.data.estado_descuento == "1") {
+    if (e.tours.estado_descuento == "1") {
       $("#estado_switch").prop("checked", true);
     } else {
       $("#estado_switch").prop("checked", false);
-    } 
+    }
+
+    // --------- RESUMEN ------
+    $("#resumen_actividad").summernote ('code', e.tours.resumen_actividad);
+    $("#resumen_comida").summernote ('code', e.tours.resumen_comida);
+    $("#alojamiento").val(e.tours.alojamiento);
+
+    if (e.tours.alojamiento == "1") {
+      $("#estado_switch2").prop("checked", true);
+    } else {
+      $("#estado_switch2").prop("checked", false);
+    }
 
         
-    if (e.data.imagen == "" || e.data.imagen == null  ) {
+    if (e.tours.imagen == "" || e.tours.imagen == null  ) {
 
       $("#doc1_ver").html('<img src="../dist/svg/pdf_trasnparent.svg" alt="" width="50%" >');
 
@@ -314,11 +328,11 @@ function ver_detalle_tours(idtours) {
 
     } else {
 
-      $("#doc_old_1").val(e.data.comprobante); 
+      $("#doc_old_1").val(e.tours.comprobante); 
 
-      $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Baucher.${extrae_extencion(e.data.imagen)}</i></div></div>`);
+      $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Baucher.${extrae_extencion(e.tours.imagen)}</i></div></div>`);
       // cargamos la imagen adecuada par el archivo
-      $("#doc1_ver").html(doc_view_extencion(e.data.imagen,'tours', 'perfil', '100%', '210' ));   //ruta imagen    
+      $("#doc1_ver").html(doc_view_extencion(e.tours.imagen,'tours', 'perfil', '100%', '210' ));   //ruta imagen    
           
     }
     $('.jq_image_zoom').zoom({ on:'grab' });
@@ -429,8 +443,6 @@ function galeria(idtours, nombre) {
   }).fail( function(e) { ver_errores(e); } );
 
 }
-
-
  
 function eliminar_img(idgaleria_tours,descripcion) {  
   Swal.fire({
@@ -516,14 +528,14 @@ $(function () {
       
       idtipo_tours: { required: true},
       nombre:{ required: true, minlength:4, maxlength:100 },
-      resumen_actividad: { minlength:4 },
+      descripcion: { minlength:4 },
       costo: { required: true},
       
     },
     messages: {
       idtipo_tours: { required: "Campo requerido"},
       nombre:{ required: "Campo requerido", minlength: "Minimo 3 caracteres", maxlength: "Maximo 100 Caracteres" },
-      resumen_actividad: {minlength: "Minimo 4 Caracteres"},
+      descripcion: {minlength: "Minimo 4 Caracteres"},
       costo: { required: "Campo requerido"},
     },
 
@@ -655,6 +667,25 @@ function funtion_switch() {
 
   }
 
+}
+
+
+// alojamiento
+function funtion_switch2() {
+  // Obtenemos el elemento del checkbox
+  const checkbox = document.getElementById('estado_switch2');
+
+  // Obtenemos el elemento del campo "alojamiento"
+  const alojamientoField = document.getElementById('alojamiento');
+
+  // Verificamos si el checkbox está seleccionado (SI)
+  if (checkbox.checked) {
+    // Si está seleccionado, establecemos el valor del campo "alojamiento" en 1
+    alojamientoField.value = "1";
+  } else {
+    // Si no está seleccionado, establecemos el valor del campo "alojamiento" en 0
+    alojamientoField.value = "0";
+  }
 }
 
 
