@@ -4,13 +4,13 @@ var tabla_comentario;
 function init() {
   //Activamos el "aside"
 
-  $("#bloc_LogisticalComentarioTours").addClass("menu-open");
+  $("#bloc_LogisticaPaquetes").addClass("menu-open");
 
-  $("#bloc_lComentarioTours").addClass("menu-open bg-color-191f24");
+  $("#bloc_lTours").addClass("menu-open bg-color-191f24");
 
-  $("#mlComentarioTours").addClass("active");
+  $("#mlTours").addClass("active");
 
-  $("#mlComentarioTours").addClass("active bg-green");
+  $("#mlTours").addClass("active bg-green");
 
   $("#lComentarioTours").addClass("active");
 

@@ -636,7 +636,7 @@ $(function () {
   // Aplicando la validacion del select cada vez que cambie
 
   $("#form-paquete").validate({
-    ignore: '.select2-input, .select2-focusser',
+    ignore: '.select2-input, .select2-focusser, .note-editor *',
     rules: {
       nombre:{ required: true, minlength:4, maxlength:100 },
       cant_dias: { required: true, minlength:2, maxlength:20},
@@ -672,7 +672,7 @@ $(function () {
   });
 
   $("#form-galeria").validate({
-    ignore: '.select2-input, .select2-focusser',
+    ignore: '.select2-input, .select2-focusser, .note-editor *',
     rules: {
       descripcion_g: { minlength:4 },
       

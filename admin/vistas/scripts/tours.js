@@ -4,15 +4,15 @@ var idtours_r, nombre_r;
 function init() {
   //Activamos el "aside"
 
-  $("#bloc_Logisticatours").addClass("menu-open");
+  $("#bloc_LogisticaPaquetes").addClass("menu-open");
 
-  $("#bloc_ltours").addClass("menu-open bg-color-191f24");
+  $("#bloc_lTours").addClass("menu-open bg-color-191f24");
   // bloc_ltourss
-  $("#mltours").addClass("active");
+  $("#mlTours").addClass("active");
 
-  $("#mltours").addClass("active bg-green");
+  $("#mlTours").addClass("active bg-green");
 
-  $("#ltours").addClass("active");
+  $("#lTours").addClass("active");
   
   tbla_principal();
   // ══════════════════════════════════════ S E L E C T 2 ═════════════════════════════════════════
@@ -523,7 +523,7 @@ $(function () {
   // Aplicando la validacion del select cada vez que cambie
   $("#idtipo_tours").on('change', function() { $(this).trigger('blur'); });
   $("#form-tours").validate({
-    ignore: '.select2-input, .select2-focusser',
+    ignore: '.select2-input, .select2-focusser, .note-editor *',
     rules: {
       
       idtipo_tours: { required: true},
@@ -562,7 +562,7 @@ $(function () {
   });
 
   $("#form-galeria-tours").validate({
-    ignore: '.select2-input, .select2-focusser',
+    ignore: '.select2-input, .select2-focusser, .note-editor *',
     rules: { descripcion: { minlength:4 }, },
     messages: { descripcion: {minlength: "Minimo 4 Caracteres"}, },
 
@@ -589,7 +589,6 @@ $(function () {
   });
   
   $("#idtipo_tours").rules('add', { required: true, messages: {  required: "Campo requerido" } });
-
 });
 
 // .....::::::::::::::::::::::::::::::::::::: F U N C I O N E S    A L T E R N A S  :::::::::::::::::::::::::::::::::::::::..

@@ -545,9 +545,7 @@ if (!isset($_SESSION["nombre"])) {
     <script src="../plugins/summernote/summernote-bs4.min.js"></script>
     <!-- Ekko Lightbox -->
     <script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="../dist/js/adminlte.min.js"></script>
-
+    
     <!-- Funciones del modulo -->
     <script type="text/javascript" src="scripts/tours.js"></script>
 

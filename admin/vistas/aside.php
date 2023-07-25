@@ -88,13 +88,13 @@
                 <ul class="nav nav-treeview">
                   <!-- Paquetes -->
                   <li class="nav-item ">
-                    <a href="politica_paquete.php" class="nav-link pl-4" id="lPoliticas">
+                    <a href="politica_paquete.php" class="nav-link pl-4" id="lPoliticasPaquete">
                       <i class="nav-icon fas fa-map"></i> <p>Paquetes</p>
                     </a>
                   </li>
                   <!-- Tours -->
                   <li class="nav-item ">
-                    <a href="politica_tours.php" class="nav-link pl-4" id="lTours">
+                    <a href="politica_tours.php" class="nav-link pl-4" id="lPoliticasTours">
                       <i class="nav-icon fas fa-suitcase"></i> <p>Tours</p>
                     </a>
                   </li> 
