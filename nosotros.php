@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+<head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <title>Fun Route - Nosotros</title>
+  <title>Fun Route - Nosotros</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="recursos/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap core CSS -->
+  <link href="recursos/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="assets/css/fontawesome.css">
-    <link rel="stylesheet" href="assets/css/templatemo-woox-travel.css">
-    <link rel="stylesheet" href="assets/css/templatemo-scholar.css">
-    <link rel="stylesheet" href="assets/css/templatemo-chain-app-dev.css">
-    
-    <link rel="stylesheet" href="assets/css/animated.css">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <!-- Additional CSS Files -->
+  <link rel="stylesheet" href="assets/css/fontawesome.css">
+  <link rel="stylesheet" href="assets/css/templatemo-woox-travel.css">
+  <link rel="stylesheet" href="assets/css/templatemo-scholar.css">
+  <link rel="stylesheet" href="assets/css/templatemo-chain-app-dev.css">
 
-    <link rel="stylesheet" href="assets/css/bootstrap-icons.css">
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="assets/css/templatemo-pod-talk.css">
+  <link rel="stylesheet" href="assets/css/animated.css">
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 
-    <link rel="stylesheet" href="assets/css/owl.css">
-    <link rel="stylesheet" href="assets/css/animate.css">
+  <link rel="stylesheet" href="assets/css/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
+  <link rel="stylesheet" href="assets/css/templatemo-pod-talk.css">
 
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style2.css">
-    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="assets/css/owl.css">
+  <link rel="stylesheet" href="assets/css/animate.css">
 
-  </head>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style2.css">
+  <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+
+</head>
 
 <body>
 
@@ -51,26 +51,7 @@
   </div>
   <!-- ***** Preloader End ***** -->
 
-  <!-- ***** Header Area Start ***** -->
-  <header>
-    <div class="nav-bar">
-      <a href="index.html" class="brand">
-        <img class="logo_nombre" src="assets/images/logonombre2.png" alt="">
-      </a>
-      <div class="navigation">
-        <div class="nav-items">
-          <i class="uil uil-times nav-close-btn"></i>
-          <a href="index.html"><i class="uil uil-home"></i> Inicio</a>
-          <a href="nosotros.html"><i class="uil uil-compass"></i> Nosotros</a>
-          <a href="paquetes.html"><i class="uil uil-info-circle"></i> Paquetes</a>
-          <a href="#"><i class="uil uil-document-layout-left"></i> Galeria</a>
-          <a href="#"><i class="uil uil-envelope"></i> Contacto</a>
-        </div>
-      </div>
-      <i class="uil uil-apps nav-menu-btn"></i>
-    </div>
-  </header>
-  <!-- ***** Header Area End ***** -->
+  <?php require 'header.php'; ?>
 
   <!-- ***** Main Banner Area Start ***** -->
   <div class="about-main-content">
@@ -81,16 +62,13 @@
           <div class="text-content">
             <h2 class="title">NOSOTROS </h2>
             <div class="line-dec"></div>
-            <p>Ofrecemos a nuestros clientes una experiencia única con programas vacacionales echos a la medida. 
+            <p style="font-size: 20px;" >Ofrecemos a nuestros clientes una experiencia única con programas vacacionales echos a la medida.
               Solo trabajamos con Hoteles y Tour Operadoras verificadas por FUN ROUTE.</p>
-              <div class="main-button">
-                <a href="reservation.html">Discover More</a>
-              </div>
-          </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
   </div>
   <!-- ***** Main Banner Area End ***** -->
   <div class="more-info reservation-info">
@@ -100,8 +78,8 @@
           <div class="info-item first-service" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000">
             <i class="fa-solid fa-bullseye"></i>
             <h4>Misión</h4>
-            <p>Somos una empresa dedicada al rubro de turismo en la Región San Martin, ofrecemos un servicio personalizado, 
-              innovador, de calidad y confiabilidad, para satisfacer las necesidades de nuestros clientes 
+            <p>Somos una empresa dedicada al rubro de turismo en la Región San Martin, ofrecemos un servicio personalizado,
+              innovador, de calidad y confiabilidad, para satisfacer las necesidades de nuestros clientes
               y puedan llevarse una excelente experiencia al conocer nuestra Región.</p>
           </div>
         </div>
@@ -109,7 +87,7 @@
           <div class="info-item second-service" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000">
             <i class="fa-solid fa-eye"></i>
             <h4>Visión</h4>
-            <p>Nuestra visión posicionarnos como una empresa líder en el mercado del turismo brindando calidad, 
+            <p>Nuestra visión posicionarnos como una empresa líder en el mercado del turismo brindando calidad,
               excelencia en nuestros servicios, logrando la preferencia y fidelidad de nuestros clientes.</p>
           </div>
         </div>
@@ -117,8 +95,8 @@
           <div class="info-item third-service" data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000">
             <i class="fa-solid fa-hand-holding"></i>
             <h4>Valores</h4>
-            <p>La empresa se basa en la honestidad, el respeto mutuo, el trabajo en equipo, la responsabilidad, 
-              el profesionalismo, la transparencia en las acciones, el compromiso, el crecimiento, 
+            <p>La empresa se basa en la honestidad, el respeto mutuo, el trabajo en equipo, la responsabilidad,
+              el profesionalismo, la transparencia en las acciones, el compromiso, el crecimiento,
               la innovación constante y la importancia de nuestros clientes para la vitalidad de la empresa.</p>
           </div>
         </div>
@@ -128,27 +106,27 @@
 
   <section class="about-section section-padding" id="section_2">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-12 mx-auto">
-              <div class="pb-5 mb-5">
-                  <div class="section-title-wrap mb-4">
-                      <h4 class="section-title">Nuestra Historia</h4>
-                  </div>
-
-                  <p>Despues de tiempo trabajando en el sector del turismo en Tarapoto, en Tierra Verde tours nos dimos 
-                    cuenta que existían deficits y fallos importantes en la información que el turista recibía en muchos 
-                    casos antes de venir en Tarapoto. Buscando en Internet además encontramos que, si bien había buena 
-                    información tecnica de la región, la cantidad disponible que fuese especificamente de utilidad 
-                    turistica era mas bien escasa.</p>
-                  <p>Es por ello que finalmente nos decidimos a realizar esta guía con el objetivo de proveer una información fidedigna y util para cualquiera que desee venir a pasar unas vacaciones a Tarapoto.</p>
-
-                  <img src="assets/images/san-martin _1_.jpg" class="about-image mt-5 img-fluid" data-aos="zoom-in-down" alt="">
-              </div>
+      <div class="row">
+        <div class="col-lg-8 col-12 mx-auto">
+          <div class="pb-5 mb-5">
+            <div class="section-title-wrap mb-4">
+              <h4 class="section-title">Nuestra Historia</h4>
             </div>
 
+            <p>Despues de tiempo trabajando en el sector del turismo en Tarapoto, en Tierra Verde tours nos dimos
+              cuenta que existían deficits y fallos importantes en la información que el turista recibía en muchos
+              casos antes de venir en Tarapoto. Buscando en Internet además encontramos que, si bien había buena
+              información tecnica de la región, la cantidad disponible que fuese especificamente de utilidad
+              turistica era mas bien escasa.</p>
+            <p>Es por ello que finalmente nos decidimos a realizar esta guía con el objetivo de proveer una información fidedigna y util para cualquiera que desee venir a pasar unas vacaciones a Tarapoto.</p>
+
+            <img src="assets/images/san-martin _1_.jpg" class="about-image mt-5 img-fluid" data-aos="zoom-in-down" alt="">
+          </div>
         </div>
+
+      </div>
     </div>
-</section>
+  </section>
 
   <!-- ***** Ideales ***** -->
 
@@ -215,14 +193,14 @@
             <h6>Sobre Nosotros</h6>
             <h2>Que nos convierte en el mejor Tours de Tarapoto?</h2>
             <p> Brindamos el mejor servicio para una experiencia inolvidable en los hermosos lugares de San Martin. Contamos con personas con mucha experiencia para mostrarle lugares que no olvidaran, tenemos los precios comodos. </p>
-            
+
           </div>
         </div>
       </div>
     </div>
   </div>
 
- 
+
 
 
   <!--<div class="call-to-action">
@@ -240,56 +218,9 @@
       </div>
     </div>
   </div>-->
+  <?php require 'footer.php'; ?>
 
 
-  <footer>
-    <div class="waves">
-      <div class="wave" id="wave1"></div>
-      <div class="wave" id="wave2"></div>
-      <div class="wave" id="wave3"></div>
-      <div class="wave" id="wave4"></div>
-
-    </div>
-    <ul class="social_icon">
-      <a href="https://www.facebook.com/profile.php?id=100091943730923&mibextid=ZbWKwL" target="_blank" rel="noopener noreferrer">
-        <li class="icon facebook">
-          <span class="tooltip">Facebook</span>
-          <span><i class="fab fa-facebook-f"></i></span>
-        </li>
-      </a>
-      
-      <a href="https://www.tiktok.com/@funroute2?_t=8coRyvY5iOj&_r=1" target="_blank" rel="noopener noreferrer">
-        <li class="icon twitter">
-          <span class="tooltip">TikTok</span>
-          <span><i class="fa-brands fa-tiktok"></i></i></span>
-        </li>
-      </a>
-
-      <a href="https://instagram.com/fun.route?igshid=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer">
-        <li class="icon instagram">
-          <span class="tooltip">Instagram</span>
-          <span><i class="fab fa-instagram"></i></span>
-        </li>
-      </a>
-
-      <a href="https://wa.me/51930637287?text=Consulte%20Ya!!" target="_blank" rel="noopener noreferrer">
-        <li class="icon whatsapp">
-          <span class="tooltip">Whatsapp</span>
-          <span><i class="fab fa-whatsapp"></i></span>
-        </li>
-      </a>
-      
-    </ul>
-    <p>JDL Technology | Todos los derechos reservados</p>
-    <!--<div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <p>Copyright © 2036 <a href="#">WoOx Travel</a> Company. All rights reserved. 
-          <br>Design: <a href="https://templatemo.com" target="_blank" title="free CSS templates">TemplateMo</a></p>
-        </div>
-      </div>
-    </div>-->
-  </footer>
 
   <a href="https://api.whatsapp.com/send?phone=930637287&text=Me%20interesa%20saber%20sobre%20los%20paquetes" target="_blank" rel="noopener noreferrer" class="float_whatssap">
     <i class="fab fa-whatsapp"></i>
@@ -299,11 +230,11 @@
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script>
-		window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
-	</script>
+  <script>
+    window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+  </script>
   <script src="recursos/jquery/jquery.min.js"></script>
- 
+
   <script src="assets/js/isotope.min.js"></script>
   <script src="assets/js/owl-carousel.js"></script>
   <script src="assets/js/wow.js"></script>
@@ -338,35 +269,34 @@
 
   <script type="text/javascript">
     $(function() {
-        $('.crsl-items').carousel({
-            visible: 1,
-            itemMinWidth: 320,
-            itemEqualHeight: 320,
-            itemMargin: 9,
-        });
-        $(".crsl-nav a[href=#]").on('click', function(e) {
-            e.preventDefault();
-        });
+      $('.crsl-items').carousel({
+        visible: 1,
+        itemMinWidth: 320,
+        itemEqualHeight: 320,
+        itemMargin: 9,
+      });
+      $(".crsl-nav a[href=#]").on('click', function(e) {
+        e.preventDefault();
+      });
     });
 
     $(function() {
-        $('.crsl-items2').carousel({
-            visible: 1,
-            itemMinWidth: 320,
-            itemEqualHeight: 320,
-            itemMargin: 9,
-        });
-        $(".crsl-nav2 a[href=#]").on('click', function(e) {
-            e.preventDefault();
-        });
+      $('.crsl-items2').carousel({
+        visible: 1,
+        itemMinWidth: 320,
+        itemEqualHeight: 320,
+        itemMargin: 9,
+      });
+      $(".crsl-nav2 a[href=#]").on('click', function(e) {
+        e.preventDefault();
+      });
     });
-  
   </script>
-  
+
   <script src="assets/js/jquery-1.11.2.min.js"></script>
   <script src="assets/js/responsiveCarousel.min.js"></script>
   <script type="text/javascript" src="assets/js/templatemo-script.js"></script>
 
-  </body>
+</body>
 
 </html>

@@ -2,13 +2,17 @@
 //Función que se ejecuta al inicio
 function init() {
 
+  $("#bloc_empresa").addClass("menu-open");
+
   $("#bloc_datos_generales").addClass("menu-open bg-color-191f24");
 
-  $("#mAccesos").addClass("active");
+  $("#mempresa").addClass("active");
 
   $("#lceo_resenia").addClass("active");
 
+  
   $("#actualizar_registro").on("click", function (e) { actualizar_datos_generales_ceo(e); });
+
   mostrar();
 
   $('#palabras_ceo').summernote(); $('#resenia_h').summernote();

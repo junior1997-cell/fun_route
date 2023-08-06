@@ -1,10 +1,11 @@
 
 //Función que se ejecuta al inicio
 function init() {
+  $("#bloc_empresa").addClass("menu-open");
 
   $("#bloc_datos_generales").addClass("menu-open bg-color-191f24");
 
-  $("#mAccesos").addClass("active");
+  $("#mempresa").addClass("active");
 
   $("#lmision_vision").addClass("active");
 

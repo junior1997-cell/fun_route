@@ -71,7 +71,7 @@
 
               <!-- valores -->
 
-              <li class="nav-item ">
+              <li class="nav-item hidden">
                 <a href="valores.php" class="nav-link" id="lvalores">
                   <i class="nav-icon fa-solid fa-lightbulb"></i>
                   <p>Valores</p>
