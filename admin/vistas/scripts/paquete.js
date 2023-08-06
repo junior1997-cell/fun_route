@@ -24,11 +24,11 @@ function init() {
   $("#list_tours").select2({theme:"bootstrap4", placeholder: "Selecionar Tours.", allowClear: true, });
 
   // ══════════════════════════════════════ G U A R D A R   F O R MS ════════════════════════════════════
-  $("#guardar_registro_paquete").on("click", function (e) { $("#submit-form-paquete").submit(); });
   $("#guardar_registro_galeria").on("click", function (e) { $("#submit-form-galeria").submit(); });
 
   // ══════════════════════════════════════ S U M M E R N O T E ══════════════════════════════════════ 
-  $('#descripcion').summernote(); $('#incluye').summernote(); $('#no_incluye').summernote();  $('#recomendaciones').summernote();
+  $('#descripcion').summernote(); $('#incluye').summernote(); $('#no_incluye').summernote();  
+  $('#recomendaciones').summernote(); $('#resumen').summernote();
 
   // Formato para telefono
   $("[data-mask]").inputmask();
@@ -53,7 +53,7 @@ function limpiar_paquete() {
   $("#cant_dias").val("");
   $("#cant_noches").val("");
   $("#descripcion").summernote('code', '');
-  $("#imagen").val("");
+  $("#doc1").val("");
 
   //OTROS
   $("#incluye").summernote('code', '');
@@ -68,10 +68,8 @@ function limpiar_paquete() {
   $("#porcentaje_descuento").val("");
   $("#monto_descuento").val("");
 
-  $("#doc_old_1").val("");
-  $("#doc1").val("");  
-  $('#doc1_ver').html(`<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >`);
-  $('#doc1_nombre').html("");
+  //RESUMEN
+  $("#resumen").summernote('code', '');
   
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
@@ -120,7 +118,7 @@ function tbla_principal() {
       type: "get",
       dataType: "json",
       error: function (e) {
-        console.log(e.responseText); verer
+        console.log(e.responseText);
       },
     },
     createdRow: function (row, data, ixdex) {
@@ -168,24 +166,23 @@ function guardar_y_editar_paquete(e) {
           Swal.fire("Correcto!", "El registro se guardo correctamente.", "success");
 
           tabla_paquete.ajax.reload(null, false);
-          $('#modal-agregar-paquete').modal('hide'); //
-          limpiar_paquete();   
+          $('#modal-agregar-paquete').modal('hide');
+          limpiar_paquete();  
 
         } else {
           ver_errores(e);
         }
       } catch (err) { console.log('Error: ', err.message); toastr.error('<h5 class="font-size-16px">Error temporal!!</h5> puede intentalo mas tarde, o comuniquese con <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>'); }      
-      $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
+      $("#guardar_registro_paquete").html('Guardar Cambios').removeClass('disabled');
     },
     beforeSend: function () {
-      $("#guardar_registro").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+      $("#guardar_registro_paquete").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
     },
     error: function (jqXhr) { ver_errores(jqXhr); },
   });
 }
 
 function mostrar_paquete(idpaquete) {
-
   limpiar_paquete();
   
   $("#cargando-1-fomulario").hide();
@@ -200,8 +197,8 @@ function mostrar_paquete(idpaquete) {
     // Paquete
     $("#idpaquete").val(e.paquete.idpaquete);
     $("#nombre").val(e.paquete.nombre);
-    $("#cant_dias").val(e.paquete.cant_dias).trigger("change");
-    $("#cant_noches").val(e.paquete.cant_noches).trigger("change");
+    $("#cant_dias").val(e.paquete.cant_dias);
+    $("#cant_noches").val(e.paquete.cant_noches);
     $("#descripcion").summernote ('code', e.paquete.descripcion);
     
     //Otros
@@ -215,6 +212,8 @@ function mostrar_paquete(idpaquete) {
     $("#estado_descuento").val(e.paquete.estado_descuento);
     $("#porcentaje_descuento").val(e.paquete.porcentaje_descuento);
     $("#monto_descuento").val(e.paquete.monto_descuento);
+    // -------RESUMEN --------
+    $("#resumen").summernote ('code', e.paquete.resumen);
 
     if (e.paquete.estado_descuento == "1") {
       $("#estado_switch").prop("checked", true);
@@ -271,9 +270,78 @@ function mostrar_paquete(idpaquete) {
 
     }
 
+    if (e.paquete.imagen == "" || e.paquete.imagen == null  ) {
 
+      $("#doc1_ver").html('<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >');
 
-       
+      $("#doc1_nombre").html('');
+
+      $("#doc_old_1").val(""); $("#doc1").val("");
+
+    } else {
+
+      $("#doc_old_1").val(e.paquete.comprobante); 
+
+      $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>imagen.${extrae_extencion(e.paquete.imagen)}</i></div></div>`);
+      // cargamos la imagen adecuada par el archivo
+      $("#doc1_ver").html(doc_view_extencion(e.paquete.imagen,'paquete', 'perfil', '100%', '210' ));   //ruta imagen    
+          
+    }
+    $('.jq_image_zoom').zoom({ on:'grab' });
+     
+    
+    $("#cargando-1-fomulario").show();
+    $("#cargando-2-fomulario").hide();
+  }).fail( function(e) { ver_errores(e); } );
+}
+
+function ver_detalle_paquete(idpaquete) {
+  limpiar_paquete();
+  $(".btn_footer").hide();
+  $(".titulo").html('Ver datos del Paquete');
+
+  $(".datos_paquete").css('pointer-events', 'none');
+  $(".otros").css('pointer-events', 'none');
+  $(".itinerario").css('pointer-events', 'none');
+  $(".costos").css('pointer-events', 'none');
+
+  $("#cargando-1-fomulario").hide();
+  $("#cargando-2-fomulario").show();
+
+  $("#modal-agregar-paquete").modal("show");
+
+  $.post("../ajax/paquete.php?op=mostrar", { idpaquete: idpaquete }, function (e, status) {
+    
+    e = JSON.parse(e); console.log(e);    
+
+    // Paquete
+    $("#idpaquete").val(e.paquete.idpaquete);
+    $("#nombre").val(e.paquete.nombre);
+    $("#cant_dias").val(e.paquete.cant_dias);
+    $("#cant_noches").val(e.paquete.cant_noches);
+    $("#descripcion").summernote ('code', e.paquete.descripcion);
+    
+    //Otros
+    $("#incluye").summernote ('code', e.paquete.incluye);
+    $("#no_incluye").summernote ('code', e.paquete.no_incluye);
+    $("#recomendaciones").summernote ('code', e.paquete.recomendaciones);
+    $("#mapa").val(e.paquete.mapa);
+    
+    // -------COSTO----------
+    $("#costo").val(e.paquete.costo);
+    $("#estado_descuento").val(e.paquete.estado_descuento);
+    $("#porcentaje_descuento").val(e.paquete.porcentaje_descuento);
+    $("#monto_descuento").val(e.paquete.monto_descuento);
+    $("#list_tours").val(e.itinerario);
+    // -------RESUMEN --------
+    $("#resumen").summernote ('code', e.paquete.resumen);
+
+    if (e.paquete.estado_descuento == "1") {
+      $("#estado_switch").prop("checked", true);
+    } else {
+      $("#estado_switch").prop("checked", false);
+    } 
+
     if (e.paquete.imagen == "" || e.paquete.imagen == null  ) {
 
       $("#doc1_ver").html('<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >');
@@ -300,14 +368,14 @@ function mostrar_paquete(idpaquete) {
 }
 
 //Función para desactivar registros
-function eliminar_paquete(idpaquete) {
+function eliminar_paquete(idpaquete,nombre) {
 
   crud_eliminar_papelera(
     "../ajax/paquete.php?op=desactivar",
     "../ajax/paquete.php?op=eliminar", 
     idpaquete, 
     "!Elija una opción¡", 
-    `<b class="text-danger"><del>...</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
+    `<b class="text-danger"><del> ${nombre} </del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
     function(){ sw_success('♻️ Papelera! ♻️', "Tu registro ha sido reciclado." ) }, 
     function(){ sw_success('Eliminado!', 'Tu registro ha sido Eliminado.' ) }, 
     function(){ tabla_paquete.ajax.reload(null, false); },
@@ -568,19 +636,17 @@ $(function () {
   // Aplicando la validacion del select cada vez que cambie
 
   $("#form-paquete").validate({
-    ignore: '.select2-input, .select2-focusser',
+    ignore: '.select2-input, .select2-focusser, .note-editor *',
     rules: {
       nombre:{ required: true, minlength:4, maxlength:100 },
       cant_dias: { required: true, minlength:2, maxlength:20},
       cant_noches: { required: true, minlength:2, maxlength:20},
-      descripcion: { minlength:4 },
       
     },
     messages: {
       nombre:{ required: "Campo requerido", minlength: "Minimo 3 caracteres", maxlength: "Maximo 100 Caracteres" },
       cant_dias: { required: "Campo requerido", min: "Minimo 2 caracteres", max: "Maximo 20 Caracteres" },
       cant_noches: { required: "Campo requerido", min: "Minimo 2 caracteres", max: "Maximo 20 Caracteres" },
-      descripcion: {minlength: "Minimo 4 Caracteres"},
     },
 
     errorElement: "span",
@@ -606,7 +672,7 @@ $(function () {
   });
 
   $("#form-galeria").validate({
-    ignore: '.select2-input, .select2-focusser',
+    ignore: '.select2-input, .select2-focusser, .note-editor *',
     rules: {
       descripcion_g: { minlength:4 },
       

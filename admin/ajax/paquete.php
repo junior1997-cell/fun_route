@@ -30,6 +30,7 @@ if (!isset($_SESSION["nombre"])) {
     $cant_dias            = isset($_POST["cant_dias"]) ? limpiarCadena($_POST["cant_dias"]) : "";
     $cant_noches          = isset($_POST["cant_noches"]) ? limpiarCadena($_POST["cant_noches"]) : "";
     $descripcion          = isset($_POST["descripcion"]) ? limpiarCadena($_POST["descripcion"]) : "";
+    $imagen1              = isset($_POST["doc1"]) ? limpiarCadena($_POST["doc1"]) : "";
     $incluye              = isset($_POST["incluye"]) ? limpiarCadena($_POST["incluye"]) : "";
     $no_incluye           = isset($_POST["no_incluye"]) ? limpiarCadena($_POST["no_incluye"]) : "";
     $recomendaciones      = isset($_POST["recomendaciones"]) ? limpiarCadena($_POST["recomendaciones"]) : "";
@@ -38,16 +39,17 @@ if (!isset($_SESSION["nombre"])) {
     $estado_descuento     = isset($_POST["estado_descuento"]) ? limpiarCadena($_POST["estado_descuento"]) : "";
     $porcentaje_descuento = isset($_POST["porcentaje_descuento"]) ? limpiarCadena($_POST["porcentaje_descuento"]) : "";
     $monto_descuento      = isset($_POST["monto_descuento"]) ? limpiarCadena($_POST["monto_descuento"]) : "";
+    $resumen              = isset($_POST["resumen"]) ? limpiarCadena($_POST["resumen"]) : "" ;
     //---------------G A L E R I A-------------------
     $idpaqueteg          = isset($_POST["idpaqueteg"]) ? limpiarCadena($_POST["idpaqueteg"]) : "";
     $idgaleria_paquete   = isset($_POST["idgaleria_paquete"]) ? limpiarCadena($_POST["idgaleria_paquete"]) : "";
     $descripcion_g       = isset($_POST["descripcion_g"]) ? limpiarCadena($_POST["descripcion_g"]) : "";
     $img_galeria         = isset($_POST["doc2"]) ? limpiarCadena($_POST["doc2"]) : "";
     //$idpaqueteg,$idgaleria_paquete,$descripcion_g,$img_galeria
-    $idtours =isset($_POST['idtours']) ? $_POST['idtours'] : "0";
-    $nombre_tours = isset($_POST['nombre_tours'])? $_POST['nombre_tours'] : "";
-    $numero_orden = isset($_POST['numero_orden'])? $_POST['numero_orden'] : "";
-    $actividad  = isset($_POST['actividad'])? $_POST['actividad'] : "";
+    $idtours             =isset($_POST['idtours']) ? $_POST['idtours'] : "0";
+    $nombre_tours        =isset($_POST['nombre_tours'])? $_POST['nombre_tours'] : "";
+    $numero_orden        =isset($_POST['numero_orden'])? $_POST['numero_orden'] : "";
+    $actividad           =isset($_POST['actividad'])? $_POST['actividad'] : "";
     
     switch ($_GET["op"]) {
 
@@ -67,8 +69,8 @@ if (!isset($_SESSION["nombre"])) {
 
         if (empty($idpaquete)) {
 
-          $rspta = $paquete->insertar($nombre, $cant_dias, $cant_noches, $descripcion, $imagen1, $incluye, $no_incluye, 
-          $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento,$idtours,$nombre_tours,$numero_orden,$actividad);
+          $rspta = $paquete->insertar($nombre, $cant_dias, $cant_noches, $descripcion, $imagen1, $incluye, $no_incluye,
+          $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento, $resumen, $idtours,$nombre_tours,$numero_orden,$actividad);
 
           echo json_encode($rspta, true);
         } else {
@@ -83,8 +85,8 @@ if (!isset($_SESSION["nombre"])) {
           }
 
           // editamos un paquete existente
-          $rspta = $paquete->editar($idpaquete,$nombre, $cant_dias, $cant_noches, $descripcion, $imagen1, $incluye, $no_incluye, 
-            $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento,$_POST['iditinerario'],
+          $rspta = $paquete->editar($idpaquete,$nombre, $cant_dias, $cant_noches, $descripcion, $imagen1, $incluye, $no_incluye,
+            $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento, $resumen, $_POST['iditinerario'],
             $idtours,$nombre_tours,$numero_orden,$actividad);
 
           echo json_encode($rspta, true);
@@ -98,7 +100,7 @@ if (!isset($_SESSION["nombre"])) {
 
         echo json_encode($rspta, true);
 
-        break;
+      break;
 
       case 'eliminar':
 
@@ -106,7 +108,7 @@ if (!isset($_SESSION["nombre"])) {
 
         echo json_encode($rspta, true);
 
-        break;
+      break;
 
       case 'mostrar':
 
@@ -114,7 +116,7 @@ if (!isset($_SESSION["nombre"])) {
         //Codificar el resultado utilizando json
         echo json_encode($rspta, true);
 
-        break;
+      break;
 
       case 'tbla_principal':
 
@@ -136,9 +138,9 @@ if (!isset($_SESSION["nombre"])) {
             // estado_descuento, porcentaje_descuento, monto_descuento
             $data[] = array(
               "0" => $cont++,
-              "1" => '<button class="btn btn-info btn-sm" onclick="ver_detalle_compras(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Ver detalle compra"><i class="fa fa-eye"></i></button>' .
+              "1" => '<button class="btn btn-info btn-sm" onclick="ver_detalle_paquete(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Ver detalle compra"><i class="fa fa-eye"></i></button>' .
                 ' <button class="btn btn-warning btn-sm" onclick="mostrar_paquete(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
-                ' <button class="btn btn-danger  btn-sm" onclick="eliminar_paquete(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
+                ' <button class="btn btn-danger  btn-sm" onclick="eliminar_paquete(' . $value['idpaquete'] .'.,\'' . $value['nombre'] . '\')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
               "2" => $value['nombre'],
               "3" => '<span class="text-center badge badge-success">' . $value['cant_dias'] . ' Días' . ' <b>/</b> ' .  $value['cant_noches'] . ' Noches </span>',
               "4" => $descripcion,
@@ -161,15 +163,15 @@ if (!isset($_SESSION["nombre"])) {
         } else {
           echo $rspta['code_error'] . ' - ' . $rspta['message'] . ' ' . $rspta['data'];
         }
-        break;
+      break;
 
-        case 'ver_actividad':
+      case 'ver_actividad':
 
-          $rspta = $paquete->ver_actividad($_POST['idtours']);
-          //Codificar el resultado utilizando json
-          echo json_encode($rspta, true);
-  
-          break;
+        $rspta = $paquete->ver_actividad($_POST['idtours']);
+        //Codificar el resultado utilizando json
+        echo json_encode($rspta, true);
+
+      break;
         /* ══════════════════════════════════════ T I P O  T O U R S ══════════════════════════════════ */
       case 'selec2tours':
 
@@ -233,7 +235,6 @@ if (!isset($_SESSION["nombre"])) {
         $rspta = $paquete->eliminar_imagen($_POST['idgaleria_paquete']);
         echo json_encode($rspta, true);
       break;
-
 
       default:
       $rspta = ['status' => 'error_code', 'message' => 'Te has confundido en escribir en el <b>swich.</b>', 'data' => []];

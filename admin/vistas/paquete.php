@@ -18,8 +18,8 @@ if (!isset($_SESSION["nombre"])) {
 
     <?php $title = "Paquetes";
     require 'head.php'; ?>
-  <!-- Ekko Lightbox -->
-  <link rel="stylesheet" href="../plugins/ekko-lightbox/ekko-lightbox.css">
+    <!-- Ekko Lightbox -->
+    <link rel="stylesheet" href="../plugins/ekko-lightbox/ekko-lightbox.css">
     <!-- summernote -->
     <link rel="stylesheet" href="../plugins/summernote/summernote-bs4.min.css">
     <link rel="stylesheet" href="../dist/css/switch.css">
@@ -184,6 +184,10 @@ if (!isset($_SESSION["nombre"])) {
                           <li class="nav-item">
                             <a class="nav-link" id="custom-content-below-asistencia-tab" data-toggle="pill" href="#custom-content-below-asistencia" role="tab" aria-controls="custom-content-below-asistencia" aria-selected="false">COSTOS</a>
                           </li>
+                          <!--RESUMEN-->
+                          <li class="nav-item">
+                            <a class="nav-link" id="custom-content-below-informacion-tab" data-toggle="pill" href="#custom-content-below-informacion" role="tab" aria-controls="custom-content-below-informacion" aria-selected="false">RESUMEN</a>
+                          </li>
                         </ul>
                       </div>
                       <!-- ======================================== -->
@@ -197,7 +201,7 @@ if (!isset($_SESSION["nombre"])) {
                               <input type="hidden" name="idpaquete" id="idpaquete" />
 
                               <!-- Nombre -->
-                              <div class="col-8 col-sm-8 col-md-6 col-lg-8">
+                              <div class="col-8 col-sm-8 col-md-8 col-lg-6">
                                 <div class="form-group">
                                   <label for="nombre">Nombre</label>
                                   <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Nombre del paquete" />
@@ -207,14 +211,14 @@ if (!isset($_SESSION["nombre"])) {
                               <!-- cant_dias -->
                               <div class="col-lg-2">
                                 <div class="form-group">
-                                  <label for="cant_dias">Duración</label>
+                                  <label for="cant_dias">Días</label>
                                   <input type="number" name="cant_dias" class="form-control" id="cant_dias" placeholder="Dias" />
                                 </div>
                               </div>
                               <!-- cant_dias -->
                               <div class="col-lg-2">
                                 <div class="form-group">
-                                  <label for="cant_noches">Duración</label>
+                                  <label for="cant_noches">Noches</label>
                                   <input type="number" name="cant_noches" class="form-control" id="cant_noches" placeholder="Noches" />
                                 </div>
                               </div>
@@ -222,7 +226,7 @@ if (!isset($_SESSION["nombre"])) {
                               <!--Descripcion-->
                               <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                 <div class="form-group ">
-                                  <label for="descripcion_paquete">Descripción</label> <br />
+                                  <label for="descripcion">Descripción</label> <br />
                                   <textarea name="descripcion" id="descripcion" class="form-control" rows="2"></textarea>
                                 </div>
                               </div>
@@ -293,6 +297,7 @@ if (!isset($_SESSION["nombre"])) {
 
                           </div>
                           <!-- /.tab-panel -->
+
                           <div class="tab-pane fade" id="custom-content-below-messages" role="tabpanel" aria-labelledby="custom-content-below-messages-tab">
                             <!-- ITINERARIO -->
                             <div class="card-body row itinerario">
@@ -323,6 +328,7 @@ if (!isset($_SESSION["nombre"])) {
                             </div>
                           </div>
                           <!-- /.tab-panel  datos_tours,otros,itinerario,costos-->
+
                           <div class="tab-pane fade" id="custom-content-below-asistencia" role="tabpanel" aria-labelledby="custom-content-below-asistencia-tab">
                             <div class="card-body row costos">
                               <!-- costo -->
@@ -359,14 +365,28 @@ if (!isset($_SESSION["nombre"])) {
                               </div>
                             </div>
                           </div>
+                          <!-- /.tab-panel -->
+
+                          <div class="tab-pane fade" id="custom-content-below-informacion" role="tabpanel" aria-labelledby="custom-content-below-informacion-tab">
+                            <!-- RESUMEN -->
+                            <div class="card-body row resumen">
+
+                              <!--resumen -->
+                              <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                  <label for="resumen">Resumen <sup class="text-danger">*</sup> </label>
+                                  <textarea name="resumen" id="resumen" class="form-control" rows="10"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          
                           <div class="modal-footer justify-content-between btn_footer">
                             <button type="button" class="btn btn-danger" onclick="limpiar_paquete();" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-success" id="guardar_registro_tours">Guardar Cambios</button>
+                            <button type="submit" class="btn btn-success" id="guardar_registro_paquete">Guardar Cambios</button>
                           </div>
                           <!-- /.tab-panel -->
                         </div>
-
-                        <button type="submit" style="display: none;" id="submit-form-tours">Submit</button>
                       </form>
                     </div>
                   </div>
