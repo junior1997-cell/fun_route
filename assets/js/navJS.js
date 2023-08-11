@@ -1,4 +1,4 @@
-var swiper = new Swiper(".bg-slider-thumbs", {
+/*var swiper = new Swiper(".bg-slider-thumbs", {
   spaceBetween: 0,
   slidesPerView: 0,
 });
@@ -9,7 +9,7 @@ var swiper2 = new Swiper(".bg-slider", {
   thumbs: {
     swiper: swiper,
   },
-});
+});*/
 
 window.addEventListener("scroll", function(){
   const header = document.querySelector("header");
@@ -23,11 +23,11 @@ const closeBtn = document.querySelector(".nav-close-btn");
 const navigation = document.querySelector(".navigation");
 
 menuBtn.addEventListener("click", () => {
-  navigation.classList.add(active);
+  navigation.classList.add("active");
 });
 
 closeBtn.addEventListener("click", () => {
-  navigation.classList.remove(active);
+  navigation.classList.remove("active");
 });
 
 /*let searchForm = document.querySelector(".search-form");

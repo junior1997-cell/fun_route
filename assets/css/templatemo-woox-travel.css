@@ -89,6 +89,8 @@ html, body {
   min-height: 100vh;
 }
 
+.espacio { padding-right: 0.5em;}
+
 /*a {
 	color: #802629;
   text-decoration: none !important;
@@ -110,6 +112,64 @@ p {
   line-height: 30px;
   color: #afafaf;
 }*/
+
+/** MODAL INICIO **/
+.modal {
+	width: 100%;
+	height: 100vh;
+	background: rgba(0,0,0,0.8);
+	position: fixed;
+	top: 0;
+	left: 0;
+	
+	display: flex;
+	justify-content: center;
+  align-items: center;
+	animation: modal 2s 3s forwards;
+	visibility: hidden;
+	opacity: 0;
+}
+
+.contenido {
+  max-width: 100%;
+	padding: 2em;
+	background: white;
+	border-radius: 10px;
+}
+
+#cerrar {
+	display: none;
+}
+
+#cerrar + label {
+	position: fixed;
+	color: #fff;
+	font-size: 1.2em;
+	z-index: 9999;
+	background: #1877F2;
+  padding: 6px;
+	line-height: 40px;
+	border-radius: 10px; 
+	right: 220px;
+	top: 60px;
+	cursor: pointer;
+	
+	animation: modal 2s 3s forwards;
+	visibility: hidden;
+	opacity: 0;
+}
+
+#cerrar:checked + label, #cerrar:checked ~ .modal {
+	display: none;
+}
+
+@keyframes modal {
+	100% {
+		visibility: visible;
+		opacity: 1;
+	}
+}
+
 
 /* 
 ---------------------------------------------
@@ -149,22 +209,6 @@ body {
   margin-left: 10px;
 }
 
-
-
-.popular-places .section-title-container { margin-bottom: 60px; margin-top: 2em;}
-.section-title1 {
-	font-weight: 700;
-	font-size: 18em;
-}
-.popular-places .section-title-underline {
-	margin-bottom: 5px;
-	margin-top: 0;
-}
-.popular-places .section-title-underline-blue {
-	border-bottom: 2px solid #08292b;
-	margin: 5px auto 0 auto;
-	width: 40px;
-}
 
 .section-heading {
   position: relative;
@@ -408,6 +452,10 @@ footer {
   z-index: 1;
 }
 
+.social_icon a{
+  color: #1c1c1c;
+}
+
 .social_icon {
   display: inline-flex;
   list-style: none;
@@ -638,35 +686,41 @@ footer .wave#wave4 {
 About Page Style
 --------------------------------------------- 
 */
+/* .about-main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
 
 .about-main-content video {
   width: 100%;
-  height: 100vh;
+  max-height: 100vh;
   object-fit: cover;
   background-position: center;
   background-size: cover;
   pointer-events: none;
+  
 }
 
 .about-main-content .text-content{
   position: absolute;
-  top: 17%;
+  top: 14%;
+  left: 18%;
   color: #000000;
-  margin: 0 200px;
   transition: 0.3s ease;
   border-radius: 23px;
   text-align: center;
-  padding: 120px 60px;
+  padding: 50px 10px;
   overflow: hidden;
   z-index: 2;
-  max-width: 700px;
+  max-width: 900px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(50px);
   box-shadow: 0 5px 25px rgb(0 0 0 / 20%);;
 }
 
 
-.about-main-content .content .line-dec {
+.about-main-content .text-content .line-dec {
   position: relative;
   z-index: 2;
   width: 200px;
@@ -675,11 +729,11 @@ About Page Style
   margin: 20px auto;
 }
 
-.about-main-content .content h4 {
+.about-main-content .text-content h2 {
   color: #fff;
   position: relative;
   z-index: 2;
-  font-size: 50px;
+  font-size: 2em;
   margin-bottom: 25px;
   /*color: #fff;
   position: relative;
@@ -688,11 +742,11 @@ About Page Style
   font-weight: 400;*/
 }
 
-.about-main-content .content p {
-  color: #fff;
+.about-main-content .text-content p {
+  color: #000;
   position: relative;
   z-index: 2;
-  font-size: 20px;
+  font-size: 1.1em;
   padding: 0px 15%;
 }
 
@@ -713,21 +767,22 @@ About Page Style
 }
 
 
+/** TOURS **/
+
 .cities-town {
   max-width: 100%;
-  min-height: 100vh;
-  margin-top: 80px;
+  max-height: 100vh;
+  padding: 30px;
 }
 
-.cities-town .slider-content h2 {
-  font-size: 30px;
-  margin-bottom: 40px;
+.cities-town .head {
   text-align: center;
+  margin: 40px 0;
 }
 
-.cities-town .slider-content h2 em {
-  font-style: normal;
-  color: #204c59;
+.cities-town .head h3 {
+  font-size: 2em;
+  font-weight: 800;
 }
 
 .cities-town .slider-content .item {
@@ -1040,6 +1095,15 @@ About Page Style
 
 /**===============Sección Paquetes=====================**/
 
+.head_title_ofertas {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.head_title_ofertas h3 {
+  font-size: 2em;
+  font-weight: 800;
+}
 
 .paquetes-tours button {
   background-color: #fff;
@@ -1129,14 +1193,128 @@ About Page Style
 
 /**=============Paquetes convencionales===============**/
 .paquetes-tours1 {
-  margin-bottom:10em;
-  padding-top: 10em;
+  position: relative;
+  width: 100%;
+  max-height: 100vh;
+  padding: 0 220px;
+  margin-top: 3em;
+  margin-bottom: 4em;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  background-color: none;
+  /* background-color: #e3f2fd; */
 }
 
-hr {
-	display: block; height: 1px;
-  border: 0; border-top: 1px solid #ddd;
+.paquetes-tours1 .head {
+  text-align: center;
+  margin: 50px 0 30px 0;
+  padding-top: 20px;
 }
+
+.paquetes-tours1 .head h3 {
+  font-size: 2em;
+  font-weight: 800;
+}
+
+.swiper_testimonial {
+  position: relative;
+  max-width: 900px;
+  padding: 30px 0;
+  margin-bottom: 30px;
+  overflow: hidden;
+  border-radius: 50px;
+  background: #ffffff;
+  box-shadow:  20px 20px 60px #d9d9d9,
+             -20px -20px 60px #ffffff;
+}
+
+.swiper_testimonial .image {
+  height: 170px;
+  width: 170px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.swiper_testimonial .slide {
+  row-gap: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.swiper_testimonial .slide p {
+  text-align: center;
+  padding: 0 160px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #333;
+}
+
+.swiper_testimonial .slide .quote-icon {
+  font-size: 30px;
+  color: #1877F2;
+}
+
+.swiper_testimonial .slide .details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.swiper_testimonial .slide .details .name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.swiper_testimonial .slide .details .job {
+  font-size: 12px;
+  font-weight: 400;
+  color: #333;
+}
+
+/** Swiper button css  **/
+.nav-btn1 {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  /* transform: translateY(30px);
+  background-color: rgba(0, 0, 0, 0.1); */
+}
+
+.nav-btn1::after,
+.nav-btn1::before {
+  font-size: 20px;
+}
+
+@media (max-width: 768px) {
+  .swiper_testimonial .slide p {
+    padding: 0 20px;
+  }
+
+  .paquetes-tours1 {
+    position: relative;
+    width: 100%;
+    max-height: 100vh;
+    padding: 0 5px;
+  }
+
+
+  .swiper_testimonial .nav-btn1 {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px){
+  .paquetes-tours1 {
+    padding: 0 90px;
+  }
+
+}
+
+/**=============  Paquetes ========================**/
 
 .templatemo-container {
 	max-width: 1920px;
@@ -1145,20 +1323,6 @@ hr {
 	padding-bottom: 80px;
 }
 
-.section-title-container { margin-bottom: 60px; }
-.section-title1 {
-	font-weight: 700;
-	font-size: 42px;
-}
-.section-title-underline {
-	margin-bottom: 5px;
-	margin-top: 0;
-}
-.section-title-underline-blue {
-	border-bottom: 2px solid #08292b;
-	margin: 5px auto 0 auto;
-	width: 40px;
-}
 .font-weight-300 { font-weight: 300; }
 .section-title-2 {
 	font-size: 32px;
@@ -1292,8 +1456,23 @@ hr {
 
 /**=============HOME PAQUETES CONVENCIONALES==============**/
 .popular-places{
-  margin-top: 7em;
-  padding-bottom: 5em;
+  margin-top: 12;
+  padding-bottom: 0em;
+}
+
+.popular-places .head {
+  text-align: center;
+  margin: 90px 0 40px 0;
+}
+
+.popular-places .head h3 {
+  font-size: 2em;
+  font-weight: 800;
+}
+
+.popular-places .paquete-home1 {
+  display: flex;
+  justify-content: center;
 }
 
 .popular-places .section-heading {
@@ -1344,6 +1523,11 @@ hr {
 
 .popular-places .owl-dots button {
   outline: none;
+}
+
+.popular-places .popular-item {
+  width: 19em;
+  margin-left: 3em;
 }
 
 .popular-places .popular-item .thumb {
@@ -1501,6 +1685,16 @@ hr {
   margin: 3em 0;
 }
 
+.expe-exclusivo .head {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.expe-exclusivo .head h3 {
+  font-size: 2em;
+  font-weight: 800;
+}
+
 .expe-exclusivo .container {
   display: grid;
   gap: 3rem;
@@ -1522,7 +1716,7 @@ hr {
   height: 22em;
   min-height: 32em;
   background-color: #000000;
-  background-image: url(../images/expe1.jpg);
+  background-image: url(../images/expe_1.jpg);
   background-size: cover;
   background-position: center;
   text-align: center;
@@ -1539,7 +1733,7 @@ hr {
 
 .expe-exclusivo .flip-card:nth-of-type(2) .flip-card-front,
 .expe-exclusivo .flip-card:nth-of-type(2) .flip-card-back {
-  background-image: url(../images/expe2.jpg);
+  background-image: url(../images/des_paq.jpg);
 }
 
 /*.expe-exclusivo .flip-card:nth-of-type(3) .flip-card-front,
@@ -1549,7 +1743,7 @@ hr {
 
 .expe-exclusivo .flip-card:nth-of-type(3) .flip-card-front,
 .expe-exclusivo .flip-card:nth-of-type(3) .flip-card-back {
-  background-image: url(../images/expe4.jpg);
+  background-image: url(../images/expe_3.jpg);
 }
 
 .expe-exclusivo .flip-card-front {
@@ -1579,7 +1773,7 @@ hr {
 .expe-exclusivo .flip-card-front .inner,
 .expe-exclusivo .flip-card-back .inner {
   width: 100%;
-  padding: 40px;
+  padding: 20px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%) translateZ(60px) scale(0.94);
@@ -1608,7 +1802,7 @@ hr {
 .expe-exclusivo .flip-card-back h5 {
   margin-bottom: 8px;
   color: #ffffff;
-  font-size: 1.5em;
+  font-size: 1.2em;
   font-weight: 700;
   line-height: 30px;
   text-transform: capitalize;
@@ -1618,6 +1812,7 @@ hr {
   color: #ffffff;
   font-size: 16px;
   line-height: 28px;
+  float: left;
 }
 
 .expe-exclusivo .flip-card:hover .flip-card-front {
@@ -1628,57 +1823,7 @@ hr {
   transform: rotateY(0deg);
 }
 
-/**====================================HISTORIA DE TARAPOTO==============================================**/
 
-/*---------------------------------------
-  ABOUT              
------------------------------------------*/
-
-/*#about {
-  padding-bottom: 10em;
-}*/
-
-#about {
-  margin-top: -9em;
-}
-
-  
-#about  .about-info { 
-  text-align: left;
-  padding-left: 5em;
-  align-items: center;
-}
-
-#about  .img-responsive { 
-  margin-top: 15px;
-	border-radius: 30px;
-  margin-left: 3em;
-	max-width: 35em;
-	overflow: hidden;
-	float: right;
-	margin-right: 2em;
-}
-
-#about .about-info .section-title {
-  background: none;
-}
-
-
-#about .about-info h2 {
-  color: #353535;
-  font-size: 2em;
-  padding-bottom: 10px;
-  font-weight: bold;
-  line-height: inherit;
-}
-
-#about .about-info .section-title {
-  padding-bottom: 20px;
-}
-
-
-
-/**======================================================================**/
 /*---------------------------------------
   AUTHOR SECTION            
 -----------------------------------------*/
@@ -1688,7 +1833,7 @@ hr {
   background-size: contain;
   background-position: left bottom;
   position: relative;
-  margin-top: -70px;
+  margin-top: 2em;
   margin-bottom: 10em;
 }
 
@@ -1774,140 +1919,6 @@ hr {
 
 /**=============================================================================**/
 
-.weekly-offers {
-  padding-bottom: 50px;
-  margin-top: 120px;
-  border-bottom: 1px solid #eee;
-  position: relative;
-  background-color: #fff;
-  border-radius: 23px;
-  box-shadow: 0px 0px 15px rgba(0,0,0,0.15);
-}
-
-.weekly-offers .container-fluid {
-  padding: 0px 80px;
-}
-
-.weekly-offers .item {
-  margin: 0px 15px;
-  position: relative;
-  min-height: 420px;
-}
-
-.weekly-offers .item .thumb img {
-  padding-right: 160px;
-  border-radius: 23px;
-}
-
-.weekly-offers .item .thumb .text {
-  position: absolute;
-  background-color: #fff;
-  border-radius: 23px;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  box-shadow: 0px 0px 15px rgba(0,0,0,0.15);
-  padding: 30px;
-}
-
-.weekly-offers .item .thumb .text h4 {
-  font-size: 20px;
-  display: inline-block;
-}
-
-.weekly-offers .item .thumb .text h6 {
-  display: inline-block;
-  float: right;
-  text-align: right;
-  font-size: 20px;
-  color: #22b3c1;
-}
-
-.weekly-offers .item .thumb .text h4 span,
-.weekly-offers .item .thumb .text h6 span {
-  font-size: 15px;
-  color: #afafaf;
-  font-weight: 400;
-}
-
-.weekly-offers .item .thumb .text ul {
-  border-top: 1px solid #eee;
-  margin-top: 25px;
-  padding-top: 25px;
-}
-
-.weekly-offers .item .thumb .text ul li {
-  color: #afafaf;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-.weekly-offers .item .thumb .text ul li:first-child {
-  color: #2a2a2a;
-  font-weight: 600;
-}
-
-.weekly-offers .item .thumb .text .main-button {
-  margin-top: 30px;
-}
-
-.weekly-offers .item .thumb .text .main-button a:hover {
-  background-color: #802629;
-  border-color: #802629;
-  color: #fff;
-  opacity: 0.85;
-}
-
-.weekly-offers .owl-nav {
-  text-align: center;
-  margin-top: 30px;
-}
-
-.weekly-offers .owl-nav .owl-next span {
-  display: none;
-}
-
-.weekly-offers .owl-nav .owl-next::after {
-  font-family: "FontAwesome";
-  content: '\f061'; 
-  color: #22b3c1;
-  font-size: 20px;
-  width: 46px;
-  height: 46px;
-  text-align: center;
-  border: 1px solid #22b3c1;
-  display: inline-block;
-  line-height: 44px;
-  border-radius: 50%;
-  transition: all .3s;
-  margin-left: 5px;
-}
-
-.weekly-offers .owl-nav .owl-prev span {
-  display: none;
-}
-
-.weekly-offers .owl-nav .owl-prev::after {
-  font-family: "FontAwesome";
-  content: '\f060'; 
-  color: #22b3c1;
-  font-size: 20px;
-  width: 46px;
-  height: 46px;
-  text-align: center;
-  border: 1px solid #22b3c1;
-  display: inline-block;
-  line-height: 44px;
-  border-radius: 50%;
-  transition: all .3s;
-  margin-right: 5px;
-}
-
-.weekly-offers .owl-nav .owl-prev:hover::after,
-.weekly-offers .owl-nav .owl-next:hover::after {
-  color: #fff;
-  background-color: #22b3c1;
-}
 
 /* <<< About Section >>> */
 
@@ -2586,12 +2597,51 @@ body {
   min-height: 100vh;
 }
 
-@media (max-width: 575px) {
-
+@media (width: 768px) {
+  .cities-town .slider-content .item{
+    left: 25%;
+  }
 }
 
 
 @media (max-width: 767px) {
+  .cities-town .owl-nav {
+    display: none;
+  }
+
+  .about-main-content video {
+    height: 100vh;
+    
+  }
+
+  .paquetes-tours1 {
+    position: relative;
+    width: 100%;
+    max-height: 100vh;
+    padding: 0 10px;
+  }
+  
+  .about-us .section-heading {
+    padding: 2em 0.7em;
+    margin: 3em 0;
+    right: 15%;
+    /* background: #008cff; */
+  }
+
+  .contenido {
+    max-width: 95%;
+    padding: 1em;
+  }
+
+  .contenido img {
+    max-width: 100%;
+  }
+
+  #cerrar + label {
+    top: 20%;
+    right: 40%;
+  }
+
   #section-1 .content-slider .slider .banner .banner-inner-wrapper {
     padding-top: 120px;
   }
@@ -2636,9 +2686,49 @@ body {
   .visit-country .item .right-content h4 {
     margin-top: 20px;
   }
+
+  .about-main-content .text-content{
+    padding: 20px 0px;
+    left: 2%;
+    right: 2%;
+    top: 9%;
+  }
+
+
 }
 
 @media (max-width: 992px) {
+  .about-main-content .text-content{
+    padding: 20px 0px;
+    left: 5%;
+    right: 5%;
+    top: 9%;
+  }
+
+  .about-main-content video {
+    min-height: 65vh;
+    
+  }
+
+  .about-us .section-heading {
+    padding: 2em 0.7em;
+    margin: 3em 0;
+    right: 10%;
+    /* background: #008cff; */
+  }
+
+  #cerrar + label {
+    top: 15%;
+    right: 42%;
+  }
+
+  .cities-town .owl-nav {
+    position: absolute;
+    top: 26em;
+    right: 18em;
+    text-align: center;
+  }
+
   #section-1 .more-info {
     margin-top: 60px;
   }
@@ -2675,7 +2765,7 @@ body {
     margin-top: 30px;
   }
   .about-main-content .content p {
-    padding: 0px 5%;
+    padding: 0px 2PX;
   }
   .weekly-offers .container-fluid {
     padding: 0px;
@@ -2705,6 +2795,35 @@ body {
   }*/
   .reservation-form #reservation-form {
     padding: 45px 30px;
+  }
+}
+
+@media (width: 1024px) {
+  .about-main-content .text-content{
+    position: absolute;
+    top: 13%;
+    left: 13%;
+    padding: 15px 10px;
+    overflow: hidden;
+    z-index: 2;
+    max-width: 750px;
+  } 
+
+  .about-main-content video {
+    height: 100vh;
+    
+  }
+
+  #cerrar + label {
+    top: 8%;
+    right: 17%;
+  }
+
+  .cities-town .owl-nav {
+    position: absolute;
+    top: 26em;
+    right: 25em;
+    text-align: center;
   }
 }
 

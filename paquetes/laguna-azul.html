@@ -25,7 +25,6 @@
 
     <link rel="stylesheet" href="../assets/css/magnific-popup.css">
     <link rel="stylesheet" href="../assets/css/templatemo-ocean-vibes.css">
-    <link rel="stylesheet" href="../assets/css/gallery.css">
 
   </head>
 
@@ -34,12 +33,7 @@
   <!-- ***** Preloader Start ***** -->
   <div id="js-preloader" class="js-preloader">
     <div class="preloader-inner">
-      <span class="dot"></span>
-      <div class="dots">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+      <span class="loader"></span>
     </div>
   </div>
   <!-- ***** Preloader End ***** -->
@@ -47,8 +41,8 @@
   <!-- ***** Header Area Start ***** -->
   <header>
     <div class="nav-bar">
-      <a href="index.html" class="brand">
-        <img class="logo_nombre" src="../assets/images/logonombre2.png" alt="">
+      <a href="../index.html" class="brand">
+        <img class="logo_nombre" src="../assets/images/logo_nombre.svg" alt="">
       </a>
       <div class="navigation">
         <div class="nav-items">
@@ -56,8 +50,8 @@
           <a href="../index.html"><i class="uil uil-home"></i> Inicio</a>
           <a href="../nosotros.html"><i class="uil uil-compass"></i> Nosotros</a>
           <a href="../paquetes.html"><i class="uil uil-info-circle"></i> Paquetes</a>
-          <a href="#"><i class="uil uil-document-layout-left"></i> Galeria</a>
-          <a href="#"><i class="uil uil-envelope"></i> Contacto</a>
+          <a href="../tours.html"><i class="uil uil-document-layout-left"></i> Tours</a>
+          <a href="../viaje_medida.html"><i class="uil uil-envelope"></i> Viaje a Medida</a>
         </div>
       </div>
     </div>  
@@ -65,13 +59,101 @@
 
   <!-- ***** Main Banner Area Start ***** -->
   <section class="tm-site-header">
-    <h1 class="tm-mt-0 tm-mb-15"><span class="tm-color-primary">Laguna</span> <span class="tm-color-gray-2">Azul</span></h1>
+    <h1 class="tm-mt-0 tm-mb-15"><span class="tm-color-gray-2">Laguna</span> <span class="tm-color-primary">Azul</span></h1>
+    <!-- Button trigger modal -->
+    <div class="botones_paq">
+      <div class="">
+        <button class="precio_regular">
+          <span> <b>PRECIO REGULAR: </b><s style="font-weight: 900;">-----</s> * Persona</span>
+        </button>
+        
+      </div>
+      <div class="position_boton">
+        <button type="button" class="btn_modal_contact" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          <div class="svg-wrapper-1">
+            <div class="svg-wrapper">
+              <i class="fa-solid fa-paper-plane"></i>
+            </div>
+          </div>
+          <span> ¡¡ Solicita tu reserva aquí !!</span>
+        </button>
+      </div>
+      <div class="">
+        <button class="precio_actual">
+          <span><b>CON DESCUENTO: </b><b style="font-weight: 900; color: #1877f2;">-----</b> * Persona</span>
+        </button>
+      </div>
+    </div>
+     
+
+    <!-- Modal -->
+    <div class="modal fade modal-xl" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Contactanos</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <section class="formulario_contac">
+              <div class="contactForm">
+                <div class="form">
+                  <div class="texto">
+                    <h2>!Hablemos!</h2>
+                    <p>El paquete turístico de 5 días y 4 noches a la ciudad de Tarapoto es una experiencia única que te 
+                      llevará a descubrir los encantos de esta hermosa ciudad de la selva peruana.
+                    </p>
+                  </div>
+                  <form action="">
+                    <div class="inputBox">
+                      <label for="">Tu Nombre</label>
+                      <input type="text" placeholder="Nombre...">
+                    </div>
+                    <div class="inputBox">
+                      <label for="">Tu Email</label>
+                      <input type="email" placeholder="Email...">
+                    </div>
+                    <div class="inputBox">
+                      <label for="">Tu Mensaje</label>
+                      <textarea name="" id="" cols="30" rows="5" placeholder="Mensaje..."></textarea>
+                    </div>
+                    <input type="submit" value="Enviar Mensaje">
+                  </form>
+                </div>
+                <div class="info">
+                  <div class="imgBox">
+                    <img src="../assets/images/email.png" alt="">
+                  </div>
+                  <div class="textBox">
+                    <div class="infoContact">
+                      <ion-icon name="map"></ion-icon> <p>Jr. Los Martires - Nº 220 - Morales, Tarapoto</p>
+                    </div>
+                    <div class="infoContact">
+                      <ion-icon name="phone-portrait-outline"></ion-icon> <p>+51 930 637 287</p>
+                    </div>
+                    <div class="infoContact">
+                      <ion-icon name="mail"></ion-icon> <p>funroute23@gmail.com</p>
+                    </div>
+                  </div>
+                  <div class="rrss">
+                    <a href=""><ion-icon name="logo-facebook"></ion-icon></a>
+                    <a href=""><ion-icon name="logo-twitter"></ion-icon></a>
+                    <a href=""><ion-icon name="logo-instagram"></ion-icon></a>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+    
   </section>
 
   <!-- Video banner 400 px height -->
   <div id="tm-video-container">
     <video autoplay muted loop id="tm-video">
-      <source src="../assets/videos/ocean-sea-wave-video.mp4" type="video/mp4">
+      <source src="../assets/videos/fondo4.mp4" type="video/mp4">
     </video>  
     <i id="tm-video-control-button" class="fas fa-pause"></i>
   </div>
@@ -90,7 +172,7 @@
           <div>
             <h3><i class="fa-regular fa-clock espacio"></i>Duración :</h3>
             <p>
-              Full Day - 08:30 a.m. a 05:30 p.m.
+              Full Day - 08:30 a.m. a 04:30 p.m.
             </p>
             <!--<a href="#" class="read-more">Read More</a>-->
           </div>
@@ -149,50 +231,36 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12 col-12 text-center">
-          <h6>Qué se hara en este Paquete?</h6>
+          <h6>Qué se hara en este Tour?</h6>
           <h2 class="mb-5">Se hara lo siguiente:</h2>
         </div>
         <div class="col-lg-3 col-12">
           <nav id="navbar-example3" class="h-100 flex-column align-items-stretch">
             <nav class="nav nav-pills flex-column">
               <h3>Indice :</h3>
-              <a class="nav-link smoothscroll" href="#item-2"><strong>Resumen</strong></a>
-              <a class="nav-link smoothscroll" href="#item-3"><strong>Fotos</strong></a>
-              <a class="nav-link smoothscroll" href="#item-4"><strong>Itinerario</strong></a>
-              <a class="nav-link smoothscroll" href="#item-5"><strong>Incluye</strong></a>
+              <a class="nav-link smoothscroll" href="#item-1"><strong>Resumen</strong></a>
+              <a class="nav-link smoothscroll" href="#item-2"><strong>Fotos</strong></a>
+              <a class="nav-link smoothscroll" href="#item-3"><strong>Itinerario</strong></a>
+              <a class="nav-link smoothscroll" href="#item-4"><strong>Incluye</strong></a>
             </nav>
           </nav>
         </div>
         <div class="col-lg-9 col-12">
           <div data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">
             <div class="scrollspy-example-item resumen" id="item-1">
-              <h5><i class="fa-solid fa-clipboard espacio"></i>RESUMEN DEL PAQUETE TURISTICO</h5>
-              <p><i class="fa-solid fa-square-check espacio"></i>En este tour podrá conocer el destino más visitado de todo San Martín, la Laguna Azul </p>
-              <p><i class="fa-solid fa-square-check espacio"></i>Cruzará el río huallaga en una balsa cautiva donde pondremos el carro antes de llegar a la laguna</p>
-              <p><i class="fa-solid fa-square-check espacio"></i>Dará un paseo en barco por la laguna de alrededor de una hora visitando sus lugares más interesantes</p>
-              <p><i class="fa-solid fa-square-check espacio"></i>También podrá bañarse en la propia laguna y dar un paseo en caballo por la orilla del recreo turístico el caño</p>
-              <p><i class="fa-solid fa-square-check espacio"></i>Opcionalmente podrá realizar otras actividades como kayak canopy o moto acuática aunque el precio de estas actividades va a parte</p>
-              <p><i class="fa-solid fa-square-check espacio"></i>Finalmente podrá almorzar a la orilla de la laguna un exquisito menú turístico de comida regional</p>
+              <h5><i class="fa-solid fa-clipboard espacio"></i>RESUMEN DEL TOUR</h5>
+              <ul>
+                <li><p>En este tour podrá conocer el destino más visitado de todo San Martín, la Laguna Azul.</p></li>
+                <li><p>Cruzará el río huallaga en una balsa cautiva donde pondremos el carro antes de llegar a la laguna.</p></li>
+                <li><p>Dará un paseo en barco por la laguna de alrededor de una hora visitando sus lugares más interesantes.</p></li>
+                <li><p>También podrá bañarse en la propia laguna y dar un paseo en caballo por la orilla del recreo turístico el caño.</p></li>
+                <li><p>Opcionalmente podrá realizar otras actividades como kayak canopy o moto acuática aunque el precio de estas actividades va a parte.</p></li>
+                <li><p>Finalmente podrá almorzar a la orilla de la laguna un exquisito menú turístico de comida regional.</p></li>
+              </ul>
             </div>
 
             <div class="scrollspy-example-item fotos" id="item-2">
               <h5><i class="fa-solid fa-images espacio"></i>FOTOS <span>(Haga click en las fotos para agrandar)</span> </h5>
-              <!--<div class="hero">
-                <div class="carousel">
-                  <ul>
-                    <li><img src="../assets/images/Gallery-Reflection-Img/img1.jpg" alt=""></li>
-                    <li><img src="../assets/images/Gallery-Reflection-Img/img2.jpg" alt=""></li>
-                    <li><img src="../assets/images/Gallery-Reflection-Img/img3.jpg" alt=""></li>
-                    <li><img src="../assets/images/Gallery-Reflection-Img/img4.jpg" alt=""></li>
-                    <li><img src="../assets/images/Gallery-Reflection-Img/img5.jpg" alt=""></li>
-                    <li><img src="../assets/images/Gallery-Reflection-Img/img6.jpg" alt=""></li>
-                    <li><img src="../assets/images/Gallery-Reflection-Img/img7.jpg" alt=""></li>
-                    <li><img src="../assets/images/Gallery-Reflection-Img/img8.jpg" alt=""></li>
-                    <li><img src="../assets/images/Gallery-Reflection-Img/img9.jpg" alt=""></li>
-                    <li><img src="../assets/images/Gallery-Reflection-Img/img10.jpg" alt=""></li>
-                  </ul>
-                </div>
-              </div>-->
               <section class="gallery">
                 <div class="container">
                   <!-- Tab links -->
@@ -201,38 +269,42 @@
                     <button href="javascript:;" class="tab_btn activeTab" id="conta-1">Laguna Azul</button>                    
                     
                   </div>
+                  <div class="full-img" id="fullImgBox">
+                    <img src="../assets/images/gallery/laguna-all.jpg" id="fullImg" alt="">
+                    <span onclick="closeFullImg()">x</span>
+                  </div>
                   <div id="conta-1-2" class="tabContentImg">
                     <div class="gallery_all">
                       <div >
-                        <img src="../assets/images/gallery/laguna-all.jpg" >
+                        <img src="../assets/images/gallery/laguna-all.jpg" onclick="openFullImg(this.src)">
                       </div>
   
                       <div >
-                        <img src="../assets/images/gallery/laguna1.jpg" >
+                        <img src="../assets/images/gallery/laguna1.jpg" onclick="openFullImg(this.src)">
                       </div>
   
                       <div >
-                        <img src="../assets/images/gallery/laguna2.jpg" >
+                        <img src="../assets/images/gallery/laguna2.jpg" onclick="openFullImg(this.src)">
                       </div>
   
                       <div >
-                        <img src="../assets/images/gallery/laguna3.jpg" >
+                        <img src="../assets/images/gallery/laguna3.jpg" onclick="openFullImg(this.src)">
                       </div>
 
                       <div >
-                        <img src="../assets/images/gallery/laguna4.jpg" >
+                        <img src="../assets/images/gallery/laguna4.jpg" onclick="openFullImg(this.src)">
                       </div>
 
                       <div >
-                        <img src="../assets/images/gallery/laguna5.jpg" >
+                        <img src="../assets/images/gallery/laguna5.jpg" onclick="openFullImg(this.src)">
                       </div>
 
                       <div >
-                        <img src="../assets/images/gallery/laguna6.jpg" >
+                        <img src="../assets/images/gallery/laguna6.jpg" onclick="openFullImg(this.src)">
                       </div>
 
                       <div >
-                        <img src="../assets/images/gallery/laguna7.jpg" >
+                        <img src="../assets/images/gallery/laguna7.jpg" onclick="openFullImg(this.src)">
                       </div>
                     </div>
                   </div>
@@ -250,21 +322,25 @@
                   <div class="Center">            	
                     
                     <div class="Tabside">
-                      <ul>
-                        <li><a href="javascript:;" class="tabLink activeLink" id="cont-1">DÍA 1</a></li>
+                      <ul class="menu_list">
+                        <li><a href="javascript:;" class="tabLink activeLink" id="cont-1">8:30 A.M - 4:30 P.M</a></li>
                       </ul>
                       <div class="clear"></div>
                       <div class="tabcontent" id="cont-1-1">
                         <div class="TabImage">
-                          <div class="img1">
-                            <figure><img src="../assets/images/gallery/laguna-all.jpg" alt="image"></figure>	
-                          </div>
-                          <div class="img2">
-                            <figure><img src="../assets/images/gallery/laguna1.jpg" alt="image"></figure>
-                          </div>
+                          <div class="img_laguna"></div>
+                          
                         </div>
                         <div class="Description">
-                          <p>El tour se inicia en torno a las 08:30 cuando le pasemos a buscar por su hotel para dirigirnos a la población de sauce, donde se encuentra la Laguna Azul. Durante el trayecto de 2 horas de duración haremos 2 paradas: la primera para cruzar el río huallaga en una balsa cautiva donde transportaremos el carro; la segunda en el mirador la punta del gallinazo,  un lugar elevado desde donde se divisa toda la rivera verde del huallaga. Una vez lleguemos a Sauce, nos dirigiremos a su puerto y tomaremos un bote para navegar por la Laguna durante una hora aproximadamente. Después atracaremos el barco en el recreo el caño. Allí  tendrán la ocasión de bañarse en la laguna, dar un pequeño paseo en caballo por los alrededores de la laguna y practicar actividades adicionales (no incluidas en el precio) como kayak, canopy y moto acuática. Cuando terminemos, iremos a almorzar a las orillas de la laguna un menú turístico donde podrán escoger entre diversos platos de cocina amazónica. Después en torno a las 04:00 p.m. iniciaremos el regreso a Tarapoto y alrededor de las 06:00 p.m. le estaremos dejando en su hotel. Fin del tour a Laguna Azul.</p>
+                          <ul>
+                            <li class="iti_list"><p>8:30 A.M comienza el recojo.</p></li>
+                            <li class="iti_list"><p>Después de cruzar por una balsa cautiva realizaremos una parada en el mirador Punta del Gallinaso y tomaremos las fotos del recuerdo <b>(Tiene un costo adicional subirse a las plataformas). </p></li>
+                            <li class="iti_list"><p>Visita a la Laguna Azul.</p></li>
+                            <li class="iti_list"><p>Paseo en bote por la Laguna Azul, donde conoceremos el salto del comando, sillón de la sirena, volcán miracocha, etc.</p></li>
+                            <li class="iti_list"><p>Después realizamos una parada en un recreo turístico y tendremos tiempo libre para realizar diversos juegos acuáticos (costo adicional).</p></li>
+                            <li class="iti_list"><p>Almuerzo a la carta a orillas de la laguna.</p></li>
+                            <li class="iti_list"><p>4:30 p.m regreso al hotel.</p></li>
+                          </ul>
                           
                         </div>
                       </div>
@@ -282,19 +358,30 @@
                 <div class="left">
                     <div class="content">
                       <h4>Incluye</h4>
-                      <p><i class="fa-solid fa-circle-check espacio"></i>Menú turístico valorizado en 15 soles </p>
-                      <p><i class="fa-solid fa-circle-check espacio"></i>Entrada a todos los lugares visitados y a las actividades especificadas en el itinerario</p>
-                      <p><i class="fa-solid fa-circle-check espacio"></i>Recojo en su hotel al inicio del tour y traslado al hotel a la finalización del mismo</p>
-                      <p><i class="fa-solid fa-circle-check espacio"></i>Transporte en vehículo full equip y con aire acondicionado y guía especializados</p>
-                      <p><i class="fa-solid fa-circle-check espacio"></i>Atención personalizada de 07:30 a.m a 08:30 p.m. en el teléfono +51 930 637 287</p>
+                      <ul>
+                        <li class="iti_list"><p>Traslado ida y vuelta <b>(Recojo desde su hospedaje)</b>.</p></li>
+                        <li class="iti_list"><p>Almuerzo a la carta en un fundo privado.</p></li>
+                        <li class="iti_list"><p>Visita al mirador Punta del Gallinaso.</p></li>
+                        <li class="iti_list"><p>Degustación de licores regionales y afrodiciacos.</p></li>
+                        <li class="iti_list"><p>Paseo guiado en bote por toda la Laguna Azul.</p></li>
+                        <li class="iti_list"><p>Pago por derecho de embarcación.</p></li>
+                        <li class="iti_list"><p>Paseo a caballo.</p></li>
+                        <li class="iti_list"><p>Visita a un Fundo privado.</p></li>
+                        <li class="iti_list"><p>Zona de Balneario</p></li>
+                        <li class="iti_list"><p>Guía turístico.</p></li>
+                        <li class="iti_list"><p>Entradas.</p></li>
+                        <li class="iti_list"><p>Atención personalizada de 07:30 a.m a 08:30 p.m. en el teléfono +51 930 637 287</p></li>
+                      </ul>
                     </div>
                 </div>
                 <div class="right">
                     <div class="content">
                       <h4>No Incluye</h4>
-                      <p><i class="fa-solid fa-circle-xmark espacio"></i>Las actividades opcionales de Kayak, moto acuática y canotaje en el recreo turístico el Caño</p>
-                      <p><i class="fa-solid fa-circle-xmark espacio"></i>Comidas, consumiciones o actividades no especificadas en el itinerario</p>
-                      <p><i class="fa-solid fa-circle-xmark espacio"></i>Seguro de viaje</p>
+                      <ul>
+                        <li class="iti_list"><p>Las actividades opcionales de Kayak, moto acuática y canotaje en el recreo turístico el Caño.</p></li>
+                        <li class="iti_list"><p>Comidas, consumiciones o actividades no especificadas en el itinerario.</p></li>
+                        <li class="iti_list"><p>Seguro de viaje.</p></li>
+                      </ul>
                     </div>
                 </div>
               </div>
@@ -306,7 +393,104 @@
   </section>
 
   <!-- ***** Main Banner Area End ***** -->
-
+  <section class="politicas_paquetes" style="padding-bottom: 10em;">
+    <div id="Container">
+      <!-- \\ Begin About Section \\ -->
+      <div class="About_sec" id="about">
+        <div class="Center"> 
+          <div class="Tabside2">
+            <ul class="btn_polit_tours">
+              <li><a href="javascript:;" class="tabLinkP activeLinkP" id="contad-1">RESERVAS</a></li>
+              <li><a href="javascript:;" class="tabLinkP" id="contad-2">CANCELACIONES Y MODIFICACIONES</a></li>
+              <li><a href="javascript:;" class="tabLinkP" id="contad-3">RESPONSABILIDAD DEL CLIENTE</a></li>
+              <li><a href="javascript:;" class="tabLinkP" id="contad-4">CAMBIOS O CANCELACIONES POR PARTE DEL PROVEEDOR DEL TOUR</a></li>
+              <li><a href="javascript:;" class="tabLinkP" id="contad-5">RESPONSABILIDAD DEL PROVEEDOR</a></li>
+            </ul>
+            <div class="clear"></div>
+            <div class="tabcontentP" id="contad-1-1">
+              <div class="TabImage">
+                <div class="img_politicas">
+                  <figure><img src="../assets/images/politicas_reserva.png" alt="image"></figure>	
+                </div>
+                
+              </div>
+              <div class="Description">
+                <ul>
+                  <li class="iti_list"><p>Las solicitudes de reservas se atenderán por escrito a través de los siguientes contactos: Fun Route: funroute23@gmail.com / <b>+51 930 637 287</b>.</p></li>
+                  <li class="iti_list"><p>Para reservar un tour, se requiere el pago completo o un depósito no reembolsable (50%), según lo especificado al momento de la reserva.</p></li>
+                  <li class="iti_list"><p>Las reservas están sujetas a disponibilidad y se recomienda hacerlas con anticipación para garantizar la disponibilidad del tour deseado.</p></li>
+                </ul>
+              </div>
+            </div>
+            <div class="tabcontentP hide" id="contad-2-1">
+              <div class="TabImage">
+                <div class="img_politicas">
+                  <figure><img src="../assets/images/politica_cancelar.png" alt="image"></figure>	
+                </div>
+              </div>
+              <div class="Description">
+                <ul>
+                  <li class="iti_list"><p>Las cancelaciones deben realizarse con un aviso previo de al menos 24 horas antes de la fecha y hora del tour para ser elegibles para un reembolso completo o para transferir la reserva a otra fecha, sujeto a disponibilidad.</p></li>
+                  <li class="iti_list"><p>Las cancelaciones realizadas dentro de 24 horas antes del tour no son reembolsables.</p></li>
+                  <li class="iti_list"><p>Las modificaciones de la reserva están sujetas a disponibilidad y pueden estar sujetas a cargos adicionales.</p></li>
+                </ul>
+                
+              </div>
+            </div>
+            <div class="tabcontentP hide" id="contad-3-1">
+              <div class="TabImage">
+                <div class="img_politicas">
+                  <figure><img src="../assets/images/respo_cliente.png" alt="image"></figure>	
+                </div>
+                
+              </div>
+              <div class="Description">
+                <ul>
+                  <li class="iti_list"><p>Los clientes son responsables de asegurarse de que cumplan con los requisitos de documentación, como pasaportes, visas, DNI y permisos requeridos para participar en el tour.</p></li>
+                  <li class="iti_list"><p>Los clientes deben seguir las instrucciones y regulaciones del guía turístico durante la experiencia. Cualquier incumplimiento de estas instrucciones o algún acto discriminatorio puede resultar en la terminación del tour sin derecho a reembolso.</p></li>
+                  <li class="iti_list"><p>El cliente tiene máximo 8 minutos para subir a la movilidad desde el llamado del guía turístico, después del tiempo determinado puede resultar en la terminación del tour sin derecho a reembolso.</p></li>
+                </ul>
+                
+              </div>
+            </div>
+            <div class="tabcontentP hide" id="contad-4-1">
+              <div class="TabImage">
+                <div class="img_politicas">
+                  <figure><img src="../assets/images/modifi_provee.png" alt="image"></figure>	
+                </div>
+                
+              </div>
+              <div class="Description">
+                <ul>
+                  <li class="iti_list"><p>En casos excepcionales, el proveedor del tour puede verse obligado a realizar cambios en el itinerario, cancelar o posponer el tour debido a circunstancias imprevistas, como condiciones climáticas extremas, problemas de seguridad o fuerza mayor. En tales casos, se harán esfuerzos razonables para ofrecer alternativas o reembolsos adecuados.</p></li>
+                  
+                </ul>
+                
+              </div>
+            </div>
+            <div class="tabcontentP hide" id="contad-5-1">
+              <div class="TabImage">
+                <div class="img_politicas">
+                  <figure><img src="../assets/images/respo_provee.png" alt="image"></figure>	
+                </div>
+                
+              </div>
+              <div class="Description">
+                <ul>
+                  <li class="iti_list"><p>El proveedor del tour se esforzará por brindar servicios de alta calidad y asegurar la seguridad y el bienestar de los clientes durante el tour.</p></li>
+                  <li class="iti_list"><p>El proveedor del tour no se hace responsable de lesiones personales, pérdida o daño de pertenencias personales durante el tour, a menos que se deba a negligencia comprobada del proveedor.</p></li>
+                
+                </ul>
+                
+              </div>
+            </div>
+            <div class="clear"></div>	
+          </div>
+          <!-- // End Tab Side // -->
+        </div>
+      </div>
+    </div>
+  </section>
   <!-- ***** Header Area End ***** -->
   <footer>
     <div class="waves">
@@ -363,45 +547,9 @@
 
 
   <!-- Scripts -->
-  <!--<script>
-    //galeria paquetes en general
-    const tabs = document.querySelectorAll('.tab_btn');
-    const all_content = document.querySelectorAll('.content');
-
-    tabs.forEach((tab, index)=>{
-      tab.addEventListener('click', (e)=>{
-        tabs.forEach(tab =>{tab.classList.remove('active')});
-        tab.classList.add('active');
-        //linea tab
-        var line = document.querySelector('.line');
-        line.style.width = e.target.offsetWidth + "px";
-        line.style.left = e.target.offsetLeft + "px";
-
-        all_content.forEach(content =>{content.classList.remove('active')});
-        all_content[index].classList.add('active');
-
-      })
-        
-
-    })
-  </script>-->
-  <!-- Site JavaScript -->
-  <script src="../assets/js/jquery-3.4.1.min.js"></script>          <!-- https://jquery.com/ -->
-  <script src="../assets/js/imagesloaded.pkgd.min.js"></script>
-  <script src="../assets/js/isotope.pkgd.min.js"></script>
-  <script src="../assets/js/jquery.magnific-popup.min.js"></script>    
-  <script src="../assets/js/templatemo-script.js"></script>
-
-
   <!-- Bootstrap core JavaScript -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script>
-		window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
-	</script>
   <script src="../recursos/jquery/jquery.min.js"></script>
   <script src="../assets/js/bootstrap.bundle.min.js"></script>
-  <script src="../assets/js/jquery.sticky.js"></script>
-  <script src="../assets/js/custom_detalles_paq.js"></script>
 
   <!-- <<Attched Javascripts>> -->
   <script type="text/javascript" src="../assets/js/jquery-1.11.0.min.js"></script>
@@ -409,40 +557,14 @@
   <script type="text/javascript" src="../assets/js/modernizr.js"></script>
  
   <script src="../assets/js/isotope.min.js"></script>
-  <script src="../assets/js/owl-carousel.js"></script>
-  <script src="../assets/js/tabs.js"></script>
-  <script src="../assets/js/popup.js"></script>
-  <script src="../assets/js/custom.js"></script>
+  
 
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>
-    AOS.init();
-  </script>
-
-  <script src="../assets/js/swiper-bundle.min.js"></script>
   <script src="../assets/js/navJS.js"></script>
   <script src="../recursos/bootstrap/js/bootstrap.min.js"></script>
 
   <script type="text/javascript" src="../node_modules/vanilla-tilt/dist/vanilla-tilt.js"></script>
 
-  <script src="../assets/js/paquetes-tours.js"></script>
-  <script src="../assets/js/datepicker.js"></script>
-  <script src="../assets/js/plugins.js"></script>
-  <script src="../assets/js/main.js"></script>
-  
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-  <script src="../assets/js/jquery.flipster.min.js"></script>
-  
-  <script>
-    $('.carousel').flipster({
-      style:'carousel',
-      spacing: -0.3,
-    });
-  </script>
-
+  <script src="../assets/js/tours.js"></script>
 
   </body>
 

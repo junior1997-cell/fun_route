@@ -93,9 +93,12 @@
 	$('.owl-weekly-offers').owlCarousel({
 		items:3,
 		loop:true,
+		margin:40,
 		dots: false,
 		nav: true,
-		autoplay: false,
+		autoplay:true,
+		autoplayTimeout:3000,
+		autoplayHoverPause:true,
 		margin:30,
 		responsive:{
 			  0:{
@@ -154,63 +157,23 @@
 	})
 
 	$('.paquete-home1').owlCarousel({
+		items:3,
 		loop:true,
-		margin:30,
+		margin:40,
 		responsiveClass:true,
 		responsive:{
-				0:{
-						items:1,
-						nav:true
-				},
-				500:{
-						items:2,
-						nav:false
-				},
-				800:{
-						items:3,
-						nav:false
-				},
-				1000:{
-						items:4,
-						nav:true,
-						loop:false
-				},
-				1200:{
-						items:5,
-						nav:true,
-						loop:false
-				},
-				1500:{
-						items:6,
-						nav:true,
-						loop:false
-				}
+			0:{
+				items:1
+			},
+			800:{
+				items:2
+			},
+			1100:{
+				items:3
 		}
+	}
 	})
 
-	$('.owl-banner').owlCarousel({
-		items:1,
-		loop:true,
-		dots: false,
-		nav: true,
-		autoplay: true,
-		margin:30,
-		responsive:{
-			  0:{
-				  items:1
-			  },
-			  600:{
-				  items:1
-			  },
-			  1000:{
-				  items:1
-			}
-		}
-	})
-
-	
-	
-	
 
 	// Menu Dropdown Toggle
 	if($('.menu-trigger').length){
@@ -341,149 +304,21 @@
 
 })(window.jQuery);
 
-/** MENU PAQUETES CARDS**/
-
-$(document).ready(function() {
-	$('#boton-drop').click(function() {
-		$('#boton-drop').toggleClass("drop-rotate");
-		$('#drop-descripcion').toggleClass("drop-active")
-	})
-})
-
-$(document).ready(function() {
-	$('#boton-drop2').click(function() {
-		$('#boton-drop2').toggleClass("drop-rotate");
-		$('#drop-descripcion2').toggleClass("drop-active")
-	})
-})
-
-$(document).ready(function() {
-	$('#boton-drop3').click(function() {
-		$('#boton-drop3').toggleClass("drop-rotate");
-		$('#drop-descripcion3').toggleClass("drop-active")
-	})
-})
-
-$(document).ready(function() {
-	$('#boton-drop4').click(function() {
-		$('#boton-drop4').toggleClass("drop-rotate");
-		$('#drop-descripcion4').toggleClass("drop-active")
-	})
-})
-
-$(document).ready(function() {
-	$('#boton-drop5').click(function() {
-		$('#boton-drop5').toggleClass("drop-rotate");
-		$('#drop-descripcion5').toggleClass("drop-active")
-	})
-})
-
-$(document).ready(function() {
-	$('#boton-drop6').click(function() {
-		$('#boton-drop6').toggleClass("drop-rotate");
-		$('#drop-descripcion6').toggleClass("drop-active")
-	})
-})
-
-$(document).ready(function() {
-	$('#boton-drop7').click(function() {
-		$('#boton-drop7').toggleClass("drop-rotate");
-		$('#drop-descripcion7').toggleClass("drop-active")
-	})
-})
-
-$(document).ready(function() {
-	$('#boton-drop8').click(function() {
-		$('#boton-drop8').toggleClass("drop-rotate");
-		$('#drop-descripcion8').toggleClass("drop-active")
-	})
-})
-
-$(document).ready(function() {
-	$('#boton-drop9').click(function() {
-		$('#boton-drop9').toggleClass("drop-rotate");
-		$('#drop-descripcion9').toggleClass("drop-active")
-	})
-})
-
-$(document).ready(function() {
-	$('#boton-drop10').click(function() {
-		$('#boton-drop10').toggleClass("drop-rotate");
-		$('#drop-descripcion10').toggleClass("drop-active")
-	})
-})
-
-$(document).ready(function() {
-	$('#boton-drop11').click(function() {
-		$('#boton-drop11').toggleClass("drop-rotate");
-		$('#drop-descripcion11').toggleClass("drop-active")
-	})
-})
-
-$(document).ready(function() {
-	$('#boton-drop12').click(function() {
-		$('#boton-drop12').toggleClass("drop-rotate");
-		$('#drop-descripcion12').toggleClass("drop-active")
-	})
-})
-
-$(document).ready(function() {
-	$('#boton-drop13').click(function() {
-		$('#boton-drop13').toggleClass("drop-rotate");
-		$('#drop-descripcion13').toggleClass("drop-active")
-	})
-})
-
-$(document).ready(function() {
-	$('#boton-drop14').click(function() {
-		$('#boton-drop14').toggleClass("drop-rotate");
-		$('#drop-descripcion14').toggleClass("drop-active")
-	})
-})
-
-/*$(function() {
-	$('#one').ContentSlider({
-	width : '800px',
-	height : '260px',
-	speed : 400,
-	easing : 'easeOutSine'
-	});
-});*/
-
-
-$(".tabLink").each(function(){
-	$(this).click(function(){
-		tabeId = $(this).attr('id');
-		$(".tabLink").removeClass("activeLink");
-		$(this).addClass("activeLink");
-		$(".tabcontent").addClass("hide");
-		$("#"+tabeId+"-1").removeClass("hide");
-		return false;
-	});
+////////////////////////////////////////////////////////////////
+// TESTIMONIOS
+var swiper = new Swiper(".mySwiper", {
+	slidesPerView: 1,
+	grabCursor: true,
+	loop: true,
+	pagination: {
+		el: ".swiper-pagination",
+		clickable: true,
+	},
+	navigation: {
+		nextEl: ".swiper-button-next",
+		prevEl: ".swiper-button-prev",
+	},
 });
-
-
-//Galleria paquetes generales
-$(".tabContentImg").addClass("hiden");
-$("#conta-1-2").removeClass("hiden");
-
-$(".tab_btn").each(function(){
-	$(this).click(function(){
-		tabeIds = $(this).attr('id');
-		$(".tab_btn").removeClass("activeTab");
-		$(this).addClass("activeTab");
-		$(".tabContentImg").addClass("hiden");
-		$("#"+tabeIds+"-2").removeClass("hiden");
-		return false;
-	});
-});
-
-$(".option").click(function(){
-	$(".option").removeClass("active");
-	$(this).addClass("active");
-	
-});
-
 
 
 

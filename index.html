@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
 
     <title>Fun Route - Inicio</title>
 
@@ -32,7 +33,6 @@
 
     <link rel="stylesheet" href="assets/css/style2.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
     <link rel="stylesheet" href="assets/css/fontawesome.css">
 
     <link rel="stylesheet" href="assets/css/light-box.css">
@@ -40,9 +40,13 @@
 
     <link rel="stylesheet" href="assets/css/responsive-carousel.css">
 
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+
     
 
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     
 
   </head>
@@ -52,20 +56,16 @@
   <!-- ***** Preloader Start ***** -->
   <div id="js-preloader" class="js-preloader">
     <div class="preloader-inner">
-      <span class="dot"></span>
-      <div class="dots">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+      <span class="loader"></span>
     </div>
   </div>
   <!-- ***** Preloader End ***** -->
+  
   <!-- ***** Header Area Start ***** -->
   <header>
     <div class="nav-bar">
       <a href="index.html" class="brand">
-        <img class="logo_nombre" src="assets/images/logonombre2.png" alt="">
+        <img class="logo_nombre" src="assets/images/logo_nombre.svg" alt="">
       </a>
       <div class="navigation">
         <div class="nav-items">
@@ -73,107 +73,66 @@
           <a href="index.html"><i class="uil uil-home"></i> Inicio</a>
           <a href="nosotros.html"><i class="uil uil-compass"></i> Nosotros</a>
           <a href="paquetes.html"><i class="uil uil-info-circle"></i> Paquetes</a>
-          <a href="#"><i class="uil uil-document-layout-left"></i> Galeria</a>
-          <a href="#"><i class="uil uil-envelope"></i> Contacto</a>
+          <a href="tours.html"><i class="uil uil-document-layout-left"></i> Tours</a>
+          <a href="viaje_medida.html"><i class="uil uil-envelope"></i> Viaje a Medida</a>
         </div>
       </div>
+      <i class="uil uil-apps nav-menu-btn"></i>
     </div>  
   </header>
  
   <!-- ***** Main Banner Area Start ***** -->
   <section class="home">
-    <div class="media-icons">
-      <a href="#"><i class="uil uil-facebook-f"></i></a>
-      <a href="#"><i class="uil uil-instagram"></i></a>
-      <a href="#"><i class="uil uil-twitter"></i></a>
+    
+    <div id="tm-video-container">
+      <video autoplay muted loop id="tm-video">
+        <source src="assets/videos/video1.mp4" type="video/mp4">
+      </video>  
     </div>
-
-    <div class="swiper bg-slider">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <video src="assets/videos/video1.mp4" autoplay muted loop></video>
-          <div class="text-content">
-            <h2 class="title">Castillo <span>Lamas</span></h2>
-            <p>Castillo de Lamas, El castillo fue hecha a base de piedra labrada a mano, fue iniciada en el 2005 por 
-              el italiano Nicola Felice y se ha convertido en la sensación entre los turistas nacionales e internacionales. 
-              Sus amplios salones y vitrales lo convierten en un verdadero castillo que emula a los que existen en los 
-              cuentos infantiles.
-            </p>
-            <a href="paquetes/lamas.html">
-              <button class="read-btn">Leer Más <i class="uil uil-arrow-right"></i></button>
-            </a>
-            
-          </div>
-        </div>
-        <div class="swiper-slide dark-layer">
-          <video src="assets/videos/video2.mp4" autoplay muted loop></video>
-          <div class="text-content">
-            <h2 class="title">Atardecer <span>Tarapoto</span></h2>
-            <p>Winter is the coldest season of the year in polar and temperate zones. It occurs
-            between autumn and spring.The tilt of Earth's axis causes seasons; winter occurs
-            when a hemisphere is oriented away from the Sun. Different cultures define different
-            dates as the start of winter, and some use a definition based on weather.</p>
-            <button class="read-btn">Leer Más <i class="uil uil-arrow-right"></i></button>
-          </div>
-        </div>
-        <div class="swiper-slide dark-layer">
-          <video src="assets/videos/video3.mp4" autoplay muted loop></video>
-          <div class="text-content">
-            <h2 class="title">Laguna Azul <span>Sauce</span></h2>
-            <p>Laguna Azul, Es un destino ideal para pasar el día en familia, tomar el sol y bañarse. 
-              Al estar al lado de un volcán inactivo, sus aguas  se  mantienen una temperatura de unos 20 grados y 
-              son perfectas para darse un baño y jugar en los diversos recreos que se encuentran alrededor de su orilla. 
-            </p>
-              <a href="paquetes/laguna-azul.html">
-                <button class="read-btn">Leer Más <i class="uil uil-arrow-right"></i></button>
-              </a>
-          </div>
-        </div>
-        <div class="swiper-slide">
-          <video src="assets/videos/video4.mp4" autoplay muted loop></video>
-          <div class="text-content">
-            <h2 class="title">Mirador <span>Taytamaki</span></h2>
-            <p>Mirador, parque de aventuras ubicado privilegiadamente en las alturas de nuestra hermosa ciudad de Tarapoto,
-              rodeado de majestuosas montañas verdes que cubren nuestro pasar del tiempo y que en sus raíces albergan 
-              misteriosas criaturas de vida silvestre estas se alimentan con nuestra gran diversidad de frutos y 
-              que con sus aguas forma y da paso al desarrollo de la vida.</p>
-            <button class="read-btn">Leer Más <i class="uil uil-arrow-right"></i></button>
-          </div>
-        </div>
-      </div>
+    <!-- <video src="assets/videos/video1.mp4" autoplay muted loop></video> -->
+    
+    <div class="text-content1">
+      <a href="index.html" class="brand">
+        <img class="logo_nombre" src="assets/images/logo_nombre.svg" alt="">
+      </a>
+      <!-- <h2 class="title">Castillo</h2> -->
+      <p>" Viaja a tu ritmo "</p>
+      <!-- <a href="paquetes/lamas.html">
+        <button class="read-btn">Leer Más <i class="uil uil-arrow-right"></i></button>
+      </a> -->
     </div>
     
-    <div class="bg-slider-thumbs">
-      <div class="swiper-wrapper thumbs-container">
-        <img src="assets/images/castillo-de-lamas-tarapoto.jpg" class="swiper-slide" alt="">
-        <img src="assets/images/atardecer-tarapoto.jpg" class="swiper-slide" alt="">
-        <img src="assets/images/laguna-azul.jpg" class="swiper-slide" alt="">
-        <img src="assets/images/Mirador.jpg" class="swiper-slide" alt="">
-      </div>
-    </div>
   </section>
-  <div class="section-heading text-center">
-    <h2>EXPERIENCIAS CON FUN ROUTE</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+  <!-- ***** MODAL INICIO ***** -->
+
+  <input type="checkbox" id="cerrar">
+  <label for="cerrar" id="btn-cerrar">CERRAR</label>
+  <div class="modal">
+    <div class="contenido">
+      <h2>Visita nuestro blog</h2>
+      <img src="assets/images/atardecer-tarapoto.jpg" alt="">
+    </div>
+  </div>
+  
+  
+  <div class="head_title_ofertas">
+    <h3>OFERTAS SEMANALES.</h3>
+    <p>Mira las mejores ofertas de tours que tenemos para ti..</p>
   </div>
   <section class="paquetes-tours">
     <div class="slider-container">
       <div class="left-slide">
         <div style="background-color: #FD3555">
           <h1>Mirador Taytamaki</h1>
-          <p>all in pink</p>
         </div>
         <div style="background-color: #2A86BA">
           <h1>Laguna Azul</h1>
-          <p>with it's mountains</p>
         </div>
         <div style="background-color: #252E33">
           <h1>Catarata Carpishu</h1>
-          <p>in the wilderness</p>
         </div>
         <div style="background-color: #FFB866">
           <h1>Castillo Lamas</h1>
-          <p>in the sunset</p>
         </div>
       </div>
       <div class="right-slide">
@@ -193,13 +152,15 @@
       </div>
     </div>
   </section>
+
   <div class="cities-town">
     <div class="container">
       <div class="row">
         <div class="slider-content">
           <div class="row">
-            <div class="col-lg-12">
-              <h2>Las Mejores  <em>OFERTAS</em> Semanales</h2>
+            <div class="head">
+              <h3>TOURS DIARIOS.</h3>
+              <p>Mira los tours diarios que tenemos para ti..</p>
             </div>
             <div class="col-lg-12">
               <div class="owl-weekly-offers owl-carousel">
@@ -207,12 +168,12 @@
                   <img src="assets/images/img1.jpg" class="card-imgen" alt="">
                   <div class="card-body">
                     <button class="buton1">Tours</button>
-                    <h4><b>Tour a la ciudad de Lamas</b></h4>
+                    <h4><b>Tour a Lamas Nativo</b></h4>
                     <div class="line-dec"></div>
                     <ul>
                       <li><b>Una tarde en la capital folcklorica de San Martin</b></li>
                       <li><b>Precio * Persona:</b>  <span class="espacio">S/. 60</span></li>
-                      <li><b><i class="fa-regular fa-clock espacio2"></i>Horario:</b><span class="espacio">03:00 p.m - 06:00 p.m</span></li>
+                      <li><b><i class="fa-regular fa-clock espacio2"></i>Horario:</b><span class="espacio">03:00 p.m - 07:00 p.m</span></li>
                     </ul>
                     <a href="paquetes/lamas.html">
                       <button class="learn-more">
@@ -233,17 +194,17 @@
                 </div>
                 
                 <div class="item" data-tilt>
-                  <img src="assets/images/img2.jpg" class="card-img" alt="">
+                  <img src="assets/images/img7.jpg" class="card-img" alt="">
                   <div class="card-body">
                     <button class="buton1">Tours</button>
-                    <h4>Atardecer TPP</h4>
+                    <h4>Tour Alto Mayo</h4>
                       <div class="line-dec"></div>
                       <ul>
                         <li><b>Una tarde en la capital folcklorica de San Martin</b></li>
                         <li><b>Precio * Persona:</b>  <span class="espacio">S/. 60</span></li>
-                        <li><b><i class="fa-regular fa-clock espacio2"></i>Horario:</b><span class="espacio"> 05:00 p.m - 06:30 p.m </span></li>
+                        <li><b><i class="fa-regular fa-clock espacio2"></i>Horario:</b><span class="espacio"> 07:30 a.m - 05:30 p.m </span></li>
                       </ul>
-                      <a href="">
+                      <a href="paquetes/alto-mayo.html">
                         <button class="learn-more">
                           <span class="circle" aria-hidden="true">
                           <span class="icon arrow"></span>
@@ -256,7 +217,7 @@
                 </div>
 
                 <div class="item" data-tilt>
-                  <img src="assets/images/img3.jpg" class="card-img" alt="">
+                  <img src="assets/images/img_lag.jpg" class="card-img" alt="">
                   <div class="card-body">
                     <button class="buton1">Tours</button>
                     <h4>Tour Laguna Azul</h4>
@@ -264,7 +225,7 @@
                       <ul>
                         <li><b>Un dia de playa en medio de la Selva</b></li>
                         <li><b>Precio * Persona:</b>  <span class="espacio">S/. 80</span></li>
-                        <li><b><i class="fa-regular fa-clock espacio2"></i>Horario:</b> <span class="espacio">03:00 p.m - 06:00 p.m </span></li>
+                        <li><b><i class="fa-regular fa-clock espacio2"></i>Horario:</b> <span class="espacio">08:30 a.m - 04:30 p.m </span></li>
                       </ul>
                       <a href="paquetes/laguna-azul.html">
                         <button class="learn-more">
@@ -277,62 +238,69 @@
                   </div>
                 </div>
                 <div class="item" data-tilt>
-                  <img src="assets/images/img4.jpg" class="card-img" alt="">
+                  <img src="assets/images/img_ahuash.jpg" class="card-img" alt="">
                   <div class="card-body">
                     <button class="buton1">Tours</button>
-                    <h4>Mirador Taytamaki</h4>
+                    <h4>Catarata Ahuashiyacu</h4>
                       <div class="line-dec"></div>
                       <ul>
                         <li><b>Una vista preciosa de la naturaleza</b></li>
                         <li><b>Precio * Persona:</b>  <span class="espacio">S/. 80</span></li>
-                        <li><b><i class="fa-regular fa-clock espacio2"></i>Horario:</b><span class="espacio">03:00 p.m - 06:00 p.m </span></li>
+                        <li><b><i class="fa-regular fa-clock espacio2"></i>Horario:</b><span class="espacio">10:00 a.m - 01:00 p.m </span></li>
                       </ul>
+                      <a href="paquetes/catarata-huashiyacu.html">
+                        <button class="learn-more">
+                          <span class="circle" aria-hidden="true">
+                          <span class="icon arrow"></span>
+                          </span>
+                          <span class="button-text">Leer Más</span>
+                        </button>
+                      </a> 
+                  </div>
+                </div>
+                <div class="item" data-tilt>
+                  <img src="assets/images/casacada-salto-de-bruja3.jpg" class="card-img" alt="">
+                  <div class="card-body">
+                    <button class="buton1">Tours</button>
+                    <h4>Cascada El Salto de la Bruja</h4>
+                    <div class="line-dec"></div>
+                    <ul>
+                      <li><b>Un dia de playa en medio de la Selva</b></li>
+                      <li><b>Precio * Persona:</b>  <span class="espacio">S/. 80</span></li>
+                      <li><b><i class="fa-regular fa-clock espacio2"></i>Horario:</b> <span class="espacio">09:00 a.m - 05:00 p.m </span></li>
+                    </ul>
+                    <a href="paquetes/cascada-salto-bruja.html">
                       <button class="learn-more">
                         <span class="circle" aria-hidden="true">
                         <span class="icon arrow"></span>
                         </span>
                         <span class="button-text">Leer Más</span>
-                      </button> 
+                      </button>
+                    </a> 
                   </div>
                 </div>
                 <div class="item" data-tilt>
-                  <img src="assets/images/img5.jpg" class="card-img" alt="">
+                  <img src="assets/images/img_pishu.jpg" class="card-img" alt="">
                   <div class="card-body">
-                    <button class="buton2">Paquete Turistico</button>
-                    <h4>Tarapoto Clasico</h4>
+                    <button class="buton1">Tours</button>                                                 
+                    <h4>Cascada de Pishurayacu</h4>
                     <div class="line-dec"></div>
                     <ul>
-                      <li><b>Conozca los principales atractivos turisticos de Tarapoto</b></li>
-                      <li><b>Precio * Persona:</b>  <span class="espacio">S/.600</span></li>
-                      <li><b><i class="fa-regular fa-calendar-days espacio2"></i>Duración:</b> <span class="espacio">4 días y 3 noches</span></li>
+                      <li><b>Un dia de playa en medio de la Selva</b></li>
+                      <li><b>Precio * Persona:</b>  <span class="espacio">S/. 80</span></li>
+                      <li><b><i class="fa-regular fa-clock espacio2"></i>Horario:</b> <span class="espacio">09:00 a.m - 05:00 p.m </span></li>
                     </ul>
-                    <button class="learn-more">
-                      <span class="circle" aria-hidden="true">
-                      <span class="icon arrow"></span>
-                      </span>
-                      <span class="button-text">Leer Más</span>
-                    </button> 
+                    <a href="paquetes/cascada-pishurayacu.html">
+                      <button class="learn-more">
+                        <span class="circle" aria-hidden="true">
+                        <span class="icon arrow"></span>
+                        </span>
+                        <span class="button-text">Leer Más</span>
+                      </button>
+                    </a>
                   </div>
                 </div>
-                <div class="item" data-tilt>
-                  <img src="assets/images/img6.jpg" class="card-img" alt="">
-                  <div class="card-body">
-                    <button class="buton1">Tours</button>
-                    <h4>Aguas Termales</h4>
-                    <div class="line-dec"></div>
-                    <ul>
-                      <li><b>Conozca los principales atractivos turisticos de Tarapoto</b></li>
-                      <li><b>Precio * Persona:</b>  <span class="espacio">S/.600</span></li>
-                      <li><b><i class="fa-regular fa-calendar-days espacio2"></i>Duración:</b> <span class="espacio">4 días y 3 noches</span></li>
-                    </ul>
-                    <button class="learn-more">
-                      <span class="circle" aria-hidden="true">
-                      <span class="icon arrow"></span>
-                      </span>
-                      <span class="button-text">Leer Más</span>
-                    </button>
-                  </div>
-                </div>
+                
               </div>
             </div>
           </div>
@@ -345,227 +313,76 @@
   
   <section class="popular-places" id="popular">
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
+      <div class="head">
+        <h3>PAQUETES TURISTICOS.</h3>
+        <p>Mira los tipos de paquetes turisticos que tenemos para ti..</p>
+      </div>
+      <div class="paquete-home1 owl-carousel owl-theme">
+        <div class="item popular-item">
+          <div class="thumb">
+            <img src="assets/images/gallery/lamas7.jpg" alt="">
+            <div class="property-description">
+              <h5>Escape a Tarapoto </h5>
+              <button class="buton2">Paquete Turistico</button>
+            </div>
+            <div class="plus-button">
+              <a href="paquetes/escape-tarapoto.html"><i class="fa fa-plus"></i></a>
+            </div>
+            <!--<div class="text-content">
+              <h4>TPP Clasico</h4>
+              <span>76 listings</span>
+            </div>
+            <div class="card-button">
+              <a href="#"><i class="fa fa-plus">Help</i></a>
+            </div>-->
+          </div>
+        </div>
+        <div class="item popular-item">
+          <div class="thumb">
+            <img src="assets/images/explo_paq.jpg" alt="">
+            <div class="property-description">
+              <h5> Explorando Tarapoto </h5>
+              <button class="buton2">Paquete Turistico</button>
+            </div>
+            <div class="plus-button">
+              <a href="paquetes/tarapoto-tropical.html"><i class="fa fa-plus"></i></a>
+            </div>
           
-          <div class="row section-title-container">
-            <div class="col-lg-12 text-uppercase text-center">
-              <h2 class="section-title1">PAQUETES CONVENCIONALES</h2>
-              <div class="section-title-underline-blue"></div>
-              <hr class="section-title-underline">
-              <p class="small">FUN ROUTE</p>
+          </div>
+        </div>
+        <div class="item popular-item">
+          <div class="thumb">
+            <img src="assets/images/desc_paq1.jpg" alt="">
+            <div class="property-description">
+              <h5>Descubre Tarapoto</h5>
+              <button class="buton2">Paquete Turistico</button>
+            </div>
+            <div class="plus-button">
+              <a href="paquetes/descubre-tarapoto.html"><i class="fa fa-plus"></i></a>
             </div>
           </div>
-          
-          
-        </div> 
-      </div> 
-        <div class="paquete-home1 owl-carousel owl-theme">
-            <div class="item popular-item">
-                <div class="thumb">
-                  <img src="assets/images/img1-1.jpg" alt="">
-                  <div class="property-description">
-                    <h5> TPP Clasico </h5>
-                    <button class="buton2">Paquete Turistico</button>
-                  </div>
-                  <div class="plus-button">
-                    <a href="paquetes/tarapoto-clasico.html"><i class="fa fa-plus"></i></a>
-                  </div>
-                  <!--<div class="text-content">
-                    <h4>TPP Clasico</h4>
-                    <span>76 listings</span>
-                  </div>
-                  <div class="card-button">
-                    <a href="#"><i class="fa fa-plus">Help</i></a>
-                  </div>-->
-                </div>
-            </div>
-            <div class="item popular-item">
-                <div class="thumb">
-                  <img src="assets/images/img2-1.jpg" alt="">
-                  <div class="property-description">
-                    <h5> TPP Tropical </h5>
-                    <button class="buton2">Paquete Turistico</button>
-                  </div>
-                  <div class="plus-button">
-                    <a href="paquetes/tarapoto-tropical.html"><i class="fa fa-plus"></i></a>
-                  </div>
-                
-                </div>
-            </div>
-            <div class="item popular-item">
-                <div class="thumb">
-                    <img src="assets/images/img3-1.jpg" alt="">
-                    <div class="property-description">
-                      <h5>TPP Familiar</h5>
-                      <button class="buton2">Paquete Turistico</button>
-                    </div>
-                    <div class="plus-button">
-                        <a href="paquetes/tarapoto-familiar.html"><i class="fa fa-plus"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="item popular-item">
-                <div class="thumb">
-                    <img src="assets/images/img4.jpg" alt="">
-                    <div class="property-description">
-                        <h5>TPP Aventura</h5>
-                        <button class="buton2">Paquete Turistico</button>
-                    </div>
-                    <div class="plus-button">
-                        <a href="paquetes/tarapoto-aventura.html"><i class="fa fa-plus"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="item popular-item">
-                <div class="thumb">
-                    <img src="assets/images/img4-1.jpg" alt="">
-                    <div class="property-description">
-                        <h5>TPP Naturaleza</h5>
-                        <button class="buton2">Paquete Turistico</button>
-                    </div>
-                    <div class="plus-button">
-                        <a href="paquetes/tarapoto-naturaleza.html"><i class="fa fa-plus"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="item popular-item">
-                <div class="thumb">
-                    <img src="assets/images/img3.jpg" alt="">
-                    <div class="property-description">
-                        <h5>Laguna Azul</h5>
-                        <button class="buton1">Tours</button>
-                    </div>
-                    <div class="plus-button">
-                        <a href="paquetes/laguna-azul.html"><i class="fa fa-plus"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="item popular-item">
-                <div class="thumb">
-                    <img src="assets/images/img1.jpg" alt="">
-                    <div class="property-description">
-                        <h5>Castillo Lamas</h5>
-                        <button class="buton1">Tours</button>
-                    </div>
-                    <div class="plus-button">
-                        <a href="paquetes/lamas.html"><i class="fa fa-plus"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="item popular-item">
-                <div class="thumb">
-                    <img src="assets/images/img7.jpg" alt="">
-                    <div class="property-description">
-                        <h5>Alto Mayo</h5>
-                        <button class="buton1">Tours</button>
-                    </div>
-                    <div class="plus-button">
-                        <a href="paquetes/alto-mayo.html"><i class="fa fa-plus"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="item popular-item">
-                <div class="thumb">
-                    <img src="assets/images/img8.jpg" alt="">
-                    <div class="property-description">
-                        <h5>Catarata Ahuashiyacu</h5>
-                        <button class="buton1">Tours</button>
-                    </div>
-                    <div class="plus-button">
-                        <a href="paquetes/catarata-huashiyacu.html"><i class="fa fa-plus"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="item popular-item">
-                <div class="thumb">
-                    <img src="assets/images/img9.jpg" alt="">
-                    <div class="property-description">
-                        <h5>Catarata Pucayaquillo</h5>
-                        <button class="buton1">Tours</button>
-                    </div>
-                    <div class="plus-button">
-                        <a href="paquetes/catarata-ucayaquillo.html"><i class="fa fa-plus"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="item popular-item">
-                <div class="thumb">
-                    <img src="assets/images/img10.jpg" alt="">
-                    <div class="property-description">
-                        <h5>Tarapoto City</h5>
-                        <button class="buton1">Tours</button>
-                    </div>
-                    <div class="plus-button">
-                        <a href="paquetes/tarapoto-city.html"><i class="fa fa-plus"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="item popular-item">
-                <div class="thumb">
-                    <img src="assets/images/img11.png" alt="">
-                    <div class="property-description">
-                        <h5>Catarata Carpishuyacu</h5>
-                        <button class="buton1">Tours</button>
-                    </div>
-                    <div class="plus-button">
-                        <a href="paquetes/catarata-carpishuyacu.html"><i class="fa fa-plus"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="item popular-item">
-                <div class="thumb">
-                    <img src="assets/images/img12.jpg" alt="">
-                    <div class="property-description">
-                        <h5>Rappel Talliquihui</h5>
-                        <button class="buton1">Tours</button>
-                    </div>
-                    <div class="plus-button">
-                        <a href="paquetes/rappel-talliquihui.html"><i class="fa fa-plus"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="item popular-item">
-                <div class="thumb">
-                    <img src="assets/images/img13.jpg" alt="">
-                    <div class="property-description">
-                        <h5>Catarata Huacamaillo</h5>
-                        <button class="buton1">Tours</button>
-                    </div>
-                    <div class="plus-button">
-                        <a href="paquetes/catarata-huacamaillo.html"><i class="fa fa-plus"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="item popular-item">
-                <div class="thumb">
-                    <img src="assets/images/popular_item_5.jpg" alt="">
-                    <div class="property-description">
-                        <h5>Sit amet dictum</h5>
-                        <span>86 listings</span>
-                    </div>
-                    <div class="plus-button">
-                        <a href="#"><i class="fa fa-plus"></i></a>
-                    </div>
-                </div>
+        </div>
+        <div class="item popular-item">
+            <div class="thumb">
+              <img src="assets/images/catarata-Carpishuyacu.jpg" alt="">
+              <div class="property-description">
+                <h5>Descubre Tarapoto</h5>
+                <button class="buton2">Paquete Turistico</button>
+              </div>
+              <div class="plus-button">
+                <a href="#"><i class="fa fa-plus"></i></a>
+              </div>
             </div>
         </div>
+      </div>
     </div>
   </section>
 
   <section class="expe-exclusivo" id="popular">
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="row section-title-container">
-            <div class="col-lg-12 text-uppercase text-center">
-              <h2 class="section-title1">EXPERIENCIAS EXCLUSIVAS</h2>
-              <div class="section-title-underline-blue"></div>
-              <hr class="section-title-underline">
-              <p class="small">FUN ROUTE</p>
-            </div>
-          </div>
-        </div> 
+      <div class="head">
+        <h3>EXPERIENCIAS EXCLUSIVAS.</h3>
+        <p>Mira los tipos de experiencias exclusivas que tenemos para ti..</p>
       </div> 
       <div class="row">
         <div class="col-lg-12">
@@ -574,17 +391,19 @@
               <div class="flip-card-front">
                 <div class="inner">
                   <img src="assets/images/experiencia.png" class="icon1" alt="">
-                  <h3>Experiencias de Naturaleza</h3>
+                  <h3>Ruta de Avistamiento de Aves en San Martín</h3>
                 </div>
               </div>
         
               <div class="flip-card-back">
                 <div class="inner">
-                  <img src="assets/images/experiencia.png" class="icon2" alt="">
-                  <h5>Experiencias de Naturaleza</h5>
-                  <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, rem? 
-                    Quisquam quasi nesciunt, doloribus, error ab temporibus alias consequuntur illum necessitatibus 
-                    laboriosam repudiandae tempora, praesentium asperiores! Culpa porro reprehenderit commodi?</p>
+                  <!-- <img src="assets/images/experiencia.png" class="icon2" alt=""> -->
+                  <h5>Ruta de Avistamiento de Aves en San Martín</h5>
+                  <p>Embárcate en una aventura fascinante para explorar la rica diversidad de aves en la región 
+                    de San Martín. Durante esta experiencia, te sumergirás en entornos naturales impresionantes y 
+                    te maravillarás con la gran variedad de especies de aves que habitan la zona. Un guía experto 
+                    en avistamiento de aves te acompañará en la excursión, identificando y compartiendo conocimientos 
+                    sobre las aves nativas.</p>
                 </div>
               </div>
             </div>
@@ -593,17 +412,18 @@
               <div class="flip-card-front">
                 <div class="inner">
                   <img src="assets/images/experiencia.png" class="icon1" alt="">
-                  <h3>Experiencias de Tradiciones</h3>
+                  <h3>Descubrimiento de Cataratas en San Martín</h3>
                 </div>
               </div>
         
               <div class="flip-card-back">
                 <div class="inner">
-                  <img src="assets/images/experiencia.png" class="icon2" alt="">
-                  <h3>Experiencias de Tradiciones</h3>
-                  <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, rem? 
-                    Quisquam quasi nesciunt, doloribus, error ab temporibus alias consequuntur illum necessitatibus 
-                    laboriosam repudiandae tempora, praesentium asperiores! Culpa porro reprehenderit commodi?</p>
+                  <!-- <img src="assets/images/experiencia.png" class="icon2" alt=""> -->
+                  <h5>Descubrimiento de Cataratas en San Martín</h5>
+                  <p>San Martín alberga una gran cantidad de impresionantes cataratas que te dejarán sin aliento. 
+                    Diseñaremos un itinerario que te llevará a algunas de las cascadas más espectaculares de la región. 
+                    Podrás visitar las famosa Cataratas de San Martin donde podrás refrescarte bajo sus impresionantes 
+                    caídas de agua y disfrutar de la belleza natural circundante.</p>
                 </div>
               </div>
             </div>
@@ -612,17 +432,19 @@
               <div class="flip-card-front">
                 <div class="inner">
                   <img src="assets/images/experiencia.png" class="icon1" alt="">
-                  <h3>Experiencias de Sabores</h3>
+                  <h3>Aventura Extrema en San Martín</h3>
                 </div>
               </div>
         
               <div class="flip-card-back">
                 <div class="inner">
-                  <img src="assets/images/experiencia.png" class="icon2" alt="">
-                  <h3>Experiencias de Sabores</h3>
-                  <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, rem? 
-                    Quisquam quasi nesciunt, doloribus, error ab temporibus alias consequuntur illum necessitatibus 
-                    laboriosam repudiandae tempora, praesentium asperiores! Culpa porro reprehenderit commodi?</p>
+                  <!-- <img src="assets/images/experiencia.png" class="icon2" alt=""> -->
+                  <h5>Aventura Extrema en San Martín</h5>
+                  <p>Si buscas adrenalina y emociones fuertes, San Martín tiene mucho que ofrecer en términos de deportes extremos. 
+                    Diseñaremos una experiencia llena de actividades emocionantes, como el rafting en los rápidos del río Mayo, 
+                    donde podrás navegar a través de aguas turbulentas rodeadas de paisajes impresionantes. 
+                    Tendrás la oportunidad de practicar canopy y deslizarte a través de los árboles de la selva tropical 
+                    en emocionantes tirolesas.</p>
                 </div>
               </div>
             </div>
@@ -634,287 +456,81 @@
     </div>
   </section>
 
-  <section class="paquetes-tours1" id="team" >
-    <div class="slides">
-      <div class="slide">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <h2 class="wow bounceIn" data-wow-offset="50" data-wow-delay="0.3s"><span>COMENTARIOS SOBRE EXPERIENCIAS</span></h2>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-12 wow fadeIn" data-wow-offset="50" data-wow-delay="1.3s">
-              <div class="team-wrapper">
-                <img src="assets/images/profile/perfil1.jpg" class="img-responsive" alt="team img 1">
-                  <div class="team-des">
-                    <h4>TRACY</h4>
-                    <span>Laguna Azul</span>
-                    <p>Dar un tours por la laguna azul, fue una experiencia inolvidable y sobre todo navegar en bote por esas aguas calidas teniendo asi una hermosa vista.</p>
-                  </div>
-              </div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-12 wow fadeIn" data-wow-offset="50" data-wow-delay="1.6s">
-              <div class="team-wrapper">
-                <img src="assets/images/profile/perfil3.jpg" class="img-responsive" alt="team img 2">
-                  <div class="team-des">
-                    <h4>JUNIOR</h4>
-                    <span>Lamas</span>
-                    <p>Pasear por la hermosa ciudad de Lamas fue un experiencia muy bonita, cuando entramos al castillo fue hermoso ver de como esta diseñado.</p>
-                  </div>
-              </div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-12 wow fadeIn" data-wow-offset="50" data-wow-delay="1.3s">
-              <div class="team-wrapper">
-                <img src="assets/images/profile/perfil2.jpg" class="img-responsive" alt="team img 3">
-                  <div class="team-des">
-                    <h4>FRANK</h4>
-                    <span>Catarata Ahuashiyacu</span>
-                    <p>Lo hermoso de este tours fue el paisaje de la naturaleza y el refrescante baño que me pude dar al llegar a la catarata, muy buena experiencia.</p>
-                  </div>
-              </div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-12 wow fadeIn" data-wow-offset="50" data-wow-delay="1.6s">
-              <div class="team-wrapper">
-                <img src="assets/images/profile/perfil5.jpg" class="img-responsive" alt="team img 4">
-                  <div class="team-des">
-                    <h4>LINDA</h4>
-                    <span>Alto Mayo</span>
-                    <p>Conocer los impresionantes paisajes de la selva fue lo mejor de mi vida, acompañada con el servicio de la empresa fue muy buena.</p>
-                  </div>
-              </div>
-            </div>
+  <section class="paquetes-tours1">
+    <!-- <h5>TESTIMONIOS</h5> -->
+    <div class="head">
+      <h3>TESTIMONIOS.</h3>
+      <p>Mira lo que la gente esta comentando..</p>
+    </div>
+    <div class="swiper_testimonial mySwiper">
+      <div class="testi-content swiper-wrapper">
+
+        <!-- TESTIMONIO 1 -->
+        <div class="slide swiper-slide">
+          <img src="assets/images/profile/perfil1.jpg" class="image" alt="">
+          <p>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt odit eos, distinctio corporis delectus molestiae 
+            deserunt sint reiciendis, eius assumenda totam est quis natus doloremque minima! Accusantium deserunt adipisci ea.
+          </p>
+
+          <i class="bx bxs-quote-alt-left quote-icon"></i>
+
+          <div class="details">
+            <span class="name">TRACY LOTTER</span>
+            <span class="job">Laguna Azul</span>
+          </div>
+        </div>
+
+        <!-- TESTIMONIO 2 -->
+        <div class="slide swiper-slide">
+          <img src="assets/images/profile/perfil3.jpg" class="image" alt="">
+          <p>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt odit eos, distinctio corporis delectus molestiae 
+            deserunt sint reiciendis, eius assumenda totam est quis natus doloremque minima! Accusantium deserunt adipisci ea.
+          </p>
+
+          <i class="bx bxs-quote-alt-left quote-icon"></i>
+
+          <div class="details">
+            <span class="name">JUNIOR CERCADO</span>
+            <span class="job">Lamas</span>
+          </div>
+        </div>
+
+        <!-- TESTIMONIO 3 -->
+        <div class="slide swiper-slide">
+          <img src="assets/images/profile/perfil2.jpg" class="image" alt="">
+          <p>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt odit eos, distinctio corporis delectus molestiae 
+            deserunt sint reiciendis, eius assumenda totam est quis natus doloremque minima! Accusantium deserunt adipisci ea.
+          </p>
+          <i class="bx bxs-quote-alt-left quote-icon"></i>
+          <div class="details">
+            <span class="name">FRANK PEREZ</span>
+            <span class="job">Catarata Ahuashiyacu</span>
+          </div>
+        </div>
+
+        <!-- TESTIMONIO 4 -->
+        <div class="slide swiper-slide">
+          <img src="assets/images/profile/perfil5.jpg" class="image" alt="">
+          <p>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt odit eos, distinctio corporis delectus molestiae 
+            deserunt sint reiciendis, eius assumenda totam est quis natus doloremque minima! Accusantium deserunt adipisci ea.
+          </p>
+
+          <i class="bx bxs-quote-alt-left quote-icon"></i>
+
+          <div class="details">
+            <span class="name">LINDA CERCADO</span>
+            <span class="job">Alto Mayo</span>
           </div>
         </div>
       </div>
-      <div class="slide" id="4">
-        <div class="content fourth-content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-4 col-sm-6">
-                        <div class="item">
-                            <div class="thumb">
-                                <a href="assets/images/first_big_item.jpg" data-lightbox="image-1"><div class="hover-effect">
-                                    <div class="hover-content">
-                                        <h2>Number One</h2>
-                                        <p>Quisque sit amet lacus in diam pretium faucibus. Cras vel justo lorem.</p>
-                                    </div>
-                                </div></a>
-                                <div class="image">
-                                    <img src="assets/images/first_item.jpg">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="item">
-                            <div class="thumb">
-                                <a href="assets/images/second_big_item.jpg" data-lightbox="image-1"><div class="hover-effect">
-                                    <div class="hover-content">
-                                        <h2>Number Two</h2>
-                                        <p>Donec eget dictum tellus. Curabitur a interdum diam. Nulla vestibulum porttitor porta.</p>
-                                    </div>
-                                </div></a>
-                                <div class="image">
-                                    <img src="assets/images/second_item.jpg">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="item">
-                            <div class="thumb">
-                                <a href="assets/images/third_big_item.jpg" data-lightbox="image-1"><div class="hover-effect">
-                                    <div class="hover-content">
-                                        <h2>Number Three</h2>
-                                        <p>Cras varius dolor et augue fringilla, eu commodo sapien iaculis.</p>
-                                    </div>
-                                </div></a>
-                                <div class="image">
-                                    <img src="assets/images/third_item.jpg">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="item">
-                            <div class="thumb">
-                                <a href="assets/images/fourth_big_item.jpg" data-lightbox="image-1"><div class="hover-effect">
-                                    <div class="hover-content">
-                                        <h2>Number Four</h2>
-                                        <p>Vestibulum augue ex, finibus sit amet nisi id, maximus ultrices ipsum.</p>
-                                    </div>
-                                </div></a>
-                                <div class="image">
-                                    <img src="assets/images/fourth_item.jpg">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="item">
-                            <div class="thumb">
-                                <a href="assets/images/fifth_big_item.jpg" data-lightbox="image-1"><div class="hover-effect">
-                                    <div class="hover-content">
-                                        <h2>Fifth Item</h2>
-                                        <p>Donec commodo, ex nec rutrum venenatis, nisi nisl malesuada magna.</p>
-                                    </div>
-                                </div></a>
-                                <div class="image">
-                                    <img src="assets/images/fifth_item.jpg">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="item">
-                            <div class="thumb">
-                                <a href="assets/images/sixth_big_item.jpg" data-lightbox="image-1"><div class="hover-effect">
-                                    <div class="hover-content">
-                                        <h2>Sixth Item</h2>
-                                        <p>Maecenas dapibus neque sed nisl consectetur, id semper nisi egestas.</p>
-                                    </div>
-                                </div></a>
-                                <div class="image">
-                                    <img src="assets/images/sixth_item.jpg">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="item">
-                            <div class="thumb">
-                                <a href="assets/images/seventh_big_item.jpg" data-lightbox="image-1"><div class="hover-effect">
-                                    <div class="hover-content">
-                                        <h2>Number Seven</h2>
-                                        <p>Etiam aliquet, est id varius fringilla, eros libero pellentesque lectus.</p>
-                                    </div>
-                                </div></a>
-                                <div class="image">
-                                    <img src="assets/images/seventh_item.jpg">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="item">
-                            <div class="thumb">
-                                <a href="assets/images/eight_big_item.jpg" data-lightbox="image-1"><div class="hover-effect">
-                                    <div class="hover-content">
-                                        <h2>Number Eight</h2>
-                                        <p>Vestibulum augue ex, finibus sit amet nisi id, maximus ultrices ipsum.</p>
-                                    </div>
-                                </div></a>
-                                <div class="image">
-                                    <img src="assets/images/eight_item.jpg">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="item">
-                            <div class="thumb">
-                                <a href="assets/images/ninth_big_item.jpg" data-lightbox="image-1"><div class="hover-effect">
-                                    <div class="hover-content">
-                                        <h2>Number Nine</h2>
-                                        <p>Orci varius natoque penatibus et magnis dis parturient montes.</p>
-                                    </div>
-                                </div></a>
-                                <div class="image">
-                                    <img src="assets/images/ninth_item.jpg">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="item">
-                            <div class="thumb">
-                                <a href="assets/images/fifth_big_item.jpg" data-lightbox="image-1"><div class="hover-effect">
-                                    <div class="hover-content">
-                                        <h2>Number Ten</h2>
-                                        <p>Vestibulum augue ex, finibus sit amet nisi id, maximus ultrices ipsum.</p>
-                                    </div>
-                                </div></a>
-                                <div class="image">
-                                    <img src="assets/images/fifth_item.jpg">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="item">
-                            <div class="thumb">
-                                <a href="assets/images/first_big_item.jpg" data-lightbox="image-1"><div class="hover-effect">
-                                    <div class="hover-content">
-                                        <h2>Eleventh Item</h2>
-                                        <p>Cras varius dolor et augue fringilla, eu commodo sapien iaculis.</p>
-                                    </div>
-                                </div></a>
-                                <div class="image">
-                                    <img src="assets/images/first_item.jpg">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="item">
-                            <div class="thumb">
-                                <a href="assets/images/second_big_item.jpg" data-lightbox="image-1"><div class="hover-effect">
-                                    <div class="hover-content">
-                                        <h2>Twelvth Item</h2>
-                                        <p>Etiam tincidunt magna ex, sit amet lobortis felis bibendum id.</p>
-                                    </div>
-                                </div></a>
-                                <div class="image">
-                                    <img src="assets/images/second_item.jpg">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-      </div>
-      <div class="slide" id="5">
-        <div class="content fifth-content">
-            <div class="container-fluid">
-                <div class="col-md-6">
-                    <div id="map">
-                      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3647.3030413476204!2d100.5641230193719!3d13.757206847615207!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xf51ce6427b7918fc!2sG+Tower!5e0!3m2!1sen!2sth!4v1510722015945" width="100%" height="500px" frameborder="0" style="border:0" allowfullscreen></iframe>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <form id="contact" action="" method="post">
-                        <div class="row">
-                            <div class="col-md-12">
-                              <fieldset>
-                                <input name="name" type="text" class="form-control" id="name" placeholder="Your name..." required="">
-                              </fieldset>
-                            </div>
-                            <div class="col-md-12">
-                              <fieldset>
-                                <input name="email" type="email" class="form-control" id="email" placeholder="Your email..." required="">
-                              </fieldset>
-                            </div>
-                             <div class="col-md-12">
-                              <fieldset>
-                                <input name="subject" type="text" class="form-control" id="subject" placeholder="Subject..." required="">
-                              </fieldset>
-                            </div>
-                            <div class="col-md-12">
-                              <fieldset>
-                                <textarea name="message" rows="6" class="form-control" id="message" placeholder="Your message..." required=""></textarea>
-                              </fieldset>
-                            </div>
-                            <div class="col-md-12">
-                              <fieldset>
-                                <button type="submit" id="form-submit" class="btn">Send Now</button>
-                              </fieldset>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-      </div>
+      
+      <div class="swiper-button-next nav-btn1"></div>
+      <div class="swiper-button-prev nav-btn1"></div>
+      <div class="swiper-pagination"></div>
     </div>
   </section>
 
@@ -928,7 +544,6 @@
 
             <div class="col-lg-6 col-12 mt-5 mt-lg-0">
                 <!--<h6>Meet Author</h6>-->
-
                 <h2 class="mb-4">José Martines</h2>
                 <p>Vemos a nuestros clientes como los invitados de una fiesta en la que nosotros somos los anfitriones. Nuestro trabajo es hacer que cada aspecto importante de la experiencia del consumidor sea un poco mejor.</p>
                 <p>Lorem ipsum dolor sit amet, consive adipisicing elit, sed do eiusmod. tempor incididunt ut labore.</p>
@@ -979,7 +594,7 @@
       </a>
       
     </ul>
-    <p>JDL Technology | Todos los derechos reservados</p>
+    <p> <a class="text-white" href="https://jdl.pe/" target="_blank" rel="noopener noreferrer">JDL Technology</a> | Todos los derechos reservados</p>
     <!--<div class="container">
       <div class="row">
         <div class="col-lg-12">
@@ -996,7 +611,11 @@
 
 
   <!-- Scripts -->
+  <!-- Swiper JS -->
+  <script src="assets/js/swiper-bundle.min.js"></script>
   <!-- Bootstrap core JavaScript -->
+
+  <script src="assets/js/navJS.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script>
 		window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
@@ -1005,7 +624,6 @@
  
   <script src="assets/js/isotope.min.js"></script>
   <script src="assets/js/owl-carousel.js"></script>
-  <script src="assets/js/wow.js"></script>
   <script src="assets/js/tabs.js"></script>
   <script src="assets/js/popup.js"></script>
   <script src="assets/js/custom.js"></script>
@@ -1018,14 +636,7 @@
     AOS.init();
   </script>
 
-  <script src="assets/js/swiper-bundle.min.js"></script>
-  <script src="assets/js/navJS.js"></script>
-
   <script src="recursos/bootstrap/js/bootstrap.min.js"></script>
-  <!--<script src="assets/js/plugins.js"></script>
-  <script src="assets/js/main.js"></script>
-  <script src="assets/js/jquery.nicescroll.min.js"></script>
-  <script src="assets/js/easyResponsiveTabs.js"></script>-->
 
   <script type="text/javascript" src="node_modules/vanilla-tilt/dist/vanilla-tilt.js"></script>
 
@@ -1034,33 +645,6 @@
   <script src="assets/js/datepicker.js"></script>
   <script src="assets/js/plugins.js"></script>
   <script src="assets/js/main.js"></script>
-
-  <script type="text/javascript">
-    $(function() {
-        $('.crsl-items').carousel({
-            visible: 1,
-            itemMinWidth: 320,
-            itemEqualHeight: 320,
-            itemMargin: 9,
-        });
-        $(".crsl-nav a[href=#]").on('click', function(e) {
-            e.preventDefault();
-        });
-    });
-
-    $(function() {
-        $('.crsl-items2').carousel({
-            visible: 1,
-            itemMinWidth: 320,
-            itemEqualHeight: 320,
-            itemMargin: 9,
-        });
-        $(".crsl-nav2 a[href=#]").on('click', function(e) {
-            e.preventDefault();
-        });
-    });
-  
-  </script>
   
 
   </body>
