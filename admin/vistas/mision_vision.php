@@ -88,6 +88,14 @@
                                       </div>
                                     </div>
 
+                                    <!-- valores-->
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                                      <div class="form-group">
+                                        <label for="valores">Valores <sup class="text-danger">*</sup> </label> 
+                                        <textarea name="valores" id="valores" class="form-control" rows="10"></textarea>
+                                      </div>
+                                    </div>
+
                                     <!-- barprogress -->
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-20px" id="barra_progress_mv_div" style="display: none;">
                                       <div class="progress" >

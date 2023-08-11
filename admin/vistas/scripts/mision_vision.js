@@ -12,8 +12,9 @@ function init() {
 
   $("#actualizar_registro").on("click", function (e) { actualizar_datos_generales_mv(e);});
 
-  $('#mision').summernote(); $('#vision').summernote();
-  $('#mision').summernote ('disable');   $('#vision').summernote ('disable');
+  $('#mision').summernote(); $('#vision').summernote(); $('#valores').summernote();
+  $('#mision').summernote ('disable');   $('#vision').summernote ('disable'); $('#valores').summernote ('disable');
+
 
   mostrar();
   
@@ -28,6 +29,7 @@ function activar_editar(estado) {
 
     $('#mision').summernote ('enable');
     $('#vision').summernote ('enable');
+    $('#valores').summernote ('enable');
 
     toastr.success('Campos habiliados para editar!!!')
 
@@ -40,6 +42,7 @@ function activar_editar(estado) {
 
     $('#mision').summernote ('disable');
     $('#vision').summernote ('disable');
+    $('#valores').summernote ('disable');
 
   }
 
@@ -61,6 +64,7 @@ function mostrar() {
 
       $('#mision').summernote ('code', e.data.mision);
       $('#vision').summernote ('code', e.data.vision);
+      $('#valores').summernote ('code', e.data.valores);
       
     }else{
       ver_errores(e);

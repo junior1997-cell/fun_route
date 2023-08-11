@@ -18,6 +18,7 @@
       $id           = isset($_POST["idnosotros"])? limpiarCadena($_POST["idnosotros"]):"";
       $mision       = isset($_POST["mision"])? limpiarCadena($_POST["mision"]):"";
       $vision       = isset($_POST["vision"])? limpiarCadena($_POST["vision"]):"";
+      $valores       = isset($_POST["valores"])? limpiarCadena($_POST["valores"]):"";
 
       $palabras_ceo = isset($_POST["palabras_ceo"])? limpiarCadena($_POST["palabras_ceo"]):"";
       $resenia_h    = isset($_POST["resenia_h"])? limpiarCadena($_POST["resenia_h"]):"";
@@ -46,7 +47,7 @@
         }else {
 
           // editamos un documento existente
-          $rspta=$contacto->actualizar_mision_vision( $id, $mision, $vision);
+          $rspta=$contacto->actualizar_mision_vision( $id, $mision, $vision, $valores);
           
           echo json_encode( $rspta, true) ;
         }            
