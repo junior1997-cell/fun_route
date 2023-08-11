@@ -29,6 +29,8 @@ if (!isset($_SESSION["nombre"])) {
     $nombre               = isset($_POST["nombre"]) ? limpiarCadena($_POST["nombre"]) : "";
     $cant_dias            = isset($_POST["cant_dias"]) ? limpiarCadena($_POST["cant_dias"]) : "";
     $cant_noches          = isset($_POST["cant_noches"]) ? limpiarCadena($_POST["cant_noches"]) : "";
+    $alimentacion         = isset($_POST["alimentacion"]) ? limpiarCadena($_POST["alimentacion"]) : "";
+    $alojamiento          = isset($_POST["alojamiento"]) ? limpiarCadena($_POST["alojamiento"]) : "";
     $descripcion          = isset($_POST["descripcion"]) ? limpiarCadena($_POST["descripcion"]) : "";
     $imagen1              = isset($_POST["doc1"]) ? limpiarCadena($_POST["doc1"]) : "";
     $incluye              = isset($_POST["incluye"]) ? limpiarCadena($_POST["incluye"]) : "";
@@ -69,7 +71,7 @@ if (!isset($_SESSION["nombre"])) {
 
         if (empty($idpaquete)) {
 
-          $rspta = $paquete->insertar($nombre, $cant_dias, $cant_noches, $descripcion, $imagen1, $incluye, $no_incluye,
+          $rspta = $paquete->insertar($nombre, $cant_dias, $cant_noches, $alimentacion, $alojamiento, $descripcion, $imagen1, $incluye, $no_incluye,
           $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento, $resumen, $idtours,$nombre_tours,$numero_orden,$actividad);
 
           echo json_encode($rspta, true);
@@ -85,7 +87,7 @@ if (!isset($_SESSION["nombre"])) {
           }
 
           // editamos un paquete existente
-          $rspta = $paquete->editar($idpaquete,$nombre, $cant_dias, $cant_noches, $descripcion, $imagen1, $incluye, $no_incluye,
+          $rspta = $paquete->editar($idpaquete,$nombre, $cant_dias, $cant_noches, $alimentacion, $alojamiento, $descripcion, $imagen1, $incluye, $no_incluye,
             $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento, $monto_descuento, $resumen, $_POST['iditinerario'],
             $idtours,$nombre_tours,$numero_orden,$actividad);
 

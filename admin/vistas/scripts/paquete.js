@@ -54,6 +54,8 @@ function limpiar_paquete() {
   $("#cant_noches").val("");
   $("#descripcion").summernote('code', '');
   $("#doc1").val("");
+  $("#alimentacion").val("");
+  $("#alojamiento").val("");
 
   //OTROS
   $("#incluye").summernote('code', '');
@@ -200,6 +202,8 @@ function mostrar_paquete(idpaquete) {
     $("#cant_dias").val(e.paquete.cant_dias);
     $("#cant_noches").val(e.paquete.cant_noches);
     $("#descripcion").summernote ('code', e.paquete.descripcion);
+    $("#alimentacion").val(e.paquete.alimentacion);
+    $("#alojamiento").val(e.paquete.alojamiento);
     
     //Otros
     $("#incluye").summernote ('code', e.paquete.incluye);
@@ -320,6 +324,8 @@ function ver_detalle_paquete(idpaquete) {
     $("#cant_dias").val(e.paquete.cant_dias);
     $("#cant_noches").val(e.paquete.cant_noches);
     $("#descripcion").summernote ('code', e.paquete.descripcion);
+    $("#alimentacion").val(e.paquete.alimentacion);
+    $("#alojamiento").val(e.paquete.alojamiento);
     
     //Otros
     $("#incluye").summernote ('code', e.paquete.incluye);

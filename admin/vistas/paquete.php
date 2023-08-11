@@ -222,6 +222,20 @@ if (!isset($_SESSION["nombre"])) {
                                   <input type="number" name="cant_noches" class="form-control" id="cant_noches" placeholder="Noches" />
                                 </div>
                               </div>
+                              <!--Alimentacion-->
+                              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-6">
+                                <div class="form-group ">
+                                  <label for="alimentacion">Alimentación</label> <br />
+                                  <textarea name="alimentacion" id="alimentacion" class="form-control" rows="2"></textarea>
+                                </div>
+                              </div>
+                              <!--Alojamiento-->
+                              <div class="col-sm-12 col-md-12 col-lg-4 col-xl-6">
+                                <div class="form-group ">
+                                  <label for="alojamiento">Alojamiento</label> <br />
+                                  <textarea name="alojamiento" id="alojamiento" class="form-control" rows="2"></textarea>
+                                </div>
+                              </div>
 
                               <!--Descripcion-->
                               <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
