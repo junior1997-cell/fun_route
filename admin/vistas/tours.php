@@ -342,7 +342,7 @@ if (!isset($_SESSION["nombre"])) {
                         <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
                           <div class="card-body row resumen">
                             <!-- Posee Alojamiento -->
-                            <div class="col-12 col-sm-6 col-md-12 col-lg-3">
+                            <div class="col-6 col-sm-6 col-md-6 col-lg-6">
                               <div class="form-group">
                                 <label for="alajamiento">¿Incluye Alojamiento?</label> <br>
                                 <div class="switch-toggle">
