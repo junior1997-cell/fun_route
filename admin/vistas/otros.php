@@ -931,7 +931,7 @@ if (!isset($_SESSION["nombre"])) {
                             <input type="text" name="nombre_caracteristica_h" id="nombre_caracteristica_h" class="form-control" placeholder="Nombre Habitación" />
                           </div>
                           <div class="form-group">
-                            <label for="estado_si_no">Posee</label> <br>
+                            <label for="estado_si_no">Disponible</label> <br>
                             <div class="switch-toggle">
                               <input type="checkbox" id="estado_switch" onchange="switchFunction();">
                               <label for="estado_switch"></label>
@@ -977,7 +977,7 @@ if (!isset($_SESSION["nombre"])) {
             <div class="modal-dialog modal-dialog-scrollable modal-md">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h4 class="modal-title">INATALACIONES DE HOTEL</h4>
+                  <h4 class="modal-title">INSTALACIONES DE HOTEL</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span class="text-danger" aria-hidden="true">&times;</span>
                   </button>
@@ -999,7 +999,7 @@ if (!isset($_SESSION["nombre"])) {
                             <input type="text" name="nombre_c_hotel" id="nombre_c_hotel" class="form-control" placeholder="" />
                           </div>
                           <div class="form-group">
-                            <label for="estatus">Posee</label> <br>
+                            <label for="estatus">Disponible</label> <br>
                             <div class="switch-toggle">
                               <input type="checkbox" id="estado_switch2" onchange="switchFunction2();">
                               <label for="estado_switch2"></label>

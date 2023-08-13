@@ -77,7 +77,6 @@ function limpiar_tours() {
  // -------RESUMEN --------
  $("#resumen_actividad").summernote('code', '');
  $("#resumen_comida").summernote('code', '');
- $("#alojamiento").summernote('code', '');
 
  $(".btn_footer").show();
 
