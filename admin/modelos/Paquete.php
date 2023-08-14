@@ -18,8 +18,9 @@
     public function insertar($nombre,$cant_dias,$cant_noches,$alimentacion, $alojamiento,$descripcion, $imagen1,$incluye,$no_incluye,$recomendaciones,
     $mapa,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$resumen,$idtours,$nombre_tours,$numero_orden,$actividad)
     {
+      //var_dump($idtours,$nombre_tours,$numero_orden,$actividad);die();
 
-      $sql ="INSERT INTO paquete ( nombre, cant_dias, cant_noches, alimentacion, alojamiento, descripcion, imagen, incluye, no_incluye, recomendaciones,mapa, costo,estado_descuento, porcentaje_descuento, monto_descuento,resumen) 
+      $sql ="INSERT INTO paquete ( nombre, cant_dias, cant_noches,desc_comida, desc_alojamiento, descripcion, imagen, incluye, no_incluye, recomendaciones,mapa, costo,estado_descuento, porcentaje_descuento, monto_descuento,resumen) 
       VALUES('$nombre', '$cant_dias', '$cant_noches', '$alimentacion', '$alojamiento', '$descripcion', '$imagen1', '$incluye', '$no_incluye', '$recomendaciones','$mapa', '$costo','$estado_descuento', '$porcentaje_descuento', '$monto_descuento', '$resumen')";
       $crear= ejecutarConsulta_retornarID($sql); if ( $crear['status'] == false) {return $crear; }  
 
@@ -55,21 +56,21 @@
        
       }
     }
-
+//desc_comida, desc_alojamiento
     //implementamos un metodo para editar registros
     public function editar(
       $idpaquete,$nombre, $cant_dias, $cant_noches, $alimentacion, $alojamiento, $descripcion, $imagen1, $incluye, $no_incluye, 
             $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento,$monto_descuento, $resumen, $iditinerario,$idtours,
             $nombre_tours,$numero_orden,$actividad )
     {
-      // var_dump($idtours,$numero_orden);die();
+      //var_dump($idtours, $nombre_tours,$numero_orden,$actividad);die();
       //Eliminamos todos los registros de itinerario
       $sqldel = "DELETE FROM itinerario WHERE idpaquete='$idpaquete';";
       $delete = ejecutarConsulta($sqldel); if ( $delete['status'] == false ) { return $delete; }
 
       // var_dump($idpago_trabajador,$idmes_pago_trabajador_p,$nombre_mes,$monto,$fecha_pago,$descripcion,$comprobante);die();
       $sql="UPDATE paquete SET 
-      nombre='$nombre', cant_dias='$cant_dias', cant_noches='$cant_noches', alimentacion='$alimentacion', alojamiento='$alojamiento', descripcion='$descripcion',
+      nombre='$nombre', cant_dias='$cant_dias', cant_noches='$cant_noches', desc_comida='$alimentacion', desc_alojamiento='$alojamiento', descripcion='$descripcion',
       imagen='$imagen1',incluye='$incluye',no_incluye='$no_incluye', recomendaciones='$recomendaciones',
       mapa='$mapa',costo='$costo',estado_descuento='$estado_descuento',
       porcentaje_descuento='$porcentaje_descuento',monto_descuento='$monto_descuento', resumen='$resumen' WHERE idpaquete='$idpaquete';";
@@ -81,7 +82,7 @@
 		  $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (6,'idpaquete','$idpaquete','$sql_d','$this->id_usr_sesion')";
 		  $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; } 
       
-      if ($idtours !== "" || $idtours !== 0) {return $crear; }else{
+      if ($idtours== "" || $idtours == 0) {return $crear; }else{
         
         $num_elementos = 0;
         $sw = true;
@@ -169,8 +170,8 @@
         'nombre'               => $datospaquete['data']['nombre'],
         'cant_dias'            => $datospaquete['data']['cant_dias'],
         'cant_noches'          => $datospaquete['data']['cant_noches'],
-        'alimentacion'         => $datospaquete['data']['alimentacion'],
-        'alojamiento'          => $datospaquete['data']['alojamiento'],
+        'alimentacion'         => $datospaquete['data']['desc_comida'],
+        'alojamiento'          => $datospaquete['data']['desc_alojamiento'],
         'descripcion'          => $datospaquete['data']['descripcion'],
         'imagen'               => $datospaquete['data']['imagen'],
         'incluye'              => $datospaquete['data']['incluye'],

@@ -105,9 +105,6 @@ if (!isset($_SESSION["nombre"])) {
                               <th>Precio Regular</th>
                               <th>Estado</th>
                               <th>Galería</th>
-
-
-
                             </tr>
                           </tfoot>
                         </table>
@@ -155,7 +152,7 @@ if (!isset($_SESSION["nombre"])) {
 
             <!-- Modal agregar paquete -->
             <div class="modal fade" id="modal-agregar-paquete">
-              <div class="modal-dialog modal-dialog-scrollable modal-xl">
+              <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h4 class="modal-title">Agregar</h4>
@@ -201,7 +198,7 @@ if (!isset($_SESSION["nombre"])) {
                               <input type="hidden" name="idpaquete" id="idpaquete" />
 
                               <!-- Nombre -->
-                              <div class="col-8 col-sm-8 col-md-8 col-lg-6">
+                              <div class="col-12 col-sm-12 col-md-8 col-lg-8">
                                 <div class="form-group">
                                   <label for="nombre">Nombre</label>
                                   <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Nombre del paquete" />
@@ -209,14 +206,14 @@ if (!isset($_SESSION["nombre"])) {
                               </div>
 
                               <!-- cant_dias -->
-                              <div class="col-lg-2">
+                              <div class="col-12 col-sm-12 col-md-2 col-lg-2">
                                 <div class="form-group">
                                   <label for="cant_dias">Días</label>
                                   <input type="number" name="cant_dias" class="form-control" id="cant_dias" placeholder="Dias" />
                                 </div>
                               </div>
                               <!-- cant_dias -->
-                              <div class="col-lg-2">
+                              <div class="col-12 col-sm-12 col-md-2 col-lg-2">
                                 <div class="form-group">
                                   <label for="cant_noches">Noches</label>
                                   <input type="number" name="cant_noches" class="form-control" id="cant_noches" placeholder="Noches" />

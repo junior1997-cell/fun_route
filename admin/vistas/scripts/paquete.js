@@ -1,5 +1,6 @@
 var tabla_paquete;
 var miArray = [];
+var i_Array = [];
 var codigoHTML='';
 var idpaquete_r='', nombre_r="";
 //Función que se ejecuta al inicio
@@ -53,7 +54,7 @@ function limpiar_paquete() {
   $("#cant_dias").val("");
   $("#cant_noches").val("");
   $("#descripcion").summernote('code', '');
-  $("#doc1").val("");
+  //$("#doc1").val("");
   $("#alimentacion").val("");
   $("#alojamiento").val("");
 
@@ -62,7 +63,8 @@ function limpiar_paquete() {
   $("#no_incluye").summernote('code', '');
   $("#recomendaciones").summernote('code', '');
   $("#mapa").val("");
-
+  miArray = []; i_Array = [];
+  $('.codigoGenerado').html(`<div class="alert alert-warning alert-dismissible alerta"> <h5><i class="icon fas fa-exclamation-triangle"></i> Alerta!</h5> NO TIENES NINGUNA ACTIVIDAD ASIGNADA A TU PAQUETE </div>`);
   //itinerario
   $(".alerta").show();
   // COSTOS
@@ -72,6 +74,11 @@ function limpiar_paquete() {
 
   //RESUMEN
   $("#resumen").summernote('code', '');
+
+  $("#doc_old_1").val("");
+  $("#doc1").val("");  
+  $('#doc1_ver').html(`<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >`);
+  $('#doc1_nombre').html("");
   
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
@@ -230,16 +237,15 @@ function mostrar_paquete(idpaquete) {
     }else{
       $(".alerta").hide();
       
-      e.itinerario.forEach(element => {
-        
-        console.log(element.actividad);
-      
-        codigoHTML =codigoHTML.concat(`<hr class="tours_${element.idtours}" style="height: 1px; background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+      e.itinerario.forEach((element,index) => {
+        if (!i_Array.includes(index)) { i_Array.push(index); }
+
+        codigoHTML =`<hr class=" id_${index} tours_${element.idtours}" style="height: 1px; background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
                     <input type="hidden" name="iditinerario[]" id="iditinerario" value="${element.iditinerario}">
                     <input type="hidden" name="idtours[]" id="idtours" value="${element.idtours}">
-                    <div class="row tours_${element.idtours}">
+                    <div class="row id_${index} tours_${element.idtours}">
                     <div class="col-12 text-center">
-                      <span class="text-danger cursor-pointer" aria-hidden="true" data-toggle="tooltip" data-original-title="Eliminar" onclick="eliminar_tours(${element.idtours})" >&times;</span>
+                      <span class="text-danger cursor-pointer" aria-hidden="true" data-toggle="tooltip" data-original-title="Eliminar" onclick="eliminar_tours(${index})" >&times;</span>
                     </div>
                       <!-- Nombre Tours -->
                       <div class="col-12 col-sm-12 col-md-8 col-lg-9">
@@ -263,10 +269,10 @@ function mostrar_paquete(idpaquete) {
                           <textarea name="actividad[]" id="actividad" class="form-control actividad">${ element.actividad}</textarea>
                         </div>
                       </div>
-                    </div>`);
+                    </div>`;
       });
       
-    
+      if (i_Array.length === 0) { $(".alerta").show(); } else { $(".alerta").hide(); }
       $('.codigoGenerado').append(codigoHTML); // Agregar el contenido al elemento con el ID "codigoGenerado"
       $(`.actividad`).summernote(); 
 
@@ -284,7 +290,7 @@ function mostrar_paquete(idpaquete) {
 
     } else {
 
-      $("#doc_old_1").val(e.paquete.comprobante); 
+      $("#doc_old_1").val(e.paquete.imagen); 
 
       $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>imagen.${extrae_extencion(e.paquete.imagen)}</i></div></div>`);
       // cargamos la imagen adecuada par el archivo
@@ -347,6 +353,56 @@ function ver_detalle_paquete(idpaquete) {
     } else {
       $("#estado_switch").prop("checked", false);
     } 
+
+    if (e.itinerario==null || e.itinerario=="") {
+      $(".alerta").show();
+    }else{
+      $(".alerta").hide();
+      
+      e.itinerario.forEach((element,index) => {
+        if (!i_Array.includes(index)) { i_Array.push(index); }
+
+        codigoHTML =`<hr class=" id_${index} tours_${element.idtours}" style="height: 1px; background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+                    <input type="hidden" name="iditinerario[]" id="iditinerario" value="${element.iditinerario}">
+                    <input type="hidden" name="idtours[]" id="idtours" value="${element.idtours}">
+                    <div class="row id_${index} tours_${element.idtours}">
+                    <div class="col-12 text-center">
+                      <span class="text-danger cursor-pointer" aria-hidden="true" data-toggle="tooltip" data-original-title="Eliminar" onclick="eliminar_tours(${index})" >&times;</span>
+                    </div>
+                      <!-- Nombre Tours -->
+                      <div class="col-12 col-sm-12 col-md-8 col-lg-9">
+                        <div class="form-group">
+                          <label for="nombre_tours">Nombre <sup class="text-danger">(unico*)</sup></label>
+                          <input type="text" name="nombre_tours[]" class="form-control" id="nombre_tours" value="${element.turs}" placeholder="Tours" readonly />
+                        </div>
+                      </div>
+    
+                      <!-- Numero de Dia-->
+                      <div class="col-12 col-sm-12 col-md-4 col-lg-3">
+                        <div class="form-group">
+                          <label for="idnumero_orden">Num. Día <sup class="text-danger">(unico*)</sup></label>
+                          <input type="number" name="numero_orden[]" class="form-control" id="numero_orden" placeholder="N° Día" value="${element.numero_orden}" />
+    
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                          <label for="actividades">Descripcion Actividad </label> <br />
+                          <textarea name="actividad[]" id="actividad" class="form-control actividad">${ element.actividad}</textarea>
+                        </div>
+                      </div>
+                    </div>`;
+      });
+      
+      if (i_Array.length === 0) { $(".alerta").show(); } else { $(".alerta").hide(); }
+      $('.codigoGenerado').append(codigoHTML); // Agregar el contenido al elemento con el ID "codigoGenerado"
+      $(`.actividad`).summernote(); 
+
+
+
+    }
+
+
 
     if (e.paquete.imagen == "" || e.paquete.imagen == null  ) {
 
@@ -558,7 +614,6 @@ function ver_actividad(){
   $.post("../ajax/paquete.php?op=ver_actividad", { idtours: idtours }, function (e, status) {
     
     e = JSON.parse(e); console.log(e); 
-    console.log('holaaaa'); 
 
     if (e.data==null || e.data=="") { 
       $(".alerta").show();
@@ -576,15 +631,15 @@ function ver_actividad(){
         //generarCodigo(); // Generar el código HTML actualizado
 
         for (var i = 0; i < miArray.length; i++) {
-
+          if (!i_Array.includes(i)) { i_Array.push(i); }
           // console.log(miArray);
         
-          codigoHTML = `<hr class="tours_${e.data.idtours}" style="height: 1px; background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+          codigoHTML = `<hr class=" id_${i} tours_${e.data.idtours}" style="height: 1px; background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
                       <input type="hidden" name="iditinerario[]" id="iditinerario" value="">
                       <input type="hidden" name="idtours[]" id="idtours" value="${e.data.idtours}">
-                      <div class="row tours_${e.data.idtours}">
+                      <div class="row id_${i} tours_${e.data.idtours}">
                       <div class="col-12 text-center">
-                        <span class="text-danger cursor-pointer" aria-hidden="true" data-toggle="tooltip" data-original-title="Eliminar" onclick="eliminar_tours(${e.data.idtours})" >&times;</span>
+                        <span class="text-danger cursor-pointer" aria-hidden="true" data-toggle="tooltip" data-original-title="Eliminar" onclick="eliminar_tours(${i})" >&times;</span>
                       </div>
                         <!-- Nombre Tours -->
                         <div class="col-12 col-sm-12 col-md-8 col-lg-9">
@@ -611,7 +666,8 @@ function ver_actividad(){
                       </div>`;
         }
         
-      
+        if (i_Array.length === 0) { $(".alerta").show(); } else { $(".alerta").hide(); }
+
         $('.codigoGenerado').append(codigoHTML); // Agregar el contenido al elemento con el ID "codigoGenerado"
         $(`.actividad`).summernote();   
         $('[data-toggle="tooltip"]').tooltip();
@@ -626,7 +682,28 @@ function ver_actividad(){
 }
 
 function eliminar_tours(id) {
-  $(`.tours_${id}`).remove();
+
+  var index = i_Array.indexOf(id);
+
+  if (index !== -1) {
+
+    i_Array.splice(index, 1);
+
+    $(`.id_${id}`).remove();
+
+    if (i_Array.length === 0) {
+
+      miArray = [];
+
+      $(".alerta").show();
+
+    } else {
+
+      $(".alerta").hide();
+
+    }
+
+  }
 
 }
 
