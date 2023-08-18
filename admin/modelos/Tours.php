@@ -110,9 +110,14 @@
         'resumen_comida'       => $datostours['data']['resumen_comida'],
         'alojamiento'          => $datostours['data']['alojamiento'],
       ];
-      return $retorno=['status'=>true, 'message'=>'todo okey papu','tours'=>$tours];
+      return $retorno=['status'=>true, 'message'=>'todo okey','tours'=>$tours];
     }
 
+    public function mostrar_vista(){
+      $sql = "SELECT * FROM tours";
+      return ejecutarConsultaArray($sql); // Retorna todos los resultados
+    }
+  
     //Implementamos un método para listar los registros
     public function tbla_principal(){
       $sql="SELECT t.idtours,t.alojamiento,t.nombre, t.descripcion, t.imagen, t.costo,t.estado_descuento 

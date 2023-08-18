@@ -111,6 +111,11 @@
 
         break;
 
+        case 'mostrar_vista':
+          $rspta = $tours->mostrar_vista();
+          echo json_encode($rspta, true);
+        break;      
+
         case 'tbla_principal':          
 
           $rspta=$tours->tbla_principal();
