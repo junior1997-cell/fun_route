@@ -160,9 +160,14 @@ Banner Style
   opacity: 1;
 }
 
+.main-banner .item {
+  height: 73vh;
+}
+
 .main-banner .item img {
   border: 3px solid #fff;
   border-radius: 20px;
+  height: 100%;
 }
 
 .head {
