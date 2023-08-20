@@ -1,18 +1,18 @@
-$(document).ready(function() {
-  mostrar_vista(); 
+$(document).ready(function () {
+  mostrar_vista();
 });
 
 function mostrar_vista() {
-  $.post("admin/ajax/tours.php?op=mostrar_vista", {}, function (response, status) {
-      response = JSON.parse(response); 
-      if (response.status) {
-          var toursContainer = $('#toursContainer'); //console.log(response.data);
-          for (var i = 0; i < response.data.length; i++) {
-              var tourData = response.data[i];
-              var tourDiv = $('<div class="c-card"></div>'); // contenedor del tours
+  $.post("controlador/tours.php?op=mostrar_vista", {}, function (response, status) {
+    response = JSON.parse(response);
+    if (response.status) {
+      var toursContainer = $('#toursContainer'); //console.log(response.data);
+      for (var i = 0; i < response.data.length; i++) {
+        var tourData = response.data[i];
+        var tourDiv = $('<div class="c-card"></div>'); // contenedor del tours
 
-              // Estructura interna del tourDiv
-              var codigoHTML = `
+        // Estructura interna del tourDiv
+        var codigoHTML = `
                   <style>
                     .card__banner${tourData.idtours}::before {
                         content: '';
@@ -65,25 +65,25 @@ function mostrar_vista() {
 
               `;
 
-              tourDiv.html(codigoHTML);
+        tourDiv.html(codigoHTML);
 
-              toursContainer.append(tourDiv); // Agrega el tourDiv al contenedor principal
-          }
-      } else {
-          ver_errores(response);
+        toursContainer.append(tourDiv); // Agrega el tourDiv al contenedor principal
       }
-  }).fail(function(e) {
-      console.log(e);
-      ver_errores(e);
+    } else {
+      ver_errores(response);
+    }
+  }).fail(function (e) {
+    console.log(e);
+    ver_errores(e);
   });
 }
 
 
 /*
 $(document).ready(function() {
-	$('#boton-drop').click(function() {
-		$('#boton-drop').toggleClass("drop-rotate");
-		$('#drop-descripcion').toggleClass("drop-active")
-	})
+  $('#boton-drop').click(function() {
+    $('#boton-drop').toggleClass("drop-rotate");
+    $('#drop-descripcion').toggleClass("drop-active")
+  })
 })
 */
