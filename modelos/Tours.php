@@ -47,7 +47,7 @@
     }
 
     public function mostrar_vista(){
-      $sql = "SELECT * FROM tours";
+      $sql = "SELECT * FROM tours WHERE estado = '1' and estado_delete = '1'; ";
       return ejecutarConsultaArray($sql); // Retorna todos los resultados
     } 
 

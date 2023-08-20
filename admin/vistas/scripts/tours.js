@@ -58,7 +58,12 @@ function limpiar_tours() {
   $("#idtipo_tours").val("").trigger("change");
   $("#duracion").val("");
   $("#descripcion").val("");
+  
   $("#doc1").val("");
+  $("#doc_old_1").val('');
+	$("#doc1_ver").html('<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >');
+	$("#doc1_nombre").html("");
+  
 
  // -------OTROS----------
  
@@ -240,22 +245,18 @@ function mostrar_tours(idtours) {
 
 
     if (e.tours.imagen == "" || e.tours.imagen == null  ) {
-
       $("#doc1_ver").html('<img src="../dist/svg/pdf_trasnparent.svg" alt="" width="50%" >');
-
       $("#doc1_nombre").html('');
-
-      $("#doc_old_1").val(""); $("#doc1").val("");
-
+      $("#doc_old_1").val(""); 
+      $("#doc1").val("");
     } else {
-
+      $("#doc_old_1").val(e.tours.imagen);
       $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Baucher.${extrae_extencion(e.tours.imagen)}</i></div></div>`);
       // cargamos la imagen adecuada par el archivo
-      $("#doc1_ver").html(doc_view_extencion(e.tours.imagen,'tours', 'perfil', '100%', '210' ));   //ruta imagen    
-          
+      $("#doc1_ver").html(doc_view_extencion(e.tours.imagen,'tours', 'perfil', '100%', '210' ));   //ruta imagen           
     }
-    $('.jq_image_zoom').zoom({ on:'grab' });
-     
+
+    $('.jq_image_zoom').zoom({ on:'grab' });     
     
     $("#cargando-1-fomulario").show();
     $("#cargando-2-fomulario").hide();

@@ -1,4 +1,4 @@
-<!-- Icono Sevens-Ingenieros-SAC -->
+<!-- Icono pagina web -->
 <link rel="apple-touch-icon" href="../dist/svg/ico_head.svg">
 <link rel="shortcut icon" href="../dist/svg/ico_head.svg">
 
