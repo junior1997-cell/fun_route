@@ -18,7 +18,7 @@
     $imagen_error = "this.src='../dist/svg/user_default.svg'";
     $toltip       = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
     
-    $idpaquete		  = isset($_POST["idpaquete"])? limpiarCadena($_POST["idpaquete"]):"";
+    $id_paquete		  = isset($_POST["id_paquete"])? limpiarCadena($_POST["id_paquete"]):"";
 
     // ::::::::::::::::::: DATOS CORREO ::::::::::::::::::::::::::
     $nombre_email		= isset($_POST["nombre_email"])? limpiarCadena($_POST["nombre_email"]):"";
@@ -34,7 +34,7 @@
       
       /* ══════════════════════════════════════ T O U R S  ══════════════════════════════════ */
       case 'mostrar_detalle':
-        $rspta=$paquete->mostrar_detalle($idtours);
+        $rspta=$paquete->mostrar_detalle($id_paquete);
         //Codificar el resultado utilizando json
         echo json_encode($rspta, true);
       break;

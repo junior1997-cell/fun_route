@@ -32,7 +32,7 @@ function mostrar_vista() {
                         </a>
                         
                       </div>
-                      <a href="#" onclick="ir_a_detalle_tours(${val.idtours},'${removeCaracterEspecial_v2(val.nombre)}')">
+                      <a href="#" onclick="ir_a_detalle_paquete(${val.idpaquete},'${removeCaracterEspecial_v2(val.nombre)}')">
                         <button class="btn-consultar"> Consultar</button>
                       </a>
                     </div>
@@ -108,7 +108,7 @@ function activate_descripcion() {
 	$('.drop-descripcion').toggleClass("drop-active")
 }
 
-function ir_a_detalle_tours(id, nombre) {
+function ir_a_detalle_paquete(id, nombre) {
   localStorage.setItem('nube_idpaquete', id);
   window.location.href = `${window.location.origin}/fun_route/detalle-paquete.html#${nombre}`;
 }

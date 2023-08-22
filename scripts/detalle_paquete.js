@@ -1,9 +1,9 @@
 $(document).ready(function () {
-  mostrar_detalle(localStorage.getItem("nube_idtours"));
+  mostrar_detalle(localStorage.getItem("nube_idpaquete"));
 });
 
 function mostrar_detalle(id) {
-  $.post("controlador/tours.php?op=mostrar_detalle", {'id_tours': id}, function (e, status) {
+  $.post("controlador/paquete.php?op=mostrar_detalle", {'id_paquete': id}, function (e, status) {
     e = JSON.parse(e); console.log(e);
     if (e.status == true) {
 
@@ -19,10 +19,10 @@ function mostrar_detalle(id) {
       $('.alojamiento_html').html(e.data.alojamiento == 0 ? 'No incluye' : 'Incluye');      
       $('.actividades_html').html(e.data.resumen_actividad);      
 
-      $('.gallery_all').html(''); //limpiamos el div      
+      // $('.gallery_all').html(''); //limpiamos el div      
       e.data.galeria.forEach((val, key) => {
-        var galeria_html = `<div > <img src="admin/dist/docs/tours/galeria/${val.imagen}" onclick="openFullImg(this.src)">  </div>`;
-        $('.gallery_all').append(galeria_html); 
+        var galeria_html = `<div > <img src="admin/dist/docs/paquete/galeria/${val.imagen}" onclick="openFullImg(this.src)">  </div>`;
+        // $('.gallery_all').append(galeria_html); 
       });
 
       // Formulario
