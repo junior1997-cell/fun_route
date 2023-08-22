@@ -483,6 +483,14 @@ function removeCaracterEspecial(str) {
   return string;
 }
 
+function removeCaracterEspecial_v2(str) {
+  var string = "";
+  if (str == "" || str == null || str === undefined) { } else {     
+    string = str.replace(/[`~!@#$%^&*()_|+\-=?;:°'",.<>\{\}\[\]\\\/ ]/g, '-');
+  }
+  return string;
+}
+
 function preservarNumeroLetra(str) {
   var string = "";
   if (str == "" || str == null || str === undefined) { } else {     
@@ -526,6 +534,19 @@ function capitalizeWords(str) {
   }
   return string;
 };
+
+function cortar_mitad_texto(str) {
+    
+  str = str.split(" ");
+  let strLength = str.length;
+  let strLengthHalf = Math.ceil(strLength / 2);
+  let firstHalf = '';
+  let secondHalf = '';  
+  for ( let i = 0; i < strLengthHalf; i++ ) { firstHalf += ` ${ str[i] }`; }  
+  for ( let i = strLengthHalf; i < strLength; i++ ) { secondHalf += ` ${ str[i] } `;  }
+
+  return [ firstHalf.trim(), secondHalf.trim() ];
+}
 
 /*  ══════════════════════════════════════════ - T I E M P O S - ══════════════════════════════════════════ */
 

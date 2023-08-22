@@ -17,10 +17,12 @@
     //========================= S E C C I O N   T O U R S =============================
 
     //Implementamos un método para mostrar los datos de un registro a modificar
-    public function mostrar($idtours)
-    {
+    public function mostrar_detalle($idtours) {
       $sql="SELECT * FROM tours WHERE idtours='$idtours'";
-      $datostours =ejecutarConsultaSimpleFila($sql); if ( $datostours['status'] == false) {return $datostours; }
+      $datostours = ejecutarConsultaSimpleFila($sql); if ( $datostours['status'] == false) {return $datostours; }
+
+      $sql_2="SELECT * FROM `galeria_tours` WHERE estado = '1' AND estado_delete = '1' AND idtours = '$idtours';";
+      $galeria = ejecutarConsultaArray($sql_2); if ( $galeria['status'] == false) {return $galeria; }
 
       $tours = [
         'idtours'              => $datostours['data']['idtours'],
@@ -42,11 +44,13 @@
         'resumen_actividad'    => $datostours['data']['resumen_actividad'],
         'resumen_comida'       => $datostours['data']['resumen_comida'],
         'alojamiento'          => $datostours['data']['alojamiento'],
+
+        'galeria'             => $galeria['data'],
       ];
-      return $retorno=['status'=>true, 'message'=>'todo okey','tours'=>$tours];
+      return $retorno=['status'=>true, 'message'=>'todo okey','data'=>$tours];
     }
 
-    public function mostrar_vista(){
+    public function mostrar_todos(){
       $sql = "SELECT * FROM tours WHERE estado = '1' and estado_delete = '1'; ";
       return ejecutarConsultaArray($sql); // Retorna todos los resultados
     } 

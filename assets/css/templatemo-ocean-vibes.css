@@ -586,6 +586,7 @@ a {
 
 .formulario_contac .contactForm .form form .inputBox input[type="text"],
 .formulario_contac .contactForm .form form .inputBox input[type="email"],
+.formulario_contac .contactForm .form form .inputBox input[type="tel"],
 .formulario_contac .contactForm .form form .inputBox textarea {
    border: none;
    background: #cbebfb;
@@ -601,7 +602,7 @@ a {
     outline: 2px solid #1766a3;
 }
 
-.formulario_contac .contactForm .form form input[type="submit"] {
+.formulario_contac .contactForm .form form button[type="submit"]  {
     background: #1766a3;
     display: inline-block;
     text-align: center;

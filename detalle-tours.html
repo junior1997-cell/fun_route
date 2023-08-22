@@ -6,10 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-
-    <title>Fun Route - Inicio</title>
+    <title>Fun Route - Laguna Azul</title>
 
     <!-- Icono pagina web -->
     <link rel="apple-touch-icon" href="admin/dist/svg/ico_head.svg">
@@ -22,29 +19,14 @@
     <link rel="stylesheet" href="assets/css/fontawesome.css">
     <link rel="stylesheet" href="assets/css/owl.css">
     <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
 
     <link rel="stylesheet" href="assets/css/style2.css">
     <link rel="stylesheet" href="assets/css/paquetes.css">
+    <link rel="stylesheet" href="assets/css/jquery.flipster.min.css">
 
-    <!-- Swiper CSS -->
-    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
-
-    <style>
-      .spinner {
-        border: 8px solid rgba(0, 0, 0, 0.1);
-        border-top: 8px solid #333;
-        border-radius: 50%;
-        width: 100px;
-        height: 100px;
-        animation: spin 1s linear infinite;
-        margin: 10px auto;
-      }
-
-      @keyframes spin {
-        0% { transform: rotate(0deg); }  100% { transform: rotate(360deg); }
-      }
-
-    </style>
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/templatemo-ocean-vibes.css">
 
   </head>
 
@@ -55,7 +37,7 @@
     <div class="preloader-inner">
       <span class="loader"></span>
     </div>
-  </div>  
+  </div>
   <!-- ***** Preloader End ***** -->
 
   <!-- ***** Header Area Start ***** -->
@@ -75,23 +57,394 @@
         </div>
       </div>
       <i class="uil uil-apps nav-menu-btn"></i>
-    </div>
+    </div>  
   </header>
 
   <!-- ***** Main Banner Area Start ***** -->
-  <div class="head">
-    <h3>TOURS DIARIOS.</h3>
-    <p>Mira los tours diarios que tenemos para ti y luego cree su viaje a medida.</p>
-  </div>
-  
-  <section>
-    <div class="row contenedor" id="tours-container">
-      <div class="col-12 text-center mt-4" ><div class="spinner"></div> <div>Cargando datos...</div></div> 
+  <section class="tm-site-header">
+    <h1 class="tm-mt-0 tm-mb-15"><span class="tm-color-gray-2 nombre_1"></span> <span class="tm-color-primary nombre_2"></span></h1>
+    <!-- Button trigger modal -->
+    <div class="botones_paq">
+      <div class="">
+        <button class="precio_regular">
+          <span> <b>PRECIO REGULAR: </b><s style="font-weight: 900;">-----</s> * Persona</span>
+        </button>
+        
+      </div>
+      <div class="position_boton">
+        <button type="button" class="btn_modal_contact" data-bs-toggle="modal" data-bs-target="#modal-enviar-correo-tours">
+          <div class="svg-wrapper-1">
+            <div class="svg-wrapper">
+              <i class="fa-solid fa-paper-plane"></i>
+            </div>
+          </div>
+          <span> ¡¡ Solicita tu reserva aquí !!</span>
+        </button>
+      </div>
+      <div class="">
+        <button class="precio_actual">
+          <span><b>CON DESCUENTO: </b><b style="font-weight: 900; color: #1877f2;">-----</b> * Persona</span>
+        </button>
+      </div>
+    </div>
+     
+
+    <!-- Modal -->
+    <div class="modal fade modal-xl" id="modal-enviar-correo-tours" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-enviar-correo-toursLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Contactanos</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <section class="formulario_contac">
+              <div class="contactForm">
+                <div class="form">
+                  <div class="texto">
+                    <h2>!Hablemos!</h2>
+                    <p>El paquete turístico de 5 días y 4 noches a la ciudad de Tarapoto es una experiencia única que te 
+                      llevará a descubrir los encantos de esta hermosa ciudad de la selva peruana.
+                    </p>
+                  </div>
+                  <form id="form-hacer-pedido" name="form-hacer-pedido" method="POST">
+                    <div class="form-group inputBox">
+                      <label for="">Tu Nombre</label>
+                      <input type="text" name="nombre_email" placeholder="Nombre...">
+                      <input type="hidden" name="nombre_tours_email" id="nombre_tours_email">
+                      <input type="hidden" name="costo_email" id="costo_email">
+                    </div>
+                    <div class="form-group inputBox">
+                      <label for="">Tu Email</label>
+                      <input type="email" name="correo_email" placeholder="Email...">
+                    </div>
+                    <div class="form-group inputBox">
+                      <label for="">Tu Telefono</label>
+                      <input type="tel" name="telefono_email" placeholder="Telefono...">
+                    </div>
+                    <div class="form-group inputBox">
+                      <label for="">Tu Mensaje</label>
+                      <textarea name="mensaje_email"  cols="30" rows="5" placeholder="Mensaje..."></textarea>
+                    </div>
+                    <button type="submit" id="btn_enviar_correo"> Enviar Mensaje </button>
+                  </form>
+                </div>
+                <div class="info">
+                  <div class="imgBox">
+                    <img src="assets/images/email.png" alt="">
+                  </div>
+                  <div class="textBox">
+                    <div class="infoContact">
+                      <ion-icon name="map"></ion-icon> <p>Jr. Los Martires - Nº 220 - Morales, Tarapoto</p>
+                    </div>
+                    <div class="infoContact">
+                      <ion-icon name="phone-portrait-outline"></ion-icon> <p>+51 930 637 287</p>
+                    </div>
+                    <div class="infoContact">
+                      <ion-icon name="mail"></ion-icon> <p>funroute23@gmail.com</p>
+                    </div>
+                  </div>
+                  <div class="rrss">
+                    <a href=""><ion-icon name="logo-facebook"></ion-icon></a>
+                    <a href=""><ion-icon name="logo-twitter"></ion-icon></a>
+                    <a href=""><ion-icon name="logo-instagram"></ion-icon></a>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
     </div>
     
   </section>
 
+  <!-- Video banner 400 px height -->
+  <div id="tm-video-container">
+    <video autoplay muted loop id="tm-video">
+      <source src="assets/videos/fondo4.mp4" type="video/mp4">
+    </video>  
+    <i id="tm-video-control-button" class="fas fa-pause"></i>
+  </div>
+
+  <div class="contenido_title">
+    <h3>Combine el relax, la aventura y la cultura en su vista a la Selva</h3>
+    <button class="btn-tc1"><a href="paquetes.html">Tour Tarapoto</a></button>
+  </div>
+  <section class="contenido1">
+    <div class="container">
+      <div class="card">
+        <div class="imgBx" data-txt="Duración">
+          <img src="assets/images/reloj.png" alt="">
+        </div>
+        <div class="content">
+          <div>
+            <h3><i class="fa-regular fa-clock espacio"></i>Duración :</h3>
+            <p class="duracion_html">
+              <!-- Aqui se mostra la info de la base de datos -->
+            </p>
+            <!--<a href="#" class="read-more">Read More</a>-->
+          </div>
+        </div>
+      </div>
+  
+      <div class="card">
+        <div class="imgBx" data-txt="Actividades">
+          <img src="assets/images/camara.png" alt="">
+        </div>
+        <div class="content">
+          <div>
+            <h3 class="title-actividades"><i class="fa-solid fa-camera espacio"></i>Actividades :</h3>
+            <div class="actividades">
+              <p class="actividades_html">
+                <!-- Aqui se mostra la info de la base de datos -->
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="card">
+        <div class="imgBx" data-txt="Alojamiento">
+          <img src="assets/images/cama.png" alt="">
+        </div>
+        <div class="content">
+          <div>
+            <h3 class="title-actividades"><i class="fa-solid fa-bed espacio"></i>Alojamiento :</h3>
+            <p class="alojamiento_html">
+              <!-- Aqui se mostra la info de la base de datos -->
+            </p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="card">
+        <div class="imgBx" data-txt="Comidas">
+          <img src="assets/images/restaurante.png" alt="">
+        </div>
+        <div class="content">
+          <div>
+            <h3 class="title-actividades"><i class="fa-solid fa-utensils espacio"></i>Comidas :</h3>
+            <p class="comida_html">
+              <!-- Aqui se mostra la info de la base de datos -->
+            </p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contenido2">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-12 text-center">
+          <h6>Qué se hara en este Tour?</h6>
+          <h2 class="mb-5">Se hara lo siguiente:</h2>
+        </div>
+        <div class="col-lg-3 col-12">
+          <nav id="navbar-example3" class="h-100 flex-column align-items-stretch">
+            <nav class="nav nav-pills flex-column">
+              <h3>Indice :</h3>
+              <a class="nav-link smoothscroll" href="#item-1"><strong>Itinerario</strong></a>
+              <a class="nav-link smoothscroll" href="#item-2"><strong>Fotos</strong></a>              
+              <a class="nav-link smoothscroll" href="#item-3"><strong>Incluye</strong></a>
+              <a class="nav-link smoothscroll" href="#item-4"><strong>Recomendaciones</strong></a>
+            </nav>
+          </nav>
+        </div>
+        <div class="col-lg-9 col-12">
+          <div data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">         
+
+            <div class="scrollspy-example-item itinerario" id="item-3">
+              <h5><i class="fa-solid fa-location-dot espacio"></i>ITINERARIO</h5>
+              <div id="Container">
+                <!-- \\ Begin About Section \\ -->
+                <div class="About_sec" id="about">
+                  <div class="Center">            	
+                    
+                    <div class="Tabside">
+                      <ul class="menu_list">
+                        <li><a href="javascript:;" class="tabLink activeLink" id="cont-1">8:30 A.M - 4:30 P.M</a></li>
+                      </ul>
+                      <div class="clear"></div>
+                      <div class="tabcontent" id="cont-1-1">
+                        <div class="TabImage">
+                          <div class="img_laguna"></div>
+                          
+                        </div>
+                        <div class="Description itinerario_html">                          
+                          <!-- Aqui va el itinerario -->
+                        </div>
+                      </div>
+                      
+                      <div class="clear"></div>	
+                    </div>                    
+                    <!-- // End Tab Side // -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="scrollspy-example-item fotos" id="item-2">
+              <h5><i class="fa-solid fa-images espacio"></i>FOTOS <span>(Haga click en las fotos para agrandar)</span> </h5>
+              <section class="gallery">
+                <div class="container">
+                  <!-- Tab links -->
+                  <div class="tab_box">
+                    
+                    <button href="javascript:;" class="tab_btn activeTab" id="conta-1">Laguna Azul</button>                    
+                    
+                  </div>
+                  <div class="full-img" id="fullImgBox">
+                    <img src="assets/images/gallery/laguna-all.jpg" id="fullImg" alt="">
+                    <span onclick="closeFullImg()">x</span>
+                  </div>
+                  <div id="conta-1-2" class="tabContentImg">
+                    <div class="gallery_all">                      
+                      <!-- AQui listamos todos las imagenes -->
+                    </div>
+                  </div>
+                  
+                </div>
+                
+              </section>
+            </div>
+
+            <div class="scrollspy-example-item incluye" id="item-4">
+              <h5><i class="fa-solid fa-location-dot espacio"></i>INCLUYE</h5>
+              <div class="box-incluye">
+                <div class="left">
+                    <div class="content">
+                      <h4>Incluye</h4>
+                      <div class="incluye_html">
+                        <!-- aqui se agrega el html de la base de datos -->
+                      </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="content">
+                      <h4>No Incluye</h4>
+                      <div class="no_incluye_html">
+                        <!-- aqui se agrega el html de la base de datos -->
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="scrollspy-example-item resumen" id="item-1">
+              <h5><i class="fa-solid fa-clipboard espacio"></i>RECOMENDACIONES DEL TOUR</h5>
+              <div class="recomendaciones_html">
+
+              </div>
+            </div>
+          </div>
+        </div>
+       </div>
+    </div>
+  </section>
+
   <!-- ***** Main Banner Area End ***** -->
+  <section class="politicas_paquetes" style="padding-bottom: 10em;">
+    <div id="Container">
+      <!-- \\ Begin About Section \\ -->
+      <div class="About_sec" id="about">
+        <div class="Center"> 
+          <div class="Tabside2">
+            <ul class="btn_polit_tours">
+              <li><a href="javascript:;" class="tabLinkP activeLinkP" id="contad-1">RESERVAS</a></li>
+              <li><a href="javascript:;" class="tabLinkP" id="contad-2">CANCELACIONES Y MODIFICACIONES</a></li>
+              <li><a href="javascript:;" class="tabLinkP" id="contad-3">RESPONSABILIDAD DEL CLIENTE</a></li>
+              <li><a href="javascript:;" class="tabLinkP" id="contad-4">CAMBIOS O CANCELACIONES POR PARTE DEL PROVEEDOR DEL TOUR</a></li>
+              <li><a href="javascript:;" class="tabLinkP" id="contad-5">RESPONSABILIDAD DEL PROVEEDOR</a></li>
+            </ul>
+            <div class="clear"></div>
+            <div class="tabcontentP" id="contad-1-1">
+              <div class="TabImage">
+                <div class="img_politicas">
+                  <figure><img src="assets/images/politicas_reserva.png" alt="image"></figure>	
+                </div>
+                
+              </div>
+              <div class="Description">
+                <ul>
+                  <li class="iti_list"><p>Las solicitudes de reservas se atenderán por escrito a través de los siguientes contactos: Fun Route: funroute23@gmail.com / <b>+51 930 637 287</b>.</p></li>
+                  <li class="iti_list"><p>Para reservar un tour, se requiere el pago completo o un depósito no reembolsable (50%), según lo especificado al momento de la reserva.</p></li>
+                  <li class="iti_list"><p>Las reservas están sujetas a disponibilidad y se recomienda hacerlas con anticipación para garantizar la disponibilidad del tour deseado.</p></li>
+                </ul>
+              </div>
+            </div>
+            <div class="tabcontentP hide" id="contad-2-1">
+              <div class="TabImage">
+                <div class="img_politicas">
+                  <figure><img src="assets/images/politica_cancelar.png" alt="image"></figure>	
+                </div>
+              </div>
+              <div class="Description">
+                <ul>
+                  <li class="iti_list"><p>Las cancelaciones deben realizarse con un aviso previo de al menos 24 horas antes de la fecha y hora del tour para ser elegibles para un reembolso completo o para transferir la reserva a otra fecha, sujeto a disponibilidad.</p></li>
+                  <li class="iti_list"><p>Las cancelaciones realizadas dentro de 24 horas antes del tour no son reembolsables.</p></li>
+                  <li class="iti_list"><p>Las modificaciones de la reserva están sujetas a disponibilidad y pueden estar sujetas a cargos adicionales.</p></li>
+                </ul>
+                
+              </div>
+            </div>
+            <div class="tabcontentP hide" id="contad-3-1">
+              <div class="TabImage">
+                <div class="img_politicas">
+                  <figure><img src="assets/images/respo_cliente.png" alt="image"></figure>	
+                </div>
+                
+              </div>
+              <div class="Description">
+                <ul>
+                  <li class="iti_list"><p>Los clientes son responsables de asegurarse de que cumplan con los requisitos de documentación, como pasaportes, visas, DNI y permisos requeridos para participar en el tour.</p></li>
+                  <li class="iti_list"><p>Los clientes deben seguir las instrucciones y regulaciones del guía turístico durante la experiencia. Cualquier incumplimiento de estas instrucciones o algún acto discriminatorio puede resultar en la terminación del tour sin derecho a reembolso.</p></li>
+                  <li class="iti_list"><p>El cliente tiene máximo 8 minutos para subir a la movilidad desde el llamado del guía turístico, después del tiempo determinado puede resultar en la terminación del tour sin derecho a reembolso.</p></li>
+                </ul>
+                
+              </div>
+            </div>
+            <div class="tabcontentP hide" id="contad-4-1">
+              <div class="TabImage">
+                <div class="img_politicas">
+                  <figure><img src="assets/images/modifi_provee.png" alt="image"></figure>	
+                </div>
+                
+              </div>
+              <div class="Description">
+                <ul>
+                  <li class="iti_list"><p>En casos excepcionales, el proveedor del tour puede verse obligado a realizar cambios en el itinerario, cancelar o posponer el tour debido a circunstancias imprevistas, como condiciones climáticas extremas, problemas de seguridad o fuerza mayor. En tales casos, se harán esfuerzos razonables para ofrecer alternativas o reembolsos adecuados.</p></li>
+                  
+                </ul>
+                
+              </div>
+            </div>
+            <div class="tabcontentP hide" id="contad-5-1">
+              <div class="TabImage">
+                <div class="img_politicas">
+                  <figure><img src="assets/images/respo_provee.png" alt="image"></figure>	
+                </div>
+                
+              </div>
+              <div class="Description">
+                <ul>
+                  <li class="iti_list"><p>El proveedor del tour se esforzará por brindar servicios de alta calidad y asegurar la seguridad y el bienestar de los clientes durante el tour.</p></li>
+                  <li class="iti_list"><p>El proveedor del tour no se hace responsable de lesiones personales, pérdida o daño de pertenencias personales durante el tour, a menos que se deba a negligencia comprobada del proveedor.</p></li>
+                
+                </ul>
+                
+              </div>
+            </div>
+            <div class="clear"></div>	
+          </div>
+          <!-- // End Tab Side // -->
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ***** Header Area End ***** -->
   <footer>
     <div class="waves">
       <div class="wave" id="wave1"></div>
@@ -107,7 +460,7 @@
           <span><i class="fab fa-facebook-f"></i></span>
         </li>
       </a>
-
+      
       <a href="https://www.tiktok.com/@funroute2?_t=8coRyvY5iOj&_r=1" target="_blank" rel="noopener noreferrer">
         <li class="icon twitter">
           <span class="tooltip">TikTok</span>
@@ -128,13 +481,13 @@
           <span><i class="fab fa-whatsapp"></i></span>
         </li>
       </a>
-
+      
     </ul>
-    <p> <a class="text-white" href="https://jdl.pe/" target="_blank" rel="noopener noreferrer">JDL Technology</a> | Todos los derechos reservados</p>
+    <p>JDL Technology | Todos los derechos reservados</p>
     <!--<div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <p>Copyright © 2036 <a href="#">WoOx Travel</a> Company. All rights reserved.
+          <p>Copyright © 2036 <a href="#">WoOx Travel</a> Company. All rights reserved. 
           <br>Design: <a href="https://templatemo.com" target="_blank" title="free CSS templates">TemplateMo</a></p>
         </div>
       </div>
@@ -147,17 +500,36 @@
 
 
   <!-- Scripts -->
-  <script src="assets/js/navJS.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script>
-		window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
-	</script>
+  <!-- Bootstrap core JavaScript -->
   <script src="recursos/jquery/jquery.min.js"></script>
-  <script src="assets/js/tours.js"></script>
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
 
+  <!-- <<Attched Javascripts>> -->
+  <script type="text/javascript" src="assets/js/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="assets/js/jquery.sudoSlider.min.js"></script>
+  <script type="text/javascript" src="assets/js/modernizr.js"></script> 
+
+
+
+  <script src="assets/js/isotope.min.js"></script>  
+  <script src="admin/dist/js/funcion_general.js"></script>
+  <script src="admin/dist/js/funcion_crud.js"></script>
+  <script src="assets/js/navJS.js"></script>
   <script src="recursos/bootstrap/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="node_modules/vanilla-tilt/dist/vanilla-tilt.js"></script>
-  <script src="scripts/tours.js"></script>
+
+  <!-- Select2 -->
+  <script src="admin/plugins/select2/js/select2.full.min.js"></script>
+  <!-- Toastr -->
+  <script src="admin/plugins/toastr/toastr.min.js"></script>
+
+  <!-- jquery-validation -->
+  <script src="admin/plugins/jquery-validation/jquery.validate.min.js"></script>
+  <script src="admin/plugins/jquery-validation/additional-methods.min.js"></script>
+
+  <script src="assets/js/tours.js"></script>
+  <script src="scripts/detalle_tours.js"></script>
+
   </body>
 
 </html>

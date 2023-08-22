@@ -3,7 +3,7 @@ $(document).ready(function () {
 });
 
 function mostrar_vista() {
-  $.post("controlador/tours.php?op=mostrar_vista", {}, function (e, status) {
+  $.post("controlador/tours.php?op=mostrar_todos", {}, function (e, status) {
     e = JSON.parse(e); console.log(e);
     if (e.status == true) {
       $('#tours-container').html(''); //limpiamos el div
@@ -29,7 +29,7 @@ function mostrar_vista() {
                           ${val.resumen_actividad}
                         </a>
                       </div>
-                      <a href="paquetes/laguna-azul.html">
+                      <a href="#" onclick="ir_a_detalle_tours(${val.idtours},'${removeCaracterEspecial_v2(val.nombre)}')">
                         <button class="btn-consultar"> Consultar</button>
                       </a>
                     </div>
@@ -67,4 +67,9 @@ function mostrar_vista() {
 function activate_descripcion() {  
 	$('.boton-drop').toggleClass("drop-rotate");
 	$('.drop-descripcion').toggleClass("drop-active")
+}
+
+function ir_a_detalle_tours(id, nombre) {
+  localStorage.setItem('nube_idtours', id);
+  window.location.href = `${window.location.origin}/fun_route/detalle-tours.html#${nombre}`;
 }

@@ -9,16 +9,16 @@
     //Load Composer's autoloader
     require '../vendor/autoload.php';
 
-    require_once "../modelos/Tours.php";
+    require_once "../modelos/Paquete.php";
 
-    $tours = new Tours(0);
+    $paquete = new Paquete(0);
 
     date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y h.i.s A");
 
     $imagen_error = "this.src='../dist/svg/user_default.svg'";
     $toltip       = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
     
-    $idtours		  = isset($_POST["id_tours"])? limpiarCadena($_POST["id_tours"]):"";
+    $idpaquete		  = isset($_POST["idpaquete"])? limpiarCadena($_POST["idpaquete"]):"";
 
     // ::::::::::::::::::: DATOS CORREO ::::::::::::::::::::::::::
     $nombre_email		= isset($_POST["nombre_email"])? limpiarCadena($_POST["nombre_email"]):"";
@@ -34,19 +34,24 @@
       
       /* ══════════════════════════════════════ T O U R S  ══════════════════════════════════ */
       case 'mostrar_detalle':
-        $rspta=$tours->mostrar_detalle($idtours);
+        $rspta=$paquete->mostrar_detalle($idtours);
         //Codificar el resultado utilizando json
         echo json_encode($rspta, true);
       break;
 
       case 'mostrar_todos':
-        $rspta = $tours->mostrar_todos();
+        $rspta = $paquete->mostrar_todos();
         echo json_encode($rspta, true);
       break;      
 
       /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */       
-      case 'mostrar_galeria':
-        $rspta = $tours->mostrar_galeria($_POST['idtours']);
+      case 'mostrar_galeria_5_aleatorios':
+        $rspta = $paquete->mostrar_galeria_5_aleatorios();
+        echo json_encode($rspta, true);
+      break;  
+
+      case 'mostrar_galeria_20_aleatorios':
+        $rspta = $paquete->mostrar_galeria_20_aleatorios();
         echo json_encode($rspta, true);
       break;  
       
