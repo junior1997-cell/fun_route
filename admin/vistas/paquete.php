@@ -32,7 +32,7 @@ if (!isset($_SESSION["nombre"])) {
       <?php
       require 'nav.php';
       require 'aside.php';
-      if ($_SESSION['otro_ingreso'] == 1) {
+      if ($_SESSION['paquete_definido'] == 1) {
         //require 'enmantenimiento.php';
       ?>
 

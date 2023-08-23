@@ -13,7 +13,7 @@ if (!isset($_SESSION["nombre"])) {
 } else {
 
   //Validamos el acceso solo al usuario logueado y autorizado.
-  if ($_SESSION['recurso'] == 1) {
+  if ($_SESSION['paquete_definido'] == 1) {
 
     require_once "../modelos/Paquete.php";
 

@@ -13,7 +13,7 @@
   } else {
 
     //Validamos el acceso solo al usuario logueado y autorizado.
-    if ($_SESSION['recurso'] == 1) {
+    if ($_SESSION['tours'] == 1) {
 
       require_once "../modelos/Tours.php";
 
