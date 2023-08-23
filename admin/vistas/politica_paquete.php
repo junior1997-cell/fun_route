@@ -100,7 +100,7 @@
                                     <!-- cancelacion -->
                                     <div class="col-12 col-sm-12 col-md-12 col-lg-6">
                                       <div class="form-group">
-                                        <label for="cancelacion">Políticas de Cancelacion <sup class="text-danger">*</sup> </label> 
+                                        <label for="cancelacion">Políticas de Cancelacón <sup class="text-danger">*</sup> </label> 
                                         <textarea name="cancelacion" id="cancelacion" class="form-control" rows="10"></textarea>
                                       </div>
                                     </div>
@@ -129,7 +129,7 @@
                               </form>
                             </div>
                             <div class="modal-footer justify-content-end">
-                              <button class="btn btn-warning editar"  onclick="activar_editar(1);">Editar</button>
+                              <button class="btn btn-warning editar"  onclick="activar_editar(2);">Editar</button>
                               <button type="submit" class="btn btn-success actualizar" id="actualizar_registro" style="display: none;">Actualizar</button>
                             </div>
 

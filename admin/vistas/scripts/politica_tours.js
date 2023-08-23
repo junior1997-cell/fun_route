@@ -1,6 +1,6 @@
 
 name_p = $('#name_P_tt').val(); //"
-var tours_paquete='';
+
 function init() {
   $("#bloc_empresa").addClass("menu-open bg-color-191f24");
 
@@ -17,17 +17,6 @@ function init() {
 
   $("#actualizar_registro").on("click", function (e) { actualizar_datos_generales_mv(e); });
 
-  $('#condiciones_generales').summernote(); 
-  $('#reservas').summernote(); 
-  $('#pago').summernote(); 
-  $('#cancelacion').summernote();
-
-  $('#condiciones_generales').summernote('disable'); 
-  $('#reservas').summernote('disable'); 
-  $('#pago').summernote('disable'); 
-  $('#cancelacion').summernote('disable');
-
-  idpolitica = $("#idpoliticas").val();
 
   $('#reservas_tours').summernote(); 
   $('#cancelacion_tours').summernote(); 
@@ -41,39 +30,29 @@ function init() {
   $('#cancelacion_proveedor_tours').summernote('disable'); 
   $('#responsabilidad_proveedor_tours').summernote('disable');
 
+
+  $('#condiciones_generales').summernote(); 
+  $('#reservas').summernote(); 
+  $('#pago').summernote(); 
+  $('#cancelacion').summernote();
+
+  $('#condiciones_generales').summernote('disable'); 
+  $('#reservas').summernote('disable'); 
+  $('#pago').summernote('disable'); 
+  $('#cancelacion').summernote('disable');
+  
+  idpolitica = $("#idpoliticas").val();
+
+
+
   mostrar(idpolitica);
 
 }
 
 function activar_editar(estado) {
 
-tours_paquete = estado;
-console.log(tours_paquete);
   if (estado == "1") {
 
-    $(".editar_t").hide();
-    $(".actualizar_t").show();
-
-    $('#reservas_tours').summernote('enable'); 
-    $('#cancelacion_tours').summernote('enable'); 
-    $('#responsabilidad_cliente_tours').summernote('enable'); 
-    $('#cancelacion_proveedor_tours').summernote('enable'); 
-    $('#responsabilidad_proveedor_tours').summernote('enable');
-
-    toastr.success('Campos habiliados para editar!!!')
-
-  }else if(estado == "3"){
-    $(".editar_t").show();
-    $(".actualizar_t").hide();
-
-    $('#reservas_tours').summernote('disable'); 
-    $('#cancelacion_tours').summernote('disable'); 
-    $('#responsabilidad_cliente_tours').summernote('disable'); 
-    $('#cancelacion_proveedor_tours').summernote('disable'); 
-    $('#responsabilidad_proveedor_tours').summernote('disable');
-  }
-
-  if (estado == "2") {//modificado de 2 a 0
     $(".editar").hide();
     $(".actualizar").show();
 
@@ -81,17 +60,21 @@ console.log(tours_paquete);
     $('#reservas').summernote('enable');
     $('#pago').summernote('enable');
     $('#cancelacion').summernote('enable');
+
     toastr.success('Campos habiliados para editar!!!')
 
-  }else if(estado == "3"){
+  }
+
+  if (estado == "2") {//modificado de 2 a 0
 
     $(".editar").show();
     $(".actualizar").hide();
 
-    $('#condiciones_generales').summernote('disable'); 
-    $('#reservas').summernote('disable'); 
-    $('#pago').summernote('disable'); 
-    $('#cancelacion').summernote('disable');
+    $('#condiciones_generales').summernote('disable');
+    $('#reservas').summernote('disable');
+    $('#pago').summernote('enable');
+    $('#cancelacion').summernote('enable');
+
   }
 
 }
@@ -104,32 +87,16 @@ function mostrar(idpolitica) {
 
     e = JSON.parse(e); console.log(e);
     if (e.status) {
-      
+
       $("#cargando-1-fomulario").show();
       $("#cargando-2-fomulario").hide();
 
-      if (e.data.idpoliticas=='1') { //politicas
+      $("#idpoliticas").val(e.data.idpoliticas);
 
-        $("#idpoliticas").val(e.data.idpoliticas);
-
-        $('#condiciones_generales').summernote('code', e.data.condiciones_generales);
-        $('#reservas').summernote('code', e.data.reservas);
-        $('#pago').summernote('code', e.data.pago);
-        $('#cancelacion').summernote('code', e.data.cancelacion);
-        
-      }
-      if (e.data.idpoliticas=='2') { //tours
-
-        $("#idpoliticas").val(e.data.idpoliticas);
-
-        $('#reservas_tours').summernote('code', e.data.reservas); 
-        $('#cancelacion_tours').summernote('code', e.data.cancelacion); 
-        $('#responsabilidad_cliente_tours').summernote('code', e.data.responsabilidad_cliente); 
-        $('#cancelacion_proveedor_tours').summernote('code', e.data.cancelaiones_proveedor); 
-        $('#responsabilidad_proveedor_tours').summernote('code', e.data.responsabilidad_proveedor);
-        
-      }
-
+      $('#condiciones_generales').summernote('code', e.data.condiciones_generales);
+      $('#reservas').summernote('code', e.data.reservas);
+      $('#pago').summernote('code', e.data.pago);
+      $('#cancelacion').summernote('code', e.data.cancelacion);
 
     } else {
       ver_errores(e);
@@ -156,7 +123,7 @@ function actualizar_datos_generales_mv(e) {
 
           Swal.fire("Correcto!", "El registro se guardo correctamente.", "success");
 
-          mostrar(idpolitica); activar_editar(3);
+          mostrar(idpolitica); activar_editar(2);
 
         } else {
           ver_errores(e);

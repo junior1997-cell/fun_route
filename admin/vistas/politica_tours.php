@@ -72,36 +72,42 @@
                                     <!-- id -->
                                     <input type="hidden" id="name_P_tt" value="politicas_tours">
                                     <input type="hidden" name="idpoliticas" id="idpoliticas" value="2" />
-                                    
-                                    <!-- condiciones-->
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6">
-                                      <div class="form-group">
-                                        <label for="condiciones_generales">Condiciones Generales <sup class="text-danger">*</sup> </label> 
-                                        <textarea name="condiciones_generales" id="condiciones_generales" class="form-control" rows="10"></textarea>
-                                      </div>
-                                    </div>
 
                                      <!-- reservas-->
                                      <div class="col-12 col-sm-12 col-md-12 col-lg-6">
                                       <div class="form-group">
-                                        <label for="reservas"> Políticas de Reservas <sup class="text-danger">*</sup> </label> 
-                                        <textarea name="reservas" id="reservas" class="form-control" rows="10"></textarea>
+                                        <label for="reservas_tours"> Reservas <sup class="text-danger">*</sup> </label> 
+                                        <textarea name="reservas_tours" id="reservas_tours" class="form-control" rows="10"></textarea>
+                                      </div>
+                                    </div>
+                                    
+                                    <!-- CANCELACIONES Y MODIFICACIONES -->
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                                      <div class="form-group">
+                                        <label for="cancelacion_tours"> CANCELACIONES Y MODIFICACIONES <sup class="text-danger">*</sup> </label> 
+                                        <textarea name="cancelacion_tours" id="cancelacion_tours" class="form-control" rows="10"></textarea>
                                       </div>
                                     </div>
 
-                                    <!-- pago -->
+                                    <!-- RESPONSABILIDAD DEL CLIENTE -->
                                     <div class="col-12 col-sm-12 col-md-12 col-lg-6">
                                       <div class="form-group">
-                                        <label for="pago"> Políticas de Pago <sup class="text-danger">*</sup> </label> 
-                                        <textarea name="pago" id="pago" class="form-control" rows="10"></textarea>
+                                        <label for="responsabilidad_cliente_tours">RESPONSABILIDAD DEL CLIENTE <sup class="text-danger">*</sup> </label> 
+                                        <textarea name="responsabilidad_cliente_tours" id="responsabilidad_cliente_tours" class="form-control" rows="10"></textarea>
                                       </div>
                                     </div>
-
-                                    <!-- cancelacion -->
+                                    <!-- RESPONSABILIDAD DEL CLIENTE -->
                                     <div class="col-12 col-sm-12 col-md-12 col-lg-6">
                                       <div class="form-group">
-                                        <label for="cancelacion">Políticas de Cancelacion <sup class="text-danger">*</sup> </label> 
-                                        <textarea name="cancelacion" id="cancelacion" class="form-control" rows="10"></textarea>
+                                        <label for="cancelacion_proveedor_tours">CAMBIOS O CANCELACIONES POR PARTE DEL PROVEEDOR DEL TOUR <sup class="text-danger">*</sup> </label> 
+                                        <textarea name="cancelacion_proveedor_tours" id="cancelacion_proveedor_tours" class="form-control" rows="10"></textarea>
+                                      </div>
+                                    </div>
+                                    <!-- RESPONSABILIDAD DEL CLIENTE -->
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                                      <div class="form-group">
+                                        <label for="responsabilidad_proveedor_tours">RESPONSABILIDAD DEL PROVEEDOR <sup class="text-danger">*</sup> </label> 
+                                        <textarea name="responsabilidad_proveedor_tours" id="responsabilidad_proveedor_tours" class="form-control" rows="10"></textarea>
                                       </div>
                                     </div>
 
@@ -129,8 +135,8 @@
                               </form>
                             </div>
                             <div class="modal-footer justify-content-end">
-                              <button class="btn btn-warning editar"  onclick="activar_editar(1);">Editar</button>
-                              <button type="submit" class="btn btn-success actualizar" id="actualizar_registro" style="display: none;">Actualizar</button>
+                              <button class="btn btn-warning editar_t"  onclick="activar_editar(1);">Editar</button>
+                              <button type="submit" class="btn btn-success actualizar_t" id="actualizar_registro" style="display: none;">Actualizar</button>
                             </div>
 
                         </div>

@@ -21,6 +21,13 @@
       $pago = isset($_POST["pago"])? limpiarCadena($_POST["pago"]):"";
       $cancelacion    = isset($_POST["cancelacion"])? limpiarCadena($_POST["cancelacion"]):"";
 
+
+      $reservas_tours                = isset($_POST["reservas_tours"])? limpiarCadena($_POST["reservas_tours"]):"";
+      $cancelacion_tours             = isset($_POST["cancelacion_tours"])? limpiarCadena($_POST["cancelacion_tours"]):"";
+      $responsabilidad_cliente_tours = isset($_POST["responsabilidad_cliente_tours"])? limpiarCadena($_POST["responsabilidad_cliente_tours"]):"";
+      $cancelacion_proveedor_tours   = isset($_POST["cancelacion_proveedor_tours"])? limpiarCadena($_POST["cancelacion_proveedor_tours"]):"";
+      $responsabilidad_proveedor_tours  = isset($_POST["responsabilidad_proveedor_tours"])? limpiarCadena($_POST["responsabilidad_proveedor_tours"]):"";
+
     switch ($_GET["op"]) {
 
       case 'mostrar':
@@ -34,10 +41,18 @@
           echo "Los datos no se pudieron actualizar";
         }else {
 
-          // editamos un documento existente
-          $rspta=$politica->actualizar_politicas( $id, $condiciones_generales, $reservas, $pago, $cancelacion);
+          // edit=amos un documento existente
+          if ($id='1') {
+            $rspta=$politica->actualizar_politicas( $id, $condiciones_generales, $reservas, $pago, $cancelacion);
           
-          echo json_encode( $rspta, true) ;
+            echo json_encode( $rspta, true) ;
+          }else{
+            $rspta=$politica->actualizar_politicas_tours( $id, $reservas_tours,$cancelacion_tours,$cancelacion_proveedor_tours,
+            $responsabilidad_proveedor_tours,$responsabilidad_cliente_tours );
+          
+            echo json_encode( $rspta, true) ;
+          }
+
         }            
 
       break;
