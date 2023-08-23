@@ -24,6 +24,24 @@
       $sql_2="SELECT * FROM galeria_paquete WHERE estado = '1' AND estado_delete = '1' AND idpaquete = '$idpaquete';";
       $galeria = ejecutarConsultaArray($sql_2); if ( $galeria['status'] == false) {return $galeria; }
 
+      $sql_3="SELECT * FROM itinerario WHERE estado = '1' AND estado_delete = '1' AND idpaquete = '$idpaquete' ORDER BY numero_orden ;";
+      $itinerario = ejecutarConsultaArray($sql_3); if ( $itinerario['status'] == false) {return $itinerario; }
+      
+      $array_iti = [];
+      foreach ($itinerario['data'] as $key => $value) {
+        $id = $value['idtours'];
+        $sql_2="SELECT * FROM galeria_tours WHERE estado = '1' AND estado_delete = '1' AND idtours = '$id';";
+        $gal_tours = ejecutarConsultaArray($sql_2); if ( $gal_tours['status'] == false) {return $gal_tours; }
+        $array_iti []= [
+          'iditinerario'  => $value['iditinerario'],
+          'idpaquete'     => $value['idpaquete'],
+          'idtours'       => $value['idtours'],
+          'actividad'     => $value['actividad'],
+          'numero_orden'  => $value['numero_orden'],
+          'galeria'       => $gal_tours['data'],
+        ];
+      }
+
       $paquete = [
         'idpaquete'             => $datospaquete['data']['idpaquete'],
         'nombre'                => $datospaquete['data']['nombre'],
@@ -48,6 +66,7 @@
         'desc_comida'           => $datospaquete['data']['desc_comida'],
 
         'galeria'               => $galeria['data'],
+        'itinerario'            => $array_iti,
       ];
       return $retorno=['status'=>true, 'message'=>'todo okey','data'=>$paquete];
     }

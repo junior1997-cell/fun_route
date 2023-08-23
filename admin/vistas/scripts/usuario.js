@@ -252,7 +252,7 @@ function mostrar(idusuario) {
     $(".trabajador-name").html(` <i class="fas fa-users-cog text-primary"></i> <b class="texto-parpadeante font-size-20px">${data.data.nombres}</b> `);    
 
     $("#trabajador_old").val(data.data.idpersona);
-    // $("#cargo").val(data.data.cargo).trigger("change");
+    // $("#cargo").html(data.data.cargo);
     $("#login").val(data.data.login);
     $("#password-old").val(data.data.password);
     $("#idusuario").val(data.data.idusuario);

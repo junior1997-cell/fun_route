@@ -33,7 +33,7 @@
             </a>
           </li>
         <?php  }  ?>
-        <?php if ($_SESSION['acceso']==1) {  ?>
+        <?php if ($_SESSION['empresa']==1) {  ?>
           <!-- ACCESOS -->
 
           <li class="nav-item " id="bloc_empresa">
@@ -184,7 +184,7 @@
           </a>
           <ul class="nav nav-treeview">
 
-            <?php if ($_SESSION['almacen_abono']==1) {  ?>   
+            <?php if ($_SESSION['paquete_definido']==1) {  ?>   
               <!-- Paquetes -->      
               <li class="nav-item  b-radio-3px" id="bloc_lPaquetes">
                 <a href="#" class="nav-link pl-2" id="mlPaquetes">
@@ -215,7 +215,7 @@
               </li>
             <?php  }  ?>  
             
-            <?php if ($_SESSION['compra_grano']==1) {  ?>   
+            <?php if ($_SESSION['paquete_medida']==1) {  ?>   
               <!-- COMPRAS -->      
               <li class="nav-item  b-radio-3px" id="bloc_ComprasGrano">
                 <a href="#" class="nav-link pl-2" id="mlPaquetesMedida">
@@ -245,11 +245,9 @@
                   </li> 
                 </ul>
               </li>
-            <?php  }  ?>    
-
-
+            <?php  }  ?>
             
-            <?php if ($_SESSION['almacen_abono']==1) {  ?>   
+            <?php if ($_SESSION['tours']==1) {  ?>   
               <!-- Tours -->      
               <li class="nav-item  b-radio-3px" id="bloc_lTours">
                 <a href="#" class="nav-link pl-2" id="mlTours">
@@ -280,7 +278,7 @@
               </li>
             <?php  }  ?>  
 
-            <?php if ($_SESSION['almacen_abono']==1) {  ?>
+            <?php if ($_SESSION['pedido']==1) {  ?>
               <!-- RESUMEN DE GASTOS -->
               <li class="nav-item ">
                 <!-- <a href="pedido.php" class="nav-link pl-2" id="lPedido">
@@ -292,9 +290,7 @@
                   <p>Pedido </p>
                 </a>
               </li>
-            <?php  }  ?>
-            
-            
+            <?php  }  ?>            
             
           </ul>
         </li> 
@@ -307,7 +303,7 @@
           </a>
           <ul class="nav nav-treeview">
 
-            <?php if ($_SESSION['pago_trabajador']==1) {  ?>
+            <?php if ($_SESSION['reporte']==1) {  ?>
               <!-- RESUMEN DE GASTOS -->
               <li class="nav-item ">
                 <a href="pago_trabajador.php" class="nav-link pl-2" id="lPagoTrabajador">
@@ -317,7 +313,7 @@
               </li>
             <?php  }  ?>
 
-            <?php if ($_SESSION['otro_ingreso']==1) {  ?>
+            <?php if ($_SESSION['reporte']==1) {  ?>
               <li class="nav-item ">
                 <a href="otro_ingreso.php" class="nav-link pl-2" id="lOtroIngreso">             
                   <i class="nav-icon fas fa-hand-holding-usd"></i>
@@ -337,7 +333,7 @@
           </a>
           <ul class="nav nav-treeview">
 
-            <?php if ($_SESSION['pago_trabajador']==1) {  ?>
+            <?php if ($_SESSION['contable_financiero']==1) {  ?>
               <!-- RESUMEN DE GASTOS -->
               <li class="nav-item ">
                 <a href="pago_trabajador.php" class="nav-link pl-2" id="lPagoTrabajador">
@@ -347,7 +343,7 @@
               </li>
             <?php  }  ?>
 
-            <?php if ($_SESSION['otro_ingreso']==1) {  ?>
+            <?php if ($_SESSION['contable_financiero']==1) {  ?>
               <li class="nav-item ">
                 <a href="otro_ingreso.php" class="nav-link pl-2" id="lOtroIngreso">             
                   <i class="nav-icon fas fa-hand-holding-usd"></i>
