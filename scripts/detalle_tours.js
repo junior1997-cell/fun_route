@@ -18,6 +18,9 @@ function mostrar_detalle(id) {
       $('.comida_html').html(e.data.resumen_comida);      
       $('.alojamiento_html').html(e.data.alojamiento == 0 ? 'No incluye' : 'Incluye');      
       $('.actividades_html').html(e.data.resumen_actividad);      
+      $('.image_itinerario').html(`<div  style="height: 20em; background: url(admin/dist/docs/tours/perfil/${e.data.imagen.replace(/\s/g, "%20")}), url(assets/images/splash2.jpg); background-size: cover; background-position: center center; background-blend-mode: screen;"></div>`);      
+
+      // $('.img_laguna').css( {'background':`url(admin/dist/docs/tours/galeria/${e.data.imagen}), url(assets/images/splash2.jpg)`, 'background-size': 'cover', 'background-position': 'center center'} );
 
       $('.gallery_all').html(''); //limpiamos el div      
       e.data.galeria.forEach((val, key) => {

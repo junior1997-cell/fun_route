@@ -21,12 +21,17 @@
       $sql="SELECT * FROM paquete WHERE idpaquete='$idpaquete'";
       $datospaquete = ejecutarConsultaSimpleFila($sql); if ( $datospaquete['status'] == false) {return $datospaquete; }
 
-      $sql_2="SELECT * FROM galeria_paquete WHERE estado = '1' AND estado_delete = '1' AND idpaquete = '$idpaquete';";
+      $sql_2 = "SELECT * FROM galeria_paquete WHERE estado = '1' AND estado_delete = '1' AND idpaquete = '$idpaquete';";
       $galeria = ejecutarConsultaArray($sql_2); if ( $galeria['status'] == false) {return $galeria; }
 
-      $sql_3="SELECT * FROM itinerario WHERE estado = '1' AND estado_delete = '1' AND idpaquete = '$idpaquete' ORDER BY numero_orden ;";
+      $sql_3 = "SELECT it.iditinerario, it.idpaquete, it.idtours, it.actividad, it.numero_orden, t.imagen, t.nombre as nombre_tours 
+      FROM itinerario as it, tours as t
+      WHERE it.idtours = t.idtours AND it.estado = '1' AND it.estado_delete = '1' AND it.idpaquete = '$idpaquete' ORDER BY it.numero_orden ;";
       $itinerario = ejecutarConsultaArray($sql_3); if ( $itinerario['status'] == false) {return $itinerario; }
-      
+
+      $sql_4 = "SELECT * FROM politicas WHERE idpoliticas ='1'";
+      $politica = ejecutarConsultaSimpleFila($sql_4); if ( $politica['status'] == false) {return $politica; }
+
       $array_iti = [];
       foreach ($itinerario['data'] as $key => $value) {
         $id = $value['idtours'];
@@ -38,6 +43,8 @@
           'idtours'       => $value['idtours'],
           'actividad'     => $value['actividad'],
           'numero_orden'  => $value['numero_orden'],
+          'imagen'        => $value['imagen'],
+          'nombre_tours'  => $value['nombre_tours'],
           'galeria'       => $gal_tours['data'],
         ];
       }
@@ -67,6 +74,7 @@
 
         'galeria'               => $galeria['data'],
         'itinerario'            => $array_iti,
+        'politica'              => $politica['data'],
       ];
       return $retorno=['status'=>true, 'message'=>'todo okey','data'=>$paquete];
     }

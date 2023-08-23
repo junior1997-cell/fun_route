@@ -28,6 +28,19 @@
     <link rel="stylesheet" href="assets/css/magnific-popup.css">
     <link rel="stylesheet" href="assets/css/templatemo-ocean-vibes.css">
 
+    <style>
+      .spinner {
+        border: 8px solid rgba(0, 0, 0, 0.1);
+        border-top: 8px solid #333;
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        animation: spin 1s linear infinite;
+        margin: 10px auto;
+      }
+      @keyframes spin { 0% { transform: rotate(0deg); }  100% { transform: rotate(360deg); } }
+    </style>
+    
   </head>
 
 <body>
@@ -256,7 +269,7 @@
         <div class="col-lg-9 col-12">
           <div data-bs-spy="scroll" data-bs-target="#navbar-example3" data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">         
 
-            <div class="scrollspy-example-item itinerario" id="item-3">
+            <div class="scrollspy-example-item itinerario" id="item-1">
               <h5><i class="fa-solid fa-location-dot espacio"></i>ITINERARIO</h5>
               <div id="Container">
                 <!-- \\ Begin About Section \\ -->
@@ -269,8 +282,8 @@
                       </ul>
                       <div class="clear"></div>
                       <div class="tabcontent" id="cont-1-1">
-                        <div class="TabImage">
-                          <div class="img_laguna"></div>
+                        <div class="TabImage image_itinerario">
+                          
                           
                         </div>
                         <div class="Description itinerario_html">                          
@@ -311,7 +324,7 @@
               </section>
             </div>
 
-            <div class="scrollspy-example-item incluye" id="item-4">
+            <div class="scrollspy-example-item incluye" id="item-3">
               <h5><i class="fa-solid fa-location-dot espacio"></i>INCLUYE</h5>
               <div class="box-incluye">
                 <div class="left">
@@ -333,11 +346,9 @@
               </div>
             </div>
 
-            <div class="scrollspy-example-item resumen" id="item-1">
+            <div class="scrollspy-example-item resumen" id="item-4">
               <h5><i class="fa-solid fa-clipboard espacio"></i>RECOMENDACIONES DEL TOUR</h5>
-              <div class="recomendaciones_html">
-
-              </div>
+              <div class="recomendaciones_html">  <!-- aqui se agrega el html de la base de datos -->  </div>
             </div>
           </div>
         </div>

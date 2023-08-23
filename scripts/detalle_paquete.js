@@ -14,20 +14,61 @@ function mostrar_detalle(id) {
       $('.no_incluye_html').html(e.data.no_incluye);
       $('.recomendaciones_html').html(e.data.recomendaciones);     
 
-      $('.duracion_html').html(e.data.duracion);      
-      $('.comida_html').html(e.data.resumen_comida);      
-      $('.alojamiento_html').html(e.data.alojamiento == 0 ? 'No incluye' : 'Incluye');      
-      $('.actividades_html').html(e.data.resumen_actividad);      
+      $('.duracion_html').html(`${e.data.cant_dias} dias / ${e.data.cant_noches} noches` );      
+      $('.comida_html').html(e.data.desc_comida);      
+      $('.alojamiento_html').html(e.data.desc_alojamiento );      
+      $('.actividades_html').html(e.data.resumen);      
+      $('.mapa_html').html(e.data.mapa); 
+      
+      // piliticas
+      $('.condicion_general_html').html(e.data.politica.condiciones_generales);
+      $('.politica_reserva_html').html(e.data.politica.reservas);
+      $('.politica_pago_html').html(e.data.politica.pago);
+      $('.politica_cancelacion_html').html(e.data.politica.cancelacion);
 
-      // $('.gallery_all').html(''); //limpiamos el div      
+      // galeria del paquete
+      $('.galeria_paquete').html(''); //limpiamos el div      
       e.data.galeria.forEach((val, key) => {
         var galeria_html = `<div > <img src="admin/dist/docs/paquete/galeria/${val.imagen}" onclick="openFullImg(this.src)">  </div>`;
-        // $('.gallery_all').append(galeria_html); 
+        $('.galeria_paquete').append(galeria_html); 
       });
 
       // Formulario
       $("#nombre_tours_email").val(e.data.nombre); 
       $("#costo_email").val(e.data.costo); 
+
+      $(".btn_dia_html").html('');  //limpiamos el div     
+      e.data.itinerario.forEach((val, key) => {
+        // ::::::::::::::::::::: LISTA DIAS :::::::::::::::::::::
+        $(".btn_dia_html").append(`<li><a href="javascript:;" class="tabLink ${key == 0 ? 'activeLink' : ''} " id="cont-${key}">DÍA ${val.numero_orden}</a></li>`); 
+        $(".content_dia_html").append(`<div class="tabcontent ${key == 0 ? '' : 'hide'}" id="cont-${key}-1">
+          <div class="TabImage">
+            <div style="height: 20em; background: url(admin/dist/docs/tours/perfil/${val.imagen.replace(/\s/g, "%20")}), url(assets/images/splash2.jpg); background-size: cover; background-position: center center; background-blend-mode: screen;"></div>                          
+          </div>
+          <div class="Description">
+            <h3>DÍA ${val.numero_orden} - ${val.nombre_tours}</h3>
+            ${val.actividad}            
+          </div>
+        </div>`); 
+
+        // ::::::::::::::::::::: LISTA FOTOS ::::::::::::::::::::
+        $(".btn_fotos_html").append(`<button href="javascript:;" class="tab_btn" id="conta-${key+1}">${val.nombre_tours}</button>`); 
+        var html_foto = '';
+        val.galeria.forEach((val2, key2) => {
+          html_foto = html_foto.concat(`<div > <img src="admin/dist/docs/tours/galeria/${val2.imagen}" onclick="openFullImg(this.src)"> </div>`) ;
+        });
+        $('.content_fotos_html').append(`<div id="conta-${key+1}-2" class="tabContentImg"> <div class="gallery_all"> ${html_foto} </div> </div>`);
+      });      
+
+      // pluging - itinerario dia
+      $(".tabLink").each(function(){ $(this).click(function(){ tabeId = $(this).attr('id'); $(".tabLink").removeClass("activeLink"); $(this).addClass("activeLink"); $(".tabcontent").addClass("hide"); $("#"+tabeId+"-1").removeClass("hide"); return false; }); });
+
+      // pluging - fotos
+      $(".tabContentImg").addClass("hiden"); $("#conta-0-2").removeClass("hiden");
+      $(".tab_btn").each(function(){ $(this).click(function(){ tabeIds = $(this).attr('id'); $(".tab_btn").removeClass("activeTab"); $(this).addClass("activeTab"); $(".tabContentImg").addClass("hiden"); $("#"+tabeIds+"-2").removeClass("hiden"); return false; });  });
+
+      // pluging - politicas
+      $(".tabLinkP").each(function(){ $(this).click(function(){  tabeIdes = $(this).attr('id'); $(".tabLinkP").removeClass("activeLinkP"); $(this).addClass("activeLinkP"); $(".tabcontentP").addClass("hide"); $("#"+tabeIdes+"-1").removeClass("hide"); return false; });  });
       
     } else {
       ver_errores(e);
