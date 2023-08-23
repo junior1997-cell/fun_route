@@ -814,6 +814,18 @@ if (!isset($_SESSION["nombre"])) {
                           </div>
                         </div>
 
+                        <!-- Imagen pérfil -->
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                          <label for="foto1">Imagen</label>
+                          <div style="text-align: center;">
+                            <img onerror="this.src='../dist/img/default/img_defecto_producto.jpg';" src="../dist/img/default/img_defecto_producto.jpg"
+                              class="img-thumbnail" id="foto1_i" style="cursor: pointer !important; height: 100% !important;" width="auto" />
+                            <input style="display: none;" type="file" name="foto1" id="foto1" accept="image/*" />
+                            <input type="hidden" name="foto1_actual" id="foto1_actual" />
+                            <div class="text-center" id="foto1_nombre"><!-- aqui va el nombre de la FOTO --></div>
+                          </div>
+                        </div>
+
                         <!-- barprogress -->
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px;">
                           <div class="progress" id="barra_progress_hotel_div">

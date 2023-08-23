@@ -7,20 +7,24 @@ function mostrar_detalle(id) {
     e = JSON.parse(e); console.log(e);
     if (e.status == true) {
 
+      // titulo
       var nombre_tour = cortar_mitad_texto(e.data.nombre);
-      $(".nombre_1").html(nombre_tour[0]); $(".nombre_2").html(nombre_tour[1]);      
+      $(".nombre_1").html(nombre_tour[0]); $(".nombre_2").html(nombre_tour[1]);  
+
+      // Resumen
+      $('.duracion_html').html(`${e.data.cant_dias} dias / ${e.data.cant_noches} noches` );      
+      $('.comida_html').html(e.data.desc_comida);      
+      $('.alojamiento_html').html(e.data.desc_alojamiento );  
+
       $('.itinerario_html').html(e.data.actividad);
       $('.incluye_html').html(e.data.incluye);
       $('.no_incluye_html').html(e.data.no_incluye);
-      $('.recomendaciones_html').html(e.data.recomendaciones);     
-
-      $('.duracion_html').html(`${e.data.cant_dias} dias / ${e.data.cant_noches} noches` );      
-      $('.comida_html').html(e.data.desc_comida);      
-      $('.alojamiento_html').html(e.data.desc_alojamiento );      
+      $('.recomendaciones_html').html(e.data.recomendaciones);           
+          
       $('.actividades_html').html(e.data.resumen);      
       $('.mapa_html').html(e.data.mapa); 
       
-      // piliticas
+      // politicas
       $('.condicion_general_html').html(e.data.politica.condiciones_generales);
       $('.politica_reserva_html').html(e.data.politica.reservas);
       $('.politica_pago_html').html(e.data.politica.pago);
