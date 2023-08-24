@@ -17,10 +17,10 @@ if (!isset($_SESSION["nombre"])) {
     $compra_cafe = new Compra_cafe($_SESSION['idusuario']);
     $persona = new Persona($_SESSION['idusuario']);
     
-    date_default_timezone_set('America/Lima');  $date_now = date("d-m-Y h.i.s A");
+    date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y--h-i-s-A");
+    $imagen_error = "this.src='../dist/svg/user_default.svg'";
     $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
-
-    $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? 'http://localhost/fun_route/admin/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/');
+    $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/fun_route/admin/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/admin/');
 
     // :::::::::::::::::::::::::::::::::::: D A T O S   C O M P R A ::::::::::::::::::::::::::::::::::::::
     $idcompra_grano     = isset($_POST["idcompra_grano"]) ? limpiarCadena($_POST["idcompra_grano"]) : "";
@@ -85,7 +85,7 @@ if (!isset($_SESSION["nombre"])) {
           $imagen1=$_POST["foto1_actual"]; $flat_img1 = false;
         } else {
           $ext1 = explode(".", $_FILES["foto1"]["name"]); $flat_img1 = true;
-          $imagen1 = $date_now .' '. random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext1);
+          $imagen1 = $date_now .'--'. random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext1);
           move_uploaded_file($_FILES["foto1"]["tmp_name"], "../dist/docs/persona/perfil/" . $imagen1);          
         }
 
@@ -312,7 +312,7 @@ if (!isset($_SESSION["nombre"])) {
           $comprobante_pago = $_POST["doc_old_1"]; $flat_doc1 = false;
         } else {
           $ext1 = explode(".", $_FILES["doc1"]["name"]); $flat_doc1 = true;	
-          $comprobante_pago  = $date_now .' '. random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext1);
+          $comprobante_pago  = $date_now .'--'. random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext1);
           move_uploaded_file($_FILES["doc1"]["tmp_name"], "../dist/docs/compra_grano/comprobante_pago/" . $comprobante_pago );          
         }
 

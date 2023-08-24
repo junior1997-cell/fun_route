@@ -13,11 +13,10 @@
 
     $hotel = new Hotel($_SESSION['idusuario']);
 
-    date_default_timezone_set('America/Lima');
-    $date_now = date("d-m-Y h.i.s A");
+    date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y--h-i-s-A");
     $imagen_error = "this.src='../dist/svg/user_default.svg'";
-
     $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
+    $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/fun_route/admin/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/admin/');
 
     //------------------------------------ HOTEL ---------------------------------------------
     $idhoteles        = isset($_POST["idhoteles"]) ? limpiarCadena($_POST["idhoteles"]) : "";
@@ -54,11 +53,27 @@
 
     switch ($_GET["op"]) {
       case 'guardaryeditar_hotel':
+        // imagen
+        if (!file_exists($_FILES['foto1']['tmp_name']) || !is_uploaded_file($_FILES['foto1']['tmp_name'])) {
+          $perfil_hotel = $_POST["foto1_actual"];
+          $flat_img1 = false;
+        } else {
+          $ext1 = explode(".", $_FILES["foto1"]["name"]);
+          $flat_img1 = true;
+          $perfil_hotel = $date_now .'--'. random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext1);
+          move_uploaded_file($_FILES["foto1"]["tmp_name"], "../dist/docs/hotel/img_perfil/" . $perfil_hotel);
+        }
         if (empty($idhoteles)) {
-          $rspta = $hotel->insertar($nombre_hotel, $nro_estrellas);
+          $rspta = $hotel->insertar($nombre_hotel, $nro_estrellas, $perfil_hotel);
           echo json_encode( $rspta, true) ;
         } else {
-          $rspta = $hotel->editar($idhoteles, $nombre_hotel, $nro_estrellas);
+          // validamos si existe LA IMG para eliminarlo          
+          if ($flat_img1 == true) {
+            $datos_f1 = $hotel->obtener_perfil_hotel($idhoteles);
+            $img1_ant = $datos_f1['data']['imagen_perfil'];
+            if ( !empty( $img1_ant ) ) { unlink("../dist/docs/hotel/img_perfil/" . $img1_ant); }
+          }
+          $rspta = $hotel->editar($idhoteles, $nombre_hotel, $nro_estrellas, $perfil_hotel);
           echo json_encode( $rspta, true) ;
         }
       break;
@@ -320,14 +335,12 @@
           //guardar imagen
           $ext = explode(".", $_FILES["imagen_H"]["name"]);
           $flat_img = true;
-          $imagen = $date_now . ' ' . random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext);
-          move_uploaded_file($_FILES["imagen_H"]["tmp_name"], "../dist/docs/galeria_hotel/" . $imagen);
+          $imagen = $date_now . '--' . random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext);
+          move_uploaded_file($_FILES["imagen_H"]["tmp_name"], "../dist/docs/hotel/galeria/" . $imagen);
         }
 
         if (empty($idgaleria_hotel)) {
-
           $rspta = $hotel->insertar_galeria_hotel($idhotelesG,$descripcion_G,$imagen);
-
           echo json_encode($rspta, true);
         }
 

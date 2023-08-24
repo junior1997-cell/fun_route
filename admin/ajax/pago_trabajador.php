@@ -23,11 +23,10 @@
 
       $pago_trabajador = new PagoTrabajador($_SESSION['idusuario']);
 
-      date_default_timezone_set('America/Lima');
-      $date_now = date("d-m-Y h.i.s A");
-
+      date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y--h-i-s-A");
       $imagen_error = "this.src='../dist/svg/user_default.svg'";
       $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
+      $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/fun_route/admin/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/admin/');
 
       $idmes_pago_trabajador= isset($_POST["idmes_pago_trabajador"])? limpiarCadena($_POST["idmes_pago_trabajador"]):"";
       $idpersona            = isset($_POST["idpersona"])? limpiarCadena($_POST["idpersona"]):"";
@@ -178,7 +177,7 @@
       
             $flat_ficha1 = true;
       
-            $comprobante = $date_now .' '.random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext1);
+            $comprobante = $date_now .'--'.random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext1);
       
             move_uploaded_file($_FILES["doc1"]["tmp_name"], "../dist/docs/pago_trabajador/comprobante/" . $comprobante);
           }

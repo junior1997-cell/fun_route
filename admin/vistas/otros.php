@@ -818,7 +818,7 @@ if (!isset($_SESSION["nombre"])) {
                         <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                           <label for="foto1">Imagen</label>
                           <div style="text-align: center;">
-                            <img onerror="this.src='../dist/img/default/img_defecto_producto.jpg';" src="../dist/img/default/img_defecto_producto.jpg"
+                            <img onerror="this.src='../dist/img/default/img_defecto_hotel.jpg';" src="../dist/img/default/img_defecto_hotel.jpg"
                               class="img-thumbnail" id="foto1_i" style="cursor: pointer !important; height: 100% !important;" width="auto" />
                             <input style="display: none;" type="file" name="foto1" id="foto1" accept="image/*" />
                             <input type="hidden" name="foto1_actual" id="foto1_actual" />

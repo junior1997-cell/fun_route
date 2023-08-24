@@ -18,8 +18,10 @@
 
       $breaks=new Breaks($_SESSION['idusuario']);
 
-      date_default_timezone_set('America/Lima');
-      $date_now = date("d-m-Y h.i.s A");
+      date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y--h-i-s-A");
+      $imagen_error = "this.src='../dist/svg/user_default.svg'";
+      $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
+      $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/fun_route/admin/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/admin/');
 
       //============C o m p r o b a n t e s========================
       $idsemana_break   = isset($_POST["idsemana_break"])? limpiarCadena($_POST["idsemana_break"]):"";
@@ -120,7 +122,7 @@
   
               $ext1 = explode(".", $_FILES["doc1"]["name"]); $flat_img1 = true;						
   
-              $imagen2 = $date_now .' '.random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext1);
+              $imagen2 = $date_now .'--'.random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext1);
   
               move_uploaded_file($_FILES["doc1"]["tmp_name"], "../dist/docs/break/comprobante/" . $imagen2);
             

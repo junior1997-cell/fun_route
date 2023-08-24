@@ -20,6 +20,11 @@
       $resumen_general = new Resumen_general($_SESSION['idusuario']);
       $compra_insumos = new Compra_insumos($_SESSION['idusuario']);
 
+      date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y--h-i-s-A");
+      $imagen_error = "this.src='../dist/svg/user_default.svg'";
+      $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
+      $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/fun_route/admin/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/admin/');
+
       switch ($_GET["op"]) {
 
         // TABLA

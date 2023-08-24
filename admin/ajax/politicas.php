@@ -13,20 +13,23 @@
 
     $politica = new politicas($_SESSION['idusuario']);
 
-      //============D A T O S========================
+    date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y--h-i-s-A");
+    $imagen_error = "this.src='../dist/svg/user_default.svg'";
+    $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
+    $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/fun_route/admin/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/admin/');
 
-      $id           = isset($_POST["idpoliticas"])? limpiarCadena($_POST["idpoliticas"]):"";
-      $condiciones_generales  = isset($_POST["condiciones_generales"])? limpiarCadena($_POST["condiciones_generales"]):"";
-      $reservas     = isset($_POST["reservas"])? limpiarCadena($_POST["reservas"]):"";
-      $pago = isset($_POST["pago"])? limpiarCadena($_POST["pago"]):"";
-      $cancelacion    = isset($_POST["cancelacion"])? limpiarCadena($_POST["cancelacion"]):"";
+    //============D A T O S========================
+    $id           = isset($_POST["idpoliticas"])? limpiarCadena($_POST["idpoliticas"]):"";
+    $condiciones_generales  = isset($_POST["condiciones_generales"])? limpiarCadena($_POST["condiciones_generales"]):"";
+    $reservas     = isset($_POST["reservas"])? limpiarCadena($_POST["reservas"]):"";
+    $pago = isset($_POST["pago"])? limpiarCadena($_POST["pago"]):"";
+    $cancelacion    = isset($_POST["cancelacion"])? limpiarCadena($_POST["cancelacion"]):"";
 
-
-      $reservas_tours                = isset($_POST["reservas_tours"])? limpiarCadena($_POST["reservas_tours"]):"";
-      $cancelacion_tours             = isset($_POST["cancelacion_tours"])? limpiarCadena($_POST["cancelacion_tours"]):"";
-      $responsabilidad_cliente_tours = isset($_POST["responsabilidad_cliente_tours"])? limpiarCadena($_POST["responsabilidad_cliente_tours"]):"";
-      $cancelacion_proveedor_tours   = isset($_POST["cancelacion_proveedor_tours"])? limpiarCadena($_POST["cancelacion_proveedor_tours"]):"";
-      $responsabilidad_proveedor_tours  = isset($_POST["responsabilidad_proveedor_tours"])? limpiarCadena($_POST["responsabilidad_proveedor_tours"]):"";
+    $reservas_tours                = isset($_POST["reservas_tours"])? limpiarCadena($_POST["reservas_tours"]):"";
+    $cancelacion_tours             = isset($_POST["cancelacion_tours"])? limpiarCadena($_POST["cancelacion_tours"]):"";
+    $responsabilidad_cliente_tours = isset($_POST["responsabilidad_cliente_tours"])? limpiarCadena($_POST["responsabilidad_cliente_tours"]):"";
+    $cancelacion_proveedor_tours   = isset($_POST["cancelacion_proveedor_tours"])? limpiarCadena($_POST["cancelacion_proveedor_tours"]):"";
+    $responsabilidad_proveedor_tours  = isset($_POST["responsabilidad_proveedor_tours"])? limpiarCadena($_POST["responsabilidad_proveedor_tours"]):"";
 
     switch ($_GET["op"]) {
 

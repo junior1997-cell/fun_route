@@ -19,10 +19,10 @@
 
       $pedido = new Pedido_paquete($_SESSION['idusuario']);
 
-      date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y h.i.s A");
-
+      date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y--h-i-s-A");
       $imagen_error = "this.src='../dist/svg/user_default.svg'";
       $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
+      $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/fun_route/admin/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/admin/');
       
       $idpedido_paquete	  	        = isset($_POST["idpedido_paquete"])? limpiarCadena($_POST["idpedido_paquete"]):"";
       $idpaquete	  	              = isset($_POST["idpaquete"])? limpiarCadena($_POST["idpaquete"]):"";
@@ -30,31 +30,23 @@
       $correo	  	                  = isset($_POST["correo"])? limpiarCadena($_POST["correo"]):"";
       $telefono	  	                = isset($_POST["telefono"])? limpiarCadena($_POST["telefono"]):"";
       $descripcion			            = isset($_POST["descripcionpedido"])? limpiarCadena($_POST["descripcionpedido"]):"";
+
       switch ($_GET["op"]) {
 
-        
         case 'eliminar':
-
           $rspta=$pedido->eliminar($_GET["id_tabla"]);
-
           echo json_encode($rspta, true);
-
         break;
 
         case 'mostrar':
-
           $rspta=$pedido->mostrar($idpaquete,$idpedido_paquete);
           //Codificar el resultado utilizando json
           echo json_encode($rspta, true);
-
         break;
         
         case 'vendido':
-
           $rspta=$pedido->vendido($_POST["idpedido_paquete"]);
-
           echo json_encode($rspta, true);
-
         break;
 
         case 'tbla_principal':          

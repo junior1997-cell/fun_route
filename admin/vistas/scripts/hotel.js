@@ -21,6 +21,16 @@ function init() {
   $("[data-mask]").inputmask();
 }
 
+// abrimos el navegador de archivos
+$("#foto1_i").click(function () { $("#foto1").trigger("click"); });
+$("#foto1").change(function (e) { addImage(e, $("#foto1").attr("id"), "../dist/img/default/img_defecto_hotel.jpg"); });
+
+function foto1_eliminar() {
+  $("#foto1").val("");
+  $("#foto1_i").attr("src", "../dist/img/default/img_defecto_hotel.jpg");
+  $("#foto1_nombre").html("");
+}
+
 //Función limpiar
 function limpiar_hotel() {
 
@@ -29,6 +39,11 @@ function limpiar_hotel() {
   $("#idhoteles").val("");
   $("#nro_estrellas").val(""); 
   $("#nombre_hotel").val(""); 
+
+  $("#foto1_i").attr("src", "../dist/img/default/img_defecto_hotel.jpg");
+  $("#foto1").val("");
+  $("#foto1_actual").val("");
+  $("#foto1_nombre").html("");  
 
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
@@ -120,47 +135,39 @@ function guardaryeditar_hotel(e) {
     contentType: false,
     processData: false,
     success: function (e) {
-      e = JSON.parse(e);  console.log(e);  
-      if (e.status == true) {
+      try {
+        e = JSON.parse(e);  console.log(e);  
+        if (e.status == true) {
+          Swal.fire("Correcto!", "hotel trabajado registrado correctamente.", "success");
+          tabla_hotel.ajax.reload(null, false);         
+          limpiar_hotel();
+          $("#modal-agregar-hotel").modal("hide");         
+          
+        }else{
+          ver_errores(e);	
+        }
+      } catch (err) { console.log('Error: ', err.message); toastr_error("Error temporal!!",'Puede intentalo mas tarde, o comuniquese con:<br> <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>', 700); }      
 
-				Swal.fire("Correcto!", "hotel trabajado registrado correctamente.", "success");
-
-	      tabla_hotel.ajax.reload(null, false);
-         
-				limpiar_hotel();
-
-        $("#modal-agregar-hotel").modal("hide");        
-        
-        $("#guardar_registro_hotel").html('Guardar Cambios').removeClass('disabled');
-			}else{
-				ver_errores(e);	
-			}
+      $("#guardar_registro_hotel").html('Guardar Cambios').removeClass('disabled');
+      
     },
     xhr: function () {
-
       var xhr = new window.XMLHttpRequest();
-
       xhr.upload.addEventListener("progress", function (evt) {
-
         if (evt.lengthComputable) {
-
           var percentComplete = (evt.loaded / evt.total)*100;
           /*console.log(percentComplete + '%');*/
-          $("#barra_progress_hotel").css({"width": percentComplete+'%'});
-
-          $("#barra_progress_hotel").text(percentComplete.toFixed(2)+" %");
+          $("#barra_progress_hotel").css({"width": percentComplete+'%'}).text(percentComplete.toFixed(2)+" %");
         }
       }, false);
       return xhr;
     },
     beforeSend: function () {
       $("#guardar_registro_hotel").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
-      $("#barra_progress_hotel").css({ width: "0%",  });
-      $("#barra_progress_hotel").text("0%");
+      $("#barra_progress_hotel").css({ width: "0%",  }).text("0%");
     },
     complete: function () {
-      $("#barra_progress_hotel").css({ width: "0%", });
-      $("#barra_progress_hotel").text("0%");
+      $("#barra_progress_hotel").css({ width: "0%", }).text("0%");
     },
     error: function (jqXhr) { ver_errores(jqXhr); },
   });
@@ -185,6 +192,12 @@ function mostrar_hotel(idhoteles) {
       $("#idhoteles").val(e.data.idhoteles);
       $("#nombre_hotel").val(e.data.nombre);
       $("#nro_estrellas").val(e.data.estrellas);
+
+      if (e.data.imagen != "") {        
+        $("#foto1_i").attr("src", `../dist/docs/hotel/img_perfil/${e.data.imagen_perfil}`);  
+        $("#foto1_actual").val(e.data.imagen);
+        $("#foto1_nombre").html(`Imagen-perfil.${extrae_extencion(e.data.imagen_perfil)}`);
+      }
 
       $("#cargando-9-fomulario").show();
       $("#cargando-10-fomulario").hide();
@@ -808,8 +821,8 @@ function listar_galeria_hotel(idhoteles, nombre) {
       e.data.forEach(element => {
         //style="border: 2px solid black;"
         codigoHTML =codigoHTML.concat(`<div class="col-sm-2 pb-2 pt-2" style="border: 2px solid #837f7f;">
-        <a href="../dist/docs/galeria_hotel/${element.imagen}?text=1" data-toggle="lightbox" data-title="${element.descripcion}" data-gallery="gallery">
-         <img src="../dist/docs/galeria_hotel/${element.imagen}?text=1" class="img-fluid mb-2" alt="white sample"/>
+        <a href="../dist/docs/hotel/galeria/${element.imagen}?text=1" data-toggle="lightbox" data-title="${element.descripcion}" data-gallery="gallery">
+         <img src="../dist/docs/hotel/galeria/${element.imagen}?text=1" class="img-fluid mb-2" alt="white sample"/>
         </a>
         <div class="text-center text-white" style="background-color: #1f7387; cursor: pointer; border-radius: 0.25rem;" onclick="eliminar_imagen_hotel(${element.idgaleria_hotel},'${element.descripcion}');">Eliminar
         </div>

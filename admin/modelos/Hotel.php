@@ -14,14 +14,13 @@ Class Hotel
   }
 
 	//Implementamos un método para insertar registros
-	public function insertar($nombre_hotel, $nro_estrellas)
+	public function insertar($nombre_hotel, $nro_estrellas, $perfil_hotel)
 	{
-		$sql="INSERT INTO hoteles (nombre, estrellas, user_created)VALUES ('$nombre_hotel', '$nro_estrellas','$this->id_usr_sesion')";
-		$insertar =  ejecutarConsulta_retornarID($sql); 
-		if ($insertar['status'] == false) {  return $insertar; } 
+		$sql="INSERT INTO hoteles (nombre, estrellas, imagen_perfil user_created)VALUES ('$nombre_hotel', '$nro_estrellas', '$perfil_hotel', '$this->id_usr_sesion')";
+		$insertar =  ejecutarConsulta_retornarID($sql); if ($insertar['status'] == false) {  return $insertar; } 
 		
 		//add registro en nuestra bitacora
-		$sql_d = $nombre_hotel.', '.$nro_estrellas;
+		$sql_d = "$nombre_hotel, $nro_estrellas, $perfil_hotel";
 		$sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5, 'hoteles','".$insertar['data']."','$sql_d','$this->id_usr_sesion')";
 		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }    
 		
@@ -29,18 +28,15 @@ Class Hotel
 	}
 
 	//Implementamos un método para editar registros
-	public function editar($idhoteles,$nombre_hotel,$nro_estrellas)
+	public function editar($idhoteles, $nombre_hotel, $nro_estrellas, $perfil_hotel)
 	{
-		$sql="UPDATE hoteles SET nombre='$nombre_hotel', estrellas= '$nro_estrellas', user_updated= '$this->id_usr_sesion' WHERE idhoteles='$idhoteles'";
-		$editar =  ejecutarConsulta($sql);
-		if ( $editar['status'] == false) {return $editar; } 
+		$sql="UPDATE hoteles SET nombre='$nombre_hotel', estrellas= '$nro_estrellas', imagen_perfil='$perfil_hotel', user_updated= '$this->id_usr_sesion' WHERE idhoteles='$idhoteles'";
+		$editar =  ejecutarConsulta($sql); if ( $editar['status'] == false) {return $editar; } 
 	
 		//add registro en nuestra bitacora
-		$sql_d = $idhoteles.', '.$nombre_hotel.', '.$nro_estrellas;
-
+		$sql_d = "$idhoteles, $nombre_hotel, $nro_estrellas, $perfil_hotel";
 		$sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (6,'hoteles','$idhoteles','$sql_d','$this->id_usr_sesion')";
-		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
-				
+		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  			
 
 		return $editar;
 	}
@@ -95,6 +91,11 @@ Class Hotel
 	{
 		$sql="SELECT * FROM hoteles WHERE estado=1 AND estado_delete=1 ORDER BY idhoteles ASC";
 		return ejecutarConsulta($sql);		
+	}
+
+	public function obtener_perfil_hotel($id){
+		$sql="SELECT imagen_perfil FROM hoteles WHERE idhoteles='$id' ";
+		return ejecutarConsultaSimpleFila($sql);		
 	}
 
 	//==========================HABITACIONES========================
@@ -351,8 +352,8 @@ Class Hotel
 	function eliminar_imagen_hotel($idgaleria_hotel){
       
 		$sql="SELECT imagen FROM galeria_hotel WHERE idgaleria_hotel = '$idgaleria_hotel'; ";
-		$datos =ejecutarConsultaSimpleFila($sql); if ( $datos['status'] == false) {return $datos_; }
-		if (!empty($datos)) { unlink("../dist/docs/galeria_hotel/" . $datos['data']['imagen']); }
+		$datos =ejecutarConsultaSimpleFila($sql); if ( $datos['status'] == false) {return $datos; }
+		if (!empty($datos)) { unlink("../dist/docs/hotel/galeria/" . $datos['data']['imagen']); }
 
 		$sql1="DELETE FROM galeria_hotel WHERE idgaleria_hotel='$idgaleria_hotel';";
 		return ejecutarConsulta($sql1);
