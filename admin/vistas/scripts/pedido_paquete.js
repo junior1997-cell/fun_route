@@ -2,16 +2,11 @@ var tabla_pedido;
 
 //Función que se ejecuta al inicio
 function init() {
-  //Activamos el "aside"
-
-  $("#bloc_LogisticaPaquetes").addClass("menu-open");
-
-  $("#bloc_lPedido_paquete").addClass("menu-open bg-color-191f24");
-
-  //$("#mlPedido").addClass("active");
-
-  $("#mlPedido_paquete").addClass("active bg-green");
-
+  
+  $("#bloc_LogisticaPaquetes").addClass("menu-open bg-color-191f24");
+  
+  $("#mLogisticaPaquetes").addClass("active bg-primary");
+  
   $("#lPedido_paquete").addClass("active");
 
   tbla_principal();

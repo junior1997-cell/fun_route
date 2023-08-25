@@ -1,19 +1,33 @@
 
 name_p = $('#name_P_tt').val(); //"
+console.log(name_p);
 var tours_paquete='';
 function init() {
   $("#bloc_empresa").addClass("menu-open bg-color-191f24");
+  // mempresa
+  $("#mempresa").addClass("active bg-primary");
 
   $("#bloc_lPoliticas").addClass("menu-open bg-color-191f24");
 
   $("#mlPaquetes").addClass("active");
 
-  $("#mlPoliticas").addClass("active bg-green");
+  $("#mlPoliticas").addClass("active bg-primary");
 
-  if (name_p == "politicas_paquete") { $("#lPoliticas").addClass("active"); $("#lTours").removeClass("active"); }
+  if (name_p == "politicas_paquete") { 
 
-  if (name_p == "politicas_tours") { $("#lPoliticas").removeClass("active"); $("#lTours").addClass("active"); }
+    $("#lPoliticasPaquete").addClass("active bg-color-f5f5f59e"); 
+
+    $("#lPoliticasTours").removeClass("active"); 
+  }
+
+  if (name_p == "politicas_tours") { 
+        
+    $("#lPoliticasTours").addClass("active bg-color-f5f5f59e"); 
+
+    $("#lPoliticasPaquete").removeClass("active"); 
+
   
+  }
 
   $("#actualizar_registro").on("click", function (e) { actualizar_datos_generales_mv(e); });
 

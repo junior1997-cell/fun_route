@@ -45,7 +45,7 @@
         }else {
 
           // edit=amos un documento existente
-          if ($id='1') {
+          if ($id=='1') { //paquete
             $rspta=$politica->actualizar_politicas( $id, $condiciones_generales, $reservas, $pago, $cancelacion);
           
             echo json_encode( $rspta, true) ;

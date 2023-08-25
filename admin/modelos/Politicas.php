@@ -23,12 +23,14 @@ Class Politicas
 		//actualizamos condiciones y reservas
 		public function actualizar_politicas( $id, $condiciones, $reservas, $pago, $cancelacion)
 		{
+			//var_dump($id, $condiciones, $reservas, $pago, $cancelacion);die();
 			$sql="UPDATE politicas SET condiciones_generales='$condiciones', reservas='$reservas', pago='$pago', cancelacion='$cancelacion' WHERE idpoliticas='$id'";
 			return ejecutarConsulta($sql);
 		}
 
 		public function actualizar_politicas_tours ( $id, $reservas_tours,$cancelacion_tours,$cancelacion_proveedor_tours,$responsabilidad_proveedor_tours,$responsabilidad_cliente_tours )
 		{
+			//var_dump($id, $reservas_tours,$cancelacion_tours,$cancelacion_proveedor_tours,$responsabilidad_proveedor_tours,$responsabilidad_cliente_tours);die();
 			$sql="UPDATE politicas SET reservas='$reservas_tours',
 			cancelacion='$cancelacion_tours',responsabilidad_cliente='$responsabilidad_cliente_tours',responsabilidad_proveedor='$responsabilidad_proveedor_tours',
 			cancelaiones_proveedor='$cancelacion_proveedor_tours' WHERE idpoliticas='$id'";

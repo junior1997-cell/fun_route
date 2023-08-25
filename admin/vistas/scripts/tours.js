@@ -2,16 +2,11 @@ var tabla_tours;
 var idtours_r, nombre_r;
 //Función que se ejecuta al inicio
 function init() {
-  //Activamos el "aside"
 
-  $("#bloc_LogisticaPaquetes").addClass("menu-open");
-
-  $("#bloc_lTours").addClass("menu-open bg-color-191f24");
-  // bloc_ltourss
-  $("#mlTours").addClass("active");
-
-  $("#mlTours").addClass("active bg-green");
-
+  $("#bloc_LogisticaPaquetes").addClass("menu-open bg-color-191f24");
+  
+  $("#mLogisticaPaquetes").addClass("active bg-primary");
+  
   $("#lTours").addClass("active");
   
   tbla_principal();

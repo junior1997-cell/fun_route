@@ -5,7 +5,7 @@ function init() {
 
   $("#bloc_Accesos").addClass("menu-open bg-color-191f24");
 
-  $("#mAccesos").addClass("active");
+  $("#mAccesos").addClass("active bg-primary");
 
   $("#lUsuario").addClass("active");
 

@@ -1284,8 +1284,8 @@ if (!isset($_SESSION["nombre"])) {
     <!-- /.content-wrapper -->
 
     <?php require 'script.php'; ?>
-    <script type="text/javascript" src="scripts/hotel.js"></script>
     <script type="text/javascript" src="scripts/otros.js"></script>
+    <script type="text/javascript" src="scripts/hotel.js"></script>
     <script type="text/javascript" src="scripts/bancos.js"></script>
     <script type="text/javascript" src="scripts/tipo.js"></script>
     <script type="text/javascript" src="scripts/tipo_tours.js"></script>

@@ -87,13 +87,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <!-- Paquetes -->
-                  <li class="nav-item ">
+                  <li class="nav-item">
                     <a href="politica_paquete.php" class="nav-link pl-4" id="lPoliticasPaquete">
                       <i class="nav-icon fas fa-map"></i> <p>Paquetes</p>
                     </a>
                   </li>
                   <!-- Tours -->
-                  <li class="nav-item ">
+                  <li class="nav-item">
                     <a href="politica_tours.php" class="nav-link pl-4" id="lPoliticasTours">
                       <i class="nav-icon fas fa-suitcase"></i> <p>Tours</p>
                     </a>
@@ -180,117 +180,69 @@
         <li class="nav-item " id="bloc_LogisticaPaquetes">
           <a href="#" class="nav-link bg-color-2c2c2c" id="mLogisticaPaquetes" style="padding-left: 7px;">
             <i class="nav-icon far fa-circle"></i>
-            <p class="font-size-14px">ADM. PAQUETES & TUORS<i class="fas fa-angle-left right"></i></p>
+            <p class="font-size-14px">PAQUETES & TUORS<i class="fas fa-angle-left right"></i></p>
           </a>
           <ul class="nav nav-treeview">
 
             <?php if ($_SESSION['paquete_definido']==1) {  ?>   
-              <!-- Paquetes -->      
-              <li class="nav-item  b-radio-3px" id="bloc_lPaquetes">
-                <a href="#" class="nav-link pl-2" id="mlPaquetes">
-                <i class="fa-solid fa-boxes-stacked"></i>
-                  <p>Paquetes Definidos <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">3</span></p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <!-- Paquetes -->
-                  <li class="nav-item ">
-                    <a href="paquete.php" class="nav-link" id="lPaquetes">
-                      <i class="nav-icon fas fa-map"></i> <p>Paquetes</p>
-                    </a>
-                  </li>
-                  <!-- Comentario_paquete -->
-                  <li class="nav-item ">
-                    <a href="comentario_paquete.php" class="nav-link" id="lComentario_paquete">
-                      <i class="nav-icon fas fa-comment"></i> <p>Comentarios</p>
-                    </a>
-                  </li> 
-                  <!-- Galeria Paquete -->
-                  <li class="nav-item ">
-                    <a href="galeria_paquete.php" class="nav-link" id="lGaleriaPaquete">
-                      <i class="nav-icon fas fa-photo-video"></i> <p>Galeria Paquete</p>
-                    </a>
-                  </li>
 
-                </ul>
+              <!-- Paquetes -->
+              <li class="nav-item ">
+                <a href="paquete.php" class="nav-link pl-2" id="lPaquetes">
+                  <i class="nav-icon fas fa-map"></i> <p>Paquetes</p>
+                </a>
               </li>
+
             <?php  }  ?>  
             
             <?php if ($_SESSION['paquete_medida']==1) {  ?>   
               <!-- COMPRAS -->      
               <li class="nav-item  b-radio-3px" id="bloc_ComprasGrano">
                 <a href="#" class="nav-link pl-2" id="mlPaquetesMedida">
-                <i class="fa-solid  fas fa-passport"></i>
-                  <p>Paquetes a Medida <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">3</span></p>
+                <i class="nav-icon fa-solid  fas fa-passport"></i>
+                  <p>A Medida <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">1</span></p>
                 </a>
                 <ul class="nav nav-treeview">
                   <!-- Compras del proyecto -->
                   <li class="nav-item ">
                     <a href="compra_cafe.php" class="nav-link" id="lComprasGrano">
                       <i class="nav-icon fas fa-cart-plus"></i> 
-                      <p>Compras</p>
+                      <p>Destinos</p>
                     </a>
                   </li>       
-                  <li class="nav-item ">
-                    <a href="compra_cafe_v2.php" class="nav-link" id="lComprasGranoV2">
-                      <i class="nav-icon fas fa-cart-plus"></i> 
-                      <p>Compras v2 <span class="right badge badge-danger">Nuevo</span></p>
-                    </a>
-                  </li>                  
-                  
-                  <!-- graficos insumos -->
-                  <li class="nav-item ">
-                    <a href="chart_compra_grano.php" class="nav-link" id="lChartCompraGrano">
-                      <i class="nav-icon fas fa-chart-line"></i> <p>Gráficos</p>
-                    </a>
-                  </li> 
+
                 </ul>
               </li>
             <?php  }  ?>
             
             <?php if ($_SESSION['tours']==1) {  ?>   
-              <!-- Tours -->      
-              <li class="nav-item  b-radio-3px" id="bloc_lTours">
-                <a href="#" class="nav-link pl-2" id="mlTours">
-                <i class="fa-solid fas fa-sun"></i>
-                  <p>Tours <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">3</span></p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <!-- Tours -->
-                  <li class="nav-item ">
-                    <a href="tours.php" class="nav-link" id="lTours">
-                      <i class="nav-icon fas fa-suitcase"></i> <p>Tours</p>
-                    </a>
-                  </li>
-                  <!-- Comentario Tours -->
-                  <li class="nav-item ">
-                    <a href="comentario_tours.php" class="nav-link" id="lComentarioTours">
-                      <i class="nav-icon fas fa-comment"></i> <p>Comentarios-Tours</p>
-                    </a>
-                  </li> 
-                  <!-- Galeria Tours -->
-                  <li class="nav-item ">
-                    <a href="galeria_tours.php" class="nav-link" id="lGaleriaPaquete">
-                      <i class="nav-icon fas fa-photo-video"></i> <p>Galeria Tours</p>
-                    </a>
-                  </li>
 
-                </ul>
+              <li class="nav-item ">
+                <a href="tours.php" class="nav-link pl-2" id="lTours">
+                  <i class="nav-icon fas fa-suitcase"></i> 
+                  <p>Tours</p>
+                </a>
               </li>
+
             <?php  }  ?>  
 
             <?php if ($_SESSION['pedido']==1) {  ?>
-              <!-- RESUMEN DE GASTOS -->
               <li class="nav-item ">
-                <!-- <a href="pedido.php" class="nav-link pl-2" id="lPedido">
-                  <i class="nav-icon fas fa-dollar-sign "></i>
-                  <p>Pedido</p>
-                </a> -->
                 <a href="pedido_paquete.php" class="nav-link pl-2" id="lPedido_paquete">
-                <i class="fa-solid  fas fa-dollar-sign"></i>
+                <i class="nav-icon  fas fa-dollar-sign"></i>
                   <p>Pedido </p>
                 </a>
               </li>
-            <?php  }  ?>            
+            <?php  }  ?>     
+            <?php if ($_SESSION['pedido']==1) {  ?>
+              <li class="nav-item ">
+                <a href="#" class="nav-link pl-2" id="lExperiencias">
+                <!-- <i class="nav-icon  fas fa-dollar-sign"></i> -->
+                <i class=" nav-icon fa-brands fa-slack"></i>
+                  <p>Experiencias </p>
+                </a>
+              </li>
+            <?php  }  ?>         
             
           </ul>
         </li> 

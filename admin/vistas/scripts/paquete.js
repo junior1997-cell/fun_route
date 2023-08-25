@@ -3,21 +3,15 @@ var miArray = [];
 var i_Array = [];
 var codigoHTML='';
 var idpaquete_r='', nombre_r="";
-//Función que se ejecuta al inicio
+
 function init() {
-  //Activamos el "aside"
 
-  $("#bloc_LogisticaPaquetes").addClass("menu-open");
-
-  $("#bloc_lPaquetes").addClass("menu-open bg-color-191f24");
-
-  $("#mlPaquetes").addClass("active");
-
-  $("#mlPaquetes").addClass("active bg-green");
-
-  $("#lPaquetes").addClass("active");
+  $("#bloc_LogisticaPaquetes").addClass("menu-open bg-color-191f24");
   
-  tbla_principal();
+  $("#mLogisticaPaquetes").addClass("active bg-primary");
+  $("#lPaquetes").addClass("active");
+
+   tbla_principal();
    // ══════════════════════════════════════ S E L E C T 2 ═════════════════════════════════════════
    lista_select2(`../ajax/paquete.php?op=selec2tours`, '#list_tours', null);
    
@@ -240,7 +234,7 @@ function mostrar_paquete(idpaquete) {
       e.itinerario.forEach((element,index) => {
         if (!i_Array.includes(index)) { i_Array.push(index); }
 
-        codigoHTML =`<hr class=" id_${index} tours_${element.idtours}" style="height: 1px; background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+        codigoHTML +=`<hr class=" id_${index} tours_${element.idtours}" style="height: 1px; background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
                     <input type="hidden" name="iditinerario[]" id="iditinerario" value="${element.iditinerario}">
                     <input type="hidden" name="idtours[]" id="idtours" value="${element.idtours}">
                     <div class="row id_${index} tours_${element.idtours}">
