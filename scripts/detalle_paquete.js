@@ -118,6 +118,39 @@ function ver_detalle_hotel(id) {
     e = JSON.parse(e); console.log(e);
     if (e.status == true) {
       $('#modal_title_detalle_hotel').html(`${e.data.nombre} - ${e.data.estrellas_html} `);
+      // :::::::::::::::::::::::::::::::::::: habitacion ::::::::::::::::::::::::::::::
+      $('.habitaciones_hotel').html('');
+      e.data.habitacion.forEach((val1, key1) => {
+        var html_habitacion = `<h6><b>HABITACION:</b> ${val1.nombre}</h6> <div class="line_buttom"></div> <h6 class="caract_H"><b>CARACTERÍSTICAS DE LA HABITACION</b></h6>`;
+        var det_habitacion = '';
+        val1.detalle_habitacion.forEach((val2, key2) => {
+          det_habitacion = det_habitacion.concat(`<div class="col-lg-6 px-auto">
+            <div class="box-item font-size-11px">
+              <i class="${val2.icono_font} pr-1"></i>
+              <span><b class="espacio">${val2.nombre}: </b> ${val2.estado_si_no == '1' ? '<span class="bg-success text-white px-1 b-radio-5px">SI</span>' : '<span class="bg-danger text-white px-1 b-radio-5px">NO</span>'}</span>
+            </div>
+          </div>`);
+        });
+
+        $('.habitaciones_hotel').append(`${html_habitacion} <div class="row"> ${det_habitacion} </div>`);
+      });
+
+      // ::::::::::::::::::::::::::::::::: instalacion ::::::::::::::::::::::::::::
+      $('.instalacion_hotel').html('');
+      e.data.instalaciones_hotel.forEach((val3, key3) => {
+        $('.instalacion_hotel').append(`<div class="col-lg-6">
+          <div class="box-item font-size-11px">
+            <i class="${val3.icono_font} espacio"></i> 
+            <span><b class="espacio">${val3.nombre}: </b> ${val3.estado_si_no == '1' ? '<span class="bg-success text-white px-1 b-radio-5px">SI</span>' : '<span class="bg-danger text-white px-1 b-radio-5px">NO</span>'}</span>
+          </div>
+        </div>`);
+      });
+
+      // ::::::::::::::::::::::::::::::::: galeria :::::::::::::::::::::::::::::
+      e.data.galeria_hotel.forEach((val4, key4) => {
+        $('.galeria_hotel').append(`<div class="col-sm-6 col-md-4 col-lg-3" > <img src="admin/dist/docs/hotel/galeria/${val4.imagen}" >  </div>`);
+      });
+       
     } else {
       ver_errores(e);
     }
