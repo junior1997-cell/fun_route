@@ -4,16 +4,16 @@
 
     function enrutamiento($tipo, $file) {
         if ($tipo == 'nube') {
-            $link_host = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/vistas/login.html?file='.$file;
+            $link_host = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/admin/vistas/login.html?file='.$file;
         }else{
             if ($tipo == 'local') {
-                $link_host = "http://localhost/fun_route/admin/vistas/login.html?file=".$file;
+                $link_host = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST']."/fun_route/admin/vistas/login.html?file=".$file;
             }            
         }
         return $link_host;
     }
 
-    if ($_SERVER['HTTP_HOST'] == "localhost") {
+    if ($_SERVER['HTTP_HOST'] == "localhost" || floatval($_SERVER['SERVER_NAME']) > 0 ) {
         $ruta = enrutamiento('local', $file_go);
     } else {
         $ruta = enrutamiento('nube', $file_go);
