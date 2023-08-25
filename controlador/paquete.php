@@ -32,7 +32,7 @@
     
     switch ($_GET["op"]) {     
       
-      /* ══════════════════════════════════════ T O U R S  ══════════════════════════════════ */
+      /* ══════════════════════════════════════ P A Q U  E T E  ══════════════════════════════════ */
       case 'mostrar_detalle':
         $rspta=$paquete->mostrar_detalle($id_paquete);
         //Codificar el resultado utilizando json
@@ -43,6 +43,19 @@
         $rspta = $paquete->mostrar_todos();
         echo json_encode($rspta, true);
       break;      
+
+      /* ══════════════════════════════════════ H O T E L  ══════════════════════════════════ */
+      case 'mostrar_hotel':
+        $rspta=$paquete->mostrar_hoteles($id_paquete);
+        //Codificar el resultado utilizando json
+        echo json_encode($rspta, true);
+      break;
+
+      case 'ver_detalle_hotel':
+        $rspta=$paquete->ver_detalle_hotel($_POST["id"]);
+        //Codificar el resultado utilizando json
+        echo json_encode($rspta, true);
+      break;
 
       /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */       
       case 'mostrar_galeria_5_aleatorios':

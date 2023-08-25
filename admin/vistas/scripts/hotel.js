@@ -17,9 +17,22 @@ function init() {
   $("#guardar_registro_caract_hotel").on("click", function (e) { $("#submit-form-caract-hotel").submit(); });
   $("#guardar_registro_galeria_hotel").on("click", function (e) { $("#submit-form-galeria-hotel").submit(); });
 
+  $('#d_check_in').datetimepicker({  format: 'LT', });
+  $('#d_check_out').datetimepicker({  format: 'LT' });
+
+  $("#icono_font_c").select2({templateResult: templateFont, theme:"bootstrap4", placeholder: "Selec. icono.", allowClear: true, });
+  $("#icono_font_i").select2({templateResult: templateFont, theme:"bootstrap4", placeholder: "Selec. icono.", allowClear: true, });
+
   // Formato para telefono
   $("[data-mask]").inputmask();
 }
+
+function templateFont (state) {
+  if (!state.id) { return state.text; }
+  var icono = state.title != '' ? state.title : 'fas fa-chevron-right';   
+  var $state = $(`<span><i class="${icono}"></i> ${state.text}</span>`);
+  return $state;
+};
 
 // abrimos el navegador de archivos
 $("#foto1_i").click(function () { $("#foto1").trigger("click"); });
@@ -29,6 +42,7 @@ function foto1_eliminar() {
   $("#foto1").val("");
   $("#foto1_i").attr("src", "../dist/img/default/img_defecto_hotel.jpg");
   $("#foto1_nombre").html("");
+  $("#foto1_actual").val("");
 }
 
 //Función limpiar
@@ -37,8 +51,10 @@ function limpiar_hotel() {
   $("#guardar_registro_hotel").html('Guardar Cambios').removeClass('disabled');
 
   $("#idhoteles").val("");
-  $("#nro_estrellas").val(""); 
   $("#nombre_hotel").val(""); 
+  $("#nro_estrellas").val("");
+  $("#check_in").val(""); 
+  $("#check_out").val("");   
 
   $("#foto1_i").attr("src", "../dist/img/default/img_defecto_hotel.jpg");
   $("#foto1").val("");
@@ -193,9 +209,12 @@ function mostrar_hotel(idhoteles) {
       $("#nombre_hotel").val(e.data.nombre);
       $("#nro_estrellas").val(e.data.estrellas);
 
-      if (e.data.imagen != "") {        
+      $("#check_in").val(e.data.check_in);
+      $("#check_out").val(e.data.check_out);
+
+      if (e.data.imagen_perfil != "") {        
         $("#foto1_i").attr("src", `../dist/docs/hotel/img_perfil/${e.data.imagen_perfil}`);  
-        $("#foto1_actual").val(e.data.imagen);
+        $("#foto1_actual").val(e.data.imagen_perfil);
         $("#foto1_nombre").html(`Imagen-perfil.${extrae_extencion(e.data.imagen_perfil)}`);
       }
 
@@ -429,6 +448,13 @@ function eliminar_habitacion(idhabitacion, nombre) {
 //==========================CARACTERISTICAS HABITACIONES====================
 //==========================CARACTERISTICAS HABITACIONES====================
 
+function ver_incono_c() {
+  if ($("#icono_font_c").val() == null || $("#icono_font_c").val() == '' ) {  } else {
+    var icon = $("#icono_font_c").val(); console.log(icon);
+    $("#select2-icono_font_c-container").prepend(`<i class="${icon} mr-1"></i>`);
+  }
+}
+
 //Función limpiar
 function limpiar_caracteristicas_h() {
 
@@ -436,6 +462,8 @@ function limpiar_caracteristicas_h() {
 
   $("#iddetalle_habitacion").val("");
   $("#nombre_caracteristica_h").val("");
+  $("#icono_font_c").val('').trigger('change');
+  $('#estado_switch').prop('checked', false); 
 
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
@@ -458,7 +486,7 @@ function listar_caracteristicas_h(idhabitacion,nombre_habitacion) {
     aServerSide: true,//Paginación y filtrado realizados por el servidor
     dom: '<Bl<f>rtip>',//Definimos los elementos del control de tabla
     buttons: [
-      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i>', className: "btn bg-gradient-info", action: function ( e, dt, node, config ) { tabla_hotel.ajax.reload(); toastr_success('Exito!!', 'Actualizando tabla', 400); } },
+      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i>', className: "btn bg-gradient-info", action: function ( e, dt, node, config ) { tabla_caracteristicas_h.ajax.reload(); toastr_success('Exito!!', 'Actualizando tabla', 400); } },
 
       { extend: 'copyHtml5', footer: true, exportOptions: { columns: [0,2], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "px-2 btn bg-gradient-gray", }, 
       { extend: 'excelHtml5', footer: true, exportOptions: { columns: [0,2], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "px-2 btn bg-gradient-success",  }, 
@@ -568,10 +596,14 @@ function mostrar_caracteristicas_h(iddetalle_habitacion) {
 
     e = JSON.parse(e);  console.log(e);  
 
-    if (e.status) {
+    if (e.status == true) {
       $("#idhabitacion_G").val(e.data.idhabitacion);
       $("#iddetalle_habitacion").val(e.data.iddetalle_habitacion);
       $("#nombre_caracteristica_h").val(e.data.nombre);
+
+      if (e.data.estado_si_no == '1') { $('#estado_switch').prop('checked', true);    }
+
+      $("#icono_font_c").val(e.data.icono_font).trigger('change');
 
       $("#cargando-13-fomulario").show();
       $("#cargando-14-fomulario").hide();
@@ -607,15 +639,25 @@ function eliminar_caracteristicas_h(idcaracteristicas_h, nombre) {
 
 
 
-//============================== CARACTERISTICAS HOTEL==========================
-//============================== CARACTERISTICAS HOTEL==========================
+//============================== INSTALACIONES HOTEL==========================
+//============================== INSTALACIONES HOTEL==========================
+
+function ver_incono_i() {
+  if ($("#icono_font_i").val() == null || $("#icono_font_i").val() == '' ) {  } else {
+    var icon = $("#icono_font_i").val(); console.log(icon);
+    $("#select2-icono_font_i-container").prepend(`<i class="${icon} mr-1"></i>`);
+  }
+}
+
 //Función limpiar
 function limpiar_caract_hotel() {
 
   $("#guardar_registro_caract_hotel").html('Guardar Cambios').removeClass('disabled');
-
   $("#idinstalaciones_hotel").val("");
   $("#nombre_c_hotel").val(""); 
+
+  $("#icono_font_i").val('').trigger('change');
+  $('#estado_switch2').prop('checked', false); 
 
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
@@ -746,10 +788,12 @@ function mostrar_caract_hotel(idinstalaciones_hotel) {
 
     e = JSON.parse(e);  console.log(e);  
 
-    if (e.status) {
+    if (e.status == true) {
       $("#idhoteles_GN").val(e.data.idhoteles);
       $("#idinstalaciones_hotel").val(e.data.idinstalaciones_hotel);
       $("#nombre_c_hotel").val(e.data.nombre);
+      $("#icono_font_i").val(e.data.icono_font).trigger('change');
+      if (e.data.estado_si_no == '1') { $('#estado_switch2').prop('checked', true);   }
 
       $("#cargando-15-fomulario").show();
       $("#cargando-16-fomulario").hide();
@@ -866,9 +910,9 @@ function limpiar_galeria_hotel () {
 
   $(".tooltip").removeClass("show").addClass("hidde");
 
- }
+}
 
- function eliminar_imagen_hotel(idgaleria_hotel,descripcion) {  
+function eliminar_imagen_hotel(idgaleria_hotel,descripcion) {  
   Swal.fire({
     title: "¿Está seguro de que desea eliminar esta imagen?",
     text: `${descripcion} se eliminara`,
@@ -903,9 +947,9 @@ function limpiar_galeria_hotel () {
     }
   });
 
- }
+}
 
- function guardar_editar_galeria_hotel(e) {
+function guardar_editar_galeria_hotel(e) {
   // e.preventDefault(); //No se activará la acción predeterminada del evento
   var formData = new FormData($("#form-galeria-hotel")[0]);
 
@@ -950,17 +994,16 @@ init();
 
 $(function () {
 
+  $('#icono_font_c').on('change', function() { $(this).trigger('blur'); });
+
   $("#form-hotel").validate({
     rules: {
-      nombre_hotel: { required: true },      // terms: { required: true },
-      nro_estrellas: { number: true,min:0, max: 5 }
+      nombre_hotel: { required: true },
+      nro_estrellas: { required: true,  number: true,min:0, max: 5 }
     },
     messages: {
-      nombre_hotel: { required: "Por favor ingrese nombre.", },
-      nro_estrellas: {
-        number: "Por favor ingrese un número válido.",
-        max: "El número no puede ser mayor que 5."
-      }
+      nombre_hotel: { required: "Campo requerido.", },
+      nro_estrellas: { required: "Campo requerido.",  number: "Ingrese un número válido.",   max: "MAXIMO 5.", min: 'MINIMO 0' }
     },
         
     errorElement: "span",
@@ -1012,9 +1055,11 @@ $(function () {
   $("#form-caracteristicas_h").validate({
     rules: {
       nombre_caracteristica_h: { required: true }, 
+      icono_font_c : {required: true },
     },
     messages: {
-      nombre_caracteristica_h: { required: "Por favor ingrese nombre.", },
+      nombre_caracteristica_h: { required: "Campo requerido.", },
+      icono_font_c: { required: "Campo requerido.", },
     },
         
     errorElement: "span",
@@ -1093,6 +1138,8 @@ $(function () {
     },
 
   });
+
+  $('#icono_font_c').rules('add', { required: true, messages: {  required: "Campo requerido" } });
 
 });
 

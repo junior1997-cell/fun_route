@@ -23,26 +23,7 @@ if (!isset($_SESSION["nombre"])) {
     <link rel="stylesheet" href="../dist/css/switch_materiales.css" />
     <link rel="stylesheet" href="../dist/css/switch.css">
     <!-- Ekko Lightbox -->
-    <link rel="stylesheet" href="../plugins/ekko-lightbox/ekko-lightbox.css">
-
-    <style>
-      table {
-        border-collapse: collapse;
-        /* Combina los bordes adyacentes */
-      }
-
-      th,
-      td {
-        border: 1px solid black;
-        /* Establece un borde sólido de 1px de grosor en cada celda */
-        padding: 8px;
-        /* Agrega un relleno interno para mayor espacio entre el contenido y el borde */
-      }
-
-      /* .dataTables_length {
-          display: none;
-        } */
-    </style>
+    <link rel="stylesheet" href="../plugins/ekko-lightbox/ekko-lightbox.css">    
 
   </head>
 
@@ -364,7 +345,7 @@ if (!isset($_SESSION["nombre"])) {
                                         <th class="text-center">#</th>
                                         <th class=""><i class="fas fa-gears"></i></th>
                                         <th>Nombre</th>
-                                        <th>Estado</th>
+                                        <th>Disponible</th>
                                       </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -396,7 +377,7 @@ if (!isset($_SESSION["nombre"])) {
                                         <th class="text-center">#</th>
                                         <th class=""><i class="fas fa-gears"></i></th>
                                         <th>Nombre</th>
-                                        <th>Estado</th>
+                                        <th>Disponible</th>
 
                                       </tr>
                                     </thead>
@@ -805,12 +786,38 @@ if (!isset($_SESSION["nombre"])) {
                             <input type="text" name="nombre_hotel" id="nombre_hotel" class="form-control" placeholder="Nombre Hotel" />
                           </div>
                         </div>
-                        <!-- idhoteles,nro_estrellas, nombre_hotel -->
+                        
                         <!-- Nro Estrellas -->
                         <div class="col-lg-4">
                           <div class="form-group">
                             <label for="nro_estrellas">Nro Estrellas</label>
-                            <input type="text" name="nro_estrellas" id="nro_estrellas" class="form-control" placeholder="★★★★★" />
+                            <input type="number" name="nro_estrellas" id="nro_estrellas" class="form-control" max="5" min="1" placeholder="★★★★★" />
+                          </div>
+                        </div>
+
+                        <!-- Check in -->
+                        <div class="col-lg-4">
+                          <div class="form-group">
+                            <label for="check_in">Check in</label>
+                            <div class="input-group date" id="d_check_in" data-target-input="nearest">
+                              <input type="text" id="check_in" name="check_in" class="form-control datetimepicker-input" data-target="#d_check_in"/>
+                              <div class="input-group-append" data-target="#d_check_in" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="far fa-clock"></i></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Check out -->
+                        <div class="col-lg-4">
+                          <div class="form-group">
+                            <label for="check_out">Check out</label>
+                            <div class="input-group date" id="d_check_out" data-target-input="nearest">
+                              <input type="text" id="check_out" name="check_out" class="form-control datetimepicker-input" data-target="#d_check_out"/>
+                              <div class="input-group-append" data-target="#d_check_out" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="far fa-clock"></i></div>
+                              </div>
+                            </div>
                           </div>
                         </div>
 
@@ -916,6 +923,7 @@ if (!isset($_SESSION["nombre"])) {
               </div>
             </div>
           </div>
+
           <!-- MODAL -CARACTERISTICAS HABITACIONES -->
           <div class="modal fade" id="modal-agregar-caracteristicas_h">
             <div class="modal-dialog modal-dialog-scrollable modal-md">
@@ -941,7 +949,10 @@ if (!isset($_SESSION["nombre"])) {
                           <div class="form-group">
                             <label for="nombre_caracteristica_h">Nombre</label>
                             <input type="text" name="nombre_caracteristica_h" id="nombre_caracteristica_h" class="form-control" placeholder="Nombre Habitación" />
-                          </div>
+                          </div>                          
+                        </div>
+
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                           <div class="form-group">
                             <label for="estado_si_no">Disponible</label> <br>
                             <div class="switch-toggle">
@@ -951,8 +962,60 @@ if (!isset($_SESSION["nombre"])) {
                             </div>
                           </div>
                         </div>
-                        <!-- idhabitacion_G, iddetalle_habitacion, nombre_caracteristica_h -->
 
+                        <!-- Icono -->
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6" >
+                          <div class="form-group">
+                            <label for="icono_font_c">Icono </label>
+                            <select name="icono_font_c" id="icono_font_c" class="form-control select2" style="width: 100%;" onchange="ver_incono_c();"> 
+                              <option value="fas fa-chevron-right" title="fas fa-chevron-right">Otros 1</option>
+                              <option value="fas fa-arrow-right" title="fas fa-arrow-right">Otros 2</option>
+                              <option value="fas fa-wifi" title="fas fa-wifi">Wiffi </option>
+                              <option value="fas fa-tint" title="fas fa-tint">Gota</option>
+                              <option value="fas fa-shower" title="fas fa-shower">Ducha 1</option>
+                              <option value="fas fa-bath" title="fas fa-bath">Ducha 2</option>                              
+                              <option value="fas fa-toilet-paper" title="fas fa-toilet-paper">Baño</option>                              
+                              <option value="fas fa-phone-alt" title="fas fa-phone-alt">Telefono 1</option>
+                              <option value="fas fa-phone-volume" title="fas fa-phone-volume">Telefono 2</option>
+                              <option value="fas fa-mobile-alt" title="fas fa-mobile-alt">Telefono 3</option>
+                              <option value="fas fa-tv" title="fas fa-tv">Television (TV)</option>
+                              <option value="fas fa-wind" title="fas fa-wind">Aire 1</option>
+                              <option value="fas fa-fan" title="fas fa-fan">Aire 2</option>                               
+                              <option value="fab fa-cc-visa" title="fab fa-cc-visa">Pago 1</option>                               
+                              <option value="fab fa-cc-mastercard" title="fab fa-cc-mastercard">Pago 2</option>                               
+                              <option value="fab fa-bitcoin" title="fab fa-bitcoin">pago 3</option>                               
+                              <option value="fas fa-credit-card" title="fas fa-credit-card">pago 4</option>                               
+                              <option value="fab fa-cc-paypal" title="fab fa-cc-paypal"> pago 5</option>                               
+                              <option value="fa-solid fa-soap" title="fa-solid fa-soap">Refrigeradora 1 </option> 
+                              <option value="far fa-snowflake" title="far fa-snowflake">Refrigeradora 1</option> 
+                              <option value="fas fa-utensils" title="fas fa-utensils">Restaurante 1</option> 
+                              <option value="fas fa-concierge-bell" title="fas fa-concierge-bell">Restaurante 2</option> 
+                              <option value="fas fa-hamburger" title="fas fa-hamburger">Amburguesa</option> 
+                              <option value="fas fa-pizza-slice" title="fas fa-pizza-slice">Pizza</option> 
+                              <option value="fas fa-fish" title="fas fa-fish">Pescado</option> 
+                              <option value="fas fa-drumstick-bite" title="fas fa-drumstick-bite">Pollo</option> 
+                              <option value="fas fa-hotdog" title="fas fa-hotdog">Hotdog</option> 
+                              <option value="fas fa-swimming-pool" title="fas fa-swimming-pool">Piscina 1</option> 
+                              <option value="fas fa-swimmer" title="fas fa-swimmer">Piscina 2</option> 
+                              <option value="fas fa-water" title="fas fa-water">Piscina 3</option> 
+                              <option value="fas fa-luggage-cart" title="fas fa-luggage-cart">Asensor</option> 
+                              <option value="fas fa-glass-martini-alt" title="fas fa-glass-martini-alt">Bar 1</option> 
+                              <option value="fas fa-glass-cheers" title="fas fa-glass-cheers">Bar 2</option> 
+                              <option value="fas fa-wine-bottle" title="fas fa-wine-bottle">Bar 3</option> 
+                              <option value="fas fa-cocktail" title="fas fa-cocktail">Bar 4</option> 
+                              <option value="fas fa-dumbbell" title="fas fa-dumbbell">Gimnasio</option> 
+                              <option value="fas fa-biking" title="fas fa-biking">Bicicleta</option> 
+                              <option value="fas fa-warehouse" title="fas fa-warehouse">Cochera</option> 
+                              <option value="fas fa-building" title="fas fa-building">Hotel</option> 
+                              <option value="fas fa-bed" title="fas fa-bed">Dormitorio</option> 
+                              <option value="fas fa-couch" title="fas fa-couch">Mueble 1</option> 
+                              <option value="fas fa-chair" title="fas fa-chair">Mueble 2</option> 
+                              <option value="fas fa-shuttle-van" title="fas fa-shuttle-van">Movilidad 1</option> 
+                              <option value="fas fa-car" title="fas fa-car">Movilidad 2</option> 
+                            </select>
+                          </div>
+                        </div>
+                        
                         <!-- barprogress -->
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px;">
                           <div class="progress" id="barra_progress_caracteristicas_h_div">
@@ -1009,7 +1072,10 @@ if (!isset($_SESSION["nombre"])) {
                           <div class="form-group">
                             <label for="nombre_c_hotel">Nombre</label>
                             <input type="text" name="nombre_c_hotel" id="nombre_c_hotel" class="form-control" placeholder="" />
-                          </div>
+                          </div>                          
+                        </div>
+
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                           <div class="form-group">
                             <label for="estatus">Disponible</label> <br>
                             <div class="switch-toggle">
@@ -1019,7 +1085,58 @@ if (!isset($_SESSION["nombre"])) {
                             </div>
                           </div>
                         </div>
-                        <!-- idhoteles_G,idhabitacion, nombre_habitacion -->
+                        <!-- Icono -->
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6" >
+                          <div class="form-group">
+                            <label for="icono_font_i">Icono </label>
+                            <select name="icono_font_i" id="icono_font_i" class="form-control select2" style="width: 100%;" onchange="ver_incono_i();"> 
+                              <option value="fas fa-chevron-right" title="fas fa-chevron-right">Otros 1</option>
+                              <option value="fas fa-arrow-right" title="fas fa-arrow-right">Otros 2</option>
+                              <option value="fas fa-wifi" title="fas fa-wifi">Wiffi </option>
+                              <option value="fas fa-tint" title="fas fa-tint">Gota</option>
+                              <option value="fas fa-shower" title="fas fa-shower">Ducha 1</option>
+                              <option value="fas fa-bath" title="fas fa-bath">Ducha 2</option>                              
+                              <option value="fas fa-toilet-paper" title="fas fa-toilet-paper">Baño</option>                              
+                              <option value="fas fa-phone-alt" title="fas fa-phone-alt">Telefono 1</option>
+                              <option value="fas fa-phone-volume" title="fas fa-phone-volume">Telefono 2</option>
+                              <option value="fas fa-mobile-alt" title="fas fa-mobile-alt">Telefono 3</option>
+                              <option value="fas fa-tv" title="fas fa-tv">Television (TV)</option>
+                              <option value="fas fa-wind" title="fas fa-wind">Aire 1</option>
+                              <option value="fas fa-fan" title="fas fa-fan">Aire 2</option>                               
+                              <option value="fab fa-cc-visa" title="fab fa-cc-visa">Pago 1</option>                               
+                              <option value="fab fa-cc-mastercard" title="fab fa-cc-mastercard">Pago 2</option>                               
+                              <option value="fab fa-bitcoin" title="fab fa-bitcoin">pago 3</option>                               
+                              <option value="fas fa-credit-card" title="fas fa-credit-card">pago 4</option>                               
+                              <option value="fab fa-cc-paypal" title="fab fa-cc-paypal"> pago 5</option>                               
+                              <option value="fa-solid fa-soap" title="fa-solid fa-soap">Refrigeradora 1 </option> 
+                              <option value="far fa-snowflake" title="far fa-snowflake">Refrigeradora 1</option> 
+                              <option value="fas fa-utensils" title="fas fa-utensils">Restaurante 1</option> 
+                              <option value="fas fa-concierge-bell" title="fas fa-concierge-bell">Restaurante 2</option> 
+                              <option value="fas fa-hamburger" title="fas fa-hamburger">Amburguesa</option> 
+                              <option value="fas fa-pizza-slice" title="fas fa-pizza-slice">Pizza</option> 
+                              <option value="fas fa-fish" title="fas fa-fish">Pescado</option> 
+                              <option value="fas fa-drumstick-bite" title="fas fa-drumstick-bite">Pollo</option> 
+                              <option value="fas fa-hotdog" title="fas fa-hotdog">Hotdog</option> 
+                              <option value="fas fa-swimming-pool" title="fas fa-swimming-pool">Piscina 1</option> 
+                              <option value="fas fa-swimmer" title="fas fa-swimmer">Piscina 2</option> 
+                              <option value="fas fa-water" title="fas fa-water">Piscina 3</option> 
+                              <option value="fas fa-luggage-cart" title="fas fa-luggage-cart">Asensor</option> 
+                              <option value="fas fa-glass-martini-alt" title="fas fa-glass-martini-alt">Bar 1</option> 
+                              <option value="fas fa-glass-cheers" title="fas fa-glass-cheers">Bar 2</option> 
+                              <option value="fas fa-wine-bottle" title="fas fa-wine-bottle">Bar 3</option> 
+                              <option value="fas fa-cocktail" title="fas fa-cocktail">Bar 4</option> 
+                              <option value="fas fa-dumbbell" title="fas fa-dumbbell">Gimnasio</option> 
+                              <option value="fas fa-biking" title="fas fa-biking">Bicicleta</option> 
+                              <option value="fas fa-warehouse" title="fas fa-warehouse">Cochera</option> 
+                              <option value="fas fa-building" title="fas fa-building">Hotel</option> 
+                              <option value="fas fa-bed" title="fas fa-bed">Dormitorio</option> 
+                              <option value="fas fa-couch" title="fas fa-couch">Mueble 1</option> 
+                              <option value="fas fa-chair" title="fas fa-chair">Mueble 2</option> 
+                              <option value="fas fa-shuttle-van" title="fas fa-shuttle-van">Movilidad 1</option> 
+                              <option value="fas fa-car" title="fas fa-car">Movilidad 2</option> 
+                            </select>
+                          </div>
+                        </div>
 
                         <!-- barprogress -->
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px;">

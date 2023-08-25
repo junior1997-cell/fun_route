@@ -22,6 +22,8 @@
     $idhoteles        = isset($_POST["idhoteles"]) ? limpiarCadena($_POST["idhoteles"]) : "";
     $nombre_hotel     = isset($_POST["nombre_hotel"]) ? limpiarCadena($_POST["nombre_hotel"]) : "";
     $nro_estrellas    = isset($_POST["nro_estrellas"]) ? limpiarCadena($_POST["nro_estrellas"]) : "";
+    $check_in         = isset($_POST["check_in"]) ? limpiarCadena($_POST["check_in"]) : "";
+    $check_out        = isset($_POST["check_out"]) ? limpiarCadena($_POST["check_out"]) : "";
     //idhoteles  ;  nro_estrellas  ;  nombre_hotel
 
     //----------------------------------- HABITACION ------------------------------------------
@@ -34,6 +36,7 @@
     $idhabitacion_G           = isset($_POST["idhabitacion_G"]) ? limpiarCadena($_POST["idhabitacion_G"]) : "";
     $iddetalle_habitacion     = isset($_POST["iddetalle_habitacion"]) ? limpiarCadena($_POST["iddetalle_habitacion"]) : "";
     $nombre_caracteristica_h  = isset($_POST["nombre_caracteristica_h"]) ? limpiarCadena($_POST["nombre_caracteristica_h"]) : "";
+    $icono_font_c             = isset($_POST["icono_font_c"]) ? limpiarCadena($_POST["icono_font_c"]) : "";
     $estado_si_no             = isset($_POST["estado_si_no"]) ? limpiarCadena($_POST["estado_si_no"]) : "";
      //$idhabitacion_G  ;  $iddetalle_habitacion  ;  $nombre_caracteristica_h
 
@@ -41,7 +44,8 @@
     $idhoteles_GN           = isset($_POST["idhoteles_GN"]) ? limpiarCadena($_POST["idhoteles_GN"]) : "";
     $idinstalaciones_hotel  = isset($_POST["idinstalaciones_hotel"]) ? limpiarCadena($_POST["idinstalaciones_hotel"]) : "";
     $nombre_c_hotel         = isset($_POST["nombre_c_hotel"]) ? limpiarCadena($_POST["nombre_c_hotel"]) : "";
-    $estado_si_no2           = isset($_POST["estado_si_no2"]) ? limpiarCadena($_POST["estado_si_no2"]) : "";
+    $icono_font_i           = isset($_POST["icono_font_i"]) ? limpiarCadena($_POST["icono_font_i"]) : "";
+    $estado_si_no2          = isset($_POST["estado_si_no2"]) ? limpiarCadena($_POST["estado_si_no2"]) : "";
     //idinstalaciones_hotel ;  idhoteles_GN  ;  nombre_c_hotel
 
     //--------------------------------- GALERIA DE HOTEL ---------------------------------------
@@ -64,7 +68,7 @@
           move_uploaded_file($_FILES["foto1"]["tmp_name"], "../dist/docs/hotel/img_perfil/" . $perfil_hotel);
         }
         if (empty($idhoteles)) {
-          $rspta = $hotel->insertar($nombre_hotel, $nro_estrellas, $perfil_hotel);
+          $rspta = $hotel->insertar($nombre_hotel, $nro_estrellas, $check_in, $check_out, $perfil_hotel);
           echo json_encode( $rspta, true) ;
         } else {
           // validamos si existe LA IMG para eliminarlo          
@@ -73,7 +77,7 @@
             $img1_ant = $datos_f1['data']['imagen_perfil'];
             if ( !empty( $img1_ant ) ) { unlink("../dist/docs/hotel/img_perfil/" . $img1_ant); }
           }
-          $rspta = $hotel->editar($idhoteles, $nombre_hotel, $nro_estrellas, $perfil_hotel);
+          $rspta = $hotel->editar($idhoteles, $nombre_hotel, $nro_estrellas, $check_in, $check_out, $perfil_hotel);
           echo json_encode( $rspta, true) ;
         }
       break;
@@ -100,18 +104,16 @@
         $data = [];  $cont = 1;       
 
         if ($rspta['status'] == true) {
-          while ($reg = $rspta['data']->fetch_object()) {
-
-      
+          while ($reg = $rspta['data']->fetch_object()) {      
             $numeroEstrellas = $reg->estrellas;
             // Genera las estrellas en base al número obtenido
             $estrellasHTML = '';
             for ($i = 0; $i < 5; $i++) {
-                if ($i < $numeroEstrellas) {
-                    $estrellasHTML .= '★'; // Estrella llena
-                } else {
-                    $estrellasHTML .= '☆'; // Estrella vacía
-                }
+              if ($i < $numeroEstrellas) {
+                $estrellasHTML .= '★'; // Estrella llena
+              } else {
+                $estrellasHTML .= '☆'; // Estrella vacía
+              }
             }         
             
             $data[] = [
@@ -203,10 +205,10 @@
       //==========================CARACTERISTICAS====================
       case 'guardaryeditar_caracteristicas_h':
         if (empty($iddetalle_habitacion)) {
-          $rspta = $hotel->insertar_caracteristicas_h($idhabitacion_G, $nombre_caracteristica_h, $estado_si_no);
+          $rspta = $hotel->insertar_caracteristicas_h($idhabitacion_G, $nombre_caracteristica_h, $icono_font_c, $estado_si_no);
           echo json_encode( $rspta, true) ;
         } else {
-          $rspta = $hotel->editar_caracteristicas_h($iddetalle_habitacion,$idhabitacion_G, $nombre_caracteristica_h, $estado_si_no);
+          $rspta = $hotel->editar_caracteristicas_h($iddetalle_habitacion,$idhabitacion_G, $nombre_caracteristica_h, $icono_font_c, $estado_si_no);
           echo json_encode( $rspta, true) ;
         }
       break;
@@ -239,7 +241,7 @@
               "0" => $cont++,
               "1" => '<button class="btn btn-warning btn-sm" onclick="mostrar_caracteristicas_h(' . $reg->iddetalle_habitacion. ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
                   ' <button class="btn btn-danger  btn-sm" onclick="eliminar_caracteristicas_h(' . $reg->iddetalle_habitacion.', \'' . encodeCadenaHtml($reg->nombre) . '\')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
-              "2" => $reg->nombre,
+              "2" => '<i class="'.$reg->icono_font.' mr-1"></i>' . $reg->nombre,
               "3" => ($reg->estado_si_no ? '<div class="text-center"><span class="badge badge-success"><i class="fas fa-check"></i></span></div>' : '<div class="text-center"><span class="badge badge-danger"><i class="fas fa-times"></i></span></div>').$toltip,
               "4" =>$reg->iddetalle_habitacion,
             ];
@@ -263,10 +265,10 @@
       //==========================CARACTERISTICAS HOTELES================
       case 'guardaryeditar_caract_hotel':
         if (empty($idinstalaciones_hotel)) {
-          $rspta = $hotel->insertar_caract_hotel($idhoteles_GN, $nombre_c_hotel, $estado_si_no2);
+          $rspta = $hotel->insertar_caract_hotel($idhoteles_GN, $nombre_c_hotel, $icono_font_i, $estado_si_no2);
           echo json_encode( $rspta, true) ;
         } else {
-          $rspta = $hotel->editar_caract_hotel($idinstalaciones_hotel,$idhoteles_GN, $nombre_c_hotel, $estado_si_no2);
+          $rspta = $hotel->editar_caract_hotel($idinstalaciones_hotel,$idhoteles_GN, $nombre_c_hotel, $icono_font_i, $estado_si_no2);
           echo json_encode( $rspta, true) ;
         }
       break;
@@ -299,7 +301,7 @@
               "0" => $cont++,
               "1" => '<button class="btn btn-warning btn-sm" onclick="mostrar_caract_hotel(' . $reg->idinstalaciones_hotel . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
                   ' <button class="btn btn-danger  btn-sm" onclick="eliminar_caract_hotel(' . $reg->idinstalaciones_hotel .', \'' . encodeCadenaHtml($reg->nombre) . '\')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
-              "2" => $reg->nombre,
+              "2" => '<i class="'.$reg->icono_font.' mr-1"></i>' .$reg->nombre,
               "3" => ($reg->estado_si_no ? '<div class="text-center"><span class="badge badge-success"><i class="fas fa-check"></i></span></div>' : '<div class="text-center"><span class="badge badge-danger"><i class="fas fa-times"></i></span></div>').$toltip,
               "4" => $reg->idinstalaciones_hotel,
             ];

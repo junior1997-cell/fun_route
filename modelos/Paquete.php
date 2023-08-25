@@ -86,6 +86,97 @@
 
     //========================= S E C C I O N   G A L E R  I A =============================
 
+    public function mostrar_hoteles(){
+      $sql_1 = "SELECT * FROM hoteles as h WHERE h.estado = '1' AND h.estado_delete = '1';";
+      $hoteles = ejecutarConsultaArray($sql_1); if ( $hoteles['status'] == false) {return $hoteles; } // Retorna todos los resultados
+
+      $array_hotel = [];
+
+      foreach ($hoteles['data'] as $key => $val) {        
+
+        $estrellasHTML = '';
+        for ($i = 0; $i < 5; $i++) {
+          if ($i < floatval($val['estrellas']) ) {
+            $estrellasHTML .= '<i class="fas fa-star"></i>'; // Estrella llena
+          } else {
+            $estrellasHTML .= '<i class="far fa-star"></i>'; // Estrella vacía
+          }
+        }    
+
+        $array_hotel []= [
+          'idhoteles'     => $val['idhoteles'],
+          'nombre'        => $val['nombre'],
+          'estrellas'     => $val['estrellas'],
+          'estrellas_html'=> $estrellasHTML,
+          'check_in'      => $val['check_in'],
+          'check_out'     => $val['check_out'],
+          'imagen_perfil' => $val['imagen_perfil'],                   
+        ];
+      }
+
+      return $retorno=[ 'status'=>true, 'message'=>'todo okey','data'=>$array_hotel ];
+    } 
+
+    public function ver_detalle_hotel($id){
+      $sql_1 = "SELECT * FROM hoteles as h WHERE h.estado = '1' AND h.estado_delete = '1' AND idhoteles = '$id' ;";
+      $hotel = ejecutarConsultaSimpleFila($sql_1); if ( $hotel['status'] == false) {return $hotel; } // Retorna todos los resultados
+
+      $array_hotel = [];             
+
+      $sql_3 = "SELECT * FROM galeria_hotel WHERE estado ='1' AND estado_delete ='1'AND idhoteles = '$id';";
+      $galeria_hotel = ejecutarConsultaArray($sql_3); if ( $galeria_hotel['status'] == false) {return $galeria_hotel; }
+
+      $sql_4 = "SELECT * FROM instalaciones_hotel WHERE estado ='1' AND estado_delete ='1' AND idhoteles = '$id' ;";
+      $instalaciones_hotel = ejecutarConsultaArray($sql_4); if ( $instalaciones_hotel['status'] == false) {return $instalaciones_hotel; }
+
+      $sql_2 = "SELECT * FROM habitacion WHERE estado ='1' AND estado_delete ='1' AND idhoteles = '$id';";
+      $habitacion = ejecutarConsultaArray($sql_2); if ( $habitacion['status'] == false) {return $habitacion; }
+
+      $array_habitacion = [];
+      foreach ($habitacion['data'] as $key2 => $val2) {
+        $id_i = $val2['idhabitacion'];
+        $sql_5 = "SELECT * FROM detalle_habitacion WHERE estado ='1' AND estado_delete ='1' AND idhabitacion = '$id_i'";
+        $detalle_habitacion = ejecutarConsultaArray($sql_5); if ( $detalle_habitacion['status'] == false) {return $detalle_habitacion; }
+
+        $array_habitacion []= [
+          'idhabitacion'        => $val2['idhabitacion'],
+          'idhoteles'           => $val2['idhoteles'],
+          'nombre'              => $val2['nombre'],
+
+          'detalle_habitacion'  => $detalle_habitacion['data'],                     
+        ];
+      }
+
+      $estrellasHTML = '';
+      for ($i = 0; $i < 5; $i++) {
+        if ($i < floatval($hotel['data']['estrellas']) ) {
+          $estrellasHTML .= '<i class="fas fa-star"></i>'; // Estrella llena
+        } else {
+          $estrellasHTML .= '<i class="far fa-star"></i>'; // Estrella vacía
+        }
+      }    
+
+      $array_hotel = [
+        'idhoteles'     => $hotel['data']['idhoteles'],
+        'nombre'        => $hotel['data']['nombre'],
+        'estrellas'     => $hotel['data']['estrellas'],
+        'estrellas_html'=> $estrellasHTML,
+        'check_in'      => $hotel['data']['check_in'],
+        'check_out'     => $hotel['data']['check_out'],
+
+        'imagen_perfil' => $hotel['data']['imagen_perfil'],
+        
+        'galeria_hotel' => $galeria_hotel['data'],
+        'instalaciones_hotel'  => $instalaciones_hotel['data'],  
+        'habitacion'    => $array_habitacion,        
+      ];
+      
+
+      return $retorno=[ 'status'=>true, 'message'=>'todo okey','data'=>$array_hotel ];
+    } 
+
+    //========================= S E C C I O N   G A L E R  I A =============================
+
     function mostrar_galeria_5_aleatorios(){
       $sql = "SELECT * FROM galeria_paquete WHERE estado = '1' AND estado_delete = '1' ORDER BY rand() ASC LIMIT 5;";
       return ejecutarConsultaArray($sql);      

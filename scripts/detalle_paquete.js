@@ -1,5 +1,6 @@
 $(document).ready(function () {
   mostrar_detalle(localStorage.getItem("nube_idpaquete"));
+  mostrar_hotel();
 });
 
 function mostrar_detalle(id) {
@@ -74,6 +75,49 @@ function mostrar_detalle(id) {
       // pluging - politicas
       $(".tabLinkP").each(function(){ $(this).click(function(){  tabeIdes = $(this).attr('id'); $(".tabLinkP").removeClass("activeLinkP"); $(this).addClass("activeLinkP"); $(".tabcontentP").addClass("hide"); $("#"+tabeIdes+"-1").removeClass("hide"); return false; });  });
       
+    } else {
+      ver_errores(e);
+    }
+  }).fail(function (e) { ver_errores(e); });
+}
+
+function mostrar_hotel() {
+  $.post("controlador/paquete.php?op=mostrar_hotel",  function (e, textStatus, jqXHR) {
+    e = JSON.parse(e); console.log(e);
+
+    if (e.status == true) {
+      $('.list_hotel_html').html('');
+
+      e.data.forEach((val, key) => {
+        $('.list_hotel_html').append(`<div class="item" 
+        style=" background:  linear-gradient( rgb(0 0 0 / 75%), rgb(0 0 0 / 35%) ),  url(admin/dist/docs/hotel/img_perfil/${val.imagen_perfil}); background-size:cover; background-repeat: no-repeat; background-position: center center;">
+          <div class="content p-r-10px p-l-10px py-5 b-radio-10px bg-color-000000cc">
+            <div class="name "><h1 class="text-white">${val.nombre}</h1></div>
+            <div class="des font-size-2em text-warning" >${val.estrellas_html}</div>
+            <p class="text-white p-2" >Check in: ${val.check_in} - Check out: ${val.check_out}</p>
+            <!-- CARACTERIZTICAS DEL HOTEL  -->
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-detalle-hotel" onclick="ver_detalle_hotel(${val.idhoteles});">
+              Ver Caracteristica
+            </button>
+            <!-- /* CARACTERIZTICAS DEL HOTEL */ -->
+          </div>
+        </div>`);
+      });
+      
+    } else {
+      ver_errores(e);
+    }
+
+  }).fail(function (e) { ver_errores(e); });
+}
+
+function ver_detalle_hotel(id) {
+
+  $.post("controlador/paquete.php?op=ver_detalle_hotel", {'id': id}, function (e, textStatus, jqXHR) {
+    e = JSON.parse(e); console.log(e);
+    if (e.status == true) {
+      $('#modal_title_detalle_hotel').html(`${e.data.nombre} - ${e.data.estrellas_html} `);
     } else {
       ver_errores(e);
     }
