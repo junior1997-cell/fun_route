@@ -122,7 +122,7 @@
     public function tbla_principal(){
       $sql="SELECT t.idtours,t.alojamiento,t.nombre, t.descripcion, t.imagen, t.costo,t.estado_descuento 
       FROM tours as t 
-      WHERE t.idtours>1  and t.estado=1 and t.estado_delete=1;";
+      WHERE t.estado=1 and t.estado_delete=1;";
       return ejecutarConsultaArray($sql);		
     }
 

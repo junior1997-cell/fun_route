@@ -110,5 +110,5 @@ function activate_descripcion() {
 
 function ir_a_detalle_paquete(id, nombre) {
   localStorage.setItem('nube_idpaquete', id);
-  window.location.href = `${window.location.origin}/fun_route/detalle-paquete.html#${nombre}`;
+  window.location.href = window.location.host =='localhost' || es_numero(parseFloat(window.location.host)) == true ?`${window.location.origin}/fun_route/detalle-paquete.html#${nombre}`: `${window.location.origin}/detalle-paquete.html#${nombre}`;
 }
