@@ -56,12 +56,12 @@
     //idhotelesG  ;  idgaleria_hotel  ;  descripcion_G  ;  imagen_H
 
     switch ($_GET["op"]) {
-      case 'guardaryeditar_hotel':
+      case 'guardar_y_editar_hotel':
         // imagen
         if (!file_exists($_FILES['foto1']['tmp_name']) || !is_uploaded_file($_FILES['foto1']['tmp_name'])) {
           $perfil_hotel = $_POST["foto1_actual"];
           $flat_img1 = false;
-        } else {
+        } else { 
           $ext1 = explode(".", $_FILES["foto1"]["name"]);
           $flat_img1 = true;
           $perfil_hotel = $date_now .'--'. random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext1);

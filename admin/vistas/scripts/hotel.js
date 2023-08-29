@@ -61,6 +61,8 @@ function limpiar_hotel() {
   $("#foto1_actual").val("");
   $("#foto1_nombre").html("");  
 
+  $("#form-hotel")[0].reset();
+
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
   $(".form-control").removeClass('is-invalid');
@@ -143,9 +145,12 @@ function listar_hotel() {
 function guardaryeditar_hotel(e) {
 
   var formData = new FormData($("#form-hotel")[0]);
+
+  fileData = $('#foto1').prop('files')[0];  
+  formData.append('file_perfil', fileData);
  
   $.ajax({
-    url: "../ajax/hotel.php?op=guardaryeditar_hotel",
+    url: "../ajax/hotel.php?op=guardar_y_editar_hotel",
     type: "POST",
     data: formData,
     contentType: false,
@@ -192,7 +197,7 @@ function guardaryeditar_hotel(e) {
 //mostrar un solo registro
 function mostrar_hotel(idhoteles) {
 
-  $(".tooltip").removeClass("show").addClass("hidde");
+  $(".tooltip").remove();
   $("#cargando-9-fomulario").hide();
   $("#cargando-10-fomulario").show();
 

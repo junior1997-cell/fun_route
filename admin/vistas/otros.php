@@ -773,7 +773,7 @@ if (!isset($_SESSION["nombre"])) {
 
                 <div class="modal-body">
                   <!-- form start -->
-                  <form id="form-hotel" name="form-hotel" method="POST" autocomplete="off">
+                  <form id="form-hotel" name="form-hotel" method="POST" autocomplete="off" enctype="multipart/form-data">
                     <div class="card-body">
                       <div class="row" id="cargando-9-fomulario">
                         <!-- id idunidad_medida -->
