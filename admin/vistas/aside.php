@@ -234,9 +234,9 @@
                 </a>
               </li>
             <?php  }  ?>     
-            <?php if ($_SESSION['pedido']==1) {  ?>
+            <?php if ($_SESSION['tours']==1) {  ?>
               <li class="nav-item ">
-                <a href="#" class="nav-link pl-2" id="lExperiencias">
+                <a href="experiencia.php" class="nav-link pl-2" id="lExperiencias">
                 <!-- <i class="nav-icon  fas fa-dollar-sign"></i> -->
                 <i class=" nav-icon fa-brands fa-slack"></i>
                   <p>Experiencias </p>

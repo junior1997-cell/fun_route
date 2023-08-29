@@ -2,7 +2,7 @@
   //Incluímos inicialmente la conexión a la base de datos
   require "../config/Conexion_v2.php";
   // global $total;
-  class Comentario_tours
+  class Experiencia
   {
 
     //Implementamos nuestro variable global
@@ -15,9 +15,10 @@
     }
 
     //Implementamos un método para insertar registros
-    public function insertar($nombre, $correo, $nota, $fecha, $estrella)
+    public function insertar($nombre, $lugar, $comentario, $estrella,$imagen1)
     {
-      $sql ="INSERT INTO `comentario_tours`(`nombre`, `correo`, `comentario`, `fecha`, `estrella`) VALUES ('$nombre','$correo','$nota','$fecha','$estrella')";
+      $sql ="INSERT INTO experiencias(nombre, img_perfil, lugar, comentario, estrella, user_created) 
+      VALUES ('$nombre','$imagen1','$lugar','$comentario','$estrella','$this->id_usr_sesion')";
       return ejecutarConsulta($sql);
     }
 
@@ -35,45 +36,6 @@
 		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }   
 		
 		return $desactivar;
-	}
-
-  //Implementamos un método para verificar comentario_tours
-  public function verificar($idcomentario_tours)
-	{
-		$sql="UPDATE comentario_tours SET estado_aceptado='1',user_trash= '$this->id_usr_sesion' WHERE idcomentario_tours='$idcomentario_tours'";
-		$verificar= ejecutarConsulta($sql);
-
-		if ($verificar['status'] == false) {  return $verificar; }
-		
-		//add registro en nuestra bitacora
-		$sql_d = $idcomentario_tours;
-		$sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (2,'comentario_tours','$idcomentario_tours','$sql_d','$this->id_usr_sesion')";
-		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }   
-		
-		return $verificar;
-	}
-
-  //Implementamos un método para desactivar la verificación del comentario_tours
-  public function no_verificar($idcomentario_tours)
-	{
-		$sql="UPDATE comentario_tours SET estado_aceptado='0',user_trash= '$this->id_usr_sesion' WHERE idcomentario_tours='$idcomentario_tours'";
-		$no_verificar= ejecutarConsulta($sql);
-
-		if ($no_verificar['status'] == false) {  return $no_verificar; }
-		
-		//add registro en nuestra bitacora
-		$sql_d = $idcomentario_tours;
-		$sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (2,'comentario_tours','$idcomentario_tours','$sql_d','$this->id_usr_sesion')";
-		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }   
-		
-		return $no_verificar;
-	}
-
-  //Implementamos un método para activar comentario_tours
-	public function activar($idcomentario_tours)
-	{
-		$sql="UPDATE comentario_tours SET estado='1' WHERE idcomentario_tours='$idcomentario_tours'";
-		return ejecutarConsulta($sql);
 	}
 
 	//Implementamos un método para eliminar comentario_tours
@@ -112,13 +74,12 @@
     //Implementamos un método para listar los registros
     public function tbla_principal()
     {
-      $sql="SELECT c.idcomentario_tours, c.idtours,c.nombre as name_comentario,c.correo,c.comentario,c.fecha,c.estrella,c.estado_aceptado,t.idtipo_tours,t.nombre,t.descripcion,t.estado 
-      FROM comentario_tours as c , tours as t WHERE c.idtours=t.idtours AND c.estado=1 AND c.estado_delete=1";
+      $sql="SELECT idexperiencia, nombre, img_perfil, lugar, comentario, estrella, estado FROM experiencias WHERE estado=1 and estado_delete=1;";
       return ejecutarConsultaArray($sql);		
     }
     
     public function obtenerImg($id){
-      $sql="SELECT `imagen` FROM `paquete` WHERE idpaquete = '$id' ";
+      $sql="SELECT imagen FROM paquete WHERE idpaquete = '$id' ";
       return ejecutarConsultaSimpleFila($sql);  
     }
 
