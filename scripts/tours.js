@@ -71,5 +71,5 @@ function activate_descripcion() {
 
 function ir_a_detalle_tours(id, nombre) {
   localStorage.setItem('nube_idtours', id);
-  window.location.href = `${window.location.origin}/fun_route/detalle-tours.html#${nombre}`;
+  window.location.href = window.location.host =='localhost' || es_numero(parseFloat(window.location.host)) == true ?`${window.location.origin}/fun_route/detalle-tours.html#${nombre}`: `${window.location.origin}/detalle-tours.html#${nombre}`;
 }

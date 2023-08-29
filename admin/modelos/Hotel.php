@@ -259,7 +259,7 @@ Class Hotel
 	//Implementamos un método para insertar registros
 	public function insertar_caract_hotel($idhoteles_GN, $nombre_c_hotel, $icono_font_i, $estado_si_no2)
 	{
-		$sql="INSERT INTO instalaciones_hotel (idhoteles, nombre, estado_si_no) VALUES 
+		$sql="INSERT INTO instalaciones_hotel (idhoteles, nombre, icono_font, estado_si_no) VALUES 
 		('$idhoteles_GN', '$nombre_c_hotel', '$icono_font_i', '$estado_si_no2');";
 		$insertar =  ejecutarConsulta_retornarID($sql); if ($insertar['status'] == false) {  return $insertar; } 
 		

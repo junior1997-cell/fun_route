@@ -573,7 +573,7 @@ if (!isset($_SESSION["nombre"])) {
                         <!-- nombre_medida -->
                         <div class="col-lg-12 class_pading">
                           <div class="form-group">
-                            <label for="nombre">Nombre Ocupación</label>
+                            <label for="nombre_ocupacion">Nombre Ocupación</label>
                             <input type="text" name="nombre_ocupacion" id="nombre_ocupacion" class="form-control" placeholder="Nombre de la Ocupación" />
                           </div>
                         </div>
@@ -954,7 +954,7 @@ if (!isset($_SESSION["nombre"])) {
 
                         <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                           <div class="form-group">
-                            <label for="estado_si_no">Disponible</label> <br>
+                            <label for="estado_switch">Disponible</label> <br>
                             <div class="switch-toggle">
                               <input type="checkbox" id="estado_switch" onchange="switchFunction();">
                               <label for="estado_switch"></label>
@@ -1077,7 +1077,7 @@ if (!isset($_SESSION["nombre"])) {
 
                         <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                           <div class="form-group">
-                            <label for="estatus">Disponible</label> <br>
+                            <label for="estado_switch2">Disponible</label> <br>
                             <div class="switch-toggle">
                               <input type="checkbox" id="estado_switch2" onchange="switchFunction2();">
                               <label for="estado_switch2"></label>
@@ -1195,7 +1195,7 @@ if (!isset($_SESSION["nombre"])) {
                         <!-- Descripción -->
                         <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                           <div class="form-group">
-                            <label for="direccion_G">Descripción</label>
+                            <label for="descripcion_G">Descripción</label>
                             <input type="text" name="descripcion_G" class="form-control" id="descripcion_G" placeholder="Descripción" />
                           </div>
                         </div>
@@ -1205,7 +1205,7 @@ if (!isset($_SESSION["nombre"])) {
                           <div class="borde-arriba-naranja mt-4"></div>
                           <div class="row text-center">
                             <div class="col-md-12" style="padding-top: 15px; padding-bottom: 5px;">
-                              <label for="cip" class="control-label"> Imagen </label>
+                              <label class="control-label"> Imagen </label>
                             </div>
                             <div class="col-6 col-md-6 text-center">
                               <button type="button" class="btn btn-success btn-block btn-xs" id="imagen_H_i"><i class="fas fa-upload"></i> Subir.</button>
