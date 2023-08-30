@@ -260,7 +260,7 @@
               <li class="nav-item ">
                 <a href="pago_trabajador.php" class="nav-link pl-2" id="lPagoTrabajador">
                   <i class="fas fa-dollar-sign nav-icon"></i>
-                  <p>Pago Trabajador</p>
+                  <p>Cotizaciones</p>
                 </a>
               </li>
             <?php  }  ?>
@@ -269,7 +269,16 @@
               <li class="nav-item ">
                 <a href="otro_ingreso.php" class="nav-link pl-2" id="lOtroIngreso">             
                   <i class="nav-icon fas fa-hand-holding-usd"></i>
-                  <p>Otro ingreso </p>
+                  <p>Ventas de paquetes</p>
+                </a>
+              </li>
+            <?php  }  ?>
+
+            <?php if ($_SESSION['reporte']==1) {  ?>
+              <li class="nav-item ">
+                <a href="otro_ingreso.php" class="nav-link pl-2" id="lOtroIngreso">             
+                  <i class="nav-icon fas fa-hand-holding-usd"></i>
+                  <p>Ventas de tours</p>
                 </a>
               </li>
             <?php  }  ?>

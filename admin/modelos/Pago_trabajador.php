@@ -45,6 +45,22 @@
 
 
     }
+
+    public function tbla_principal() {
+      
+      $sql="SELECT p.idpersona, p.idtipo_persona, p.idbancos, p.idcargo_trabajador, p.nombres, p.tipo_documento, p.numero_documento, p.fecha_nacimiento, 
+      p.edad, p.celular, p.direccion, p.correo, p.cuenta_bancaria, p.cci, p.titular_cuenta, p.es_socio, p.sueldo_mensual, 
+      p.sueldo_diario, p.foto_perfil, p.estado, cp.nombre as cargo, b.nombre as banco 
+      FROM persona as p ,bancos as b, cargo_trabajador as cp 
+      WHERE p.idbancos = b.idbancos AND p.idcargo_trabajador=cp.idcargo_trabajador AND p.idtipo_persona='4' AND p.estado='1' AND p.estado_delete ='1';";
+
+      $trabajdor = ejecutarConsultaArray($sql); if ($trabajdor['status'] == false) { return  $trabajdor;}
+
+      return $trabajdor;
+      // var_dump($trabajdor);die();
+
+    }
+    
     // =====================================================================================================
     // =====================================================================================================
     //================================== S E C C I O N   P A G O S ========================================= 

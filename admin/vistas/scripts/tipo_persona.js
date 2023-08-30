@@ -47,7 +47,7 @@ function listar_tipo() {
       { extend: 'pdfHtml5', footer: false, exportOptions: { columns: [0,2], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "px-2 btn bg-gradient-danger", } ,
     ],
     ajax:{
-      url: '../ajax/tipo.php?op=listar_tipo',
+      url: '../ajax/tipo_persona.php?op=listar_tipo',
       type : "get",
       dataType : "json",						
       error: function(e){
@@ -84,7 +84,7 @@ function guardaryeditar_tipo(e) {
   var formData = new FormData($("#form-tipo")[0]);
  
   $.ajax({
-    url: "../ajax/tipo.php?op=guardaryeditar_tipo",
+    url: "../ajax/tipo_persona.php?op=guardaryeditar_tipo",
     type: "POST",
     data: formData,
     contentType: false,
@@ -145,7 +145,7 @@ function mostrar_tipo(idtipo_persona) {
 
   $("#modal-agregar-tipo").modal("show")
 
-  $.post("../ajax/tipo.php?op=mostrar_tipo", { idtipo_persona: idtipo_persona }, function (e, status) {
+  $.post("../ajax/tipo_persona.php?op=mostrar_tipo", { idtipo_persona: idtipo_persona }, function (e, status) {
 
     e = JSON.parse(e);  console.log(e);  
 
@@ -166,8 +166,8 @@ function mostrar_tipo(idtipo_persona) {
 function eliminar_tipo(idtipo_persona, nombre) {  
   
   crud_eliminar_papelera(
-    "../ajax/tipo.php?op=desactivar_tipo",
-    "../ajax/tipo.php?op=eliminar_tipo", 
+    "../ajax/tipo_persona.php?op=desactivar_tipo",
+    "../ajax/tipo_persona.php?op=eliminar_tipo", 
     idtipo_persona, 
     "!Elija una opción¡", 
     `<b class="text-danger"><del>${nombre}</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 

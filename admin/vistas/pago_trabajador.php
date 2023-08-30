@@ -24,7 +24,7 @@
           <?php
           require 'nav.php';
           require 'aside.php';
-          if ($_SESSION['pago_trabajador']==1){
+          if ($_SESSION['contable_financiero']==1){
             //require 'enmantenimiento.php';
             ?>
 

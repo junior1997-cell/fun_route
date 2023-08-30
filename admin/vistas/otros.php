@@ -1287,7 +1287,7 @@ if (!isset($_SESSION["nombre"])) {
     <script type="text/javascript" src="scripts/otros.js"></script>
     <script type="text/javascript" src="scripts/hotel.js"></script>
     <script type="text/javascript" src="scripts/bancos.js"></script>
-    <script type="text/javascript" src="scripts/tipo.js"></script>
+    <script type="text/javascript" src="scripts/tipo_persona.js"></script>
     <script type="text/javascript" src="scripts/tipo_tours.js"></script>
     <!-- Ekko Lightbox -->
     <script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>

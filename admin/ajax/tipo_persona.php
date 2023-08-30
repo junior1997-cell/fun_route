@@ -9,9 +9,9 @@
     echo json_encode($retorno);  //Validamos el acceso solo a los usuarios logueados al sistema.
   } else {
     
-    require_once "../modelos/Tipo.php";
+    require_once "../modelos/Tipo_persona.php";
 
-    $tipo = new Tipo($_SESSION['idusuario']);
+    $tipo = new Tipo_persona($_SESSION['idusuario']);
 
     date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y--h-i-s-A");
     $imagen_error = "this.src='../dist/svg/user_default.svg'";

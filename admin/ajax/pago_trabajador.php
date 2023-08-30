@@ -13,13 +13,9 @@
   } else {
 
     //Validamos el acceso solo al usuario logueado y autorizado.
-    if ($_SESSION['pago_trabajador'] == 1) {
+    if ($_SESSION['contable_financiero'] == 1) {
 
-      require_once "../modelos/pago_trabajador.php";
-
-      require_once "../modelos/Trabajador.php";
-
-      $trabajador = new Trabajador($_SESSION['idusuario']);
+      require_once "../modelos/pago_trabajador.php";       
 
       $pago_trabajador = new PagoTrabajador($_SESSION['idusuario']);
 
@@ -28,15 +24,14 @@
       $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
       $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/fun_route/admin/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/admin/');
 
+      // :::::::::::::::::::::::::::::::::::: CREACION DE MES  ::::::::::::::::::::::::::::::::::::
       $idmes_pago_trabajador= isset($_POST["idmes_pago_trabajador"])? limpiarCadena($_POST["idmes_pago_trabajador"]):"";
       $idpersona            = isset($_POST["idpersona"])? limpiarCadena($_POST["idpersona"]):"";
       $nombres              = isset($_POST["nombre_trabajador"])? limpiarCadena($_POST["nombre_trabajador"]):"";
       $mes                  = isset($_POST["mes"])? limpiarCadena($_POST["mes"]):"";
-      $anio                 = isset($_POST["anio"])? limpiarCadena($_POST["anio"]):"";
-      // $idmes_pago_trabajador,$idpersona,$mes,$anio
+      $anio                 = isset($_POST["anio"])? limpiarCadena($_POST["anio"]):"";      
 
-      //Pago trabajador
-
+      // :::::::::::::::::::::::::::::::::::: PAGO X MES ::::::::::::::::::::::::::::::::::::
       $idpago_trabajador	  	= isset($_POST["idpago_trabajador"])? limpiarCadena($_POST["idpago_trabajador"]):"";
       $idmes_pago_trabajador_p= isset($_POST["idmes_pago_trabajador_p"])? limpiarCadena($_POST["idmes_pago_trabajador_p"]):"";
       $nombre_mes		          = isset($_POST["nombre_mes"])? limpiarCadena($_POST["nombre_mes"]):"";
@@ -65,7 +60,7 @@
 
         case 'tbla_trabajador':          
 
-          $rspta=$trabajador->tbla_principal();
+          $rspta=$pago_trabajador->tbla_principal();
           
           //Vamos a declarar un array
           $data= Array(); $cont=1;
