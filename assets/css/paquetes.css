@@ -791,6 +791,13 @@ footer {
   color: #ffffff;
 }
 
+.social_icon .intranet:hover,
+.social_icon .intranet:hover .tooltip,
+.social_icon .intranet:hover .tooltip::before {
+  background: #000000;
+  color: #ffffff;
+}
+
 footer p{
   color: #fff;
   text-align: center;
@@ -834,6 +841,13 @@ footer .wave#wave3 {
 }
 
 footer .wave#wave4 {
+  z-index: 999;
+  opacity: 0.7;
+  bottom: 20px;
+  animation: animateWave_02 3s linear infinite;
+}
+
+footer .wave#wave5 {
   z-index: 999;
   opacity: 0.7;
   bottom: 20px;
