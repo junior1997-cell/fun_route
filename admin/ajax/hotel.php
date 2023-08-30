@@ -13,7 +13,7 @@
 
     $hotel = new Hotel($_SESSION['idusuario']);
 
-    date_default_timezone_set('America/Lima'); $date_now = date("d-m-Y--h-i-s-A");
+    date_default_timezone_set('America/Lima'); $date_now = date("d_m_Y__h_i_s_A");
     $imagen_error = "this.src='../dist/svg/user_default.svg'";
     $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
     $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/fun_route/admin/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/admin/');
@@ -24,13 +24,11 @@
     $nro_estrellas    = isset($_POST["nro_estrellas"]) ? limpiarCadena($_POST["nro_estrellas"]) : "";
     $check_in         = isset($_POST["check_in"]) ? limpiarCadena($_POST["check_in"]) : "";
     $check_out        = isset($_POST["check_out"]) ? limpiarCadena($_POST["check_out"]) : "";
-    //idhoteles  ;  nro_estrellas  ;  nombre_hotel
 
     //----------------------------------- HABITACION ------------------------------------------
     $idhoteles_G       = isset($_POST["idhoteles_G"]) ? limpiarCadena($_POST["idhoteles_G"]) : "";
     $idhabitacion      = isset($_POST["idhabitacion"]) ? limpiarCadena($_POST["idhabitacion"]) : "";
     $nombre_habitacion = isset($_POST["nombre_habitacion"]) ? limpiarCadena($_POST["nombre_habitacion"]) : "";
-    //$idhoteles_G  ;  $idhabitacion  ;  $nombre_habitacion
 
     //------------------------------ CARACTISTICA HABITACION -----------------------------------
     $idhabitacion_G           = isset($_POST["idhabitacion_G"]) ? limpiarCadena($_POST["idhabitacion_G"]) : "";
@@ -38,7 +36,6 @@
     $nombre_caracteristica_h  = isset($_POST["nombre_caracteristica_h"]) ? limpiarCadena($_POST["nombre_caracteristica_h"]) : "";
     $icono_font_c             = isset($_POST["icono_font_c"]) ? limpiarCadena($_POST["icono_font_c"]) : "";
     $estado_si_no             = isset($_POST["estado_si_no"]) ? limpiarCadena($_POST["estado_si_no"]) : "";
-     //$idhabitacion_G  ;  $iddetalle_habitacion  ;  $nombre_caracteristica_h
 
     //------------------------------ INSTALACIONES HOTELES --------------------------------------
     $idhoteles_GN           = isset($_POST["idhoteles_GN"]) ? limpiarCadena($_POST["idhoteles_GN"]) : "";
@@ -46,14 +43,12 @@
     $nombre_c_hotel         = isset($_POST["nombre_c_hotel"]) ? limpiarCadena($_POST["nombre_c_hotel"]) : "";
     $icono_font_i           = isset($_POST["icono_font_i"]) ? limpiarCadena($_POST["icono_font_i"]) : "";
     $estado_si_no2          = isset($_POST["estado_si_no2"]) ? limpiarCadena($_POST["estado_si_no2"]) : "";
-    //idinstalaciones_hotel ;  idhoteles_GN  ;  nombre_c_hotel
 
     //--------------------------------- GALERIA DE HOTEL ---------------------------------------
     $idhotelesG           = isset($_POST["idhotelesG"]) ? limpiarCadena($_POST["idhotelesG"]) : "";
     $idgaleria_hotel      = isset($_POST["idgaleria_hotel"]) ? limpiarCadena($_POST["idgaleria_hotel"]) : "";
     $descripcion_G        = isset($_POST["descripcion_G"]) ? limpiarCadena($_POST["descripcion_G"]) : "";
     $imagen             = isset($_POST["imagen_H"]) ? limpiarCadena($_POST["imagen_H"]) : "";
-    //idhotelesG  ;  idgaleria_hotel  ;  descripcion_G  ;  imagen_H
 
     switch ($_GET["op"]) {
       case 'guardar_y_editar_hotel':
@@ -64,7 +59,7 @@
         } else { 
           $ext1 = explode(".", $_FILES["foto1"]["name"]);
           $flat_img1 = true;
-          $perfil_hotel = $date_now .'--'. random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext1);
+          $perfil_hotel = $date_now .'__'. random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext1);
           move_uploaded_file($_FILES["foto1"]["tmp_name"], "../dist/docs/hotel/img_perfil/" . $perfil_hotel);
         }
         if (empty($idhoteles)) {
@@ -337,7 +332,7 @@
           //guardar imagen
           $ext = explode(".", $_FILES["imagen_H"]["name"]);
           $flat_img = true;
-          $imagen = $date_now . '--' . random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext);
+          $imagen = $date_now . '__' . random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext);
           move_uploaded_file($_FILES["imagen_H"]["tmp_name"], "../dist/docs/hotel/galeria/" . $imagen);
         }
 
