@@ -48,57 +48,57 @@ function mostrar_tours() {
 
   });
 
-  $.post("controlador/inicio.php?op=mostrar_paquetes", {}, function (response, status) {
-    response = JSON.parse(response);
-    console.log(response);
+  // $.post("controlador/inicio.php?op=mostrar_paquetes", {}, function (response, status) {
+  //   response = JSON.parse(response);
+  //   console.log(response);
 
-    if (response.status) {
-      var codigoHTML = '';
-      response.data.forEach((item, index) => {
+  //   if (response.status) {
+  //     var codigoHTML = '';
+  //     response.data.forEach((item, index) => {
 
-        codigoHTML += `
-            <div class="item popular-item">
-              <div class="thumb">
-                <img src="admin/dist/docs/paquete/perfil/${item.imagen}" alt="">
-                <div class="property-description">
-                  <h5>${item.nombre} </h5>
-                  <button class="buton2">Paquete Turistico</button>
-                </div>
-                <div class="plus-button">
-                  <a href="paquetes/escape-tarapoto.html"><i class="fa fa-plus"></i></a>
-                </div>
-              </div>
-            </div>
-        `;
+  //       codigoHTML += `
+  //           <div class="item popular-item">
+  //             <div class="thumb">
+  //               <img src="admin/dist/docs/paquete/perfil/${item.imagen}" alt="">
+  //               <div class="property-description">
+  //                 <h5>${item.nombre} </h5>
+  //                 <button class="buton2">Paquete Turistico</button>
+  //               </div>
+  //               <div class="plus-button">
+  //                 <a href="paquetes/escape-tarapoto.html"><i class="fa fa-plus"></i></a>
+  //               </div>
+  //             </div>
+  //           </div>
+  //       `;
 
-      });
-
-
-      $('.codigoGenerado').html(codigoHTML); // Agregar el contenido
+  //     });
 
 
-      //  $('.paquetes_').owlCarousel({
-      //   items:3,
-      //   loop:true,
-      //   margin:40,
-      //   responsiveClass:true,
-      //   responsive:{
-      //     0:{
-      //       items:1
-      //     },
-      //     800:{
-      //       items:2
-      //     },
-      //     1100:{
-      //       items:3
-      //   }
-      // }
-      // })
+  //     $('.codigoGenerado').html(codigoHTML); // Agregar el contenido
 
 
-    }
+  //     //  $('.paquetes_').owlCarousel({
+  //     //   items:3,
+  //     //   loop:true,
+  //     //   margin:40,
+  //     //   responsiveClass:true,
+  //     //   responsive:{
+  //     //     0:{
+  //     //       items:1
+  //     //     },
+  //     //     800:{
+  //     //       items:2
+  //     //     },
+  //     //     1100:{
+  //     //       items:3
+  //     //   }
+  //     // }
+  //     // })
 
-  });
+
+  //   }
+
+  // });
 
 
 }
