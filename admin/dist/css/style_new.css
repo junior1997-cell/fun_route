@@ -186,6 +186,17 @@ table th { vertical-align: top !important; }
 /* ::::::::::::::::: END stylos para tblas::::::::::::::::::: */
 
 /*  ══════════════════════════════════════════ - B O R D E R - ══════════════════════════════════════════ */
+.border-x-1px{ border-left: 1px !important; border-right: 1px !important; }
+.border-x-2px{ border-left: 2px !important; border-right: 2px !important; }
+.border-x-3px{ border-left: 3px !important; border-right: 3px !important; }
+.border-x-4px{ border-left: 4px !important; border-right: 4px !important; }
+.border-x-5px{ border-left: 5px !important; border-right: 5px !important; }
+
+.border-y-1px{ border-top: 1px !important; border-bottom: 1px !important; }
+.border-y-2px{ border-top: 2px !important; border-bottom: 2px !important; }
+.border-y-3px{ border-top: 3px !important; border-bottom: 3px !important; }
+.border-y-4px{ border-top: 4px !important; border-bottom: 4px !important; }
+.border-y-5px{ border-top: 5px !important; border-bottom: 5px !important; }
 
 .border-t-1px{ border-top: 1px !important; }
 .border-t-2px{ border-top: 2px !important; }
@@ -208,6 +219,27 @@ table th { vertical-align: top !important; }
 .border-b-8px{ border-bottom: 8px !important; }
 .border-b-9px{ border-bottom: 9px !important; }
 .border-b-10px{ border-bottom: 10px !important; }
+
+/*  ══════════════════════════════════════════ - B O R D E R   R A D I U S - ══════════════════════════════════════════ */
+
+.b-radio-0px{ border-radius: 0px; }
+.b-radio-1px{ border-radius: 1px; }
+.b-radio-2px{ border-radius: 2px; }
+.b-radio-3px{ border-radius: 3px; }
+.b-radio-4px{ border-radius: 4px; }
+.b-radio-5px{ border-radius: 5px; }
+.b-radio-6px{ border-radius: 6px; }
+.b-radio-7px{ border-radius: 7px; }
+.b-radio-8px{ border-radius: 8px; }
+.b-radio-9px{ border-radius: 9px; }
+.b-radio-10px{ border-radius: 10px; }
+
+.b-radio-t-5px{ border-top-left-radius: 5px; border-top-right-radius: 5px; }
+.b-radio-t-10px{ border-top-left-radius: 10px; border-top-right-radius: 10px; }
+
+.b-radio-b-5px{ border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; }
+.b-radio-b-10px{ border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; }
+
 
 /*  ══════════════════════════════════════════ - D I S E Ñ O   D E   S C R O L L - ══════════════════════════════════════════ */
 
@@ -750,18 +782,7 @@ table th { vertical-align: top !important; }
 .font-size-29px{ font-size: 29px; }
 .font-size-30px{ font-size: 30px; }
 
-/*  ══════════════════════════════════════════ - B O R D E R   R A D I U S - ══════════════════════════════════════════ */
-.b-radio-0px{ border-radius: 0px; }
-.b-radio-1px{ border-radius: 1px; }
-.b-radio-2px{ border-radius: 2px; }
-.b-radio-3px{ border-radius: 3px; }
-.b-radio-4px{ border-radius: 4px; }
-.b-radio-5px{ border-radius: 5px; }
-.b-radio-6px{ border-radius: 6px; }
-.b-radio-7px{ border-radius: 7px; }
-.b-radio-8px{ border-radius: 8px; }
-.b-radio-9px{ border-radius: 9px; }
-.b-radio-10px{ border-radius: 10px; }
+
 
 /*  ══════════════════════════════════════════ - S H A D O W  C O L O R - ══════════════════════════════════════════ */
 /* celeste */

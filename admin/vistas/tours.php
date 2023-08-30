@@ -69,7 +69,7 @@ if (!isset($_SESSION["nombre"])) {
                     <div class="card-header">
                       <h3 class="card-title btn-regresar" style="display: none;">
                         <button type="button" class="btn bg-gradient-warning" onclick="show_hide_form(1);"><i class="fas fa-arrow-left"></i> Regresar</button>
-                        <button type="button" class="btn bg-gradient-success btn-agregar-galeria" data-toggle="modal" onclick="show_hide_form(2); limpiar_galeria();" data-target="#modal-agregar-galeria_tours"><i class="fas fa-plus-circle"></i> Galeria</button>
+                        <button type="button" class="btn bg-gradient-success btn-agregar-galeria" data-toggle="modal" onclick="show_hide_form(2); limpiar_galeria();" data-target="#modal-agregar-galeria-tours"><i class="fas fa-plus-circle"></i> Galeria</button>
                       </h3>
                       <h3 class="card-title btn-agregar">
                         <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-tours" onclick="limpiar_tours(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar</button>
@@ -86,7 +86,7 @@ if (!isset($_SESSION["nombre"])) {
                               <th class="">Nombre</th>
                               <th data-toggle="tooltip" data-original-title="">Alojamieno</th>
                               <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
-                              <th>Imagen</th>
+                              <th>Costo</th>
                               <th>Estado</th>
                               <th>Galeria</th>
 
@@ -100,7 +100,7 @@ if (!isset($_SESSION["nombre"])) {
                               <th class="">Nombre</th>
                               <th data-toggle="tooltip" data-original-title="">Alojamiento</th>
                               <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
-                              <th>Imagen</th>
+                              <th>Costo</th>
                               <th>Estado</th>
                               <th>Galeria</th>
 
@@ -112,8 +112,8 @@ if (!isset($_SESSION["nombre"])) {
 
                         <div class="col-12 g_imagenes">
                           <div class="card card-primary">
-                            <div class="card-header">
-                              <h4 class="card-title nombre_galeria"></h4>
+                            <div class="card-header"> 
+                              <h4 class="card-title font-weight-bold nombre_galeria"></h4>
                             </div>
                             <div class="card-body">
                               <div class="row imagenes_galeria">
@@ -153,7 +153,7 @@ if (!isset($_SESSION["nombre"])) {
               <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h4 class="modal-title titulo">Agregar Tours</h4>
+                    <h4 class="modal-title titulo_tour">Agregar Tours</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span class="text-danger" aria-hidden="true">&times;</span>
                     </button>
@@ -280,6 +280,14 @@ if (!isset($_SESSION["nombre"])) {
                                 <div class="form-group">
                                   <label for="recomendaciones">Recomendaciones <sup class="text-danger">*</sup> </label>
                                   <textarea name="recomendaciones" id="recomendaciones" class="form-control" rows="10"></textarea>
+                                </div>
+                              </div>
+
+                              <!--mapa-->
+                              <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group ">
+                                  <label for="mapa">Mapa - <a href="https://www.google.com/maps/d/u/0/" target="_blank">Crear mapa <i class="fa-solid fa-up-right-from-square"></i></a></label> <br />
+                                  <textarea name="mapa" id="mapa" class="form-control" rows="2"></textarea>
                                 </div>
                               </div>
 
@@ -422,8 +430,83 @@ if (!isset($_SESSION["nombre"])) {
               </div>
             </div>
 
+            <!-- MODAL - DETALLE TOURS  -->
+            <div class="modal fade" id="modal-detalle-tours">
+              <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title titulo_detalle_tours">Detalle Tours</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span class="text-danger" aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+
+                  <div class="modal-body">
+                    
+                    <ul class="nav nav-tabs" id="custom-content-detalle-tab" role="tablist">
+                      <!-- DATOS TUORS -->
+                      <li class="nav-item">
+                        <a class="nav-link active" id="custom-content-detalle-home_html-tab" data-toggle="pill" href="#custom-content-detalle-home_html" role="tab" aria-controls="custom-content-detalle-home_html" aria-selected="true">DATOS PRINCIPALES</a>
+                      </li>
+                      <!-- OTROS -->
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-content-detalle-otros_html-tab" data-toggle="pill" href="#custom-content-detalle-otros_html" role="tab" aria-controls="custom-content-detalle-otros_html" aria-selected="false">OTROS</a>
+                      </li>
+                      <!-- ITINERARIO -->
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-content-detalle-itinerario_html-tab" data-toggle="pill" href="#custom-content-detalle-itinerario_html" role="tab" aria-controls="custom-content-detalle-itinerario_html" aria-selected="false">ITINERARIO</a>
+                      </li>
+                      <!--COSTOS-->
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-content-detalle-costo_html-tab" data-toggle="pill" href="#custom-content-detalle-costo_html" role="tab" aria-controls="custom-content-detalle-costo_html" aria-selected="false">COSTOS</a>
+                      </li>
+                      <!-- RESUMEN-->
+                      <li class="nav-item">
+                        <a class="nav-link" id="custom-content-detalle-resumen_html-tab" data-toggle="pill" href="#custom-content-detalle-resumen_html" role="tab" aria-controls="custom-content-detalle-resumen_html" aria-selected="false">RESUMEN</a>
+                      </li>
+                    </ul>
+                    
+                    <!-- ======================================== -->
+                    
+                    <div class="tab-content" id="custom-content-detalle-tabContent">
+                      <div class="tab-pane fade show active home_html" id="custom-content-detalle-home_html" role="tabpanel" aria-labelledby="custom-content-detalle-home_html-tab">
+                        <!-- DATOS PRINCIPALES --> 
+                        <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
+                      </div>
+                      <!-- /.tab-panel -->
+
+                      <div class="tab-pane fade otros_html" id="custom-content-detalle-otros_html" role="tabpanel" aria-labelledby="custom-content-detalle-otros_html-tab">
+                        <!-- OTROS -->                            
+                        <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
+                      </div>
+                      <!-- /.tab-panel --> 
+
+                      <div class="tab-pane fade itinerario_html" id="custom-content-detalle-itinerario_html" role="tabpanel" aria-labelledby="custom-content-detalle-itinerario_html-tab">
+                        <!-- ITINERARIO -->
+                        <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
+                      </div>
+                      <!-- /.tab-panel -->
+                      <div class="tab-pane fade costo_html" id="custom-content-detalle-costo_html" role="tabpanel" aria-labelledby="custom-content-detalle-costo_html-tab">
+                        <!-- COSTOS -->
+                        <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
+                      </div>
+                      <div class="tab-pane fade resumen_html" id="custom-content-detalle-resumen_html" role="tabpanel" aria-labelledby="custom-content-detalle-resumen_html-tab">
+                        <!-- RESUMEN -->
+                        <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
+                      </div>
+                      <!-- /.tab-panel -->
+                    </div>                                            
+                    
+                  </div>
+                  <div class="modal-footer justify-content-between btn_footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- MODAL - AGREGAR GALERIA - charge 3 -->
-            <div class="modal fade" id="modal-agregar-galeria_tours">
+            <div class="modal fade" id="modal-agregar-galeria-tours">
               <div class="modal-dialog modal-dialog-scrollable modal-md">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -444,11 +527,12 @@ if (!isset($_SESSION["nombre"])) {
 
                         <!-- Descripción -->
                         <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                          <div class="form-group">
+                          <div class="form-group"> 
                             <label for="direccion">Descripción</label>
                             <textarea name="descripcion_g" class="form-control" id="descripcion_g" placeholder="Descripción" cols="30" rows="2"></textarea>                            
                           </div>
                         </div>
+                        
 
                         <!-- imagen perfil -->
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -461,14 +545,14 @@ if (!isset($_SESSION["nombre"])) {
                             <div class="col-6 col-md-6 text-center">
                               <button type="button" class="btn btn-success btn-block btn-xs" id="doc2_i"><i class="fas fa-upload"></i> Subir.</button>
                               <input type="hidden" id="doc_old_2" name="doc_old_2" />
-                              <input style="display: none;" id="doc2" type="file" name="doc2" accept="application/pdf, image/*" class="docpdf" />
+                              <input style="display: none;" id="doc2" type="file" name="doc2" accept="image/*" class="docpdf" />
                             </div>
                             <div class="col-6 col-md-6 text-center">
                               <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'paquete', 'galeria');"><i class="fas fa-redo"></i> Recargar.</button>
                             </div>
                           </div>
                           <div id="doc2_ver" class="text-center mt-4">
-                            <img src="../dist/svg/doc_uploads.svg" alt="" width="50%" />
+                            <img src="../dist/img/default/img_defecto.png" alt="" width="50%" />
                           </div>
                           <div class="text-center" id="doc2_nombre"><!-- aqui va el nombre del pdf --></div>
                         </div>

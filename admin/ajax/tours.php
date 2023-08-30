@@ -33,6 +33,7 @@
       $incluye                = isset($_POST["incluye"])? limpiarCadena($_POST["incluye"]):"";
       $no_incluye             = isset($_POST["no_incluye"])? limpiarCadena($_POST["no_incluye"]):"";
       $recomendaciones        = isset($_POST["recomendaciones"])? limpiarCadena($_POST["recomendaciones"]):"";
+      $mapa                   = isset($_POST["mapa"])? limpiarCadena($_POST["mapa"]):"";
       $actividad              = isset($_POST["actividad"])? limpiarCadena($_POST["actividad"]):"";
       $costo                  = isset($_POST["costo"])? limpiarCadena($_POST["costo"]):"";
       $estado_descuento       = isset($_POST["estado_descuento"])? limpiarCadena($_POST["estado_descuento"]):"";
@@ -41,9 +42,8 @@
       $resumen_actividad      = isset($_POST["resumen_actividad"])? limpiarCadena($_POST["resumen_actividad"]):"";
       $resumen_comida         = isset($_POST["resumen_comida"])? limpiarCadena($_POST["resumen_comida"]):"";
       $alojamiento            = isset($_POST["alojamiento"])? limpiarCadena($_POST["alojamiento"]):"";
-
-      //$idtours,$nombre,$idtipo_tours,$descripcion,$duracion,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen
-      // galeria tours
+      
+      // :::::::::::::::::::::::::::::: GALERIA TOURS ::::::::::::::::::::::::::::::
       $idgaleria_tours		   = isset($_POST["idgaleria_tours"])? limpiarCadena($_POST["idgaleria_tours"]):"";
       $idtours_t		         = isset($_POST["idtours_t"])? limpiarCadena($_POST["idtours_t"]):"";
       $descripcion_g		     = isset($_POST["descripcion_g"])? limpiarCadena($_POST["descripcion_g"]):"";
@@ -64,10 +64,8 @@
             move_uploaded_file($_FILES["doc1"]["tmp_name"], "../dist/docs/tours/perfil/" . $imagen);						
 					}
 
-          if (empty($idtours)){
-            
-            $rspta=$tours->insertar($nombre,$idtipo_tours,$descripcion,$duracion,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen,$resumen_actividad,$resumen_comida,$alojamiento);
-            
+          if (empty($idtours)){            
+            $rspta=$tours->insertar($nombre,$idtipo_tours,$descripcion,$duracion,$incluye,$no_incluye,$recomendaciones, $mapa, $actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen,$resumen_actividad,$resumen_comida,$alojamiento);            
             echo json_encode($rspta, true);
   
           }else {
@@ -80,35 +78,26 @@
             }            
 
             // editamos un tours existente
-            $rspta=$tours->editar($idtours,$nombre,$idtipo_tours,$descripcion,$duracion,$incluye,$no_incluye,$recomendaciones,$actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen,$resumen_actividad,$resumen_comida,$alojamiento);
-            
+            $rspta=$tours->editar($idtours,$nombre,$idtipo_tours,$descripcion,$duracion,$incluye,$no_incluye,$recomendaciones, $mapa, $actividad,$costo,$estado_descuento,$porcentaje_descuento,$monto_descuento,$imagen,$resumen_actividad,$resumen_comida,$alojamiento);            
             echo json_encode($rspta, true);
           }            
 
         break;
 
         case 'desactivar':
-
           $rspta=$tours->desactivar($_GET["id_tabla"]);
-
           echo json_encode($rspta, true);
-
         break;
 
         case 'eliminar':
-
           $rspta=$tours->eliminar($_GET["id_tabla"]);
-
           echo json_encode($rspta, true);
-
         break;
 
         case 'mostrar':
-
           $rspta=$tours->mostrar($idtours);
           //Codificar el resultado utilizando json
           echo json_encode($rspta, true);
-
         break;
 
         case 'mostrar_vista':
@@ -128,7 +117,7 @@
             foreach ($rspta['data'] as $key => $value) {        
 
               $imagen = (empty($value['imagen']) ? '../dist/svg/user_default.svg' : '../dist/docs/tours/perfil/'.$value['imagen']) ;
-              $estado_descuento = ($value['estado_descuento']==1 ? '<span class="text-center badge badge-warning">En Promoción</span>' : '<span class="text-center badge badge-info">Sin Promocionar</span>' );// true:false
+              $estado_descuento = ($value['estado_descuento']==1 ? '<span class="text-center badge badge-warning">En Promoción ('.$value['porcentaje_descuento'].'%)</span>' : '<span class="text-center badge badge-info">Sin Promocionar</span>' );// true:false
               $alojamiento = ($value['alojamiento'] == 1 ? '<div class="text-center"><span class="text-center badge badge-warning" style="border: 2px solid green; background-color: green; color: white;">Incluye</span></div>' : '<div class="text-center"><span class="text-center badge badge-info" style="border: 2px solid red; background-color: red; color: white;">No Incluye</span></div>');
               
               $data[]=array(
@@ -136,14 +125,17 @@
                 "1"=>'<button class="btn btn-info btn-sm" onclick="ver_detalle_tours(' . $value['idtours'] .')" data-toggle="tooltip" data-original-title="Ver detalle tours"><i class="fa fa-eye"></i></button>' . 
                 ' <button class="btn btn-warning btn-sm" onclick="mostrar_tours(' . $value['idtours'] . ')" data-toggle="tooltip" data-original-title="Editar tours"><i class="fas fa-pencil-alt"></i></button>' .
                 ' <button class="btn btn-danger  btn-sm" onclick="eliminar_tours(' . $value['idtours'] .'.,\'' . $value['nombre'] . '\')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
-                "2"=>$value['nombre'],
+                "2"=>
+                '<div class="user-block">
+                  <img class="profile-user-img img-responsive img-circle cursor-pointer" src="'. $imagen .'" alt="User Image" onerror="'.$imagen_error.'" onclick="ver_img_tours(\'' . $imagen . '\', \''.encodeCadenaHtml($value['nombre']).'\');" data-toggle="tooltip" data-original-title="Ver foto">
+                  <span class="username"><p class="text-primary m-b-02rem" >'. $value['nombre'] .'</p></span>
+                  <span class="description"><b>Mapa: </b>'.$value['estado_mapa'].' | Tipo: <b>'.$value['tipo_tours'].'</b>  </span>
+                </div>',
                 "3"=>$alojamiento,
                 "4"=> '<textarea cols="30" rows="2" class="textarea_datatable" readonly="">' . $value['descripcion'] . '</textarea>',
-                "5"=>'<div class="user-block center">
-                      <img class="profile-user-img img-responsive img-circle cursor-pointer" src="'. $imagen .'" alt="User Image" onerror="'.$imagen_error.'" onclick="ver_img_tours(\'' . $imagen . '\', \''.encodeCadenaHtml($value['nombre']).'\');" data-toggle="tooltip" data-original-title="Ver foto">
-                     </div>',
+                "5"=> $value['costo'],
                 "6"=>$estado_descuento,
-                "7"=>'<button class="btn btn-info btn-sm" onclick="galeria(' . $value['idtours'] .', \'' . encodeCadenaHtml($value['nombre']) . '\')" data-toggle="tooltip" data-original-title="Ver detalle compra">Galería <i class="fa fa-eye"></i></button>',
+                "7"=>'<button class="btn btn-info btn-sm" onclick="galeria(' . $value['idtours'] .', \'' . encodeCadenaHtml($value['nombre']) . '\')" data-toggle="tooltip" data-original-title="Ver '.$value['cant_galeria'].' img de galeria.">Galería ('.$value['cant_galeria'].') <i class="fa fa-eye"></i></button>',
               );
             }
             $results = array(
@@ -164,22 +156,16 @@
           $rspta = $tours->selec2tipotours(); $cont = 1; $data = "";
 
           if ($rspta['status'] == true) {
-
             foreach ($rspta['data'] as $key => $value) {  
-
               $data .= '<option value=' . $value['id'] . '>' . $value['nombre'] .'</option>';
             }
-
             $retorno = array(
               'status' => true, 
               'message' => 'Salió todo ok', 
               'data' => '<option value="1">NINGUNO</option>'.$data, 
-            );
-    
+            );    
             echo json_encode($retorno, true);
-
           } else {
-
             echo json_encode($rspta, true); 
           }
         break;
@@ -202,9 +188,18 @@
           }
 
           if (empty($idgaleria_tours)) {
-
             $rspta = $tours->insertar_galeria($idtours_t,$descripcion_g,$imagen2);
+            echo json_encode($rspta, true);
+          }else{
 
+            // validamos si existe LA IMG para eliminarlo
+            if ($flat_img2 == true) {
+              $datos_bd = $tours->obtenerImgGaleria($idgaleria_tours);
+              $img_gal_ant = $datos_bd['data']['imagen'];
+              if ( !empty($img_gal_ant) ) { unlink("../dist/docs/tours/galeria/" . $img_gal_ant);  }
+            }    
+
+            $rspta = $tours->editar_galeria($idgaleria_tours, $idtours_t, $descripcion_g, $imagen2);
             echo json_encode($rspta, true);
           }
 
@@ -212,6 +207,11 @@
         
         case 'mostrar_galeria':
           $rspta = $tours->mostrar_galeria($_POST['idtours']);
+          echo json_encode($rspta, true);
+        break;
+
+        case 'mostrar_editar_galeria':
+          $rspta = $tours->mostrar_editar_galeria($_POST['idgaleria_tours']);
           echo json_encode($rspta, true);
         break;
 

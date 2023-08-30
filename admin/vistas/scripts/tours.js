@@ -27,11 +27,13 @@ function init() {
   $('#resumen_actividad').summernote({ placeholder: 'resumen de las actividades'});
   $('#resumen_comida').summernote();
 
-  
- // incluye,no_incluye recomendaciones
+  $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+    event.preventDefault(); $(this).ekkoLightbox({ alwaysShowClose: true, loadingMessage:`<i class="fas fa-spinner fa-pulse fa-lg"></i>`, });
+  });  
+
   // Formato para telefono
   $("[data-mask]").inputmask();
-  $(".titulo").html('Agregar Tours');
+  
 }
 
 // abrimos el navegador de archivos
@@ -48,6 +50,9 @@ function doc1_eliminar() {
 
 //Función limpiar
 function limpiar_tours() {
+
+  $(".titulo_tour").html('Agregar tours');
+
   $("#idtours").val("");
   $("#nombre").val("");
   $("#idtipo_tours").val("").trigger("change");
@@ -57,28 +62,28 @@ function limpiar_tours() {
   $("#doc1").val("");
   $("#doc_old_1").val('');
 	$("#doc1_ver").html('<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >');
-	$("#doc1_nombre").html("");
-  
+	$("#doc1_nombre").html("");  
 
- // -------OTROS----------
- 
- $("#incluye").summernote('code', '');
- $("#no_incluye").summernote('code', '');
- $("#recomendaciones").summernote('code', '');
+  // -------OTROS---------- 
+  $("#incluye").summernote('code', '');
+  $("#no_incluye").summernote('code', '');
+  $("#recomendaciones").summernote('code', '');
+  $("#mapa").val('');
+
   // -------ITINERARIO-------
- $("#actividad").summernote('code', '');
+  $("#actividad").summernote('code', '');
 
   // -------COSTO----------
- $("#costo").val("");
- $("#estado_descuento").val("");
- $("#porcentaje_descuento").val("");
- $("#monto_descuento").val("");
+  $("#costo").val("");
+  $("#estado_descuento").val("");
+  $("#porcentaje_descuento").val("");
+  $("#monto_descuento").val("");
 
- // -------RESUMEN --------
- $("#resumen_actividad").summernote('code', '');
- $("#resumen_comida").summernote('code', '');
+  // -------RESUMEN --------
+  $("#resumen_actividad").summernote('code', '');
+  $("#resumen_comida").summernote('code', '');
 
- $(".btn_footer").show();
+  $(".btn_footer").show();
 
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
@@ -96,7 +101,7 @@ function show_hide_form(flag) {
     $(".btn-agregar-galeria").hide();
     
     $(".btn-agregar").show();
-    $("#galeria").hide();
+    $("#galeria").hide();    
 	}	else	{
 		$("#mostrar-tabla").hide();
     $("#mostrar-form").show();
@@ -139,7 +144,6 @@ function tbla_principal() {
       if (data[5] != "") { $("td", row).eq(5).addClass("text-nowrap"); }
       // columna: 
       if (data[6] != "") { $("td", row).eq(6).addClass("text-center"); }
-
     },
     language: {
       lengthMenu: "Mostrar: _MENU_ registros",
@@ -150,7 +154,9 @@ function tbla_principal() {
     bDestroy: true,
     iDisplayLength: 10, //Paginación
     order: [[0, "asc"]], //Ordenar (columna,orden)
-    columnDefs: [],
+    columnDefs: [
+      { targets: [5], render: function (data, type) { var number = $.fn.dataTable.render.number(',', '.', 2).display(data); if (type === 'display') { let color = 'numero_positivos'; if (data < 0) {color = 'numero_negativos'; } return `<span class="float-left">S/</span> <span class="float-right ${color} "> ${number} </span>`; } return number; }, },
+    ],
   }).DataTable();
 
 }
@@ -202,9 +208,10 @@ function guardar_y_editar_tours(e) {
   });
 }
 
-
 function mostrar_tours(idtours) {
-  limpiar_tours();
+  limpiar_tours();   
+
+  $(".titulo_tour").html('Editar tours');
 
   $("#cargando-1-fomulario").hide();
   $("#cargando-2-fomulario").show();
@@ -215,51 +222,53 @@ function mostrar_tours(idtours) {
     
     e = JSON.parse(e); console.log(e);    
 
-    $("#idtours").val(e.tours.idtours);
-    $("#nombre").val(e.tours.nombre);
-    $("#idtipo_tours").val(e.tours.idtipo_tours);
-    $("#duracion").val(e.tours.duracion);
-    $("#descripcion").val(e.tours.descripcion);
+    $("#idtours").val(e.data.idtours);
+    $("#nombre").val(e.data.nombre);
+    $("#idtipo_tours").val(e.data.idtipo_tours).trigger("change");
+    $("#duracion").val(e.data.duracion);
+    $("#descripcion").val(e.data.descripcion);
 
-    $("#incluye").summernote ('code', e.tours.incluye);
-    $("#no_incluye").summernote ('code', e.tours.no_incluye);
-    $("#recomendaciones").summernote ('code', e.tours.recomendaciones);
+    $("#incluye").summernote ('code', e.data.incluye);
+    $("#no_incluye").summernote ('code', e.data.no_incluye);
+    $("#recomendaciones").summernote ('code', e.data.recomendaciones);
+    $("#mapa").val (e.data.mapa);
+
     // -------ITINERARIO-------
-    $("#actividad").summernote ('code', e.tours.actividad);
+    $("#actividad").summernote ('code', e.data.actividad);
    
     // -------COSTO----------
-    $("#costo").val(e.tours.costo);
-    $("#estado_descuento").val(e.tours.estado_descuento);
-    $("#porcentaje_descuento").val(e.tours.porcentaje_descuento);
-    $("#monto_descuento").val(e.tours.monto_descuento);
+    $("#costo").val(e.data.costo);
+    $("#estado_descuento").val(e.data.estado_descuento);
+    $("#porcentaje_descuento").val(e.data.porcentaje_descuento);
+    $("#monto_descuento").val(e.data.monto_descuento);
 
-    if (e.tours.estado_descuento == "1") {
+    if (e.data.estado_descuento == "1") {
       $("#estado_switch").prop("checked", true);
     } else {
       $("#estado_switch").prop("checked", false);
     }
 
     // --------- RESUMEN ------
-    $("#resumen_actividad").summernote ('code', e.tours.resumen_actividad);
-    $("#resumen_comida").summernote ('code', e.tours.resumen_comida);
-    $("#alojamiento").val(e.tours.alojamiento);
+    $("#resumen_actividad").summernote ('code', e.data.resumen_actividad);
+    $("#resumen_comida").summernote ('code', e.data.resumen_comida);
+    $("#alojamiento").val(e.data.alojamiento);
 
-    if (e.tours.alojamiento == "1") {
+    if (e.data.alojamiento == "1") {
       $("#estado_switch2").prop("checked", true);
     } else {
       $("#estado_switch2").prop("checked", false);
     }
 
-    if (e.tours.imagen == "" || e.tours.imagen == null  ) {
+    if (e.data.imagen == "" || e.data.imagen == null  ) {
       $("#doc1_ver").html('<img src="../dist/svg/pdf_trasnparent.svg" alt="" width="50%" >');
       $("#doc1_nombre").html('');
       $("#doc_old_1").val(""); 
       $("#doc1").val("");
     } else {
-      $("#doc_old_1").val(e.tours.imagen);
-      $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Perfil.${extrae_extencion(e.tours.imagen)}</i></div></div>`);
+      $("#doc_old_1").val(e.data.imagen);
+      $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Perfil.${extrae_extencion(e.data.imagen)}</i></div></div>`);
       // cargamos la imagen adecuada par el archivo
-      $("#doc1_ver").html(doc_view_extencion(e.tours.imagen,'tours', 'perfil', '100%', '210' ));   //ruta imagen           
+      $("#doc1_ver").html(doc_view_extencion(e.data.imagen,'tours', 'perfil', '100%', '210' ));   //ruta imagen           
     }
 
     $('.jq_image_zoom').zoom({ on:'grab' });     
@@ -269,83 +278,128 @@ function mostrar_tours(idtours) {
   }).fail( function(e) { ver_errores(e); } );
 }
 
-function ver_detalle_tours(idtours) {
-  limpiar_tours();
-  $(".btn_footer").hide();
-  $(".titulo").html('Ver datos del Tours');
-
-  $(".datos_tours").css('pointer-events', 'none');
-  $(".otros").css('pointer-events', 'none');
-  $(".itinerario").css('pointer-events', 'none');
-  $(".costos").css('pointer-events', 'none');
+function ver_detalle_tours(idtours) {  
   
-  $("#cargando-1-fomulario").hide();
-  $("#cargando-2-fomulario").show();
+  $(".titulo_detalle_tours").html('Ver datos del Tours');  
 
-  $("#modal-agregar-tours").modal("show");
+  $("#modal-detalle-tours").modal("show");
 
   $.post("../ajax/tours.php?op=mostrar", { idtours: idtours }, function (e, status) {
     
     e = JSON.parse(e); console.log(e);    
 
-    $("#idtours").val(e.tours.idtours).trigger("change");
-    $("#nombre").val(e.tours.nombre).trigger("change");
-    $("#idtipo_tours").val(e.tours.idtipo_tours).trigger("change");
-    $("#duracion").val(e.tours.duracion);
-    $("#descripcion").val(e.tours.descripcion);
+    if (e.status == true) {
+      $('.home_html').html(`<div class="table-responsive p-0">
+        <table class="table table-hover table-bordered  mt-4">          
+          <tbody>
+            <tr>
+              <th>Nombre</th>
+              <td>${e.data.nombre}</td>
+            </tr>
+            <tr>
+              <th>Tipo Tours</th>
+              <td>${e.data.tipo_tours}</td>
+            </tr>
+            <tr>
+              <th>Duración</th>
+              <td>${e.data.duracion}</td>
+            </tr>
+            <tr>
+              <th>Descripción</th>
+              <td>${e.data.descripcion}</td>
+            </tr>
+            <tr>
+              <th>Imagen</th>
+              <td>${doc_view_extencion(e.data.imagen,'tours', 'perfil', '300px', 'auto' )}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>`);
 
-    $("#incluye").summernote ('code', e.tours.incluye);
-    $("#no_incluye").summernote ('code', e.tours.no_incluye);
-    $("#recomendaciones").summernote ('code', e.tours.recomendaciones);
-     // -------ITINERARIO-------
-    $("#actividad").summernote ('code', e.tours.actividad);
-   
-     // -------COSTO----------
-    $("#costo").val(e.tours.costo);
-    $("#estado_descuento").val(e.tours.estado_descuento);
-    $("#porcentaje_descuento").val(e.tours.porcentaje_descuento);
-    $("#monto_descuento").val(e.tours.monto_descuento);
+      $('.otros_html').html(`<div class="table-responsive p-0">
+        <table class="table table-hover table-bordered  mt-4">          
+          <tbody>
+            <tr>
+              <th>Incluye</th>
+              <td>${e.data.incluye}</td>
+            </tr>
+            <tr>
+              <th>No incluye</th>
+              <td>${e.data.no_incluye}</td>
+            </tr>
+            <tr>
+              <th>Recomendaciones</th>
+              <td>${e.data.recomendaciones}</td>
+            </tr>
+            <tr>
+              <th>Mapa</th>
+              <td>${e.data.mapa}</td>
+            </tr>            
+          </tbody>
+        </table>
+      </div>`);
 
-    if (e.tours.estado_descuento == "1") {
-      $("#estado_switch").prop("checked", true);
+      $('.itinerario_html').html(`<div class="table-responsive p-0">
+        <table class="table table-hover table-bordered  mt-4">          
+          <tbody>
+            <tr>
+              <th>Itinerario</th>
+              <td>${e.data.actividad}</td>
+            </tr>                    
+          </tbody>
+        </table>
+      </div>`);
+
+      $('.costo_html').html(`<div class="table-responsive p-0">
+        <table class="table table-hover table-bordered  mt-4">          
+          <tbody>
+            <tr>
+              <th>Precio Regular</th>
+              <td>${e.data.costo}</td>
+            </tr> 
+            <tr>
+              <th>Descuento</th>
+              <td>${ e.data.estado_descuento == '1' ? '<span class="badge badge-success">SI</span>' : '<span class="badge badge-danger">NO</span>' }</td>
+            </tr> 
+            <tr>
+              <th>Porcentaje</th>
+              <td>${e.data.porcentaje_descuento}</td>
+            </tr> 
+            <tr>
+              <th>Monto descuento</th>
+              <td>${e.data.monto_descuento}</td>
+            </tr>                    
+          </tbody>
+        </table>
+      </div>`);
+
+      $('.resumen_html').html(`<div class="table-responsive p-0">
+        <table class="table table-hover table-bordered  mt-4">          
+          <tbody>
+            <tr>
+              <th>¿Incluye Alojamiento?</th>
+              <td>${ e.data.alojamiento == '1' ? '<span class="badge badge-success">SI</span>' : '<span class="badge badge-danger">NO</span>' }</td>
+            </tr> 
+            <tr>
+              <th>Resumen de Actividades</th>
+              <td>${e.data.resumen_actividad}</td>
+            </tr>             
+            <tr>
+              <th>Resumen de Comida</th>
+              <td>${e.data.resumen_comida}</td>
+            </tr>            
+          </tbody>
+        </table>
+      </div>`);   
+
+      $('.jq_image_zoom').zoom({ on:'grab' });  
+
+      $("#cargando-1-fomulario").show();
+      $("#cargando-2-fomulario").hide();
+
     } else {
-      $("#estado_switch").prop("checked", false);
-    }
-
-    // --------- RESUMEN ------
-    $("#resumen_actividad").summernote ('code', e.tours.resumen_actividad);
-    $("#resumen_comida").summernote ('code', e.tours.resumen_comida);
-    $("#alojamiento").val(e.tours.alojamiento);
-
-    if (e.tours.alojamiento == "1") {
-      $("#estado_switch2").prop("checked", true);
-    } else {
-      $("#estado_switch2").prop("checked", false);
-    }
-
-        
-    if (e.tours.imagen == "" || e.tours.imagen == null  ) {
-
-      $("#doc1_ver").html('<img src="../dist/svg/pdf_trasnparent.svg" alt="" width="50%" >');
-
-      $("#doc1_nombre").html('');
-
-      $("#doc_old_1").val(""); $("#doc1").val("");
-
-    } else {
-
-      $("#doc_old_1").val(e.tours.comprobante); 
-
-      $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Baucher.${extrae_extencion(e.tours.imagen)}</i></div></div>`);
-      // cargamos la imagen adecuada par el archivo
-      $("#doc1_ver").html(doc_view_extencion(e.tours.imagen,'tours', 'perfil', '100%', '210' ));   //ruta imagen    
-          
-    }
-    $('.jq_image_zoom').zoom({ on:'grab' });
-     
-    
-    $("#cargando-1-fomulario").show();
-    $("#cargando-2-fomulario").hide();
+      ver_errores(e);
+    }    
   }).fail( function(e) { ver_errores(e); } );
 }
 
@@ -367,7 +421,7 @@ function eliminar_tours(idtours,nombre) {
     false
   );
 }
-// .....::::::::::::::::::::::::::::::::::::: F U N C I O N E S   G A L E R I A  :::::::::::::::::::::::::::::::::::::::..
+
 // :::::::::::::::::::::::::::::::::::::::::::::::::::: S E C C I O N  G A L E R I A  ::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 // abrimos el navegador de archivos
@@ -377,7 +431,7 @@ $("#doc2").change(function(e) {  addImageApplication(e,$("#doc2").attr("id")) })
 // Eliminamos
 function doc2_eliminar() {
 	$("#doc2").val("");
-	$("#doc2_ver").html('<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >');
+	$("#doc2_ver").html('<img src="../dist/img/default/img_defecto.png" alt="" width="50%" >');
 	$("#doc2_nombre").html("");
 }
 
@@ -387,7 +441,7 @@ function limpiar_galeria () {
 
   $("#doc_old_2").val("");
   $("#doc2").val("");  
-  $('#doc2_ver').html(`<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >`);
+  $('#doc2_ver').html(`<img src="../dist/img/default/img_defecto.png" alt="" width="50%" >`);
   $('#doc2_nombre').html("");
 
   // Limpiamos las validaciones
@@ -410,35 +464,33 @@ function galeria(idtours, nombre) {
   var codigoHTML="";
   $.post("../ajax/tours.php?op=mostrar_galeria", { idtours: idtours }, function (e, status) {
     
-    e = JSON.parse(e);  console.log(e);    
+    e = JSON.parse(e);  console.log(e); 
 
-    if (e.data==null || e.data=="") {
-      $(".g_imagenes").hide(); $(".sin_imagenes").show();
-    }else{
-      $(".sin_imagenes").hide(); $(".g_imagenes").show();
+    if (e.status == true) {
+      if (e.data === null || e.data.length === 0) {
+        $(".g_imagenes").hide(); $(".sin_imagenes").show();
+      }else{
+        $(".sin_imagenes").hide(); $(".g_imagenes").show();
+        
+        e.data.forEach((val, key) => {        
+          codigoHTML = `<div class="col-sm-2 text-center px-1 py-1 b-radio-5px" style="border: 2px solid #837f7f;" >             
+            <a href="../dist/docs/tours/galeria/${val.imagen}?text=1" data-toggle="lightbox" data-title="${val.descripcion}" data-gallery="gallery">
+              <img src="../dist/docs/tours/galeria/${val.imagen}?text=1" class="img-fluid mb-2 b-radio-t-5px" alt="white sample"/>
+            </a>
+            <button class="btn btn-warning btn-sm" onclick="mostrar_editar_galeria(${val.idgaleria_tours})">Editar</button> 
+            <button class="btn btn-danger btn-sm" onclick="eliminar_img(${val.idgaleria_tours},'${val.descripcion}');">Eliminar</button>                   
+          </div> `;
+          $('.imagenes_galeria').append(codigoHTML); // Agregar el contenido 
+        });         
+      }
+
+      $('.jq_image_zoom').zoom({ on:'grab' });     
       
-      e.data.forEach(element => {        
-        codigoHTML =codigoHTML.concat(`<div class="col-sm-2 pb-2 pt-2" style="border: 2px solid #837f7f;">
-          <a href="../dist/docs/tours/galeria/${element.imagen}?text=1" data-toggle="lightbox" data-title="${element.descripcion}" data-gallery="gallery">
-          <img src="../dist/docs/tours/galeria/${element.imagen}?text=1" class="img-fluid mb-2" alt="white sample"/>
-          </a>
-          <div class="text-center text-white" style="background-color: #1f7387; cursor: pointer; border-radius: 0.25rem;" onclick="eliminar_img(${element.idgaleria_tours},'${element.descripcion}');">Eliminar
-          </div>
-        </div> `);
-      });
-    
-      $('.imagenes_galeria').html(codigoHTML); // Agregar el contenido 
-
-      $(document).on('click', '[data-toggle="lightbox"]', function(event) {
-        event.preventDefault(); $(this).ekkoLightbox({ alwaysShowClose: true });
-      });
-
-    }
-
-    $('.jq_image_zoom').zoom({ on:'grab' });     
-    
-    $("#cargando-3-fomulario").show();
-    $("#cargando-4-fomulario").hide();
+      $("#cargando-3-fomulario").show();
+      $("#cargando-4-fomulario").hide();
+    } else {
+      ver_errores(e);
+    }    
   }).fail( function(e) { ver_errores(e); } );
 
 }
@@ -446,7 +498,7 @@ function galeria(idtours, nombre) {
 function eliminar_img(idgaleria_tours,descripcion) {  
   Swal.fire({
     title: "¿Está seguro de que desea eliminar esta imagen?",
-    text: `${descripcion} se eliminara`,
+    html: `<b><del class="text-danger">${descripcion}</del></b> se eliminara`,
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3567dc",
@@ -454,31 +506,51 @@ function eliminar_img(idgaleria_tours,descripcion) {
     confirmButtonText: "Sí, Eliminar",
   }).then((result) => {
     if (result.isConfirmed) {
-      $.post(
-        "../ajax/tours.php?op=eliminar_imagen",
-        { idgaleria_tours: idgaleria_tours},
-        function (response) {
-          try {
-            response = JSON.parse(response);
-            if (response.status == true) {
-              Swal.fire("Verificado", "LA imagen ha sido verificado.", "success");
-              // Aquí puedes realizar cualquier otra acción después de verificar el comentario
-              // tbla_principal();
-              galeria(idtours_r, nombre_r);
-            } else {
-              ver_errores(response);
-            }
-          } catch (e) {
+      $.post( "../ajax/tours.php?op=eliminar_imagen",  { idgaleria_tours: idgaleria_tours},  function (e) {
+        try {
+          e = JSON.parse(e);
+          if (e.status == true) {
+            Swal.fire("Verificado", "LA imagen ha sido verificado.", "success");
+            // Aquí puedes realizar cualquier otra acción después de verificar el comentario
+            // tbla_principal();
+            galeria(idtours_r, nombre_r);
+          } else {
             ver_errores(e);
           }
+        } catch (e) {
+          ver_errores(e);
         }
-      ).fail(function (response) {
-        ver_errores(response);
-      });
+      }).fail(function (e) {  ver_errores(e); });
     }
   });
+}
 
- }
+function mostrar_editar_galeria(id) {
+
+  $("#cargando-1-fomulario").hide();
+  $("#cargando-2-fomulario").show();
+
+  $("#modal-agregar-galeria-tours").modal("show");
+
+  $.post("../ajax/tours.php?op=mostrar_editar_galeria", { 'idgaleria_tours': id }, function (e, status) {
+    e = JSON.parse(e);  console.log(e); 
+    
+    if (e.status == true) {
+      $('#idgaleria_tours').val(e.data.idgaleria_tours);
+      $('#descripcion_g').val(e.data.descripcion);    
+
+      if (e.data.imagen != null || e.data.imagen == '' ) {
+        $("#doc_old_2").val(e.data.imagen);      
+        $('#doc2_ver').html(`<img src="../dist/docs/tours/galeria/${e.data.imagen}" alt="" width="50%" >`);
+        $('#doc2_nombre').html(`img_galeria.${extrae_extencion(e.data.imagen)}`);
+      }  
+      $("#cargando-1-fomulario").show();
+      $("#cargando-2-fomulario").hide();
+    } else {
+      ver_errores(e);
+    }
+  }).fail( function(e) { ver_errores(e); } );
+}
 
 //Función para guardar o editar
 function guardar_y_editar_galeria_tours(e) {
@@ -497,7 +569,7 @@ function guardar_y_editar_galeria_tours(e) {
         if (e.status == true) {
           Swal.fire("Correcto!", "El registro se guardo correctamente.", "success");
           galeria(idtours_r, nombre_r);
-          $('#modal-agregar-galeria_tours').modal('hide'); //
+          $('#modal-agregar-galeria-tours').modal('hide'); //
           limpiar_galeria();   
         } else {
           ver_errores(e);
