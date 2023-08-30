@@ -148,7 +148,7 @@ if (!isset($_SESSION["nombre"])) {
             </div>
             <!-- /.container-fluid -->
 
-            <!-- Modal agregar tours -->
+            <!-- MODAL - AGREGAR TOURS - charge 1 -->
             <div class="modal fade" id="modal-agregar-tours">
               <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
@@ -160,222 +160,242 @@ if (!isset($_SESSION["nombre"])) {
                   </div>
 
                   <div class="modal-body">
-                    <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
-                      <!-- DATOS TUORS -->
-                      <li class="nav-item">
-                        <a class="nav-link active" id="custom-content-below-home-tab" data-toggle="pill" href="#custom-content-below-home" role="tab" aria-controls="custom-content-below-home" aria-selected="true">DATOS PRINCIPALES</a>
-                      </li>
-                      <!-- OTROS -->
-                      <li class="nav-item">
-                        <a class="nav-link" id="custom-content-below-profile-tab" data-toggle="pill" href="#custom-content-below-profile" role="tab" aria-controls="custom-content-below-profile" aria-selected="false">OTROS</a>
-                      </li>
-                      <!-- ITINERARIO -->
-                      <li class="nav-item">
-                        <a class="nav-link" id="custom-content-below-messages-tab" data-toggle="pill" href="#custom-content-below-messages" role="tab" aria-controls="custom-content-below-messages" aria-selected="false">ITINERARIO</a>
-                      </li>
-                      <!--COSTOS-->
-                      <li class="nav-item">
-                        <a class="nav-link" id="custom-content-below-asistencia-tab" data-toggle="pill" href="#custom-content-below-asistencia" role="tab" aria-controls="custom-content-below-asistencia" aria-selected="false">COSTOS</a>
-                      </li>
+                    <div id="cargando-1-fomulario">
+                      <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
+                        <!-- DATOS TUORS -->
+                        <li class="nav-item">
+                          <a class="nav-link active" id="custom-content-below-home-tab" data-toggle="pill" href="#custom-content-below-home" role="tab" aria-controls="custom-content-below-home" aria-selected="true">DATOS PRINCIPALES</a>
+                        </li>
+                        <!-- OTROS -->
+                        <li class="nav-item">
+                          <a class="nav-link" id="custom-content-below-profile-tab" data-toggle="pill" href="#custom-content-below-profile" role="tab" aria-controls="custom-content-below-profile" aria-selected="false">OTROS</a>
+                        </li>
+                        <!-- ITINERARIO -->
+                        <li class="nav-item">
+                          <a class="nav-link" id="custom-content-below-messages-tab" data-toggle="pill" href="#custom-content-below-messages" role="tab" aria-controls="custom-content-below-messages" aria-selected="false">ITINERARIO</a>
+                        </li>
+                        <!--COSTOS-->
+                        <li class="nav-item">
+                          <a class="nav-link" id="custom-content-below-asistencia-tab" data-toggle="pill" href="#custom-content-below-asistencia" role="tab" aria-controls="custom-content-below-asistencia" aria-selected="false">COSTOS</a>
+                        </li>
 
-                      <!-- Mapa-->
-                      <li class="nav-item">
-                        <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">RESUMEN</a>
-                      </li>
-                    </ul>
-                    <!-- ======================================== -->
-                    <!-- form start -->
-                    <form id="form-tours" name="form-tours" method="POST">
-                      <div class="tab-content" id="custom-content-below-tabContent">
-                        <div class="tab-pane fade show active" id="custom-content-below-home" role="tabpanel" aria-labelledby="custom-content-below-home-tab">
-                          <!-- Datos tours -->
-                          <div class="card-body row datos_tours">
-                            <!-- id tours -->
-                            <input type="hidden" name="idtours" id="idtours" />
+                        <!-- Mapa-->
+                        <li class="nav-item">
+                          <a class="nav-link" id="custom-tabs-one-settings-tab" data-toggle="pill" href="#custom-tabs-one-settings" role="tab" aria-controls="custom-tabs-one-settings" aria-selected="false">RESUMEN</a>
+                        </li>
+                      </ul>
+                      <!-- ======================================== -->
+                      <!-- form start -->
+                      <form id="form-tours" name="form-tours" method="POST">
+                        <div class="tab-content" id="custom-content-below-tabContent">
+                          <div class="tab-pane fade show active" id="custom-content-below-home" role="tabpanel" aria-labelledby="custom-content-below-home-tab">
+                            <!-- Datos tours -->
+                            <div class="card-body row datos_tours">
+                              <!-- id tours -->
+                              <input type="hidden" name="idtours" id="idtours" />
 
-                            <!-- Nombre -->
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                              <div class="form-group">
-                                <label for="nombre">Nombre</label>
-                                <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Nombre del tours" />
-                              </div>
-                            </div>
-
-                            <!-- Tipo Tours -->
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
-                              <div class="form-group">
-                                <label for="idtipo_tours">Tipo Tours</label>
-                                <select name="idtipo_tours" id="idtipo_tours" class="form-control select2" style="width: 100%;">
-                                  <!-- Aqui listamos los tipos de tours -->
-                                </select>
-                              </div>
-                            </div>
-                            <!-- duracion -->
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
-                              <div class="form-group">
-                                <label for="duracion">Duración</label>
-                                <input type="text" name="duracion" class="form-control" id="duracion" placeholder="Duración" />
-                              </div>
-                            </div>
-
-                            <!--Descripcion-->
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                              <div class="form-group">
-                                <label for="descripcion">Descripción</label> <br />
-                                <textarea name="descripcion" id="descripcion" class="form-control" rows="2"></textarea>
-                              </div>
-                            </div>
-
-                            <!-- Factura -->
-                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                              <!-- linea divisoria -->
-                              <div class="borde-arriba-naranja mt-4"></div>
-                              <div class="row text-center">
-                                <div class="col-md-12" style="padding-top: 15px; padding-bottom: 5px;">
-                                  <label for="cip" class="control-label"> Imagen </label>
-                                </div>
-                                <div class="col-6 col-md-6 text-center">
-                                  <button type="button" class="btn btn-success btn-block btn-xs" id="doc1_i"><i class="fas fa-upload"></i> Subir.</button>
-                                  <input type="hidden" id="doc_old_1" name="doc_old_1" />
-                                  <input style="display: none;" id="doc1" type="file" name="doc1" accept="application/pdf, image/*" class="docpdf" />
-                                </div>
-                                <div class="col-6 col-md-6 text-center">
-                                  <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'tours', 'perfil');"><i class="fas fa-redo"></i> Recargar.</button>
+                              <!-- Nombre -->
+                              <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                  <label for="nombre">Nombre</label>
+                                  <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Nombre del tours" />
                                 </div>
                               </div>
-                              <div id="doc1_ver" class="text-center mt-4">
-                                <img src="../dist/svg/doc_uploads.svg" alt="" width="50%" />
+
+                              <!-- Tipo Tours -->
+                              <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                  <label for="idtipo_tours">Tipo Tours</label>
+                                  <select name="idtipo_tours" id="idtipo_tours" class="form-control select2" style="width: 100%;">
+                                    <!-- Aqui listamos los tipos de tours -->
+                                  </select>
+                                </div>
                               </div>
-                              <div class="text-center" id="doc1_nombre"><!-- aqui va el nombre del pdf --></div>
-                            </div>
-                          </div>
-                          <!-- /.card-body -->
+                              <!-- duracion -->
+                              <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                  <label for="duracion">Duración</label>
+                                  <input type="text" name="duracion" class="form-control" id="duracion" placeholder="Duración" />
+                                </div>
+                              </div>
 
-                        </div>
-                        <!-- /.tab-panel -->
+                              <!--Descripcion-->
+                              <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="form-group">
+                                  <label for="descripcion">Descripción</label> <br />
+                                  <textarea name="descripcion" id="descripcion" class="form-control" rows="2"></textarea>
+                                </div>
+                              </div>
 
-                        <div class="tab-pane fade" id="custom-content-below-profile" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
-                          <!-- OTROS -->
-                          <div class="card-body row otros">
-
-                            <!--incluye -->
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                              <div class="form-group">
-                                <label for="incluye">Incluye <sup class="text-danger">*</sup> </label>
-                                <textarea name="incluye" id="incluye" class="form-control" rows="10"></textarea>
+                              <!-- Factura -->
+                              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <!-- linea divisoria -->
+                                <div class="borde-arriba-naranja mt-4"></div>
+                                <div class="row text-center">
+                                  <div class="col-md-12" style="padding-top: 15px; padding-bottom: 5px;">
+                                    <label for="cip" class="control-label"> Imagen </label>
+                                  </div>
+                                  <div class="col-6 col-md-6 text-center">
+                                    <button type="button" class="btn btn-success btn-block btn-xs" id="doc1_i"><i class="fas fa-upload"></i> Subir.</button>
+                                    <input type="hidden" id="doc_old_1" name="doc_old_1" />
+                                    <input style="display: none;" id="doc1" type="file" name="doc1" accept="application/pdf, image/*" class="docpdf" />
+                                  </div>
+                                  <div class="col-6 col-md-6 text-center">
+                                    <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'tours', 'perfil');"><i class="fas fa-redo"></i> Recargar.</button>
+                                  </div>
+                                </div>
+                                <div id="doc1_ver" class="text-center mt-4">
+                                  <img src="../dist/svg/doc_uploads.svg" alt="" width="50%" />
+                                </div>
+                                <div class="text-center" id="doc1_nombre"><!-- aqui va el nombre del pdf --></div>
                               </div>
                             </div>
-
-                            <!-- no_incluye-->
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                              <div class="form-group">
-                                <label for="no_incluye">No incluye <sup class="text-danger">*</sup> </label>
-                                <textarea name="no_incluye" id="no_incluye" class="form-control" rows="10"></textarea>
-                              </div>
-                            </div>
-
-                            <!--incluye,no_incluye recomendaciones-->
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                              <div class="form-group">
-                                <label for="recomendaciones">Recomendaciones <sup class="text-danger">*</sup> </label>
-                                <textarea name="recomendaciones" id="recomendaciones" class="form-control" rows="10"></textarea>
-                              </div>
-                            </div>
+                            <!-- /.card-body -->
 
                           </div>
+                          <!-- /.tab-panel -->
 
-                        </div>
-                        <!-- /.tab-panel -->
+                          <div class="tab-pane fade" id="custom-content-below-profile" role="tabpanel" aria-labelledby="custom-content-below-profile-tab">
+                            <!-- OTROS -->
+                            <div class="card-body row otros">
 
-                        <div class="tab-pane fade" id="custom-content-below-messages" role="tabpanel" aria-labelledby="custom-content-below-messages-tab">
-                          <!-- ITINERARIO -->
-                          <div class="card-body row itinerario">
-
-                            <!--ITINERARIO -->
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                              <div class="form-group">
-                                <!-- <label for="incluye"> <sup class="text-danger">*</sup> </label>  -->
-                                <textarea name="actividad" id="actividad" class="form-control"></textarea>
+                              <!--incluye -->
+                              <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                  <label for="incluye">Incluye <sup class="text-danger">*</sup> </label>
+                                  <textarea name="incluye" id="incluye" class="form-control" rows="10"></textarea>
+                                </div>
                               </div>
+
+                              <!-- no_incluye-->
+                              <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                  <label for="no_incluye">No incluye <sup class="text-danger">*</sup> </label>
+                                  <textarea name="no_incluye" id="no_incluye" class="form-control" rows="10"></textarea>
+                                </div>
+                              </div>
+
+                              <!--incluye,no_incluye recomendaciones-->
+                              <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                  <label for="recomendaciones">Recomendaciones <sup class="text-danger">*</sup> </label>
+                                  <textarea name="recomendaciones" id="recomendaciones" class="form-control" rows="10"></textarea>
+                                </div>
+                              </div>
+
                             </div>
 
                           </div>
-                        </div>
-                        <!-- /.tab-panel  datos_tours,otros,itinerario,costos-->
-                        <div class="tab-pane fade" id="custom-content-below-asistencia" role="tabpanel" aria-labelledby="custom-content-below-asistencia-tab">
-                          <div class="card-body row costos">
-                            <!-- costo -->
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-3">
-                              <div class="form-group">
-                                <label for="costo">Precio Regular</label>
-                                <input type="text" name="costo" class="form-control" id="costo" placeholder="Precio Regular" onkeyup="funtion_switch();" />
-                              </div>
-                            </div>
-                            <!-- Estado descuento -->
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-3">
-                              <div class="form-group">
-                                <label for="costo">Descuento</label> <br>
-                                <div class="switch-toggle">
-                                  <input type="checkbox" id="estado_switch" onchange="funtion_switch();">
-                                  <label for="estado_switch"></label>
-                                  <input type="hidden" id="estado_descuento" name="estado_descuento" value="0">
+                          <!-- /.tab-panel -->
+
+                          <div class="tab-pane fade" id="custom-content-below-messages" role="tabpanel" aria-labelledby="custom-content-below-messages-tab">
+                            <!-- ITINERARIO -->
+                            <div class="card-body row itinerario">
+
+                              <!--ITINERARIO -->
+                              <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                  <!-- <label for="incluye"> <sup class="text-danger">*</sup> </label>  -->
+                                  <textarea name="actividad" id="actividad" class="form-control"></textarea>
                                 </div>
                               </div>
-                            </div>
-                            <!-- porcentaje descuento -->
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-3">
-                              <div class="form-group">
-                                <label for="porcentaje_descuento">Porcentaje</label>
-                                <input type="text" name="porcentaje_descuento" class="form-control" id="porcentaje_descuento" onkeyup="calcular_monto_descuento();" placeholder="10 %" readonly />
-                              </div>
-                            </div>
-                            <!-- monto_descuento -->
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-3">
-                              <div class="form-group">
-                                <label for="monto_descuento">Monto descuento</label>
-                                <input type="text" name="monto_descuento" class="form-control" id="monto_descuento" placeholder="Monto descuento" readonly />
-                              </div>
+
                             </div>
                           </div>
-
-                        </div>
-                        <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
-                          <div class="card-body row resumen">
-                            <!-- Posee Alojamiento -->
-                            <div class="col-6 col-sm-6 col-md-6 col-lg-6">
-                              <div class="form-group">
-                                <label for="alajamiento">¿Incluye Alojamiento?</label> <br>
-                                <div class="switch-toggle">
-                                  <input type="checkbox" id="estado_switch2" onchange="funtion_switch2();">
-                                  <label for="estado_switch2"></label>
-                                  <input type="hidden" id="alojamiento" name="alojamiento" value="0">
+                          <!-- /.tab-panel  datos_tours,otros,itinerario,costos-->
+                          <div class="tab-pane fade" id="custom-content-below-asistencia" role="tabpanel" aria-labelledby="custom-content-below-asistencia-tab">
+                            <div class="card-body row costos">
+                              <!-- costo -->
+                              <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                                <div class="form-group">
+                                  <label for="costo">Precio Regular</label>
+                                  <input type="text" name="costo" class="form-control" id="costo" placeholder="Precio Regular" onkeyup="funtion_switch();" />
+                                </div>
+                              </div>
+                              <!-- Estado descuento -->
+                              <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                                <div class="form-group">
+                                  <label for="costo">Descuento</label> <br>
+                                  <div class="switch-toggle">
+                                    <input type="checkbox" id="estado_switch" onchange="funtion_switch();">
+                                    <label for="estado_switch"></label>
+                                    <input type="hidden" id="estado_descuento" name="estado_descuento" value="0">
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- porcentaje descuento -->
+                              <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                                <div class="form-group">
+                                  <label for="porcentaje_descuento">Porcentaje</label>
+                                  <input type="text" name="porcentaje_descuento" class="form-control" id="porcentaje_descuento" onkeyup="calcular_monto_descuento();" placeholder="10 %" readonly />
+                                </div>
+                              </div>
+                              <!-- monto_descuento -->
+                              <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                                <div class="form-group">
+                                  <label for="monto_descuento">Monto descuento</label>
+                                  <input type="text" name="monto_descuento" class="form-control" id="monto_descuento" placeholder="Monto descuento" readonly />
                                 </div>
                               </div>
                             </div>
 
-                            <!--resumen de actividades -->
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                              <div class="form-group">
-                                <label for="resumen_actividad">Resumen de Actividades <sup class="text-danger">*</sup> </label>
-                                <textarea name="resumen_actividad" id="resumen_actividad" class="form-control" rows="10"></textarea>
+                          </div>
+                          <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
+                            <div class="card-body row resumen">
+                              <!-- Posee Alojamiento -->
+                              <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                  <label for="alajamiento">¿Incluye Alojamiento?</label> <br>
+                                  <div class="switch-toggle">
+                                    <input type="checkbox" id="estado_switch2" onchange="funtion_switch2();">
+                                    <label for="estado_switch2"></label>
+                                    <input type="hidden" id="alojamiento" name="alojamiento" value="0">
+                                  </div>
+                                </div>
+                              </div>
+
+                              <!--resumen de actividades -->
+                              <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                  <label for="resumen_actividad">Resumen de Actividades <sup class="text-danger">*</sup> </label>
+                                  <textarea name="resumen_actividad" id="resumen_actividad" class="form-control" rows="10"></textarea>
+                                </div>
+                              </div>
+
+                              <!--resumen de comida -->
+                              <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                  <label for="resumen_comida">Resumen de Comida <sup class="text-danger">*</sup> </label>
+                                  <textarea name="resumen_comida" id="resumen_comida" class="form-control" rows="10"></textarea>
+                                </div>
                               </div>
                             </div>
 
-                            <!--resumen de comida -->
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                              <div class="form-group">
-                                <label for="resumen_comida">Resumen de Comida <sup class="text-danger">*</sup> </label>
-                                <textarea name="resumen_comida" id="resumen_comida" class="form-control" rows="10"></textarea>
-                              </div>
+                          </div>
+                          <!-- /.tab-panel -->
+                        </div>
+
+                        <button type="submit" style="display: none;" id="submit-form-tours">Submit</button>
+                      </form>
+                      <div class="row">
+                        <!-- barprogress -->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-20px" id="barra_progress_tours_div">
+                          <div class="progress" >
+                            <div id="barra_progress_tours" class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%;">
+                              0%
                             </div>
                           </div>
-
                         </div>
-                        <!-- /.tab-panel -->
                       </div>
-
-                      <button type="submit" style="display: none;" id="submit-form-tours">Submit</button>
-                    </form>
+                    </div>
+                    <!-- /.cargando-1 -->
+                    <div class="row" id="cargando-2-fomulario" style="display: none;" >
+                      <div class="col-lg-12 text-center">
+                        <i class="fas fa-spinner fa-pulse fa-6x"></i><br><br>
+                        <h4>Cargando...</h4>
+                      </div>
+                    </div>
+                    <!-- /.cargando-2 -->
                   </div>
                   <div class="modal-footer justify-content-between btn_footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -384,7 +404,8 @@ if (!isset($_SESSION["nombre"])) {
                 </div>
               </div>
             </div>
-            <!-- MODAL - imagen valor-->
+
+            <!-- MODAL - VER IMAGEN-->
             <div class="modal fade bg-color-02020280" id="modal-ver-imagen-tours">
               <div class="modal-dialog modal-dialog-centered modal-md">
                 <div class="modal-content bg-color-0202022e shadow-none border-0">
@@ -401,9 +422,9 @@ if (!isset($_SESSION["nombre"])) {
               </div>
             </div>
 
-            <!-- Modal agregar galeria-tours -->
+            <!-- MODAL - AGREGAR GALERIA - charge 3 -->
             <div class="modal fade" id="modal-agregar-galeria_tours">
-              <div class="modal-dialog modal-dialog-scrollable modal-lg">
+              <div class="modal-dialog modal-dialog-scrollable modal-md">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h4 class="modal-title">Agregar Galería</h4>
@@ -415,7 +436,7 @@ if (!isset($_SESSION["nombre"])) {
                   <div class="modal-body">
                     <!-- form start -->
                     <form id="form-galeria-tours" name="form-galeria-tours" method="POST">
-                      <div class="card-body row">
+                      <div class="card-body row" id="cargando-3-fomulario">
 
                         <!-- id galeria Tours -->
                         <input type="hidden" name="idgaleria_tours" id="idgaleria_tours" />
@@ -425,9 +446,10 @@ if (!isset($_SESSION["nombre"])) {
                         <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                           <div class="form-group">
                             <label for="direccion">Descripción</label>
-                            <input type="text" name="descripcion_g" class="form-control" id="descripcion_g" placeholder="Descripción" />
+                            <textarea name="descripcion_g" class="form-control" id="descripcion_g" placeholder="Descripción" cols="30" rows="2"></textarea>                            
                           </div>
                         </div>
+
                         <!-- imagen perfil -->
                         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                           <!-- linea divisoria -->
@@ -451,6 +473,21 @@ if (!isset($_SESSION["nombre"])) {
                           <div class="text-center" id="doc2_nombre"><!-- aqui va el nombre del pdf --></div>
                         </div>
 
+                        <!-- barprogress -->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-20px" id="barra_progress_galeria_div">
+                          <div class="progress" >
+                            <div id="barra_progress_galeria" class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%;">
+                              0%
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="row" id="cargando-4-fomulario" style="display: none;" >
+                        <div class="col-lg-12 text-center">
+                          <i class="fas fa-spinner fa-pulse fa-6x"></i><br><br>
+                          <h4>Cargando...</h4>
+                        </div>
                       </div>
                       <!-- /.card-body -->
                       <button type="submit" style="display: none;" id="submit-form-galeria_tours">Submit</button>
@@ -462,71 +499,8 @@ if (!isset($_SESSION["nombre"])) {
                   </div>
                 </div>
               </div>
-            </div>
-            <!-- MODAL - imagen valor-->
-            <div class="modal fade bg-color-02020280" id="modal-ver-imagen-galeria_tours">
-              <div class="modal-dialog modal-dialog-centered modal-md">
-                <div class="modal-content bg-color-0202022e shadow-none border-0">
-                  <div class="modal-header">
-                    <h4 class="modal-title text-white nombre-galeria_tours"></h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span class="text-white cursor-pointer" aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <div id="imagen-galeria_tours" class="text-center">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--===============Modal-ver-comprobante =========-->
-            <div class="modal fade" id="modal-ver-comprobante">
-              <div class="modal-dialog modal-dialog-scrollable modal-lg">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title">Tours: <span class="nombre_comprobante text-bold"></span></h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span class="text-danger" aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="row">
-                      <div class="col-6 col-md-6">
-                        <a class="btn btn-xs btn-block btn-warning" href="#" id="iddescargar" download="" type="button"><i class="fas fa-download"></i> Descargar</a>
-                      </div>
-                      <div class="col-6 col-md-6">
-                        <a class="btn btn-xs btn-block btn-info" href="#" id="ver_completo" target="_blank" type="button"><i class="fas fa-expand"></i> Ver completo.</a>
-                      </div>
-                      <div class="col-12 col-md-12 mt-2">
-                        <div id="ver_fact_pdf" width="auto"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-            <!--MODAL - VER DETALLE DE OTRO INGRESO -->
-            <div class="modal fade" id="modal-ver-otro-ingreso">
-              <div class="modal-dialog modal-dialog-scrollable modal-xm">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title">Datos Tours</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span class="text-danger" aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-
-                  <div class="modal-body">
-                    <div id="datos_otro_ingreso" class="class-style">
-                      <!-- vemos los datos del trabajador -->
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </div>                      
+            
           </section>
           <!-- /.content -->
         </div>

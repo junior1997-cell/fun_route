@@ -170,21 +170,33 @@ function guardar_y_editar_tours(e) {
       try {
         e = JSON.parse(e);
         if (e.status == true) {
-
           Swal.fire("Correcto!", "El registro se guardo correctamente.", "success");
-
           tabla_tours.ajax.reload(null, false);
           $('#modal-agregar-tours').modal('hide'); 
-          limpiar_tours(); 
-           
+          limpiar_tours();            
         } else {
           ver_errores(e);
         }
       } catch (err) { console.log('Error: ', err.message); toastr.error('<h5 class="font-size-16px">Error temporal!!</h5> puede intentalo mas tarde, o comuniquese con <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>'); }      
-      $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
+      $("#guardar_registro_tours").html('Guardar Cambios').removeClass('disabled');
+    },
+    xhr: function () {
+      var xhr = new window.XMLHttpRequest();
+      xhr.upload.addEventListener("progress", function (evt) {
+        if (evt.lengthComputable) {
+          var percentComplete = (evt.loaded / evt.total)*100;
+          /*console.log(percentComplete + '%');*/
+          $("#barra_progress_tours").css({"width": percentComplete+'%'}).text(percentComplete.toFixed(2)+" %");
+        }
+      }, false);
+      return xhr;
     },
     beforeSend: function () {
-      $("#guardar_registro").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+      $("#guardar_registro_tours").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+      $("#barra_progress_tours").css({ width: "0%",  }).text("0%").addClass('progress-bar-striped progress-bar-animated');
+    },
+    complete: function () {
+      $("#barra_progress_tours").css({ width: "0%", }).text("0%").removeClass('progress-bar-striped progress-bar-animated');
     },
     error: function (jqXhr) { ver_errores(jqXhr); },
   });
@@ -212,10 +224,10 @@ function mostrar_tours(idtours) {
     $("#incluye").summernote ('code', e.tours.incluye);
     $("#no_incluye").summernote ('code', e.tours.no_incluye);
     $("#recomendaciones").summernote ('code', e.tours.recomendaciones);
-     // -------ITINERARIO-------
+    // -------ITINERARIO-------
     $("#actividad").summernote ('code', e.tours.actividad);
    
-     // -------COSTO----------
+    // -------COSTO----------
     $("#costo").val(e.tours.costo);
     $("#estado_descuento").val(e.tours.estado_descuento);
     $("#porcentaje_descuento").val(e.tours.porcentaje_descuento);
@@ -238,7 +250,6 @@ function mostrar_tours(idtours) {
       $("#estado_switch2").prop("checked", false);
     }
 
-
     if (e.tours.imagen == "" || e.tours.imagen == null  ) {
       $("#doc1_ver").html('<img src="../dist/svg/pdf_trasnparent.svg" alt="" width="50%" >');
       $("#doc1_nombre").html('');
@@ -246,7 +257,7 @@ function mostrar_tours(idtours) {
       $("#doc1").val("");
     } else {
       $("#doc_old_1").val(e.tours.imagen);
-      $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Baucher.${extrae_extencion(e.tours.imagen)}</i></div></div>`);
+      $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Perfil.${extrae_extencion(e.tours.imagen)}</i></div></div>`);
       // cargamos la imagen adecuada par el archivo
       $("#doc1_ver").html(doc_view_extencion(e.tours.imagen,'tours', 'perfil', '100%', '210' ));   //ruta imagen           
     }
@@ -406,32 +417,25 @@ function galeria(idtours, nombre) {
     }else{
       $(".sin_imagenes").hide(); $(".g_imagenes").show();
       
-      e.data.forEach(element => {
-        //style="border: 2px solid black;"
+      e.data.forEach(element => {        
         codigoHTML =codigoHTML.concat(`<div class="col-sm-2 pb-2 pt-2" style="border: 2px solid #837f7f;">
-        <a href="../dist/docs/tours/galeria/${element.imagen}?text=1" data-toggle="lightbox" data-title="${element.descripcion}" data-gallery="gallery">
-         <img src="../dist/docs/tours/galeria/${element.imagen}?text=1" class="img-fluid mb-2" alt="white sample"/>
-        </a>
-        <div class="text-center text-white" style="background-color: #1f7387; cursor: pointer; border-radius: 0.25rem;" onclick="eliminar_img(${element.idgaleria_tours},'${element.descripcion}');">Eliminar
-        </div>
-
-      </div> `);
-
+          <a href="../dist/docs/tours/galeria/${element.imagen}?text=1" data-toggle="lightbox" data-title="${element.descripcion}" data-gallery="gallery">
+          <img src="../dist/docs/tours/galeria/${element.imagen}?text=1" class="img-fluid mb-2" alt="white sample"/>
+          </a>
+          <div class="text-center text-white" style="background-color: #1f7387; cursor: pointer; border-radius: 0.25rem;" onclick="eliminar_img(${element.idgaleria_tours},'${element.descripcion}');">Eliminar
+          </div>
+        </div> `);
       });
     
       $('.imagenes_galeria').html(codigoHTML); // Agregar el contenido 
 
       $(document).on('click', '[data-toggle="lightbox"]', function(event) {
-        event.preventDefault();
-        $(this).ekkoLightbox({
-          alwaysShowClose: true
-        });
+        event.preventDefault(); $(this).ekkoLightbox({ alwaysShowClose: true });
       });
 
     }
 
-    $('.jq_image_zoom').zoom({ on:'grab' });
-     
+    $('.jq_image_zoom').zoom({ on:'grab' });     
     
     $("#cargando-3-fomulario").show();
     $("#cargando-4-fomulario").hide();
@@ -491,21 +495,33 @@ function guardar_y_editar_galeria_tours(e) {
       try {
         e = JSON.parse(e);
         if (e.status == true) {
-
           Swal.fire("Correcto!", "El registro se guardo correctamente.", "success");
-
           galeria(idtours_r, nombre_r);
           $('#modal-agregar-galeria_tours').modal('hide'); //
           limpiar_galeria();   
-
         } else {
           ver_errores(e);
         }
       } catch (err) { console.log('Error: ', err.message); toastr.error('<h5 class="font-size-16px">Error temporal!!</h5> puede intentalo mas tarde, o comuniquese con <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>'); }      
-      $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
+      $("#guardar_registro_galeria_tours").html('Guardar Cambios').removeClass('disabled');
+    },
+    xhr: function () {
+      var xhr = new window.XMLHttpRequest();
+      xhr.upload.addEventListener("progress", function (evt) {
+        if (evt.lengthComputable) {
+          var percentComplete = (evt.loaded / evt.total)*100;
+          /*console.log(percentComplete + '%');*/
+          $("#barra_progress_galeria").css({"width": percentComplete+'%'}).text(percentComplete.toFixed(2)+" %");
+        }
+      }, false);
+      return xhr;
     },
     beforeSend: function () {
-      $("#guardar_registro").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+      $("#guardar_registro_galeria_tours").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+      $("#barra_progress_galeria").css({ width: "0%",  }).text("0%").addClass('progress-bar-striped progress-bar-animated');
+    },
+    complete: function () {
+      $("#barra_progress_galeria").css({ width: "0%", }).text("0%").removeClass('progress-bar-striped progress-bar-animated');
     },
     error: function (jqXhr) { ver_errores(jqXhr); },
   });
@@ -519,65 +535,56 @@ $(function () {
   $("#idtipo_tours").on('change', function() { $(this).trigger('blur'); });
   $("#form-tours").validate({
     ignore: '.select2-input, .select2-focusser, .note-editor *',
-    rules: {
-      
+    rules: {      
       idtipo_tours: { required: true},
-      nombre:{ required: true, minlength:4, maxlength:100 },
-      descripcion: { minlength:4 },
-      costo: { required: true},
-      
+      nombre:       { required: true, minlength:4, maxlength:100 },
+      descripcion:  { minlength:4 },
+      costo:        { required: true},      
     },
     messages: {
       idtipo_tours: { required: "Campo requerido"},
-      nombre:{ required: "Campo requerido", minlength: "Minimo 3 caracteres", maxlength: "Maximo 100 Caracteres" },
-      descripcion: {minlength: "Minimo 4 Caracteres"},
-      costo: { required: "Campo requerido"},
+      nombre:       { required: "Campo requerido", minlength: "Minimo 3 caracteres", maxlength: "Maximo 100 Caracteres" },
+      descripcion:  {minlength: "Minimo 4 Caracteres"},
+      costo:        { required: "Campo requerido"},
     },
 
     errorElement: "span",
 
     errorPlacement: function (error, element) {
       error.addClass("invalid-feedback");
-
       element.closest(".form-group").append(error);
     },
-
     highlight: function (element, errorClass, validClass) {
       $(element).addClass("is-invalid").removeClass("is-valid");
     },
-
     unhighlight: function (element, errorClass, validClass) {
       $(element).removeClass("is-invalid").addClass("is-valid");
     },
-
     submitHandler: function (e) {
+      $(".modal-body").animate({ scrollTop: $(document).height() }, 600); // Scrollea hasta abajo de la página
       guardar_y_editar_tours(e);
     },
-
   });
 
   $("#form-galeria-tours").validate({
     ignore: '.select2-input, .select2-focusser, .note-editor *',
-    rules: { descripcion: { minlength:4 }, },
+    rules:    { descripcion: { minlength:4 }, },
     messages: { descripcion: {minlength: "Minimo 4 Caracteres"}, },
 
     errorElement: "span",
 
     errorPlacement: function (error, element) {
       error.addClass("invalid-feedback");
-
       element.closest(".form-group").append(error);
     },
-
     highlight: function (element, errorClass, validClass) {
       $(element).addClass("is-invalid").removeClass("is-valid");
     },
-
     unhighlight: function (element, errorClass, validClass) {
       $(element).removeClass("is-invalid").addClass("is-valid");
     },
-
     submitHandler: function (e) {
+      $(".modal-body").animate({ scrollTop: $(document).height() }, 600); // Scrollea hasta abajo de la página
       guardar_y_editar_galeria_tours(e);
     },
 
@@ -598,38 +605,19 @@ function ver_img_tours(file, nombre) {
   $('.jq_image_zoom').zoom({ on:'grab' });
 }
 
-// ver imagen DEL TOURS
-function ver_img_galeria_tours(file, nombre) {
-  $('.nombre-galeria_tours').html(nombre);
-  $(".tooltip").removeClass("show").addClass("hidde");
-  $("#modal-ver-imagen-galeria_tours").modal("show");
-  $('#imagen-galeria_tours').html(`<span class="jq_image_zoom"><img class="img-thumbnail" src="${file}" onerror="this.src='../dist/svg/404-v2.svg';" alt="Perfil" width="100%"></span>`);
-  $('.jq_image_zoom').zoom({ on:'grab' });
-}
-
 function calcular_monto_descuento() { 
-
-  var costo =$('#costo').val(); 
-    
+  var costo =$('#costo').val();     
   var porcentaje =$('#porcentaje_descuento').val(); 
-
   if (porcentaje==null || porcentaje=="") {
-    toastr.warning("Porcentaje no asignado !!");
-    
+    toastr.warning("Porcentaje no asignado !!");    
   }else{
     var calculando = (costo*porcentaje)/100;
-
-    console.log(calculando);
-
-    $('#monto_descuento').val(calculando)
-
+    $('#monto_descuento').val(calculando);
   }
-
 }
 
 function funtion_switch() {  
   $("#estado_descuento").val(0);
-
   var isChecked = $('#estado_switch').prop('checked');
 
   if (isChecked) {
@@ -639,28 +627,21 @@ function funtion_switch() {
 
     var costo =$('#costo').val(); 
 
-    if (costo==null || costo=="") {
-  
+    if (costo==null || costo=="") {  
       toastr.warning("Precio Regualr no asignado !!");
-      $('#porcentaje_descuento').attr('readonly', 'readonly');
-        
+      $('#porcentaje_descuento').attr('readonly', 'readonly');        
     }else{
-
       $('#porcentaje_descuento').removeAttr('readonly'); 
-
       calcular_monto_descuento();
     }
 
   } else {
 
     $("#estado_descuento").val(0);
-
     $("#porcentaje_descuento").val('0');
     $("#monto_descuento").val('0.00');
     $('#porcentaje_descuento').attr('readonly', 'readonly');
-
   }
-
 }
 
 

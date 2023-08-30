@@ -17,7 +17,7 @@ function init() {
   lista_select2("../ajax/ajax_general.php?op=select2Categoria", '#categoria_producto', null);
 
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
-  $("#guardar_registro").on("click", function (e) { $("#submit-form-materiales").submit(); });
+  $("#guardar_registro_producto").on("click", function (e) { $("#submit-form-materiales").submit(); });
 
    // ══════════════════════════════════════ INITIALIZE SELECT2 ══════════════════════════════════════
   $("#unidad_medida").select2({ theme: "bootstrap4", placeholder: "Seleccinar una unidad", allowClear: true, });
@@ -50,7 +50,7 @@ function foto1_eliminar() {
 //Función limpiar
 function limpiar_form_material() {
 
-  $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
+  $("#guardar_registro_producto").html('Guardar Cambios').removeClass('disabled');
   $('.name-modal-title-agregar').html('Agregar Producto');
 
   //Mostramos los Materiales
@@ -191,7 +191,7 @@ function guardaryeditar(e) {
         }
       } catch (err) { console.log('Error: ', err.message); toastr_error("Error temporal!!",'Puede intentalo mas tarde, o comuniquese con:<br> <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>', 700); }      
 
-      $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
+      $("#guardar_registro_producto").html('Guardar Cambios').removeClass('disabled');
     },
     xhr: function () {
       var xhr = new window.XMLHttpRequest();
@@ -199,20 +199,17 @@ function guardaryeditar(e) {
         if (evt.lengthComputable) {
           var percentComplete = (evt.loaded / evt.total)*100;
           /*console.log(percentComplete + '%');*/
-          $("#barra_progress").css({"width": percentComplete+'%'});
-          $("#barra_progress").text(percentComplete.toFixed(2)+" %");
+          $("#barra_progress_producto").css({"width": percentComplete+'%'}).text(percentComplete.toFixed(2)+" %");
         }
       }, false);
       return xhr;
     },
     beforeSend: function () {
-      $("#guardar_registro").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
-      $("#barra_progress").css({ width: "0%",  });
-      $("#barra_progress").text("0%").addClass('progress-bar-striped progress-bar-animated');
+      $("#guardar_registro_producto").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+      $("#barra_progress_producto").css({ width: "0%",  }).text("0%").addClass('progress-bar-striped progress-bar-animated');
     },
     complete: function () {
-      $("#barra_progress").css({ width: "0%", });
-      $("#barra_progress").text("0%").removeClass('progress-bar-striped progress-bar-animated');
+      $("#barra_progress_producto").css({ width: "0%", }).text("0%").removeClass('progress-bar-striped progress-bar-animated');
     },
     error: function (jqXhr) { ver_errores(jqXhr); },
   });
