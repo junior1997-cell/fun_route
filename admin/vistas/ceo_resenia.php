@@ -11,9 +11,9 @@
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Misión y Visión | Admin Fun Route</title>
+        <title>CEO y Reseña | Admin Fun Route</title>
 
-        <?php $title = "Misión y Visión"; require 'head.php'; ?>
+        <?php $title = "CEO y Reseña"; require 'head.php'; ?>
         <!-- summernote -->
         <link rel="stylesheet" href="../plugins/summernote/summernote-bs4.min.css">
      
@@ -62,60 +62,83 @@
                     <div class="row">
                       <div class="col-12">
                         <div class="card card-primary card-outline">
+                          <div class="modal-body">
+                            <!-- form start -->
+                            <form id="form-datos-ceo-resenia" name="form-datos-ceo-resenia" method="POST">
+                              <div class="card-body">
 
-                        <div class="modal-body">
-                              <!-- form start -->
-                              <form id="form-datos-ceo-resenia" name="form-datos-ceo-resenia" method="POST">
-                                <div class="card-body">
-
-                                  <div class="row" id="cargando-1-fomulario">
-                                    <!-- id -->
-                                    <input type="hidden" name="idnosotros" id="idnosotros" />
-                                    
-                                    <!--Reseña Historica -->
-                                    <div class="col-12 col-sm-12 col-md-12 col-lg-6">
-                                      <div class="form-group">
-                                        <label for="resenia_h">Reseña Historica <sup class="text-danger">*</sup> </label> 
-                                        <textarea name="resenia_h" id="resenia_h" class="form-control" rows="10"></textarea>
-                                      </div>
+                                <div class="row" id="cargando-1-fomulario">
+                                  <!-- id -->
+                                  <input type="hidden" name="idnosotros" id="idnosotros" />
+                                  
+                                  <!--Reseña Historica -->
+                                  <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                                    <div class="form-group">
+                                      <label for="resenia_h">Reseña Historica <sup class="text-danger">*</sup> </label> 
+                                      <textarea name="resenia_h" id="resenia_h" class="form-control" rows="14"></textarea>
                                     </div>
+                                  </div>
 
-                                     <!-- Palabras ceo-->
-                                     <div class="col-12 col-sm-12 col-md-12 col-lg-6">
-                                      <div class="form-group">
-                                        <label for="palabras_ceo">Palabras Ceo <sup class="text-danger">*</sup> </label> 
-                                        <textarea name="palabras_ceo" id="palabras_ceo" class="form-control" rows="10"></textarea>
+                                  <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                                    <div class="row">
+                                      <!-- Palabras ceo-->
+                                      <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                          <label for="nombre_ceo">Nombre Ceo <sup class="text-danger">*</sup> </label> 
+                                          <textarea name="nombre_ceo" id="nombre_ceo" class="form-control" rows="1"></textarea>
+                                        </div>
                                       </div>
-                                    </div>
+                                      <!-- palabras_ceo -->
+                                      <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                          <label for="palabras_ceo">Palabras Ceo <sup class="text-danger">*</sup> </label> 
+                                          <textarea name="palabras_ceo" id="palabras_ceo" class="form-control" rows="10"></textarea>
+                                        </div>
+                                      </div>
 
-                                    <!-- barprogress -->
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-20px" id="barra_progress_ceo_resenia_div" style="display: none;">
-                                      <div class="progress" >
-                                        <div id="barra_progress_ceo_resenia" class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%;">
-                                          0%
+                                      <!--imagen-perfil-->
+                                      <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                        <label for="foto1">Perfil CEO</label>
+                                        <div style="text-align: center;">
+                                          <img onerror="this.src='../dist/img/default/img_defecto.png';" src="../dist/img/default/img_defecto.png"
+                                            class="img-thumbnail" id="foto1_i" style="cursor: pointer !important; height: 100% !important;" width="auto" />
+                                          <input style="display: none;" type="file" name="foto1" id="foto1" accept="image/*" />
+                                          <input type="hidden" name="foto1_actual" id="foto1_actual" />
+                                          <div class="text-center" id="foto1_nombre"><!-- aqui va el nombre de la FOTO --></div>
                                         </div>
                                       </div>
                                     </div>
-
                                   </div>
+
                                   
-                                  <div class="row" id="cargando-2-fomulario" style="display: none;" >
-                                    <div class="col-lg-12 text-center">
-                                      <i class="fas fa-spinner fa-pulse fa-6x"></i><br><br>
-                                      <h4>Cargando...</h4>
+
+                                  <!-- barprogress -->
+                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-20px" id="barra_progress_ceo_resenia_div" style="display: none;">
+                                    <div class="progress" >
+                                      <div id="barra_progress_ceo_resenia" class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%;">
+                                        0%
+                                      </div>
                                     </div>
                                   </div>
-                                        
-                                </div>
-                                <!-- /.card-body -->
-                                <button type="submit" style="display: none;" id="submit-form-actualizar-ceo-resenia">Submit</button>
-                              </form>
-                            </div>
-                            <div class="modal-footer justify-content-end">
-                              <button class="btn btn-warning editar"  onclick="activar_editar(1);">Editar</button>
-                              <button type="submit" class="btn btn-success actualizar" id="actualizar_registro" style="display: none;">Actualizar</button>
-                            </div>
 
+                                </div>
+                                
+                                <div class="row" id="cargando-2-fomulario" style="display: none;" >
+                                  <div class="col-lg-12 text-center">
+                                    <i class="fas fa-spinner fa-pulse fa-6x"></i><br><br>
+                                    <h4>Cargando...</h4>
+                                  </div>
+                                </div>
+                                      
+                              </div>
+                              <!-- /.card-body -->
+                              <button type="submit" style="display: none;" id="submit-form-actualizar-ceo-resenia">Submit</button>
+                            </form>
+                          </div>
+                          <div class="modal-footer justify-content-end">
+                            <button class="btn btn-warning editar"  onclick="activar_editar(1);">Editar</button>
+                            <button type="submit" class="btn btn-success actualizar" id="actualizar_registro" style="display: none;">Actualizar</button>
+                          </div>
                         </div>
                         <!-- /.card -->
                       </div>

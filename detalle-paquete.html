@@ -39,19 +39,22 @@
 
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
-    <link rel="stylesheet" href="assets/css/stylo_global.css">
+    <!-- Style Propio -->
+    <link rel="stylesheet" href="assets/css/stylo_global.css">    
     
     <style>
       .spinner {
-        border: 8px solid rgba(0, 0, 0, 0.1);
-        border-top: 8px solid #333;
-        border-radius: 50%;
-        width: 100px;
-        height: 100px;
-        animation: spin 1s linear infinite;
-        margin: 10px auto;
+        border: 8px solid rgba(0, 0, 0, 0.1); border-top: 8px solid #333; border-radius: 50%; width: 100px; height: 100px; animation: spin 1s linear infinite; margin: 10px auto;
+      }
+      .spinner-sm {
+        border: 5px solid rgba(0, 0, 0, 0.1); border-top: 5px solid #333; border-radius: 50%; width: 50px; height: 50px; animation: spin-sm 1s linear infinite; margin: 10px auto;
+      }
+      .spinner-xs {
+        border: 4px solid rgba(0, 0, 0, 0.1); border-top: 4px solid #333; border-radius: 50%; width: 25px; height: 25px; animation: spin-xs 1s linear infinite; margin: 10px auto;
       }
       @keyframes spin { 0% { transform: rotate(0deg); }  100% { transform: rotate(360deg); } }
+      @keyframes spin-sm { 0% { transform: rotate(0deg); }  100% { transform: rotate(360deg); } }
+      @keyframes spin-xs { 0% { transform: rotate(0deg); }  100% { transform: rotate(360deg); } }
     </style>
 
   </head>
@@ -88,12 +91,12 @@
 
   <!-- ***** Main Banner Area Start ***** -->
   <section class="tm-site-header">
-    <h1 class="tm-mt-0 tm-mb-15"><span class="tm-color-gray-2 primer_anim nombre_1"></span> <span class="tm-color-primary secun_anim nombre_2"></span></h1>
+    <h1 class="tm-mt-0 tm-mb-15"><span class="tm-color-gray-2 primer_anim nombre_1"><div class="bg-white spinner-xs"></div></span> <span class="tm-color-primary secun_anim nombre_2"></span></h1>
     <!-- Button trigger modal -->
     <div class="botones_paq">
       <div class="">
         <button class="precio_regular">
-          <span> <b>PRECIO REGULAR: </b><s style="font-weight: 900;">S/ 605.00</s> * Persona</span>
+          <div class="text-center" ><div class="spinner-xs"></div> <div class="font-size-12px" >Cargando datos...</div></div>
         </button>
         
       </div>
@@ -109,7 +112,7 @@
       </div>
       <div class="">
         <button class="precio_actual">
-          <span><b>CON DESCUENTO: </b><b style="font-weight: 900; color: #1877f2;">S/ 544.50</b> * Persona</span>
+          <div class="text-center" ><div class="spinner-xs"></div> <div class="font-size-12px" >Cargando datos...</div></div>
         </button>
       </div>
     </div>
@@ -125,28 +128,32 @@
           </div>
           <div class="modal-body">
             <section class="formulario_contac">
-              <div class="contactForm">
+              <div class="contactForm mb-5">
                 <div class="form">
                   <div class="texto">
                     <h2>!Hablemos!</h2>
-                    <p><b>Promoción especial: </b> Si reservas este paquete turístico antes del 31 de abril del 2023, 
-                      tendrás un descuento del 10% en el precio total del paquete.
-                    </p>
+                    <p class="descripcion_email">...</p>
                   </div>
-                  <form action="">
-                    <div class="inputBox">
-                      <label for="">Tu Nombre</label>
-                      <input type="text" placeholder="Nombre...">
+                  <form id="form-hacer-pedido" name="form-hacer-pedido" method="POST">
+                    <div class="form-group inputBox">
+                      <label for="nombre_email">Tu Nombre</label>
+                      <input type="text" class="form-control" name="nombre_email" id="nombre_email" placeholder="Nombre...">
+                      <input type="hidden" name="nombre_paquete_email" id="nombre_paquete_email">
+                      <input type="hidden" name="costo_email" id="costo_email">
                     </div>
-                    <div class="inputBox">
-                      <label for="">Tu Email</label>
-                      <input type="email" placeholder="Email...">
+                    <div class="form-group inputBox">
+                      <label for="correo_email">Tu Email</label>
+                      <input type="email" class="form-control" name="correo_email" id="correo_email" placeholder="Email...">
                     </div>
-                    <div class="inputBox">
-                      <label for="">Tu Mensaje</label>
-                      <textarea name="" id="" cols="30" rows="5" placeholder="Mensaje..."></textarea>
+                    <div class="form-group inputBox">
+                      <label for="telefono_email">Tu Telefono</label>
+                      <input type="tel" class="form-control" name="telefono_email" id="telefono_email" placeholder="Telefono...">
                     </div>
-                    <button type="submit">Enviar Mensaje</button>
+                    <div class="form-group inputBox">
+                      <label for="mensaje_email">Tu Mensaje</label>
+                      <textarea class="form-control" name="mensaje_email" id="mensaje_email"  cols="30" rows="5" placeholder="Mensaje..."></textarea>
+                    </div>
+                    <button type="submit" id="btn_enviar_correo"> Enviar Mensaje </button>
                   </form>
                 </div>
                 <div class="info">
@@ -530,7 +537,7 @@
         </li>
       </a>
 
-      <a href="https://wa.me/51930637287?text=Consulte%20Ya!!" target="_blank" rel="noopener noreferrer">
+      <a href="https://wa.me/51910070816?text=Consulte%20Ya!!" target="_blank" rel="noopener noreferrer">
         <li class="icon whatsapp">
           <span class="tooltip">Whatsapp</span>
           <span><i class="fab fa-whatsapp"></i></span>
@@ -556,7 +563,7 @@
     </div>-->
   </footer>
 
-  <a href="https://api.whatsapp.com/send?phone=930637287&text=Me%20interesa%20saber%20sobre%20los%20paquetes" target="_blank" rel="noopener noreferrer" class="float_whatssap">
+  <a href="https://api.whatsapp.com/send?phone=910070816&text=Me%20interesa%20saber%20sobre%20los%20paquetes" target="_blank" rel="noopener noreferrer" class="float_whatssap">
     <i class="fab fa-whatsapp"></i>
   </a>
 
@@ -571,9 +578,7 @@
   <script type="text/javascript" src="assets/js/jquery.sudoSlider.min.js"></script>
   <script type="text/javascript" src="assets/js/modernizr.js"></script>
  
-  <script src="assets/js/isotope.min.js"></script>  
-  <script src="admin/dist/js/funcion_general.js"></script>
-  <script src="admin/dist/js/funcion_crud.js"></script>
+  <script src="assets/js/isotope.min.js"></script>    
   <script src="assets/js/navJS.js"></script>
   <script src="recursos/bootstrap/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="node_modules/vanilla-tilt/dist/vanilla-tilt.js"></script>
@@ -584,14 +589,19 @@
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
   <script> AOS.init(); </script>
 
+  <!-- jquery-validation -->
+  <script src="admin/plugins/jquery-validation/jquery.validate.min.js"></script>
+  <script src="admin/plugins/jquery-validation/additional-methods.min.js"></script>
+
   <!-- Select2 -->
   <script src="admin/plugins/select2/js/select2.full.min.js"></script>
   <!-- Toastr -->
   <script src="admin/plugins/toastr/toastr.min.js"></script>
+  <!-- sweetalert2 -->
+  <script src="admin/plugins/sweetalert2/sweetalert2.all.min.js"></script>  
 
-  <!-- jquery-validation -->
-  <script src="admin/plugins/jquery-validation/jquery.validate.min.js"></script>
-  <script src="admin/plugins/jquery-validation/additional-methods.min.js"></script>
+  <script src="admin/dist/js/funcion_general.js"></script>
+  <script src="admin/dist/js/funcion_crud.js"></script>
 
   <script src="scripts/detalle_paquete.js"></script>
 

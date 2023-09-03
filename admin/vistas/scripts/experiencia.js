@@ -1,4 +1,4 @@
-var tabla_comentario;
+var tabla_experiencia;
 
 //Función que se ejecuta al inicio
 function init() {
@@ -10,11 +10,9 @@ function init() {
   $("#lExperiencias").addClass("active");
   
   tbla_principal();
-
   
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════ 
   $("#guardar_registro_experiencia").on("click", function (e) { $("#submit-form-experiencia").submit(); });
-
 
   // Formato para telefono
   $("[data-mask]").inputmask();
@@ -25,21 +23,18 @@ $("#foto1_i").click(function() { $('#foto1').trigger('click'); });
 $("#foto1").change(function(e) { addImage(e,$("#foto1").attr("id")) });
 
 function foto1_eliminar() {
-
 	$("#foto1").val("");
-
 	$("#foto1_i").attr("src", "../dist/img/default/img_defecto.png");
-
 	$("#foto1_nombre").html("");
 }
 
-function limpiar_form(){
+function limpiar_form_comentario(){
 
   $('#idexperiencia').val();
   $('#nombre').val();
   $('#lugar').val();
-  $('#estrella').val();
   $('#comentario').val();
+  $('#estrella').val();  
 
   $("#foto1_i").attr("src", "../dist/img/default/img_defecto.png");
 	$("#foto1").val("");
@@ -98,45 +93,31 @@ function tbla_principal() {
 
 }
 
-function mostrar_comentario(idexperiencia) {
+function mostrar_experiencia(idexperiencia) {
 
-  limpiar_comentario();
+  limpiar_form_comentario();
   
   $("#cargando-1-fomulario").hide();
   $("#cargando-2-fomulario").show();
 
-  $("#modal-agregar-experiencia").modal("show");
+  $("#modal-experiencia").modal("show");
 
-  $.post("../ajax/experiencia.php?op=mostrar", { idexperiencia: idexperiencia }, function (e, status) {
+  $.post("../ajax/experiencia.php?op=mostrar", { 'idexperiencia': idexperiencia }, function (e, status) {
     
-    e = JSON.parse(e); console.log('jolll'); console.log(e);    
+    e = JSON.parse(e); console.log(e);    
 
     $("#idexperiencia").val(e.data.idexperiencia).trigger("change");
-    $("#nombre").val(e.data.nombre).trigger("change");
-    $("#correo").val(e.data.correo).trigger("change");
-    $("#nota").val(e.data.comentario).trigger("change");
-    $("#fecha").val(e.data.fecha).trigger("change");
+    $("#nombre").val(e.data.nombre);    
+    $("#lugar").val(e.data.lugar);
+    $("#comentario").val(e.data.comentario);
     $("#estrella").val(e.data.estrella);
     
-    if (e.data.imagen == "" || e.data.imagen == null  ) {
-
-      $("#doc1_ver").html('<img src="../dist/svg/pdf_trasnparent.svg" alt="" width="50%" >');
-
-      $("#doc1_nombre").html('');
-
-      $("#doc_old_1").val(""); $("#doc1").val("");
-
-    } else {
-
-      $("#doc_old_1").val(e.data.comprobante); 
-
-      $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Baucher.${extrae_extencion(e.data.imagen)}</i></div></div>`);
-      // cargamos la imagen adecuada par el archivo
-      $("#doc1_ver").html(doc_view_extencion(e.data.imagen,'paquete', 'perfil', '100%', '210' ));   //ruta imagen    
-          
+    if (e.data.imagen == "" || e.data.imagen == null  ) { } else {      
+      $("#foto1_i").attr("src", "../dist/docs/experiencia/perfil/" + e.data.img_perfil);  
+      $("#foto1_actual").val(e.data.img_perfil);       
     }
-    $('.jq_image_zoom').zoom({ on:'grab' });
-     
+
+    $('.jq_image_zoom').zoom({ on:'grab' });     
     
     $("#cargando-1-fomulario").show();
     $("#cargando-2-fomulario").hide();
@@ -158,13 +139,10 @@ function guardar_y_editar_experiencia(e) {
       try {
         e = JSON.parse(e);
         if (e.status == true) {
-
           Swal.fire("Correcto!", "El registro se guardo correctamente.", "success");
-
-          tbla_principal.ajax.reload(null, false);
+          tabla_experiencia.ajax.reload(null, false);
           $('#modal-experiencia').modal('hide'); //
-          limpiar_form();    
-
+          limpiar_form_comentario(); 
         } else {
           ver_errores(e);
         }
@@ -188,7 +166,7 @@ function eliminar_experiencia(idexperiencia, nombre) {
     `<b class="text-danger"><del>${nombre}</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
     function(){ sw_success('♻️ Papelera! ♻️', "Tu registro ha sido reciclado." ) }, 
     function(){ sw_success('Eliminado!', 'Tu registro ha sido Eliminado.' ) }, 
-    function(){ tabla_comentario.ajax.reload(null, false); },
+    function(){ tabla_experiencia.ajax.reload(null, false); },
     false, 
     false, 
     false,
@@ -203,22 +181,22 @@ $(function () {
   $("#form-experiencia").validate({
     ignore: '.select2-input, .select2-focusser',
     rules: {
-      nombre:{ required: true, minlength:4, maxlength:100 },
+      nombre:     { required: true, minlength:4, maxlength:100 },
       comentario: { minlength:4 },
-      estrella:{required:true},
-      
+      lugar:      { required: true, minlength:4 },
+      estrella:   { required:true},      
     },
     messages: {
-      nombre:{ required: "Campo requerido", minlength: "Minimo 3 caracteres", maxlength: "Maximo 100 Caracteres" },
-      comentario: {minlength: "Minimo 4 Caracteres"},
-      estrella:{required:"Campo requerido"},
+      nombre:     { required: "Campo requerido", minlength: "Minimo 3 caracteres", maxlength: "Maximo 100 Caracteres" },
+      comentario: { minlength: "Minimo 4 Caracteres"},
+      lugar:      { required: "Campo requerido", minlength: "Minimo 4 Caracteres"},
+      estrella:   { required:"Campo requerido"},
     },
 
     errorElement: "span",
 
     errorPlacement: function (error, element) {
       error.addClass("invalid-feedback");
-
       element.closest(".form-group").append(error);
     },
 
@@ -234,10 +212,7 @@ $(function () {
       guardar_y_editar_experiencia(e);
     },
 
-  });
-
-
-  
+  });  
 
 });
 

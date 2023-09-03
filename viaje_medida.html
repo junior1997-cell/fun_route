@@ -38,6 +38,24 @@
     
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+
+    <!-- Style Propio -->
+    <link rel="stylesheet" href="assets/css/stylo_global.css">
+
+    <style>
+      .spinner {
+        border: 8px solid rgba(0, 0, 0, 0.1); border-top: 8px solid #333; border-radius: 50%; width: 100px; height: 100px; animation: spin 1s linear infinite; margin: 10px auto;
+      }
+      .spinner-sm {
+        border: 5px solid rgba(0, 0, 0, 0.1); border-top: 5px solid #333; border-radius: 50%; width: 50px; height: 50px; animation: spin-sm 1s linear infinite; margin: 10px auto;
+      }
+      .spinner-xs {
+        border: 4px solid rgba(0, 0, 0, 0.1); border-top: 4px solid #333; border-radius: 50%; width: 25px; height: 25px; animation: spin-xs 1s linear infinite; margin: 10px auto;
+      }
+      @keyframes spin { 0% { transform: rotate(0deg); }  100% { transform: rotate(360deg); } }
+      @keyframes spin-sm { 0% { transform: rotate(0deg); }  100% { transform: rotate(360deg); } }
+      @keyframes spin-xs { 0% { transform: rotate(0deg); }  100% { transform: rotate(360deg); } }
+    </style>
     
 
   </head>
@@ -265,7 +283,7 @@
         </li>
       </a>
 
-      <a href="https://wa.me/51930637287?text=Consulte%20Ya!!" target="_blank" rel="noopener noreferrer">
+      <a href="https://wa.me/51910070816?text=Consulte%20Ya!!" target="_blank" rel="noopener noreferrer">
         <li class="icon whatsapp">
           <span class="tooltip">Whatsapp</span>
           <span><i class="fab fa-whatsapp"></i></span>
@@ -291,7 +309,7 @@
     </div>-->
   </footer>
 
-  <a href="https://api.whatsapp.com/send?phone=930637287&text=Me%20interesa%20saber%20sobre%20los%20paquetes" target="_blank" rel="noopener noreferrer" class="float_whatssap">
+  <a href="https://api.whatsapp.com/send?phone=910070816&text=Me%20interesa%20saber%20sobre%20los%20paquetes" target="_blank" rel="noopener noreferrer" class="float_whatssap">
     <i class="fab fa-whatsapp"></i>
   </a>
 
@@ -313,28 +331,31 @@
   <script src="assets/js/tabs.js"></script>
   <script src="assets/js/popup.js"></script>
   <script src="assets/js/custom.js"></script>
-
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>
-    AOS.init();
-  </script>
-
-  
-  <script src="assets/js/viaje_medida.js"></script>
-  
-
+  <script> AOS.init(); </script>
   <script src="recursos/bootstrap/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="node_modules/vanilla-tilt/dist/vanilla-tilt.js"></script>
-
-  <script src="assets/js/paquetes-tours.js"></script>
-
   <script src="assets/js/datepicker.js"></script>
   <script src="assets/js/plugins.js"></script>
   <script src="assets/js/main.js"></script>
+
+  <!-- jquery-validation -->
+  <script src="admin/plugins/jquery-validation/jquery.validate.min.js"></script>
+  <script src="admin/plugins/jquery-validation/additional-methods.min.js"></script>
+
+  <!-- Select2 -->
+  <script src="admin/plugins/select2/js/select2.full.min.js"></script>
+  <!-- Toastr -->
+  <script src="admin/plugins/toastr/toastr.min.js"></script>
+  <!-- sweetalert2 -->
+  <script src="admin/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+
+  <script src="admin/dist/js/funcion_general.js"></script> 
+  <script src="admin/dist/js/funcion_crud.js"></script>
   
+  <script src="assets/js/viaje_medida.js"></script>
 
   </body>
 

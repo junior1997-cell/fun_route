@@ -129,7 +129,7 @@
                 '<div class="user-block">
                   <img class="profile-user-img img-responsive img-circle cursor-pointer" src="'. $imagen .'" alt="User Image" onerror="'.$imagen_error.'" onclick="ver_img_tours(\'' . $imagen . '\', \''.encodeCadenaHtml($value['nombre']).'\');" data-toggle="tooltip" data-original-title="Ver foto">
                   <span class="username"><p class="text-primary m-b-02rem" >'. $value['nombre'] .'</p></span>
-                  <span class="description"><b>Mapa: </b>'.$value['estado_mapa'].' | Tipo: <b>'.$value['tipo_tours'].'</b>  </span>
+                  <span class="description"><b>Mapa: </b>'.$value['estado_mapa'].' | <b>Tipo: </b>'.$value['tipo_tours'].'</span>
                 </div>',
                 "3"=>$alojamiento,
                 "4"=> '<textarea cols="30" rows="2" class="textarea_datatable" readonly="">' . $value['descripcion'] . '</textarea>',

@@ -36,17 +36,22 @@
     <link rel="stylesheet" href="assets/css/magnific-popup.css">
     <link rel="stylesheet" href="assets/css/templatemo-ocean-vibes.css">
 
+    <!-- Style Propio -->
+    <link rel="stylesheet" href="assets/css/stylo_global.css">
+
     <style>
       .spinner {
-        border: 8px solid rgba(0, 0, 0, 0.1);
-        border-top: 8px solid #333;
-        border-radius: 50%;
-        width: 100px;
-        height: 100px;
-        animation: spin 1s linear infinite;
-        margin: 10px auto;
+        border: 8px solid rgba(0, 0, 0, 0.1); border-top: 8px solid #333; border-radius: 50%; width: 100px; height: 100px; animation: spin 1s linear infinite; margin: 10px auto;
+      }
+      .spinner-sm {
+        border: 5px solid rgba(0, 0, 0, 0.1); border-top: 5px solid #333; border-radius: 50%; width: 50px; height: 50px; animation: spin-sm 1s linear infinite; margin: 10px auto;
+      }
+      .spinner-xs {
+        border: 4px solid rgba(0, 0, 0, 0.1); border-top: 4px solid #333; border-radius: 50%; width: 25px; height: 25px; animation: spin-xs 1s linear infinite; margin: 10px auto;
       }
       @keyframes spin { 0% { transform: rotate(0deg); }  100% { transform: rotate(360deg); } }
+      @keyframes spin-sm { 0% { transform: rotate(0deg); }  100% { transform: rotate(360deg); } }
+      @keyframes spin-xs { 0% { transform: rotate(0deg); }  100% { transform: rotate(360deg); } }
     </style>
     
   </head>
@@ -83,17 +88,17 @@
 
   <!-- ***** Main Banner Area Start ***** -->
   <section class="tm-site-header">
-    <h1 class="tm-mt-0 tm-mb-15"><span class="tm-color-gray-2 nombre_1"></span> <span class="tm-color-primary nombre_2"></span></h1>
+    <h1 class="tm-mt-0 tm-mb-15"><span class="tm-color-gray-2 nombre_1"><div class="bg-white spinner-xs"></div> </span> <span class="tm-color-primary nombre_2"></span></h1>
     <!-- Button trigger modal -->
-    <div class="botones_paq">
+    <div class="botones_paq"> 
       <div class="">
         <button class="precio_regular">
-          <span> <b>PRECIO REGULAR: </b><s style="font-weight: 900;">-----</s> * Persona</span>
+          <div class="text-center" ><div class="spinner-xs"></div> <div class="font-size-12px" >Cargando datos...</div></div>
         </button>
         
       </div>
       <div class="position_boton">
-        <button type="button" class="btn_modal_contact" data-bs-toggle="modal" data-bs-target="#modal-enviar-correo-tours">
+        <button type="button" class="btn_modal_contact" data-bs-toggle="modal" data-bs-target="#modal-enviar-correo-tours" onclick="limpiar_form_correo();">
           <div class="svg-wrapper-1">
             <div class="svg-wrapper">
               <i class="fa-solid fa-paper-plane"></i>
@@ -104,14 +109,14 @@
       </div>
       <div class="">
         <button class="precio_actual">
-          <span><b>CON DESCUENTO: </b><b style="font-weight: 900; color: #1877f2;">-----</b> * Persona</span>
+          <div class="text-center" ><div class="spinner-xs"></div> <div class="font-size-12px">Cargando datos...</div></div>
         </button>
       </div>
     </div>
      
 
     <!-- Modal -->
-    <div class="modal fade modal-xl" id="modal-enviar-correo-tours" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-enviar-correo-toursLabel" aria-hidden="true">
+    <div class="modal fade modal-xl" id="modal-enviar-correo-tours"  aria-labelledby="modal-enviar-correo-toursLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
@@ -120,32 +125,30 @@
           </div>
           <div class="modal-body">
             <section class="formulario_contac">
-              <div class="contactForm">
+              <div class="contactForm mb-5">
                 <div class="form">
                   <div class="texto">
                     <h2>!Hablemos!</h2>
-                    <p>El paquete turístico de 5 días y 4 noches a la ciudad de Tarapoto es una experiencia única que te 
-                      llevará a descubrir los encantos de esta hermosa ciudad de la selva peruana.
-                    </p>
+                    <p class="descripcion_email">...</p>
                   </div>
                   <form id="form-hacer-pedido" name="form-hacer-pedido" method="POST">
                     <div class="form-group inputBox">
                       <label for="">Tu Nombre</label>
-                      <input type="text" name="nombre_email" placeholder="Nombre...">
+                      <input type="text" class="form-control" name="nombre_email" id="nombre_email" placeholder="Nombre...">
                       <input type="hidden" name="nombre_tours_email" id="nombre_tours_email">
                       <input type="hidden" name="costo_email" id="costo_email">
                     </div>
                     <div class="form-group inputBox">
                       <label for="">Tu Email</label>
-                      <input type="email" name="correo_email" placeholder="Email...">
+                      <input type="email" class="form-control" name="correo_email" id="correo_email" placeholder="Email...">
                     </div>
                     <div class="form-group inputBox">
                       <label for="">Tu Telefono</label>
-                      <input type="tel" name="telefono_email" placeholder="Telefono...">
+                      <input type="tel" class="form-control" name="telefono_email" id="telefono_email" placeholder="Telefono...">
                     </div>
                     <div class="form-group inputBox">
                       <label for="">Tu Mensaje</label>
-                      <textarea name="mensaje_email"  cols="30" rows="5" placeholder="Mensaje..."></textarea>
+                      <textarea class="form-control" name="mensaje_email" id="mensaje_email"  cols="30" rows="5" placeholder="Mensaje..."></textarea>
                     </div>
                     <button type="submit" id="btn_enviar_correo"> Enviar Mensaje </button>
                   </form>
@@ -498,7 +501,7 @@
         </li>
       </a>
 
-      <a href="https://wa.me/51930637287?text=Consulte%20Ya!!" target="_blank" rel="noopener noreferrer">
+      <a href="https://wa.me/51910070816?text=Consulte%20Ya!!" target="_blank" rel="noopener noreferrer">
         <li class="icon whatsapp">
           <span class="tooltip">Whatsapp</span>
           <span><i class="fab fa-whatsapp"></i></span>
@@ -524,7 +527,7 @@
     </div>-->
   </footer>
 
-  <a href="https://api.whatsapp.com/send?phone=930637287&text=Me%20interesa%20saber%20sobre%20los%20paquetes" target="_blank" rel="noopener noreferrer" class="float_whatssap">
+  <a href="https://api.whatsapp.com/send?phone=910070816&text=Me%20interesa%20saber%20sobre%20los%20paquetes" target="_blank" rel="noopener noreferrer" class="float_whatssap">
     <i class="fab fa-whatsapp"></i>
   </a>
 
@@ -539,23 +542,24 @@
   <script type="text/javascript" src="assets/js/jquery.sudoSlider.min.js"></script>
   <script type="text/javascript" src="assets/js/modernizr.js"></script> 
 
-
-
-  <script src="assets/js/isotope.min.js"></script>  
-  <script src="admin/dist/js/funcion_general.js"></script>
-  <script src="admin/dist/js/funcion_crud.js"></script>
+  <script src="assets/js/isotope.min.js"></script>   
   <script src="assets/js/navJS.js"></script>
   <script src="recursos/bootstrap/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="node_modules/vanilla-tilt/dist/vanilla-tilt.js"></script>
+
+  <!-- jquery-validation -->
+  <script src="admin/plugins/jquery-validation/jquery.validate.min.js"></script>
+  <script src="admin/plugins/jquery-validation/additional-methods.min.js"></script>
 
   <!-- Select2 -->
   <script src="admin/plugins/select2/js/select2.full.min.js"></script>
   <!-- Toastr -->
   <script src="admin/plugins/toastr/toastr.min.js"></script>
+  <!-- sweetalert2 -->
+  <script src="admin/plugins/sweetalert2/sweetalert2.all.min.js"></script>  
 
-  <!-- jquery-validation -->
-  <script src="admin/plugins/jquery-validation/jquery.validate.min.js"></script>
-  <script src="admin/plugins/jquery-validation/additional-methods.min.js"></script>
+  <script src="admin/dist/js/funcion_general.js"></script>
+  <script src="admin/dist/js/funcion_crud.js"></script>
 
   <script src="assets/js/tours.js"></script>
   <script src="scripts/detalle_tours.js"></script>

@@ -1,166 +1,183 @@
-function init(){
+// Page loading animation
+$(window).on('load', function () { $('#js-preloader').addClass('loaded'); });
+
+$(document).ready(function () {
+  oferta_semanal();
   mostrar_tours();
-  // mostrar_paquetes();
-
-};
-
-function mostrar_tours() {
+  mostrar_testimonio_ceo();
+});
 
 
-  $.post("controlador/inicio.php?op=mostrar_tours", {}, function (e, status) {
+function oferta_semanal() {
 
-    e = JSON.parse(e); console.log(e);
+  $.post("controlador/inicio.php?op=oferta_semanal", {}, function (e, status) {
 
-    if (e.status) {
-      var codigo_tours = '';
+    e = JSON.parse(e); //console.log(e);
 
-      e.data.forEach((element, index) => {
-        //${item.nombre}
-        codigo_tours += `
-        <div class="item" data-tilt>
-          <img src="admin/dist/docs/tours/perfil/${element.imagen}" class="card-imgen" alt="">
+    if (e.status == true) {  
+      // valdiamos la cantidad de datos
+      if (e.data.length === 0) {
+        $('.ofertas_html').html(`<div class="left-slide"> <div style="background-color: #060505"><h1>No hay ofertas</h1></div></div><div class="right-slide"><div style="background-image: url('assets/images/default/sin_oferta.jpg')"></div></div><div class="action-buttons"><button class="down-button"><i class="far fa-dot-circle"></i></button><button class="up-button"> <i class="far fa-dot-circle"></i> </button></div>`);         
+      } else { 
+        var html_nombre = ''; var fotos_html = '';
+        e.data.forEach((val, key) => {
+          html_nombre += `<div style="background-color: ${val.color.hexadecimal}"> <h1> ${val.tipo_pt} <br> ${val.nombre}</h1>  <h4> ${val.duracion} <br> S/. <s>${val.costo}</s> - Dcto: (${val.porcentaje_descuento}%) </h4> </div> `;
+          fotos_html +=  `<div style="background-image: url('admin/dist/docs/${val.tipo_pt == 'TOURS' ? 'tours' : 'paquete'}/perfil/${val.imagen}')"></div>`;
+        });    
+
+        $('.ofertas_html').html(`<div class="left-slide"> ${html_nombre} </div> <div class="right-slide"> ${fotos_html} </div>      
+        <div class="action-buttons"> 
+          <button class="down-button"> <i class="fa fa-arrow-down"></i> </button> <button class="up-button"> <i class="fa fa-arrow-up"></i> </button>
+        </div>`);        
+      }
+
+      // ::::::::::::::::::::: activacion plugin :::::::::::::
+      const sliderContainer = document.querySelector('.slider-container');
+      const slideRight = document.querySelector('.right-slide');
+      const slideLeft = document.querySelector('.left-slide');
+      const upButton = document.querySelector('.up-button');
+      const downButton = document.querySelector('.down-button');
+      const slidesLength = slideRight.querySelectorAll('div').length;
+
+      let activeSlideIndex = 0;
+      slideLeft.style.top = `-${(slidesLength - 1) * 100}vh`;
+
+      upButton.addEventListener('click', () => changeSlide('up'));
+      downButton.addEventListener('click', () => changeSlide('down'));
+
+      const changeSlide = (direction) => {
+        const sliderHeight = sliderContainer.clientHeight;
+        if (direction === 'up') {activeSlideIndex++;	if (activeSlideIndex > slidesLength - 1) {activeSlideIndex = 0;}} else if (direction === 'down') {activeSlideIndex--;	if (activeSlideIndex < 0) {activeSlideIndex = slidesLength - 1;}}
+        slideRight.style.transform = `translateY(-${activeSlideIndex * sliderHeight}px)`;	slideLeft.style.transform = `translateY(${activeSlideIndex * sliderHeight}px)`;
+      }
+
+    }else{
+      ver_errores(e);
+    }
+  }).fail(function (e) { ver_errores(e); });
+}
+
+function mostrar_tours() { 
+
+  $.post("controlador/inicio.php?op=mostrar_tours_paquete", {}, function (e, status) {
+    e = JSON.parse(e);  //console.log(e);    
+    if (e.status == true) {  
+      var tours_html = ''; var paquete_html = '';
+      e.data.tours.forEach((val, key) => {
+        tours_html += `<div class="item" data-tilt="" >
+          <img src="admin/dist/docs/tours/perfil/${val.imagen}" class="card-imgen" alt="">
           <div class="card-body">
             <button class="buton1">Tours</button>
-            <h4><b>${element.nombre}</b></h4>
+            <h4><b>${val.nombre}</b></h4>
             <div class="line-dec"></div>
             <ul>
-              <li><b>${recortarTexto(element.descripcion, 60)}</b></li>
-              <li><b>Precio * Persona:</b> <span class="espacio">S/. ${element.costo}</span></li>
-              <li><b><i class="fa-regular fa-clock espacio2"></i>Horario:</b><span class="espacio">${element.duracion}</span></li>
+              <li class="text-white">${val.descripcion.slice(0,50)}...</li>
+              <li><b>Precio * Persona:</b>  <span class="espacio">S/. ${val.costo}</span></li>
+              <li><b><i class="fa-regular fa-clock espacio2"></i></b><span class="espacio">${val.duracion}</span></li>
             </ul>
             <a href="paquetes/lamas.html">
               <button class="learn-more">
-                <span class="circle" aria-hidden="true">
-                  <span class="icon arrow"></span>
-                </span>
-                <span class="button-text">Leer Más</span>
+                <span class="circle" aria-hidden="true"><span class="icon arrow"></span></span><span class="button-text">Leer Más</span>
               </button>
-            </a>
+            </a>            
           </div>
-        </div>
-        `;
-
+        </div>`;
+        // $(".tours_html").append(`${tours_html}`);
+      });
+      e.data.paquete.forEach((val, key) => {
+        paquete_html += `<div class="item" data-tilt="" >
+          <img src="admin/dist/docs/paquete/perfil/${val.imagen}" class="card-imgen" alt="">
+          <div class="card-body">
+            <button class="buton1">Paquete</button>
+            <h4><b>${val.nombre}</b></h4>
+            <div class="line-dec"></div>
+            <ul>
+              <li class="text-white">${val.descripcion.slice(0,50)}...</li>
+              <li><b>Precio * Persona:</b>  <span class="espacio">S/. ${val.costo}</span></li>
+              <li><b><i class="fa-regular fa-clock espacio2"></i></b><span class="espacio">${val.cant_dias} dias y ${val.cant_noches} noches</span></li>
+            </ul>
+            <a href="paquetes/lamas.html">
+              <button class="learn-more">
+                <span class="circle" aria-hidden="true"><span class="icon arrow"></span></span><span class="button-text">Leer Más</span>
+              </button>
+            </a>            
+          </div>
+        </div>`;
+        // $(".tours_html").append(`${tours_html}`);
       });
 
-      $('.codigoGenTours').html(codigo_tours); // Agregar el contenido
+      $('.tours_html').html(`<div class="carousel-tours owl-carousel">${tours_html}</div>`);
+      $('.paquete_html').html(`<div class="carousel-paquete owl-carousel owl-theme">${paquete_html}</div>`);
 
-    }
-
-  });
-
-  // $.post("controlador/inicio.php?op=mostrar_paquetes", {}, function (response, status) {
-  //   response = JSON.parse(response);
-  //   console.log(response);
-
-  //   if (response.status) {
-  //     var codigoHTML = '';
-  //     response.data.forEach((item, index) => {
-
-  //       codigoHTML += `
-  //           <div class="item popular-item">
-  //             <div class="thumb">
-  //               <img src="admin/dist/docs/paquete/perfil/${item.imagen}" alt="">
-  //               <div class="property-description">
-  //                 <h5>${item.nombre} </h5>
-  //                 <button class="buton2">Paquete Turistico</button>
-  //               </div>
-  //               <div class="plus-button">
-  //                 <a href="paquetes/escape-tarapoto.html"><i class="fa fa-plus"></i></a>
-  //               </div>
-  //             </div>
-  //           </div>
-  //       `;
-
-  //     });
-
-
-  //     $('.codigoGenerado').html(codigoHTML); // Agregar el contenido
-
-
-  //     //  $('.paquetes_').owlCarousel({
-  //     //   items:3,
-  //     //   loop:true,
-  //     //   margin:40,
-  //     //   responsiveClass:true,
-  //     //   responsive:{
-  //     //     0:{
-  //     //       items:1
-  //     //     },
-  //     //     800:{
-  //     //       items:2
-  //     //     },
-  //     //     1100:{
-  //     //       items:3
-  //     //   }
-  //     // }
-  //     // })
-
-
-  //   }
-
-  // });
-
-
-}
-
-function mostrar_paquetes() {
- 
-
-  $.post("controlador/inicio.php?op=mostrar_paquetes", {}, function (response, status) {
-    response = JSON.parse(response);
-    console.log(response);
-
-    if (response.status) {
-      var codigoHTML = '';
-      response.data.forEach((item, index) => {
-
-        codigoHTML += `
-            <div class="item popular-item">
-              <div class="thumb">
-                <img src="admin/dist/docs/paquete/perfil/${item.imagen}" alt="">
-                <div class="property-description">
-                  <h5>${item.nombre} </h5>
-                  <button class="buton2">Paquete Turistico</button>
-                </div>
-                <div class="plus-button">
-                  <a href="paquetes/escape-tarapoto.html"><i class="fa fa-plus"></i></a>
-                </div>
-              </div>
-            </div>
-        `;
-
+      $('.carousel-tours').owlCarousel({
+        items: 3, loop: true, margin: 40, dots: false, nav: true, autoplay: true,
+        autoplayTimeout: 300, autoplayHoverPause: true, margin: 30,
+        responsive: { 0: { items: 1 }, 800: { items: 2 }, 1100: { items: 3 } }
       });
 
-
-      $('.codigoGenerado').html(codigoHTML); // Agregar el contenido
-
-
-       $('.paquetes_').owlCarousel({
-        items:3,
-        loop:true,
-        margin:40,
-        responsiveClass:true,
-        responsive:{
-          0:{
-            items:1
-          },
-          800:{
-            items:2
-          },
-          1100:{
-            items:3
-        }
-      }
-      })
-
-
+      $('.carousel-paquete').owlCarousel({
+        items: 3, loop: true, margin: 40, dots: false, nav: true, autoplay: true,
+        autoplayTimeout: 300, autoplayHoverPause: true, margin: 30,
+        responsive: { 0: { items: 1 }, 800: { items: 2 }, 1100: { items: 3 } }
+      });  
+      
+    }else{
+      ver_errores(e);
     }
-
-  });
-
+  }).fail(function (e) { ver_errores(e); });
 }
 
-init();
+function mostrar_testimonio_ceo() { 
+
+  $.post("controlador/inicio.php?op=mostrar_testimonio_ceo", {}, function (e, status) {
+    e = JSON.parse(e);  console.log(e);    
+    if (e.status == true) {  
+
+      // ::::::::::::::::: T E S T I M O N I O :::::::::::::::::
+
+      $('.testimonio_html').html('');
+      e.data.experiencia.forEach((val, key) => {
+        var testimonio_html = `<div class="slide swiper-slide">
+          <img src="admin/dist/docs/experiencia/perfil/${val.img_perfil}" class="image" alt="">
+          <p>${val.comentario}</p> <i class="bx bxs-quote-alt-left quote-icon"></i>
+          <div class="details"> <span class="name">${val.nombre}</span> <span class="job">${val.lugar}</span> </div>
+        </div>`;
+
+        $('.testimonio_html').append(testimonio_html);
+      });    
+      
+      var testimonio_html = `<div class="slide swiper-slide">
+        <img src="admin/dist/img/avatar.png" class="image" alt="">
+        <p>¿Tienes algo que contarnos? comparte con nosotros tu experiencia vivida con nuestros paquetes!!</p><a href="https://wa.me/51930637287?text=Cuentenos%20Ya!!"><i class="fab fa-whatsapp quote-icon"></i></a> 
+        <div class="details"> <span class="name">Escribenos al WhatsApp </span> <span class="job">ya!</span> </div>
+      </div>`;
+
+      $('.testimonio_html').append(testimonio_html);
+
+      // Activamos el pluging
+      var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 1,
+        grabCursor: true,
+        loop: true,
+        pagination: { el: ".swiper-pagination", clickable: true, },
+        navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev", },
+      });
+
+      // ::::::::::::::::: C E O :::::::::::::::::
+      var ceo_html = `<div class="col-lg-6 col-12">
+        <img src="admin/dist/docs/nosotros/perfil_ceo/${e.data.nosotros.perfil_ceo}" class="author-image img-fluid" alt="">
+      </div>
+      <div class="col-lg-6 col-12 mt-5 mt-lg-0">
+        <h2 class="mb-4">${e.data.nosotros.nombre_ceo}</h2>
+        <div> ${e.data.nosotros.palabras_ceo}</div>
+      </div>`;
+      $('.ceo_html').html(ceo_html);
+
+    }else{
+      ver_errores(e);
+    }
+  }).fail(function (e) { ver_errores(e); });
+}
 
 function recortarTexto(texto, longitudMaxima) {
   if (texto.length > longitudMaxima) {

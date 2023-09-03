@@ -8,8 +8,7 @@ Class Nosotros
   public $id_usr_sesion;
 
   //Implementamos nuestro constructor
-  public function __construct($id_usr_sesion = 0)
-  {
+  public function __construct($id_usr_sesion = 0) {
     $this->id_usr_sesion = $id_usr_sesion;
   }
 
@@ -18,6 +17,4 @@ Class Nosotros
 		$sql="SELECT * FROM nosotros WHERE idnosotros='1'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
-
-
 }

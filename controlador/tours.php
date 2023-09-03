@@ -48,7 +48,9 @@
       case 'mostrar_galeria':
         $rspta = $tours->mostrar_galeria($_POST['idtours']);
         echo json_encode($rspta, true);
-      break;  
+      break;
+      
+      /* ══════════════════════════════════════ C O R R E O   ══════════════════════════════════ */        
       
       case 'enviar_correo':
         

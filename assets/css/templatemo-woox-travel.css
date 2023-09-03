@@ -826,8 +826,8 @@ About Page Style
   top: 0;
   right: -100%;
   position: absolute;
-  background: #1f3d4738;
-  backdrop-filter: blur(5px);
+  background: #1f3d474d;
+  backdrop-filter: blur(10px);
   border-radius: 15px;
   color: #fff;
   padding: 30px;

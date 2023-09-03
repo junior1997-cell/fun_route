@@ -1,3 +1,6 @@
+// Page loading animation
+$(window).on('load', function () { $('#js-preloader').addClass('loaded'); });
+
 $(document).ready(function () {
   mostrar_vista();
 });

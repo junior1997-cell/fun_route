@@ -62,7 +62,7 @@
                                 <div class="card-header">
                                   <h3 class="card-title">
                                     <!--data-toggle="modal" data-target="#modal-agregar-compra"  onclick="limpiar();"-->
-                                    <button type="button" class="btn bg-gradient-primary" id="btn_agregar" data-toggle="modal" data-target="#modal-experiencia" onclick="limpiar_form();">
+                                    <button type="button" class="btn bg-gradient-primary" id="btn_agregar" data-toggle="modal" data-target="#modal-experiencia" onclick="limpiar_form_comentario();">
                                       <i class="fas fa-plus-circle"></i> Agregar
                                     </button>                                    
                                     <button type="button" class="btn bg-gradient-warning" id="regresar" style="display: none;" onclick="regresar();">
@@ -142,8 +142,8 @@
                             <!-- Lugar  idexperiencia,nombre, lugar, estrella, comentario  -->
                             <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8">
                               <div class="form-group">
-                                <label for="lugar">Des. Lugar</label>
-                                <input type="text" name="lugar" class="form-control" id="lugar" placeholder="Des. Lugar" />
+                                <label for="lugar">Lugar que visitó</label>
+                                <input type="text" name="lugar" class="form-control" id="lugar" placeholder="Lugar que visitó" />
                               </div>
                             </div>
                              <!--Estrella-->
@@ -179,7 +179,7 @@
                         </form>
                       </div>
                       <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal"  onclick="limpiar_form();" >Close</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"  onclick="limpiar_form_comentario();" >Close</button>
                         <button type="submit" class="btn btn-primary" id="guardar_registro_experiencia">Guardar Cambios</button>
                       </div>
                     </div>

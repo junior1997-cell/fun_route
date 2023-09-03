@@ -1,3 +1,6 @@
+// Page loading animation
+$(window).on('load', function () { $('#js-preloader').addClass('loaded'); });
+
 $(document).ready(function () {
   mostrar_detalle(localStorage.getItem("nube_idpaquete"));
   mostrar_hotel();
@@ -12,11 +15,21 @@ function mostrar_detalle(id) {
       var nombre_tour = cortar_mitad_texto(e.data.nombre);
       $(".nombre_1").html(nombre_tour[0]); $(".nombre_2").html(nombre_tour[1]);  
 
-      // Resumen
+      // ::::::::::::::::::::: PRECIOS :::::::::::::::::::::
+      if (e.data.estado_descuento == '1') {
+        $('.precio_regular').html(`<span> <b>PRECIO REGULAR: </b><s style="font-weight: 900;">S/ ${e.data.costo}</s> * Persona</span>` );      
+        $('.precio_actual').html(`<span><b>DESCUENTO (${e.data.porcentaje_descuento}%): </b><b style="font-weight: 900; color: #1877f2;">S/ ${e.data.monto_descuento}</b> * Persona</span>`);
+      } else {
+        $('.precio_regular').html(`<span> <b>PRECIO: </b><s style="font-weight: 900;">S/ 605.00</s> * Persona</span>` );      
+        $('.precio_actual').html(`<span><b>Sin Descuentos  </b></span>`);
+      }         
+
+      // ::::::::::::::::::::: RESUMEN :::::::::::::::::::::
       $('.duracion_html').html(`${e.data.cant_dias} dias / ${e.data.cant_noches} noches` );      
       $('.comida_html').html(e.data.desc_comida);      
       $('.alojamiento_html').html(e.data.desc_alojamiento );  
 
+      // ::::::::::::::::::::: DETALLE :::::::::::::::::::::
       $('.itinerario_html').html(e.data.actividad);
       $('.incluye_html').html(e.data.incluye);
       $('.no_incluye_html').html(e.data.no_incluye);
@@ -25,26 +38,22 @@ function mostrar_detalle(id) {
       $('.actividades_html').html(e.data.resumen);      
       $('.mapa_html').html(e.data.mapa); 
       
-      // politicas
+      // ::::::::::::::::::::: POLITICA :::::::::::::::::::::
       $('.condicion_general_html').html(e.data.politica.condiciones_generales);
       $('.politica_reserva_html').html(e.data.politica.reservas);
       $('.politica_pago_html').html(e.data.politica.pago);
       $('.politica_cancelacion_html').html(e.data.politica.cancelacion);
 
-      // galeria del paquete
+      // ::::::::::::::::::::: GALERIA :::::::::::::::::::::
       $('.galeria_paquete').html(''); //limpiamos el div      
       e.data.galeria.forEach((val, key) => {
         var galeria_html = `<div > <img src="admin/dist/docs/paquete/galeria/${val.imagen}" onclick="openFullImg(this.src)">  </div>`;
         $('.galeria_paquete').append(galeria_html); 
-      });
+      });      
 
-      // Formulario
-      $("#nombre_tours_email").val(e.data.nombre); 
-      $("#costo_email").val(e.data.costo); 
-
+      // ::::::::::::::::::::: LISTA DIAS :::::::::::::::::::::
       $(".btn_dia_html").html('');  //limpiamos el div     
-      e.data.itinerario.forEach((val, key) => {
-        // ::::::::::::::::::::: LISTA DIAS :::::::::::::::::::::
+      e.data.itinerario.forEach((val, key) => {        
         $(".btn_dia_html").append(`<li><a href="javascript:;" class="tabLink ${key == 0 ? 'activeLink' : ''} " id="cont-${key}">DÍA ${val.numero_orden}</a></li>`); 
         $(".content_dia_html").append(`<div class="tabcontent ${key == 0 ? '' : 'hide'}" id="cont-${key}-1">
           <div class="TabImage">
@@ -63,7 +72,12 @@ function mostrar_detalle(id) {
           html_foto = html_foto.concat(`<div > <img src="admin/dist/docs/tours/galeria/${val2.imagen}" onclick="openFullImg(this.src)"> </div>`) ;
         });
         $('.content_fotos_html').append(`<div id="conta-${key+1}-2" class="tabContentImg"> <div class="gallery_all"> ${html_foto} </div> </div>`);
-      });      
+      }); 
+      
+      // ::::::::::::::::::::: FORMULARIO CORREO :::::::::::::::::::::
+      $("#nombre_paquete_email").val(e.data.nombre); 
+      $("#costo_email").val(e.data.costo); 
+      $('.descripcion_email').html(`${e.data.descripcion.slice(0,150)}...` );
 
       // pluging - itinerario dia
       $(".tabLink").each(function(){ $(this).click(function(){ tabeId = $(this).attr('id'); $(".tabLink").removeClass("activeLink"); $(this).addClass("activeLink"); $(".tabcontent").addClass("hide"); $("#"+tabeId+"-1").removeClass("hide"); return false; }); });
@@ -164,12 +178,19 @@ function activate_descripcion() {
 
 // ::::::::::::::::::::::::::::::: S E C C I O N   E N V I O   D  E   C O R R E O ::::::::::::::::::::::::
 
+function limpiar_form_correo() {
+  $('#nombre_email').val("");
+  $('#correo_email').val("");
+  $('#telefono_email').val("");
+  $('#mensaje_email').val("");
+}
+
 function enviar_correo_tours(e) {
   // e.preventDefault(); //No se activará la acción predeterminada del evento
   var formData = new FormData($("#form-hacer-pedido")[0]);
  
   $.ajax({
-    url: "controlador/tours.php?op=enviar_correo",
+    url: "controlador/paquete.php?op=enviar_correo",
     type: "POST",
     data: formData,
     contentType: false,
@@ -178,10 +199,9 @@ function enviar_correo_tours(e) {
       try {
         e = JSON.parse(e);  console.log(e);
         if ( e.status == true) {
-          Swal.fire("Correcto!", "Clasificación registrado correctamente.", "success");
-          toastr_success('Exito', 'Correo enviado con exito', 700);
-          			
-          $("#modal-enviar-correo-tours").modal("hide");
+          Swal.fire("Correcto!", "Cotizacion enviado.", "success");  
+          $( ".btn-close" ).click(); //cerramos el modal        			
+          limpiar_form_correo(); // limpiamos el formulario
         }else{
           ver_errores(e);
         }
@@ -196,17 +216,17 @@ function enviar_correo_tours(e) {
         if (evt.lengthComputable) {
           var percentComplete = (evt.loaded / evt.total)*100;
           /*console.log(percentComplete + '%');*/
-          $("#barra_progress_categoria_af").css({"width": percentComplete+'%'}).text(percentComplete.toFixed(2)+" %");
+          $("#barra_progress_correo").css({"width": percentComplete+'%'}).text(percentComplete.toFixed(2)+" %");
         }
       }, false);
       return xhr;
     },
     beforeSend: function () {
       $("#btn_enviar_correo").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
-      $("#barra_progress_categoria_af").css({ width: "0%",  }).text("0%");
+      $("#barra_progress_correo").css({ width: "0%",  }).text("0%");
     },
     complete: function () {
-      $("#barra_progress_categoria_af").css({ width: "0%", }).text("0%");
+      $("#barra_progress_correo").css({ width: "0%", }).text("0%");
     },
     error: function (jqXhr) { ver_errores(jqXhr); },
   });
@@ -216,16 +236,16 @@ $(function () {
 
   $("#form-hacer-pedido").validate({
     rules: { 
-      nombre_persona: { required: true }, 
-      correo_persona: { required: true }, 
-      telefono_persona: { required: true, }, 
-      mensaje_persona: { required: true }, 
+      nombre_email: { required: true }, 
+      correo_email: { required: true }, 
+      telefono_email: { required: true, }, 
+      mensaje_email: { required: true }, 
     },
     messages: {
-      nombre_persona: { required: "Campo requerido", },
-      correo_persona: { required: "Campo requerido", },
-      telefono_persona: { required: "Campo requerido", },
-      mensaje_persona: { required: "Campo requerido", },
+      nombre_email: { required: "Campo requerido", },
+      correo_email: { required: "Campo requerido", },
+      telefono_email: { required: "Campo requerido", },
+      mensaje_email: { required: "Campo requerido", },
     },
         
     errorElement: "span",

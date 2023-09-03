@@ -26,7 +26,7 @@
     $telefono_email	= isset($_POST["telefono_email"])? limpiarCadena($_POST["telefono_email"]):"";
     $mensaje_email  = isset($_POST["mensaje_email"])? limpiarCadena($_POST["mensaje_email"]):"";
 
-    $nombre_tours_email  = isset($_POST["nombre_tours_email"])? limpiarCadena($_POST["nombre_tours_email"]):"";
+    $nombre_paquete_email  = isset($_POST["nombre_paquete_email"])? limpiarCadena($_POST["nombre_paquete_email"]):"";
     $costo_email      = isset($_POST["costo_email"])? limpiarCadena($_POST["costo_email"]):"";
     
     
@@ -67,6 +67,8 @@
         $rspta = $paquete->mostrar_galeria_20_aleatorios();
         echo json_encode($rspta, true);
       break;  
+
+      /* ══════════════════════════════════════ C O R R E O  ══════════════════════════════════ */       
       
       case 'enviar_correo':
         
@@ -101,9 +103,9 @@
           // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Nombre opcional
 
           // llamamos a la plantilla
-          $message = file_get_contents('../recursos/correo/plantilla_correo_tours.html');
+          $message = file_get_contents('../recursos/correo/plantilla_correo_paquete.html');
           $message = str_replace('%nombre_email%', $nombre_email, $message);
-          $message = str_replace('%nombre_tours%', $nombre_tours_email, $message);
+          $message = str_replace('%nombre_paquete%', $nombre_paquete_email, $message);
           $message = str_replace('%costo_email%', $costo_email, $message);
           $message = str_replace('%mensaje_email%', $mensaje_email, $message);
           $message = str_replace('%telefono_email%', $telefono_email, $message);
@@ -111,7 +113,7 @@
 
           //Content
           $mail->isHTML(true);                        //Establecer el formato de correo electrónico en HTML
-          $mail->Subject = 'Consulta por el TOURS';   // Titulo del Correo
+          $mail->Subject = 'Consulta por el PAQUETE';   // Titulo del Correo
           $mail->Body    = $message;                  // Cargamos el mensaje
           // $mail->AltBody = $mensaje_email;         // Cuerpo alternativo
 
