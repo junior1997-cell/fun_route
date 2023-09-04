@@ -85,12 +85,13 @@ function mostrar_tours_paquete() {
         </div>`;
         // $(".tours_html").append(`${tours_html}`);
       });
-      $('.tours_html').html(`<div class="carousel-tours owl-carousel">${tours_html}</div>`);
+      $('.tours_html').html(`<div class="carousel-tours owlCarousel">${tours_html}</div>`);
       $('.carousel-tours').owlCarousel({
         items: 3, loop: true, margin: 40, dots: false, nav: true, autoplay: true,
-        autoplayTimeout: 300, autoplayHoverPause: true, margin: 30,
+        autoplayTimeout: 300, autoplayHoverPause: true,
         responsive: { 0: { items: 1 }, 800: { items: 2 }, 1100: { items: 3 } }
       });
+      
 
       // :::::::::::::::::::: L I S T A   D E   P A Q U E T E ::::::::::::::::::::::::::::::::
       e.data.paquete.forEach((val, key) => {
