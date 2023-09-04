@@ -317,6 +317,8 @@ Banner Style
   gap: 3rem;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 30rem),1fr));
   margin-bottom: 10em;
+  padding-left: 2em;
+  padding-right: 2em;
 }
 
 .contenedor .c-card .card .card__banner .background .c-background .card__poster img {
@@ -685,6 +687,12 @@ Banner Style
     margin-left: 0em;
     margin-top: 0em;
   }
+}
+
+@media screen and (width: 1355px) {
+ .contenedor {
+  max-width: 100%;
+ }
 }
 
 /* 
