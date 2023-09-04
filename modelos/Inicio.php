@@ -9,11 +9,11 @@
     
     public function oferta_semanal(){
       $array_pt = [];
-      $sql_1 = "SELECT nombre, imagen, cant_dias, cant_noches, costo, estado_descuento, porcentaje_descuento, monto_descuento
+      $sql_1 = "SELECT idpaquete, nombre, imagen, cant_dias, cant_noches, costo, estado_descuento, porcentaje_descuento, monto_descuento
       FROM paquete WHERE estado_descuento = '1' AND estado = '1' AND estado_delete = '1';";
       $paquete = ejecutarConsultaArray($sql_1); if ( $paquete['status'] == false) {return $paquete; }
 
-      $sql_2 = "SELECT  nombre,  imagen,  duracion,  costo, estado_descuento, porcentaje_descuento, monto_descuento 
+      $sql_2 = "SELECT idtours,  nombre,  imagen,  duracion,  costo, estado_descuento, porcentaje_descuento, monto_descuento 
       FROM tours WHERE estado_descuento = '1' AND estado = '1' AND estado_delete = '1';";
       $tours = ejecutarConsultaArray($sql_2); if ( $tours['status'] == false) {return $tours; }
 
@@ -38,6 +38,7 @@
       // ofertas de paquete
       foreach ($paquete['data'] as $key => $val) {
         $array_pt[] = [
+          'id'            => $val['idpaquete'],
           'tipo_pt'       => 'PAQUETE',
           'color'         => $color[random_int(0, 14)],
           'nombre'        => $val['nombre'],          
@@ -53,6 +54,7 @@
       // ofertas de tours
       foreach ($tours['data'] as $key => $val) {
         $array_pt[] = [
+          'id'            => $val['idtours'],
           'tipo_pt'       => 'TOURS',
           'color'         => $color[random_int(0, 14)],
           'nombre'        => $val['nombre'],          
@@ -70,10 +72,10 @@
     } 
 
     public function mostrar_tours_paquete(){
-      $sql="SELECT nombre, descripcion, imagen, duracion, costo FROM tours WHERE estado='1' and estado_delete='1';";
+      $sql="SELECT idtours, nombre, descripcion, imagen, duracion, costo, estado_descuento, porcentaje_descuento, monto_descuento FROM tours WHERE estado='1' and estado_delete='1';";
       $tours = ejecutarConsultaArray($sql); if ( $tours['status'] == false) {return $tours; }
 
-      $sql = "SELECT nombre, descripcion, cant_dias, cant_noches, imagen, costo FROM paquete WHERE estado=1 and estado_delete='1';";
+      $sql = "SELECT idpaquete, nombre, descripcion, cant_dias, cant_noches, imagen, costo, estado_descuento, porcentaje_descuento, monto_descuento FROM paquete WHERE estado=1 and estado_delete='1';";
       $paquete = ejecutarConsultaArray($sql);  if ( $paquete['status'] == false) {return $paquete; }
 
       return $retorno=[ 'status'=>true, 'message'=>'todo okey','data'=>[ 'tours'=> $tours['data'], 'paquete'=> $paquete['data'],] ];

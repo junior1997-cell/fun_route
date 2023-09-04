@@ -51,7 +51,11 @@
     }
 
     public function mostrar_todos(){
-      $sql = "SELECT * FROM tours WHERE estado = '1' and estado_delete = '1'; ";
+      $sql = "SELECT t.idtours, t.idtipo_tours, t.nombre, t.descripcion, t.imagen, t.actividad, t.incluye, t.no_incluye, 
+      t.recomendaciones, t.duracion, t.alojamiento, t.resumen_actividad, t.resumen_comida, t.mapa, t.costo, t.estado_descuento, 
+      t.porcentaje_descuento, t.monto_descuento, tt.nombre as tipo_tours 
+      FROM tours as t, tipo_tours as tt 
+      WHERE t.idtipo_tours = tt.idtipo_tours AND t.estado = '1' AND t.estado_delete = '1'; ";
       return ejecutarConsultaArray($sql); // Retorna todos los resultados
     } 
 

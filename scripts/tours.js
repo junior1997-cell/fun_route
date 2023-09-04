@@ -24,7 +24,7 @@ function mostrar_vista() {
                   <div class="card__banner_content" style="width: 282.64px !important; height: 240px !important;">
                     <div class="__content">
                       <h3 class="__content--title">${val.nombre}</h3>
-                      <button class="buton1">Tours</button>
+                      <button class="buton1 w-150px">${val.tipo_tours}</button>
                       <div class="space1"></div>
                       <h4 class="title-actividades"><i class="fa-solid fa-camera espacio2"></i>Actividades :</h4>
                       <div class="actividades">
@@ -49,7 +49,7 @@ function mostrar_vista() {
               <div class="c-card__descripcion">
                 <div class="card__descripcion__texto">
                   <h1>Descubra: </h1>
-                  <p>${val.resumen_actividad}</p>
+                  <p>${val.descripcion}</p>
                 </div>
               </div>
             </div>

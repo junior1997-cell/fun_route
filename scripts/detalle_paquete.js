@@ -20,7 +20,7 @@ function mostrar_detalle(id) {
         $('.precio_regular').html(`<span> <b>PRECIO REGULAR: </b><s style="font-weight: 900;">S/ ${e.data.costo}</s> * Persona</span>` );      
         $('.precio_actual').html(`<span><b>DESCUENTO (${e.data.porcentaje_descuento}%): </b><b style="font-weight: 900; color: #1877f2;">S/ ${e.data.monto_descuento}</b> * Persona</span>`);
       } else {
-        $('.precio_regular').html(`<span> <b>PRECIO: </b><s style="font-weight: 900;">S/ 605.00</s> * Persona</span>` );      
+        $('.precio_regular').html(`<span> <b>PRECIO: </b><b class="text-primary" style="font-weight: 900;">S/ ${e.data.costo}</b> * Persona</span>` );      
         $('.precio_actual').html(`<span><b>Sin Descuentos  </b></span>`);
       }         
 

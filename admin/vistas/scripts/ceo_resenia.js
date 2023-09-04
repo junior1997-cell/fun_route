@@ -19,11 +19,11 @@ function init() {
 
 // abrimos el navegador de archivos
 $("#foto1_i").click(function () { $("#foto1").trigger("click"); });
-$("#foto1").change(function (e) { addImage(e, $("#foto1").attr("id"), "../dist/img/default/img_defecto_producto.jpg"); });
+$("#foto1").change(function (e) { addImage(e, $("#foto1").attr("id"), "../dist/img/default/img_defecto.png"); });
 
 function foto1_eliminar() {
-  $("#foto1").val("");
-  $("#foto1_i").attr("src", "../dist/img/default/img_defecto_producto.jpg");
+  $("#foto1").val(""); $("#foto1_actual").val("");
+  $("#foto1_i").attr("src", "../dist/img/default/img_defecto.png");
   $("#foto1_nombre").html("");
 }
 
@@ -34,9 +34,7 @@ function activar_editar(estado) {
     $("#palabras_ceo").summernote("enable");
     $("#resenia_h").summernote("enable");
     toastr.success('Campos habiliados para editar!!!');
-  }
-
-  if (estado=="2") {
+  }else  if (estado=="2") {
     $(".editar").show();
     $(".actualizar").hide();
     $('#resenia_h').summernote ('disable');
@@ -44,7 +42,20 @@ function activar_editar(estado) {
   }
 }
 
+function limpiar_form_ceo_reseña() {
+  $("#idnosotros").val('');
+  $('#resenia_h').summernote ('code', '');
+  $('#palabras_ceo').summernote ('code', '');
+  $('#nombre_ceo').val ('');
+
+  $("#foto1").val(""); $("#foto1_actual").val("");
+  $("#foto1_i").attr("src", "../dist/img/default/img_defecto.png");
+  $("#foto1_nombre").html("");
+}
+
 function mostrar() {
+
+  limpiar_form_ceo_reseña();
 
   $("#cargando-1-fomulario").hide();
   $("#cargando-2-fomulario").show();
@@ -52,10 +63,7 @@ function mostrar() {
   $.post("../ajax/contacto.php?op=mostrar", {}, function (e, status) {
 
     e = JSON.parse(e);  console.log(e);  
-    if (e.status == true){
-
-      $("#cargando-1-fomulario").show();
-      $("#cargando-2-fomulario").hide();
+    if (e.status == true){    
 
       $("#idnosotros").val(e.data.idnosotros);
       $('#resenia_h').summernote ('code', e.data.resenia_historica);
@@ -66,6 +74,9 @@ function mostrar() {
         $("#foto1_i").attr("src", "../dist/docs/nosotros/perfil_ceo/" + e.data.perfil_ceo);  
         $("#foto1_actual").val(e.data.perfil_ceo);
       }
+
+      $("#cargando-1-fomulario").show();
+      $("#cargando-2-fomulario").hide();
       
     }else{
       ver_errores(e);

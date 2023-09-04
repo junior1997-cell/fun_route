@@ -3,7 +3,7 @@ $(window).on('load', function () { $('#js-preloader').addClass('loaded'); });
 
 $(document).ready(function () {
   oferta_semanal();
-  mostrar_tours();
+  mostrar_tours_paquete();
   mostrar_testimonio_ceo();
 });
 
@@ -21,7 +21,8 @@ function oferta_semanal() {
       } else { 
         var html_nombre = ''; var fotos_html = '';
         e.data.forEach((val, key) => {
-          html_nombre += `<div style="background-color: ${val.color.hexadecimal}"> <h1> ${val.tipo_pt} <br> ${val.nombre}</h1>  <h4> ${val.duracion} <br> S/. <s>${val.costo}</s> - Dcto: (${val.porcentaje_descuento}%) </h4> </div> `;
+          var detalle = val.tipo_pt == `TOURS` ? `ir_a_detalle_tours(${val.id},'${removeCaracterEspecial_v2(val.nombre)}');` : `ir_a_detalle_paquete(${val.id},'${removeCaracterEspecial_v2(val.nombre)}');` ;
+          html_nombre += `<div style="background-color: ${val.color.hexadecimal}"> <h1> ${val.tipo_pt} <br> ${val.nombre}</h1>  <h4> ${val.duracion} <br> S/. <s>${val.costo}</s> - Dcto: (${val.porcentaje_descuento}%) </h4> <button type="button" class="btn btn-primary py-1 mt-2" onclick="${detalle}" ><i class="fas fa-eye"></i> Detalle</button> </div> `;
           fotos_html +=  `<div style="background-image: url('admin/dist/docs/${val.tipo_pt == 'TOURS' ? 'tours' : 'paquete'}/perfil/${val.imagen}')"></div>`;
         });    
 
@@ -57,17 +58,19 @@ function oferta_semanal() {
   }).fail(function (e) { ver_errores(e); });
 }
 
-function mostrar_tours() { 
+function mostrar_tours_paquete() { 
 
   $.post("controlador/inicio.php?op=mostrar_tours_paquete", {}, function (e, status) {
     e = JSON.parse(e);  //console.log(e);    
     if (e.status == true) {  
       var tours_html = ''; var paquete_html = '';
+
+      // :::::::::::::::::::: L I S T A   D E   T O U R S ::::::::::::::::::::::::::::::::
       e.data.tours.forEach((val, key) => {
         tours_html += `<div class="item" data-tilt="" >
           <img src="admin/dist/docs/tours/perfil/${val.imagen}" class="card-imgen" alt="">
           <div class="card-body">
-            <button class="buton1">Tours</button>
+          <button class="buton1 ${val.estado_descuento == '1' ? 'w-200px' : ''}">Tours ${val.estado_descuento == '1' ? `(Dcto. ${val.porcentaje_descuento}%)` : ''}</button>
             <h4><b>${val.nombre}</b></h4>
             <div class="line-dec"></div>
             <ul>
@@ -75,46 +78,41 @@ function mostrar_tours() {
               <li><b>Precio * Persona:</b>  <span class="espacio">S/. ${val.costo}</span></li>
               <li><b><i class="fa-regular fa-clock espacio2"></i></b><span class="espacio">${val.duracion}</span></li>
             </ul>
-            <a href="paquetes/lamas.html">
-              <button class="learn-more">
-                <span class="circle" aria-hidden="true"><span class="icon arrow"></span></span><span class="button-text">Leer Más</span>
-              </button>
-            </a>            
+            <button class="learn-more" onclick="ir_a_detalle_tours(${val.idtours},'${removeCaracterEspecial_v2(val.nombre)}')">
+              <span class="circle" aria-hidden="true"><span class="icon arrow"></span></span><span class="button-text">Leer Más</span>
+            </button>   
           </div>
         </div>`;
         // $(".tours_html").append(`${tours_html}`);
       });
-      e.data.paquete.forEach((val, key) => {
-        paquete_html += `<div class="item" data-tilt="" >
-          <img src="admin/dist/docs/paquete/perfil/${val.imagen}" class="card-imgen" alt="">
-          <div class="card-body">
-            <button class="buton1">Paquete</button>
-            <h4><b>${val.nombre}</b></h4>
-            <div class="line-dec"></div>
-            <ul>
-              <li class="text-white">${val.descripcion.slice(0,50)}...</li>
-              <li><b>Precio * Persona:</b>  <span class="espacio">S/. ${val.costo}</span></li>
-              <li><b><i class="fa-regular fa-clock espacio2"></i></b><span class="espacio">${val.cant_dias} dias y ${val.cant_noches} noches</span></li>
-            </ul>
-            <a href="paquetes/lamas.html">
-              <button class="learn-more">
-                <span class="circle" aria-hidden="true"><span class="icon arrow"></span></span><span class="button-text">Leer Más</span>
-              </button>
-            </a>            
-          </div>
-        </div>`;
-        // $(".tours_html").append(`${tours_html}`);
-      });
-
       $('.tours_html').html(`<div class="carousel-tours owl-carousel">${tours_html}</div>`);
-      $('.paquete_html').html(`<div class="carousel-paquete owl-carousel owl-theme">${paquete_html}</div>`);
-
       $('.carousel-tours').owlCarousel({
         items: 3, loop: true, margin: 40, dots: false, nav: true, autoplay: true,
         autoplayTimeout: 300, autoplayHoverPause: true, margin: 30,
         responsive: { 0: { items: 1 }, 800: { items: 2 }, 1100: { items: 3 } }
       });
 
+      // :::::::::::::::::::: L I S T A   D E   P A Q U E T E ::::::::::::::::::::::::::::::::
+      e.data.paquete.forEach((val, key) => {
+        paquete_html += `<div class="item" data-tilt="" >
+          <img src="admin/dist/docs/paquete/perfil/${val.imagen}" class="card-imgen" alt="">
+          <div class="card-body">
+            <button class="buton1 ${val.estado_descuento == '1' ? 'w-200px' : ''}">Paquete ${val.estado_descuento == '1' ? `(Dcto. ${val.porcentaje_descuento}%)` : ''}</button>
+            <h4><b>${val.nombre}</b></h4>
+            <div class="line-dec"></div>
+            <ul>
+              <li class="text-white">${val.descripcion.slice(0,50)}...</li>
+              <li><b>Precio * Persona:</b>  <span class="espacio">S/. ${val.costo}</span></li>
+              <li><b><i class="fa-regular fa-clock espacio2"></i></b><span class="espacio">${val.cant_dias} dias y ${val.cant_noches} noches</span></li>
+            </ul>            
+            <button class="learn-more" onclick="ir_a_detalle_paquete(${val.idpaquete},'${removeCaracterEspecial_v2(val.nombre)}')">
+              <span class="circle" aria-hidden="true"><span class="icon arrow"></span></span><span class="button-text">Leer Más</span>
+            </button>                      
+          </div>
+        </div>`;
+        // $(".tours_html").append(`${tours_html}`);
+      });      
+      $('.paquete_html').html(`<div class="carousel-paquete owl-carousel owl-theme">${paquete_html}</div>`); 
       $('.carousel-paquete').owlCarousel({
         items: 3, loop: true, margin: 40, dots: false, nav: true, autoplay: true,
         autoplayTimeout: 300, autoplayHoverPause: true, margin: 30,
@@ -179,9 +177,12 @@ function mostrar_testimonio_ceo() {
   }).fail(function (e) { ver_errores(e); });
 }
 
-function recortarTexto(texto, longitudMaxima) {
-  if (texto.length > longitudMaxima) {
-    return texto.substring(0, longitudMaxima) + "...";
-  }
-  return texto;
+function ir_a_detalle_tours(id, nombre) {
+  localStorage.setItem('nube_idtours', id);
+  window.location.href = window.location.host =='localhost' || es_numero(parseFloat(window.location.host)) == true ?`${window.location.origin}/fun_route/detalle-tours.html#${nombre}`: `${window.location.origin}/detalle-tours.html#${nombre}`;
+}
+
+function ir_a_detalle_paquete(id, nombre) {
+  localStorage.setItem('nube_idpaquete', id);
+  window.location.href = window.location.host =='localhost' || es_numero(parseFloat(window.location.host)) == true ?`${window.location.origin}/fun_route/detalle-paquete.html#${nombre}`: `${window.location.origin}/detalle-paquete.html#${nombre}`;
 }
