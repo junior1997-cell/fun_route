@@ -444,9 +444,11 @@ Banner Style
 .drop {
   position: absolute;
   bottom: 10px;
-  width: 100%;
+  width: 10%;
   display: flex;
   justify-content: center;
+  left: 45%;
+  right: 45%;
 }
 
 .drop2 {
@@ -586,6 +588,13 @@ Banner Style
 .contenedor .c-card .card .card__banner .background .c-background .card__banner_content .actividades {
   font-size: 0.9em;
   color: #fff;
+  overflow-y: scroll;
+  height: 10vh;
+}
+
+.contenedor .c-card .card .card__banner .background .c-background .card__banner_content .actividades::-webkit-scrollbar {
+  background: none !important;
+  
 }
 .contenedor .c-card .card .card__banner .background .c-background .card__banner_content .actividades .btn-tours {
   text-decoration: none;
