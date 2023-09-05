@@ -75,6 +75,7 @@ function mostrar_detalle(id) {
       }); 
       
       // ::::::::::::::::::::: FORMULARIO CORREO :::::::::::::::::::::
+      $("#idpaquete_email").val(id); 
       $("#nombre_paquete_email").val(e.data.nombre); 
       $("#costo_email").val(e.data.costo); 
       $('.descripcion_email').html(`${e.data.descripcion.slice(0,150)}...` );

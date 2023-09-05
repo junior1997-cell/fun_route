@@ -1659,3 +1659,8 @@ function extrae_ruc(select = null, input = null) {
   
   $('[data-toggle="tooltip"]').tooltip();
 }
+
+function replicar_val_input(id, name_input, valor) {
+  var value = $(valor).val(); console.log(value);
+  $(`${name_input}`).val(value).trigger("change");
+}

@@ -87,16 +87,11 @@
       return ejecutarConsultaSimpleFila($sql);
 
       
-    }
-
-    public function mostrar_vista(){
-      $sql = "SELECT * FROM tours";
-      return ejecutarConsultaArray($sql); // Retorna todos los resultados
-    }
+    }   
   
     //Implementamos un método para listar los registros
     public function tbla_principal(){
-      $tours = [];
+      $array_tours = [];
       $sql_1="SELECT t.idtours,t.alojamiento,t.nombre, t.descripcion, t.imagen, t.costo, t.estado_descuento, t.mapa, 
       t.porcentaje_descuento, tp.nombre as tipo_tours 
       FROM tours as t, tipo_tours as tp 
@@ -108,7 +103,7 @@
         $sql_2="SELECT COUNT(idgaleria_tours) as cant_img FROM galeria_tours WHERE idtours = '$id' AND estado = '1' AND estado_delete = '1';;";
         $total_gal = ejecutarConsultaSimpleFila($sql_2); if ( $total_gal['status'] == false) {return $total_gal; }
 
-        $tours[] = [
+        $array_tours[] = [
           'idtours'           => $val['idtours'],
           'alojamiento'       => $val['alojamiento'],
           'nombre'            => $val['nombre'],
@@ -122,7 +117,7 @@
           'cant_galeria'      => empty($total_gal['data']) ? 0 : ( empty($total_gal['data']['cant_img']) ? 0 : floatval($total_gal['data']['cant_img'] ) ) 
         ];        
       }
-      return $retorno=['status'=>true, 'message'=>'todo okey','data'=>$tours];
+      return $retorno=['status'=>true, 'message'=>'todo okey','data'=>$array_tours];
     }
 
     public function obtenerImg($id){

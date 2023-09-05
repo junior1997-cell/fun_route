@@ -63,10 +63,15 @@
 
     function mostrar_galeria($idtours){
       $sql = "SELECT * FROM galeria_tours WHERE idtours ='$idtours';";
-      return ejecutarConsultaArray($sql);
-      
+      return ejecutarConsultaArray($sql);      
     }
-    
+
+    //========================= S E C C I O N   P E D I D O =============================
+    function crear_pedido($idtours, $nombre, $correo, $telefono, $mensaje){
+      $sql = "INSERT INTO pedido_tours(idtours, nombre, correo, telefono, descripcion) VALUES 
+      ('$idtours','$nombre','$correo','$telefono','$mensaje');";
+      return ejecutarConsulta($sql);      
+    }
 
   }
 

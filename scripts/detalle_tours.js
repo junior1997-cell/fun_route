@@ -48,6 +48,7 @@ function mostrar_detalle(id) {
       });
 
       // ::::::::::::::: FORMULARIO CORREO :::::::::::
+      $("#idtours_email").val(id); 
       $("#nombre_tours_email").val(e.data.nombre); 
       $("#costo_email").val(e.data.costo); 
       $('.descripcion_email').html(`${e.data.descripcion.slice(0,150)}...` );

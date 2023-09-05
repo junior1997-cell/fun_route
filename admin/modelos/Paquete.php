@@ -56,14 +56,12 @@
        
       }
     }
-//desc_comida, desc_alojamiento
+
     //implementamos un metodo para editar registros
-    public function editar(
-      $idpaquete,$nombre, $cant_dias, $cant_noches, $alimentacion, $alojamiento, $descripcion, $imagen1, $incluye, $no_incluye, 
-            $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento,$monto_descuento, $resumen, $iditinerario,$idtours,
-            $nombre_tours,$numero_orden,$actividad )
-    {
-      //var_dump($idtours, $nombre_tours,$numero_orden,$actividad);die();
+    public function editar( $idpaquete,$nombre, $cant_dias, $cant_noches, $alimentacion, $alojamiento, $descripcion, $imagen1, $incluye, $no_incluye, 
+    $recomendaciones, $mapa, $costo, $estado_descuento, $porcentaje_descuento,$monto_descuento, $resumen, $iditinerario,$idtours,
+    $nombre_tours,$numero_orden,$actividad )  {
+      
       //Eliminamos todos los registros de itinerario
       $sqldel = "DELETE FROM itinerario WHERE idpaquete='$idpaquete';";
       $delete = ejecutarConsulta($sqldel); if ( $delete['status'] == false ) { return $delete; }
@@ -111,15 +109,12 @@
     }
 
     //Implementamos un método para desactivar registros
-    public function desactivar($idpaquete)
-    {
+    public function desactivar($idpaquete)  {
       $sql="UPDATE paquete SET estado='0',user_trash= '$this->id_usr_sesion' WHERE idpaquete='$idpaquete'";
-      $desactivar =  ejecutarConsulta($sql);
-
-      if ( $desactivar['status'] == false) {return $desactivar; }  
-      $sql_d = $idpaquete;
+      $desactivar =  ejecutarConsulta($sql);  if ( $desactivar['status'] == false) {return $desactivar; }       
 
       //add registro en nuestra bitacora
+      $sql_d = $idpaquete;
       $sql = "INSERT INTO bitacora_bd(idcodigo,nombre_tabla, id_tabla, sql_d, id_user) VALUES (2,'paquete','.$idpaquete.','$sql_d','$this->id_usr_sesion')";
       $bitacora = ejecutarConsulta($sql); if ( $bitacora['status'] == false) {return $bitacora; }  
 
@@ -140,8 +135,7 @@
     }
     
     //Implementamos un método para mostrar los datos de un registro a modificar
-    public function mostrar($idpaquete)
-    {
+    public function mostrar($idpaquete) {
       $data =[];
 
       $sql="SELECT * FROM paquete WHERE idpaquete='$idpaquete'";
@@ -149,7 +143,7 @@
 
       $sql_1="SELECT i.iditinerario,i.idpaquete,i.idtours,i.actividad,i.numero_orden ,t.nombre as turs
       FROM itinerario as i, tours as t 
-      WHERE i.idtours=t.idtours and i.idpaquete='$idpaquete';";
+      WHERE i.idtours=t.idtours and i.idpaquete='$idpaquete' ORDER BY i.numero_orden ASC ;";
       $data_itinerario =ejecutarConsultaArray($sql_1); if ( $data_itinerario['status'] == false) {return $data_itinerario; }
 
       foreach ($data_itinerario['data'] as $key => $value) {
@@ -185,16 +179,38 @@
         'resumen'              => $datospaquete['data']['resumen'],
       ];
       
-      return $retorno=['status'=>true, 'message'=>'todo oka ps', 'itinerario'=>$data,'paquete'=>$paquete];
+      return $retorno=['status'=>true, 'message'=>'todo oka ps', 'data'=> ['itinerario'=>$data,'paquete'=>$paquete] ];
 
     }
 
     //Implementamos un método para listar los registros
     public function tbla_principal(){
-      $sql="SELECT idpaquete, nombre, cant_dias,cant_noches, descripcion, imagen,
-       costo,estado_descuento, porcentaje_descuento, monto_descuento
+      $array_paquete = [];
+      $sql="SELECT idpaquete, nombre, cant_dias,cant_noches, descripcion, recomendaciones, imagen, mapa, costo, estado_descuento, porcentaje_descuento, monto_descuento
       FROM paquete WHERE estado = 1 and estado_delete = 1";
-      return ejecutarConsultaArray($sql);		
+      $paquete = ejecutarConsultaArray($sql);	if ( $paquete['status'] == false) {return $paquete; }
+
+      foreach ($paquete['data'] as $key => $val) {
+        $id = $val['idpaquete'];
+        $sql_2="SELECT COUNT(idgaleria_paquete) as cant_img FROM galeria_paquete WHERE idpaquete = '$id' AND estado = '1' AND estado_delete = '1';;";
+        $total_gal = ejecutarConsultaSimpleFila($sql_2); if ( $total_gal['status'] == false) {return $total_gal; }
+
+        $array_paquete[] = [
+          'idpaquete'           => $val['idpaquete'],
+          'nombre'       => $val['nombre'],
+          'cant_dias'       => $val['cant_dias'],
+          'cant_noches'       => $val['cant_noches'],
+          'descripcion'       => $val['descripcion'],
+          'imagen'            => $val['imagen'], 
+          'recomendaciones'   => $val['recomendaciones'], 
+          'costo'             => empty( $val['costo']) ? 0 : floatval($val['costo']) ,
+          'porcentaje_descuento' => empty( $val['porcentaje_descuento']) ? 0 : floatval($val['porcentaje_descuento']) ,           
+          'estado_mapa'       => empty( $val['mapa']) ? 'NO' : 'SI' ,           
+          'estado_descuento'  => $val['estado_descuento'],  
+          'cant_galeria'      => empty($total_gal['data']) ? 0 : ( empty($total_gal['data']['cant_img']) ? 0 : floatval($total_gal['data']['cant_img'] ) ) 
+        ];        
+      }
+      return $retorno=['status'=>true, 'message'=>'todo okey','data'=>$array_paquete];
     }
 
     public function obtenerImg($id){
@@ -205,14 +221,13 @@
     //==========S E C C I O N   I T I N E R A R I O ==========
 
     // Consulta ID TOURS
-    public  function selec2tours(){
-      // var_dump($id);die();
-      $sql="SELECT idtours as id, nombre FROM tours WHERE idtours!= 1 and estado=1 and estado_delete=1;";
-      return ejecutarConsultaArray($sql);	
-      // var_dump($id);die();
+    public  function selec2tours(){      
+      $sql="SELECT idtours as id, nombre FROM tours WHERE estado=1 and estado_delete=1;";
+      return ejecutarConsultaArray($sql);	      
     }
+
     // Consulta Actividad
-    public  function ver_actividad($idtours){
+    public  function add_itinerario($idtours){
       //var_dump($idtours);die();
       $sql="SELECT idtours, nombre, actividad FROM tours WHERE idtours='$idtours';";
       return ejecutarConsultaSimpleFila($sql);	
@@ -221,16 +236,26 @@
     //=========================S E C C I O N   G A L E R  I A =============================
     //=========================S E C C I O N   G A L E R  I A =============================
     //=========================S E C C I O N   G A L E R  I A =============================
-    function insertar_galeria($idpaqueteg,$descripcion_g,$imagen2) {
+    function insertar_galeria($idpaqueteg, $descripcion_g, $imagen2) {
       $sql="INSERT INTO galeria_paquete(idpaquete, imagen, descripcion) 
       VALUES ('$idpaqueteg','$imagen2','$descripcion_g')";
       return ejecutarConsulta($sql);
     }
 
+    function editar_galeria($idgaleria_paquete, $idpaqueteg, $descripcion_g, $imagen2) {
+      $sql="UPDATE galeria_paquete SET idpaquete='$idpaqueteg',imagen='$imagen2',descripcion='$descripcion_g' 
+      WHERE idgaleria_paquete='$idgaleria_paquete'";
+      return ejecutarConsulta($sql);
+    }
+
     function mostrar_galeria($idgaleria){
       $sql = "SELECT * FROM galeria_paquete WHERE idpaquete='$idgaleria';";
-      return ejecutarConsultaArray($sql);
-      
+      return ejecutarConsultaArray($sql);      
+    }
+
+    function mostrar_editar_galeria($id){
+      $sql = "SELECT * FROM galeria_paquete WHERE idgaleria_paquete='$id';";
+      return ejecutarConsultaSimpleFila($sql);      
     }
     
     function eliminar_imagen($idgaleria_paquete){

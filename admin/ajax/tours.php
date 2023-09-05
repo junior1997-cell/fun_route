@@ -98,12 +98,7 @@
           $rspta=$tours->mostrar($idtours);
           //Codificar el resultado utilizando json
           echo json_encode($rspta, true);
-        break;
-
-        case 'mostrar_vista':
-          $rspta = $tours->mostrar_vista();
-          echo json_encode($rspta, true);
-        break;      
+        break;          
 
         case 'tbla_principal':          
 

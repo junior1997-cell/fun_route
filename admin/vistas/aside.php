@@ -228,7 +228,7 @@
 
             <?php if ($_SESSION['pedido']==1) {  ?>
               <li class="nav-item ">
-                <a href="pedido_paquete.php" class="nav-link pl-2" id="lPedido_paquete">
+                <a href="pedido.php" class="nav-link pl-2" id="lPedido_paquete">
                 <i class="nav-icon  fas fa-dollar-sign"></i>
                   <p>Pedido </p>
                 </a>

@@ -292,7 +292,6 @@ if (!isset($_SESSION["nombre"])) {
                               </div>
 
                             </div>
-
                           </div>
                           <!-- /.tab-panel -->
 
@@ -348,6 +347,7 @@ if (!isset($_SESSION["nombre"])) {
                             </div>
 
                           </div>
+
                           <div class="tab-pane fade" id="custom-tabs-one-settings" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
                             <div class="card-body row resumen">
                               <!-- Posee Alojamiento -->

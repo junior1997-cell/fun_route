@@ -186,6 +186,13 @@
       $sql = "SELECT * FROM galeria_paquete WHERE estado = '1' AND estado_delete = '1' ORDER BY rand() ASC LIMIT 20;";
       return ejecutarConsultaArray($sql);      
     }
+
+    //========================= S E C C I O N   P E D I D O =============================
+    function crear_pedido($idpaquete, $nombre, $correo, $telefono, $mensaje){
+      $sql = "INSERT INTO pedido_paquete(idpaquete, nombre, correo, telefono, descripcion) VALUES 
+      ('$idpaquete','$nombre','$correo','$telefono','$mensaje');";
+      return ejecutarConsulta($sql);      
+    }
     
 
   }

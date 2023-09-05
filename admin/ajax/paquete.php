@@ -80,9 +80,7 @@ if (!isset($_SESSION["nombre"])) {
           if ($flat_img1 == true) {
             $datos_f1 = $paquete->obtenerImg($idpaquete);
             $img1_ant = $datos_f1['data']['imagen'];
-            if (!empty($img1_ant)) {
-              unlink("../dist/docs/paquete/perfil/" . $img1_ant);
-            }
+            if (!empty($img1_ant)) { unlink("../dist/docs/paquete/perfil/" . $img1_ant); }
           }
 
           // editamos un paquete existente
@@ -132,9 +130,9 @@ if (!isset($_SESSION["nombre"])) {
           foreach ($rspta['data'] as $key => $value) {
 
             $imagen = (empty($value['imagen']) ? '../dist/svg/user_default.svg' : '../dist/docs/paquete/perfil/' . $value['imagen']);
-            $estado_descuento = ($value['estado_descuento']==1 ? '<span class="text-center badge badge-warning">En Promoción </span><br> <span class="text-center badge badge-warning">Descuento - ' .  $value['porcentaje_descuento'] . ' % </span>' : '<span class="text-center badge badge-info">Sin Promocionar</span>' );// true:false
+            $estado_descuento = ($value['estado_descuento']==1 ? '<span class="text-center badge badge-warning">En Promoción ('.$value['porcentaje_descuento'].'%) </span>' : '<span class="text-center badge badge-info">Sin Promocionar</span>' );// true:false
 
-            $descripcion = (strlen($value['descripcion']) > 130) ? substr($value['descripcion'], 0, 130).' ...' : $value['descripcion'];
+            
 
             // estado_descuento, porcentaje_descuento, monto_descuento
             $data[] = array(
@@ -142,15 +140,17 @@ if (!isset($_SESSION["nombre"])) {
               "1" => '<button class="btn btn-info btn-sm" onclick="ver_detalle_paquete(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Ver detalle compra"><i class="fa fa-eye"></i></button>' .
                 ' <button class="btn btn-warning btn-sm" onclick="mostrar_paquete(' . $value['idpaquete'] . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
                 ' <button class="btn btn-danger  btn-sm" onclick="eliminar_paquete(' . $value['idpaquete'] .'.,\'' . $value['nombre'] . '\')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
-              "2" => $value['nombre'],
+              "2" => '<div class="user-block">
+                <img class="profile-user-img img-responsive img-circle cursor-pointer" src="'. $imagen .'" alt="User Image" onerror="'.$imagen_error.'" onclick="ver_img_tours(\'' . $imagen . '\', \''.encodeCadenaHtml($value['nombre']).'\');" data-toggle="tooltip" data-original-title="Ver foto">
+                <span class="username"><p class="text-primary m-b-02rem" >'. $value['nombre'] .'</p></span>
+                <span class="description"><b>Mapa: </b>'.$value['estado_mapa'].'</span>
+              </div>',
               "3" => '<span class="text-center badge badge-info">' . $value['cant_dias'] . ' D' . ' <b>/</b> ' .  $value['cant_noches'] . ' N </span>',
-              "4" => $descripcion,
-              "5" => '<div class="user-block">
-                      <img class="profile-user-img img-responsive img-circle cursor-pointer" src="' . $imagen . '" alt="User Image" onerror="' . $imagen_error . '" onclick="ver_img_paquete(\'' . $imagen . '\', \'' . encodeCadenaHtml($value['nombre']) . '\');" data-toggle="tooltip" data-original-title="Ver foto">
-                     </div>',
-              "6" =>'S/ '.$value['costo'],
+              "4" => '<textarea cols="30" rows="2" class="textarea_datatable" readonly="">' . $value['recomendaciones'] . '</textarea>',
+              "5" => '<textarea cols="30" rows="2" class="textarea_datatable" readonly="">' . $value['descripcion'] . '</textarea>',
+              "6" => $value['costo'],
               "7" => $estado_descuento,
-              "8" => '<button class="btn btn-info btn-sm" onclick="galeria(' . $value['idpaquete'] . ', \'' . encodeCadenaHtml($value['nombre']) . '\')" data-toggle="tooltip" data-original-title="Galería">Galería <i class="fa fa-eye"></i></button>'
+              "8" => '<button class="btn btn-info btn-sm" onclick="galeria(' . $value['idpaquete'] . ', \'' . encodeCadenaHtml($value['nombre']) . '\')" data-toggle="tooltip" data-original-title="Ver '.$value['cant_galeria'].' img de galeria.">Galería ('.$value['cant_galeria'].') <i class="fa fa-eye"></i></button>'
 
             );
           }
@@ -166,9 +166,9 @@ if (!isset($_SESSION["nombre"])) {
         }
       break;
 
-      case 'ver_actividad':
+      case 'add_itinerario':
 
-        $rspta = $paquete->ver_actividad($_POST['idtours']);
+        $rspta = $paquete->add_itinerario($_POST['idtours']);
         //Codificar el resultado utilizando json
         echo json_encode($rspta, true);
 
@@ -177,25 +177,21 @@ if (!isset($_SESSION["nombre"])) {
       case 'selec2tours':
 
         $rspta = $paquete->selec2tours();
-        $cont = 1;
-        $data = "";
+        $cont = 1;  $data = "";
 
         if ($rspta['status'] == true) {
-
           foreach ($rspta['data'] as $key => $value) {
-
             $data .= '<option value=' . $value['id'] . '>' . $value['nombre'] . '</option>';
           }
 
           $retorno = array(
             'status' => true,
             'message' => 'Salió todo ok',
-            'data' => '<option value="1">NINGUNO</option>' . $data,
+            'data' => $data,
           );
 
           echo json_encode($retorno, true);
         } else {
-
           echo json_encode($rspta, true);
         }
       break;
@@ -219,9 +215,17 @@ if (!isset($_SESSION["nombre"])) {
         }
 
         if (empty($idgaleria_paquete)) {
+          $rspta = $paquete->insertar_galeria($idpaqueteg, $descripcion_g, $imagen2);
+          echo json_encode($rspta, true);
+        }else{
+          // validamos si existe LA IMG para eliminarlo
+          if ($flat_img2 == true) {
+            $datos_f1 = $paquete->mostrar_editar_galeria($idgaleria_paquete);
+            $img1_ant = $datos_f1['data']['imagen'];
+            if (!empty($img1_ant)) { unlink("../dist/docs/paquete/galeria/" . $img1_ant); }
+          }
 
-          $rspta = $paquete->insertar_galeria($idpaqueteg,$descripcion_g,$imagen2);
-
+          $rspta = $paquete->editar_galeria($idgaleria_paquete, $idpaqueteg, $descripcion_g, $imagen2);
           echo json_encode($rspta, true);
         }
 
@@ -229,6 +233,11 @@ if (!isset($_SESSION["nombre"])) {
       
       case 'mostrar_galeria':
         $rspta = $paquete->mostrar_galeria($_POST['idpaquete']);
+        echo json_encode($rspta, true);
+      break;
+
+      case 'mostrar_editar_galeria':
+        $rspta = $paquete->mostrar_editar_galeria($_POST['idgaleria_paquete']);
         echo json_encode($rspta, true);
       break;
 
