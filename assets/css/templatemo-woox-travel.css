@@ -786,7 +786,7 @@ About Page Style
 .cities-town {
   max-width: 100%;
   max-height: 100vh;
-  padding: 10px;
+  padding: 20px;
 }
 
 .cities-town .head {
@@ -847,6 +847,12 @@ About Page Style
   .cities-town .slider-content .item {
     margin: 0 20px;
     flex: 0 0 auto;
+  }
+}
+
+@media screen and (max-width: 767px ) {
+  .cities-town .slider-content .item {
+    margin: 0 10px;
   }
 }
 
