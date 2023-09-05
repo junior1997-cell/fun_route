@@ -955,13 +955,13 @@ a {
 
 .gallery .container .full-img img {
     width: 100%;
-    max-width: 700px;
+    max-width: 400px;
 }
 
 .gallery .container .full-img span {
     position: absolute;
     top: 10%;
-    right: 20%;
+    right: 30%;
     font-size: 30px;
     color: #fff;
     cursor: pointer;
