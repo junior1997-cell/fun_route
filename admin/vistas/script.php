@@ -20,7 +20,12 @@
 <script src="../plugins/jquery-validation/additional-methods.min.js"></script>
 
 <!-- Moment -->
-<script src="../plugins/moment/moment.min.js"></script>
+<script src="../plugins/moment/moment.min.js"></script> 
+<script src="../plugins/moment/locale/es-mx.js"></script> 
+
+<!-- TimeAgo -->
+<script src="../plugins/jquery-timeago/jquery.timeago.js"></script>
+<script src="../plugins/jquery-timeago/locales/jquery.timeago.es.js"></script>
 
 <!-- InputMask -->
 <script src="../plugins/inputmask/jquery.inputmask.min.js"></script>

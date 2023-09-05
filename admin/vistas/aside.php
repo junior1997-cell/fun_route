@@ -245,15 +245,25 @@
             <?php  }  ?>         
             
           </ul>
-        </li> 
+        </li>         
 
-        <!-- REPORTES -->   
+        <!-- CONTABLE Y FINANCIERO -->   
         <li class="nav-item " id="bloc_ContableFinanciero">
           <a href="#" class="nav-link bg-color-2c2c2c" id="mContableFinanciero" style="padding-left: 7px;">
             <i class="nav-icon far fa-circle"></i>
-            <p class="font-size-14px">REPORTES<i class="fas fa-angle-left right"></i></p>
+            <p class="font-size-14px">CONTABLE Y FINANCIERO<i class="fas fa-angle-left right"></i></p>
           </a>
           <ul class="nav nav-treeview">
+
+            <?php if ($_SESSION['contable_financiero']==1) {  ?>
+              <!-- VENTAS -->
+              <li class="nav-item ">
+                <a href="pago_trabajador.php" class="nav-link pl-2" id="lPagoTrabajador">
+                  <i class="fa-solid fa-cart-shopping nav-icon"></i>
+                  <p>Ventas</p>
+                </a>
+              </li>
+            <?php  }  ?>
 
             <?php if ($_SESSION['reporte']==1) {  ?>
               <!-- RESUMEN DE GASTOS -->
@@ -264,35 +274,6 @@
                 </a>
               </li>
             <?php  }  ?>
-
-            <?php if ($_SESSION['reporte']==1) {  ?>
-              <li class="nav-item ">
-                <a href="otro_ingreso.php" class="nav-link pl-2" id="lOtroIngreso">             
-                  <i class="nav-icon fas fa-hand-holding-usd"></i>
-                  <p>Ventas de paquetes</p>
-                </a>
-              </li>
-            <?php  }  ?>
-
-            <?php if ($_SESSION['reporte']==1) {  ?>
-              <li class="nav-item ">
-                <a href="otro_ingreso.php" class="nav-link pl-2" id="lOtroIngreso">             
-                  <i class="nav-icon fas fa-hand-holding-usd"></i>
-                  <p>Ventas de tours</p>
-                </a>
-              </li>
-            <?php  }  ?>
-            
-          </ul>
-        </li>
-
-        <!-- CONTABLE Y FINANCIERO -->   
-        <li class="nav-item " id="bloc_ContableFinanciero">
-          <a href="#" class="nav-link bg-color-2c2c2c" id="mContableFinanciero" style="padding-left: 7px;">
-            <i class="nav-icon far fa-circle"></i>
-            <p class="font-size-14px">CONTABLE Y FINANCIERO<i class="fas fa-angle-left right"></i></p>
-          </a>
-          <ul class="nav nav-treeview">
 
             <?php if ($_SESSION['contable_financiero']==1) {  ?>
               <!-- RESUMEN DE GASTOS -->
@@ -309,6 +290,35 @@
                 <a href="otro_ingreso.php" class="nav-link pl-2" id="lOtroIngreso">             
                   <i class="nav-icon fas fa-hand-holding-usd"></i>
                   <p>Otro ingreso </p>
+                </a>
+              </li>
+            <?php  }  ?>
+            
+          </ul>
+        </li>
+
+        <!-- REPORTES -->   
+        <li class="nav-item " id="bloc_ContableFinanciero">
+          <a href="#" class="nav-link bg-color-2c2c2c" id="mContableFinanciero" style="padding-left: 7px;">
+            <i class="nav-icon far fa-circle"></i>
+            <p class="font-size-14px">REPORTES<i class="fas fa-angle-left right"></i></p>
+          </a>
+          <ul class="nav nav-treeview">            
+
+            <?php if ($_SESSION['reporte']==1) {  ?>
+              <li class="nav-item ">
+                <a href="otro_ingreso.php" class="nav-link pl-2" id="lOtroIngreso">             
+                  <i class="nav-icon fas fa-hand-holding-usd"></i>
+                  <p>Ventas de paquetes</p>
+                </a>
+              </li>
+            <?php  }  ?>
+
+            <?php if ($_SESSION['reporte']==1) {  ?>
+              <li class="nav-item ">
+                <a href="otro_ingreso.php" class="nav-link pl-2" id="lOtroIngreso">             
+                  <i class="nav-icon fas fa-hand-holding-usd"></i>
+                  <p>Ventas de tours</p>
                 </a>
               </li>
             <?php  }  ?>

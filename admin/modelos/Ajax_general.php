@@ -224,6 +224,28 @@
       return ejecutarConsulta($sql);
     }
 
+    /* ══════════════════════════════════════ N O T I F I C A C I O N   P E D I D O S ════════════════════════════ */
+    public function notificacion_pedido() {
+      $data = [];
+      $sql_1 = "SELECT * FROM pedido_tours WHERE estado_visto = '0' AND estado = '1' AND estado_delete = '1' ORDER BY idpedido_tours ASC LIMIT 3";
+      $tours = ejecutarConsultaArray($sql_1); if ( $tours['status'] == false) {return $tours; }  
+
+      $sql_2 = "SELECT * FROM pedido_paquete WHERE estado_visto = '0' AND estado = '1' AND estado_delete = '1' ORDER BY idpedido_paquete ASC LIMIT 3";
+      $paquete = ejecutarConsultaArray($sql_2); if ( $paquete['status'] == false) {return $paquete; }  
+
+      foreach ($tours['data'] as $key => $val) {  $data[] = [ 'nombre'  =>$val['nombre'], 'created_at'  =>$val['created_at'],  ];  }
+      foreach ($paquete['data'] as $key => $val) {  $data[] = [ 'nombre'  =>$val['nombre'], 'created_at'  =>$val['created_at'], ];  }
+
+      return $retorno=[
+        'status'=>true, 
+        'message'=>'todo oka ps', 
+        'data'=> [
+          'cant'=>count($tours['data']) + count($paquete['data']),
+          'pedido'=> $data 
+        ] 
+      ];
+    }
+
   }
 
 ?>

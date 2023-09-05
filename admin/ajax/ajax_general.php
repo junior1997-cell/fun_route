@@ -534,10 +534,12 @@
 
       break;
 
-      /* ══════════════════════════════════════ C O M P R A   D E   C A F E ════════════════════════════ */
-      
-
-      
+      /* ══════════════════════════════════════ N O T I F I C A C I O N   P E D I D O S ════════════════════════════ */
+      case 'notificacion_pedido':
+        $rspta=$ajax_general->notificacion_pedido();
+        //Codificar el resultado utilizando json
+        echo json_encode($rspta, true);
+      break;          
 
       default: 
         $rspta = ['status'=>'error_code', 'message'=>'Te has confundido en escribir en el <b>swich.</b>', 'data'=>[]]; echo json_encode($rspta, true); 

@@ -62,31 +62,24 @@ if (!isset($_SESSION["nombre"])) {
               <div class="row">
                 <div class="col-12">
                   <div class="card card-primary card-outline">
-                    <div class="card-header">
-                      <h3 class="card-title btn-regresar" style="display: none;">
-                        <button type="button" class="btn bg-gradient-warning" onclick="limpiar_pedido(); show_hide_form(1);"><i class="fas fa-arrow-left"></i> Regresar</button>                            
-                      </h3>
-                      <h3 class="card-title btn-agregar">
-                        <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-pedido" onclick="limpiar_pedido(); show_hide_form(1);"><i class="fas fa-plus-circle"></i> Agregar</button>
-                        Administra de manera eficiente tu pedido.
-                      </h3>
+                    <div class="card-header">                      
+                      <h3 class="float-left mb-0"> Pedidos Tours. </h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
 
                       <div id="mostrar-tabla">
-                        <table id="tabla-pedido" class="table table-bordered table-striped display" style="width: 100% !important;">
+                        <table id="tabla-pedido-tours" class="table table-bordered table-striped display" style="width: 100% !important;">
                           <thead>
                             <tr>
                               <th class="text-center">#</th>
                               <th class="">Acciones</th>
-                              <th class="">Nombre Paquete </th>
-                              <th class="">Nombre Cliente </th>
-                              <th class="">Correo </th>
+                              <th class="">Fecha </th>
+                              <th class="">Tours </th>
+                              <th class="">Cliente </th>                              
                               <th class="">Telefono </th>
-                              <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
+                              <th class="" >Descripción</th>
                               <th class="">Estado </th>
-
                             </tr>
                           </thead>
                           <tbody></tbody>
@@ -94,13 +87,53 @@ if (!isset($_SESSION["nombre"])) {
                             <tr>
                               <th class="text-center">#</th>
                               <th class="">Acciones</th>
-                              <th class="">Nombre Paquete </th>
-                              <th class="">Nombre Pedido </th>
-                              <th class="">Correo </th>
+                              <th class="">Fecha </th>
+                              <th class="">Tours </th>
+                              <th class="">Cliente </th>                              
                               <th class="">Telefono </th>
-                              <th data-toggle="tooltip" data-original-title="Descripcion">Descripción</th>
+                              <th class="" >Descripción</th>
                               <th class="">Estado </th>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      </div>
 
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                  <!-- /.card -->
+                  <div class="card card-primary card-outline">
+                    <div class="card-header">                      
+                      <h3 class="float-left mb-0"> Pedidos Paquete. </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+
+                      <div id="mostrar-tabla">
+                        <table id="tabla-pedido-paquete" class="table table-bordered table-striped display" style="width: 100% !important;">
+                          <thead>
+                            <tr>
+                              <th class="text-center">#</th>
+                              <th class="">Acciones</th>
+                              <th class="">Fecha </th>
+                              <th class="">Nombre Paquete </th>
+                              <th class="">Nombre Cliente </th>                              
+                              <th class="">Telefono </th>
+                              <th class="" >Descripción</th>
+                              <th class="">Estado </th>
+                            </tr>
+                          </thead>
+                          <tbody></tbody>
+                          <tfoot>
+                            <tr>
+                              <th class="text-center">#</th>
+                              <th class="">Acciones</th>
+                              <th class="">Fecha </th>
+                              <th class="">Nombre Paquete </th>
+                              <th class="">Nombre Pedido </th>                              
+                              <th class="">Telefono </th>
+                              <th class="" >Descripción</th>
+                              <th class="">Estado </th>
                             </tr>
                           </tfoot>
                         </table>
@@ -152,7 +185,11 @@ if (!isset($_SESSION["nombre"])) {
                         <ul class="nav nav-tabs" id="custom-content-detalle-tab" role="tablist">
                           <!-- DATOS TUORS -->
                           <li class="nav-item">
-                            <a class="nav-link active" id="custom-content-detalle-home_html-tab" data-toggle="pill" href="#custom-content-detalle-home_html" role="tab" aria-controls="custom-content-detalle-home_html" aria-selected="true">DATOS PRINCIPALES</a>
+                            <a class="nav-link active" id="custom-content-detalle-pedido_html-tab" data-toggle="pill" href="#custom-content-detalle-pedido_html" role="tab" aria-controls="custom-content-detalle-pedido_html" aria-selected="true">PEDIDO</a>
+                          </li>
+                          <!-- DATOS TUORS -->
+                          <li class="nav-item">
+                            <a class="nav-link" id="custom-content-detalle-home_html-tab" data-toggle="pill" href="#custom-content-detalle-home_html" role="tab" aria-controls="custom-content-detalle-home_html" aria-selected="true">DATOS PRINCIPALES</a>
                           </li>
                           <!-- OTROS -->
                           <li class="nav-item">
@@ -171,10 +208,16 @@ if (!isset($_SESSION["nombre"])) {
                             <a class="nav-link" id="custom-content-detalle-resumen_html-tab" data-toggle="pill" href="#custom-content-detalle-resumen_html" role="tab" aria-controls="custom-content-detalle-resumen_html" aria-selected="false">RESUMEN</a>
                           </li>
                         </ul>
-                      </div>
+                      </div> 
                       <div class="card-body">
                         <div class="tab-content" id="custom-content-detalle-tabContent">
-                          <div class="tab-pane fade show active home_html" id="custom-content-detalle-home_html" role="tabpanel" aria-labelledby="custom-content-detalle-home_html-tab">
+                          <div class="tab-pane fade show active pedido_html" id="custom-content-detalle-pedido_html" role="tabpanel" aria-labelledby="custom-content-detalle-pedido_html-tab">
+                            <!-- DATOS PRINCIPALES --> 
+                            <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
+                          </div>
+                          <!-- /.tab-panel -->
+
+                          <div class="tab-pane fade show home_html" id="custom-content-detalle-home_html" role="tabpanel" aria-labelledby="custom-content-detalle-home_html-tab">
                             <!-- DATOS PRINCIPALES --> 
                             <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
                           </div>
