@@ -643,7 +643,7 @@ Banner Style
   
 }
 
-.contenedor .c-card .card .card__banner .background .c-background .card__banner_content __content a {
+.contenedor .c-card .card .card__banner .background .c-background .card__banner_content .__content a {
   text-decoration: none;
   color: #fff;
 }
@@ -659,14 +659,46 @@ Banner Style
   .main-banner .owl-banner {
     margin-top: 80px;
   }
+  .contenedor .c-card .card .card__banner .background .c-background .card__banner_content .btn-consultar {
+    margin-left: 10em;
+    margin-top: 0.2em;
+  }
+  .contenedor .c-card .card .card__banner .background .c-background .card__banner_content .actividades {
+    height: 6vh; }
+}
+
+@media screen and (max-width: 768px) {
+  .contenedor .c-card .card .card__banner .background .c-background .card__banner_content .btn-consultar {
+    margin-left: 10em;
+    margin-top: 0.7em;
+  }
+
+  .contenedor .c-card .card .card__banner .background .c-background .card__banner_content .actividades {
+    height: 7vh; }
+}
+
+@media screen and (max-width: 540px) {
+  .contenedor .c-card .card .card__banner .background .c-background .card__poster img {
+    display: none;
+  }
+
+  .contenedor .c-card .card .card__banner .background .c-background {
+    justify-content: flex-start;
+    padding: 0 50px;
+    width: 100%;
+  }
+  .contenedor .c-card .card .card__banner .background .c-background .card__banner_content .btn-consultar {
+    margin-left: 17em;
+    margin-top: 0.5em;
+  }
+
+  .contenedor .c-card .card .card__banner .background .c-background .card__banner_content .actividades {
+    height: 9vh; }
 }
 
 @media screen and (max-width: 414px) {
   .contenedor .c-card .card .card__banner .background .c-background .card__poster img {
-    width: 8em;
-    height: 13em;
-    border-radius: 5px;
-    animation: poster 2s linear 2s infinite alternate;
+    display: none;
   }
 
   .__content--title {
@@ -684,15 +716,20 @@ Banner Style
 
 @media screen and (width: 1024px) {
   .contenedor .c-card .card .card__banner .background .c-background .card__banner_content .btn-consultar {
-    margin-left: 0em;
-    margin-top: 0em;
+    margin-left: 10em;
+    margin-top: 1em;
   }
 }
 
-@media screen and (width: 1355px) {
+@media screen and (max-width: 1355px) {
  .contenedor {
   max-width: 100%;
  }
+
+ .contenedor .c-card .card .card__banner .background .c-background .card__banner_content .btn-consultar {
+  margin-left: 9em;
+  margin-top: 0em;
+}
 }
 
 /* 
