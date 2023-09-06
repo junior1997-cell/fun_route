@@ -684,7 +684,7 @@ Banner Style
 
   .contenedor .c-card .card .card__banner .background .c-background {
     justify-content: flex-start;
-    padding: 0 50px;
+    padding: 0 30px;
     width: 100%;
   }
   .contenedor .c-card .card .card__banner .background .c-background .card__banner_content .btn-consultar {
