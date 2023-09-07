@@ -145,7 +145,7 @@ function mostrar_pedido_tours(idtours, idpedido_tours) {
             </tr>
             <tr>
               <th>Imagen</th>
-              <td>${doc_view_extencion(e.data.tours.imagen,'tours', 'perfil', '300px', 'auto' )}</td>
+              <td>${doc_view_extencion(e.data.tours.imagen, 'admin/dist/docs/tours/perfil/', '300px', 'auto' )}</td>
             </tr>
           </tbody>
         </table>
@@ -427,7 +427,7 @@ function mostrar_pedido_paquete(idpaquete, idpedido_paquete) {
             </tr>
             <tr>
               <th>Imagen</th>
-              <td>${doc_view_extencion(e.data.paquete.imagen,'paquete', 'perfil', '300px', 'auto' )}</td>
+              <td>${doc_view_extencion(e.data.paquete.imagen,'admin/dist/docs/paquete/perfil/', '300px', 'auto' )}</td>
             </tr>
           </tbody>
         </table>

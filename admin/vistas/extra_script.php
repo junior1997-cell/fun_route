@@ -79,8 +79,8 @@
     
       $.post("../ajax/ajax_general.php?op=notificacion_pedido",  function (e, textStatus, jqXHR) {
         try {
-          e = JSON.parse(e); console.log(e);
-          if (e.status == true) { console.log(e.data.pedido.length);
+          e = JSON.parse(e); //console.log(e);
+          if (e.status == true) { 
             if (e.data.pedido.length === 0 || e.data.pedido == null ) {
               $(".notificacion_body_pedido_html").html(`<span class="dropdown-item dropdown-header">No hay pedidos</span>
               <div class="dropdown-divider"></div>

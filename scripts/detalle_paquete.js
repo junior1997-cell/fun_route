@@ -239,13 +239,13 @@ $(function () {
     rules: { 
       nombre_email: { required: true }, 
       correo_email: { required: true }, 
-      telefono_email: { required: true, }, 
+      telefono_email: { required: true, maxlength:9 }, 
       mensaje_email: { required: true }, 
     },
     messages: {
       nombre_email: { required: "Campo requerido", },
       correo_email: { required: "Campo requerido", },
-      telefono_email: { required: "Campo requerido", },
+      telefono_email: { required: "Campo requerido", maxlength: "Maximo 9 Caracteres" },
       mensaje_email: { required: "Campo requerido", },
     },
         

@@ -193,14 +193,14 @@
       return ejecutarConsulta($sql);
     }
 
+    /* ══════════════════════════════════════ P R O D U C T O   T O U R S ══════════════════════════════════════ */
 
     //funcion para mostrar registros de prosuctos
-    public function tblaProductos() {
-      $sql = "SELECT p.idproducto, p.idcategoria_producto, p.idunidad_medida, p.nombre, p.marca, p.contenido_neto, p.precio_unitario, p.precio_compra_actual,
-      p.stock, p.descripcion, p.imagen, p.estado,  
-      um.nombre as nombre_medida, cp.nombre AS categoria
-      FROM producto as p, unidad_medida AS um, categoria_producto AS cp
-      WHERE p.idcategoria_producto = cp.idcategoria_producto and p.idunidad_medida = um.idunidad_medida and p.estado='1' AND p.estado_delete='1' ORDER BY p.nombre ASC";
+    public function tblaProductoTours() {
+      $sql = "SELECT t.idtours,t.alojamiento,t.nombre, t.descripcion, t.imagen, t.costo, t.estado_descuento, t.mapa, 
+      t.porcentaje_descuento, tp.nombre as tipo_tours 
+      FROM tours as t, tipo_tours as tp 
+      WHERE t.idtipo_tours = tp.idtipo_tours AND t.estado='1' and t.estado_delete='1';";
       return ejecutarConsulta($sql);
     }
     /* ══════════════════════════════════════ S E R V i C I O S  M A Q U I N A RI A ════════════════════════════ */

@@ -228,7 +228,7 @@
                                         <input style="display: none;" id="doc1" type="file" name="doc1" accept="application/pdf, image/*" class="docpdf" /> 
                                       </div>
                                       <div class="col-6 col-md-6 text-center">
-                                        <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'otro_ingreso', 'comprobante');">
+                                        <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'admin/dist/docs/otro_ingreso/comprobante/', '100%'); reload_zoom();">
                                         <i class="fas fa-redo"></i> Recargar.
                                         </button>
                                       </div>

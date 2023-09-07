@@ -241,7 +241,7 @@ if (!isset($_SESSION["nombre"])) {
                                     <input style="display: none;" id="doc1" type="file" name="doc1" accept="application/pdf, image/*" class="docpdf" />
                                   </div>
                                   <div class="col-6 col-md-6 text-center">
-                                    <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'tours', 'perfil');"><i class="fas fa-redo"></i> Recargar.</button>
+                                    <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'admin/dist/docs/tours/perfil/', '100%'); reload_zoom();"><i class="fas fa-redo"></i> Recargar.</button>
                                   </div>
                                 </div>
                                 <div id="doc1_ver" class="text-center mt-4">
@@ -548,7 +548,7 @@ if (!isset($_SESSION["nombre"])) {
                               <input style="display: none;" id="doc2" type="file" name="doc2" accept="image/*" class="docpdf" />
                             </div>
                             <div class="col-6 col-md-6 text-center">
-                              <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'paquete', 'galeria');"><i class="fas fa-redo"></i> Recargar.</button>
+                              <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'admin/dist/docs/paquete/galeria/', '100%'); reload_zoom();"><i class="fas fa-redo"></i> Recargar.</button>
                             </div>
                           </div>
                           <div id="doc2_ver" class="text-center mt-4">

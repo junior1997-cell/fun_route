@@ -2,7 +2,7 @@
 //Incluímos inicialmente la conexión a la base de datos
 require "../config/Conexion_v2.php";
 
-class Venta_producto
+class Venta_tours
 {
   public $id_usr_sesion;
   //Implementamos nuestro constructor

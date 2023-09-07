@@ -47,7 +47,7 @@
     </li>
 
     <!-- Notifications Dropdown Menu -->
-    <li class="nav-item dropdown d-none d-sm-inline-block">
+    <li class="nav-item dropdown ">
       <a class="nav-link" data-toggle="dropdown" href="#">
         <i class="far fa-bell"></i>
         <span class="badge badge-warning navbar-badge notificacion_cant_pedido_html"><i class="fas fa-spinner fa-pulse"></i></span>

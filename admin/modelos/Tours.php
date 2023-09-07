@@ -84,9 +84,7 @@
       t.duracion, t.alojamiento, t.resumen_actividad, t.resumen_comida, t.mapa, t.costo, t.estado_descuento, t.porcentaje_descuento, t.monto_descuento, tp.nombre as tipo_tours  
       FROM tours as t, tipo_tours as tp  
       WHERE t.idtipo_tours = tp.idtipo_tours AND idtours = '$idtours'";
-      return ejecutarConsultaSimpleFila($sql);
-
-      
+      return ejecutarConsultaSimpleFila($sql);      
     }   
   
     //Implementamos un método para listar los registros

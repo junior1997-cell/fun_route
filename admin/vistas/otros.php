@@ -1213,7 +1213,7 @@ if (!isset($_SESSION["nombre"])) {
                               <input style="display: none;" id="imagen_H" type="file" name="imagen_H" accept="application/pdf, image/*" class="docpdf" />
                             </div>
                             <div class="col-6 col-md-6 text-center">
-                              <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'hotel', 'galeria');"><i class="fas fa-redo"></i> Recargar.</button>
+                              <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'admin/dist/docs/hotel/galeria/', '100%'); reload_zoom();"><i class="fas fa-redo"></i> Recargar.</button>
                             </div>
                           </div>
                           <div id="imagen_H_ver" class="text-center mt-4">

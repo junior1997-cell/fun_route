@@ -19,7 +19,7 @@ function mostrar_vista() {
               <div class="background">
                 <div class="c-background">
                   <div class="card__poster">
-                    <img src="admin/dist/docs/tours/perfil/${val.imagen}" alt="">
+                    <img src="admin/dist/docs/tours/perfil/${val.imagen}" alt="" onerror="this.src='admin/dist/docs/tours/perfil/tours-sin-foto.jpg'">
                   </div>
                   <div class="card__banner_content" style="width: 282.64px !important; height: 240px !important;">
                     <div class="__content">
@@ -39,7 +39,7 @@ function mostrar_vista() {
                   </div>
                 </div>
               </div>
-              <img src="admin/dist/docs/tours/perfil/${val.imagen}" alt="">
+              <img src="admin/dist/docs/tours/perfil/${val.imagen}" alt="" onerror="this.src='admin/dist/docs/tours/perfil/tours-sin-foto-horizontal.jpg'">
               <div class="drop" >
                 <i class="fa-solid fa-circle-chevron-down boton-drop" onclick="activate_descripcion();"></i>
               </div>

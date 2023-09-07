@@ -174,7 +174,7 @@ function mostrar_comentario_paquete(idcomentario_paquete) {
 
       $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Baucher.${extrae_extencion(e.data.imagen)}</i></div></div>`);
       // cargamos la imagen adecuada par el archivo
-      $("#doc1_ver").html(doc_view_extencion(e.data.imagen,'paquete', 'perfil', '100%', '210' ));   //ruta imagen    
+      $("#doc1_ver").html(doc_view_extencion(e.data.imagen,'admin/dist/docs/paquete/perfil/', '100%', '210' ));   //ruta imagen    
           
     }
     $('.jq_image_zoom').zoom({ on:'grab' });

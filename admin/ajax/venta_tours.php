@@ -9,13 +9,13 @@ if (!isset($_SESSION["nombre"])) {
   echo json_encode($retorno);  //Validamos el acceso solo a los usuarios logueados al sistema.
 } else {
 
-  if ($_SESSION['venta_abono'] == 1) {
+  if ($_SESSION['venta_tours'] == 1) {
     
-    require_once "../modelos/Venta_producto.php";
+    require_once "../modelos/Venta_tours.php";
     require_once "../modelos/Persona.php";
     require_once "../modelos/Producto.php";
 
-    $venta_producto = new Venta_producto($_SESSION['idusuario']);
+    $venta_producto = new Venta_tours($_SESSION['idusuario']);
     $persona = new Persona($_SESSION['idusuario']);
     $producto = new Producto($_SESSION['idusuario']);      
     

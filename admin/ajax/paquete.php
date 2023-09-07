@@ -41,12 +41,14 @@ if (!isset($_SESSION["nombre"])) {
     $porcentaje_descuento = isset($_POST["porcentaje_descuento"]) ? limpiarCadena($_POST["porcentaje_descuento"]) : "";
     $monto_descuento      = isset($_POST["monto_descuento"]) ? limpiarCadena($_POST["monto_descuento"]) : "";
     $resumen              = isset($_POST["resumen"]) ? limpiarCadena($_POST["resumen"]) : "" ;
+
     //---------------G A L E R I A-------------------
     $idpaqueteg          = isset($_POST["idpaqueteg"]) ? limpiarCadena($_POST["idpaqueteg"]) : "";
     $idgaleria_paquete   = isset($_POST["idgaleria_paquete"]) ? limpiarCadena($_POST["idgaleria_paquete"]) : "";
     $descripcion_g       = isset($_POST["descripcion_g"]) ? limpiarCadena($_POST["descripcion_g"]) : "";
     $img_galeria         = isset($_POST["doc2"]) ? limpiarCadena($_POST["doc2"]) : "";
-    //$idpaqueteg,$idgaleria_paquete,$descripcion_g,$img_galeria
+    
+    
     $idtours             =isset($_POST['idtours']) ? $_POST['idtours'] : "0";
     $nombre_tours        =isset($_POST['nombre_tours'])? $_POST['nombre_tours'] : "";
     $numero_orden        =isset($_POST['numero_orden'])? $_POST['numero_orden'] : "";
@@ -196,10 +198,7 @@ if (!isset($_SESSION["nombre"])) {
         }
       break;
       /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
-      /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
-      /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
-      /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */
-      //$idpaqueteg,$idgaleria_paquete,$descripcion_g,$img_galeria
+      
       case 'guardar_y_editar_galeria':
 
         // imgen de perfil

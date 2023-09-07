@@ -14,8 +14,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Pago Trabajador | Admin Fun Route</title>
 
-        <?php $title = "Trabajadores"; require 'head.php'; ?>
-        <link rel="stylesheet" href="../dist/css/switch_domingo.css">
+        <?php $title = "Pago Trabajador"; require 'head.php'; ?>
+        <!-- <link rel="stylesheet" href="../dist/css/switch_domingo.css"> -->
 
       </head>
       <body class="hold-transition sidebar-mini sidebar-collapse layout-fixed layout-navbar-fixed">
@@ -24,7 +24,7 @@
           <?php
           require 'nav.php';
           require 'aside.php';
-          if ($_SESSION['contable_financiero']==1){
+          if ($_SESSION['pago_trabajador']==1){
             //require 'enmantenimiento.php';
             ?>
 
@@ -35,7 +35,7 @@
                 <div class="container-fluid">
                   <div class="row mb-2">
                     <div class="col-sm-6">
-                      <h1> <i class="fas fa-dollar-sign nav-icon"></i> Pago Trabajador <b class="texto-parpadeante nombre_trabajador_view" ></b> </h1>
+                      <h1> <i class="fas fa-dollar-sign nav-icon"></i> Pago Trabajador<b>: <small class="texto-parpadeante nombre_trabajador_view"></small> </b> </h1>
                     </div>
                     <div class="col-sm-6">
                       <ol class="breadcrumb float-sm-right">
@@ -55,22 +55,26 @@
                     <div class="col-12">
                       <div class="card card-primary card-outline">
                         <div class="card-header">
-                          <h3 class="card-title">
-                            
+                          <!-- agregar general --> 
+                          <h3 class="card-title mr-3"  style="padding-left: 2px;"  >
+                            <button type="button" class="btn bg-gradient-primary" id="btn-agregar-pago-all" data-toggle="modal" data-target="#modal-agregar-pago-all-trabajador" onclick="mostrar_all_trabajadores();" ><i class="fa-solid fa-circle-plus"></i> Agregar Pagos</button>                            
+                          </h3>
+                          <!-- agregar mes -->
+                          <h3 class="card-title">                            
                             <button type="button" class="btn bg-gradient-warning" id="btn-regresar" style="display: none;" onclick="show_hide_table(1);"><i class="fas fa-arrow-left"></i> Regresar</button>
-                            <button type="button" class="btn bg-gradient-success" id="btn-agregar-mes"data-toggle="modal" style="display: none;" data-target="#modal-agregar-mes" ><i class="fa-solid fa-circle-plus"></i> Agregar Mes</button>
+                            <button type="button" class="btn bg-gradient-primary" id="btn-agregar-mes"data-toggle="modal" onclick="limpiar_form_mes();" style="display: none;" data-target="#modal-agregar-mes" ><i class="fa-solid fa-circle-plus"></i> Agregar Mes</button>
                           </h3>
                           <!--Regresar a la tabla principal  -->
-                          <h3 class="card-title mr-3"  style="padding-left: 2px;"  data-toggle="tooltip" data-original-title="Regresar a la tabla principal">
-                            <button type="button" id="btn-regresar-todo" class="btn btn-block btn-outline-warning btn-sm" style="display: none;" onclick="show_hide_table(1);"><i class="fas fa-arrow-left"></i></button>
+                          <h3 class="card-title mr-3"  style="padding-left: 2px;"  >
+                            <button type="button" class="btn btn-block btn-outline-warning btn-sm" id="btn-regresar-todo" style="display: none;" onclick="show_hide_table(1);" ><i class="fas fa-arrow-left"></i></button>
                           </h3>
                           <!--Regresar a la tabla mes-->
-                          <h3 class="card-title mr-3"  style="padding-left: 2px;"  data-toggle="tooltip" data-original-title="Regresar a la tabla mes">
-                            <button type="button" class="btn bg-gradient-warning" id="btn-regresar-meses" style="display: none;" onclick="show_hide_table(2);"><i class="fas fa-arrow-left"></i> Regresar a meses</button>
+                          <h3 class="card-title mr-3"  style="padding-left: 2px;"  >
+                            <button type="button" class="btn bg-gradient-warning" id="btn-regresar-meses" style="display: none;" onclick="show_hide_table(2); "><i class="fas fa-arrow-left"></i> Regresar a meses</button>
                           </h3>
                           <!--Agregar pago -->
-                          <h3 class="card-title mr-3"  style="padding-left: 2px;"  data-toggle="tooltip" data-original-title="Agregar pago">
-                            <button type="button" class="btn bg-gradient-success" id="btn-agregar-pago" data-toggle="modal" style="display: none;" onclick="limpiar_form_pago();" data-target="#modal-agregar-pago-trabajdor" ><i class="fa-solid fa-circle-plus"></i> Agregar Pago</button>
+                          <h3 class="card-title mr-3"  style="padding-left: 2px;"  >
+                            <button type="button" class="btn bg-gradient-primary" id="btn-agregar-pago" style="display: none;" onclick="limpiar_form_pago();" data-toggle="modal" data-target="#modal-agregar-pago-trabajdor" ><i class="fa-solid fa-circle-plus"></i> Agregar Pago</button>
                           </h3>
                           <div class="sueldo_trab_view" style="text-align: right; display:none; "> Total a pagar: <b class="texto-parpadeante val_sueldo"> S/ 100</b> </div>
                         </div>
@@ -84,22 +88,19 @@
                               <thead>
                                 <tr>
                                   <th class="text-center">#</th>
-                                  <th class=""><i class="fa fa-cogs" aria-hidden="true"></i></th>
                                   <th>Nombres</th>
                                   <th>Cargo</th>
                                   <th>Sueldo</th>
                                   <th>Teléfono</th>
                                   <th>Pagar</th>
-                                  <th>Cuenta bancaria</th>
+                                  <th>Pago total</th>
+
                                   <th>Estado</th>
                                   <th>Nombres</th>
-                                  <th>Tipo</th>
+                                  <th>Tipo Doc.</th>
                                   <th>Num Doc.</th>
                                   <th>Nacimiento</th>
-                                  <th>Edad</th>
-                                  <th>Banco</th>
-                                  <th>Cta. Cte.</th>
-                                  <th>CCI</th>
+                                  <th>Edad</th>                                  
                                   <th>Sueldo mensual</th>
                                   <th>Sueldo Diario</th>
                                 </tr>
@@ -108,22 +109,19 @@
                               <tfoot>
                                 <tr>
                                   <th class="text-center">#</th>
-                                  <th><i class="fa fa-cogs" aria-hidden="true"></i></th>
                                   <th>Nombres</th>
                                   <th>Cargo</th>
                                   <th>Sueldo</th>
                                   <th>Teléfono</th>
                                   <th>Pagar</th>
-                                  <th>Cuenta bancaria</th>
+                                  <th>Pago total</th>
+
                                   <th>Estado</th>
                                   <th>Nombres</th>
-                                  <th>Tipo</th>
+                                  <th>Tipo Doc.</th>
                                   <th>Num Doc.</th>
                                   <th>Nacimiento</th>
-                                  <th>Edad</th>
-                                  <th>Banco</th>
-                                  <th>Cta. Cte.</th>
-                                  <th>CCI</th>
+                                  <th>Edad</th>                                  
                                   <th>Sueldo mensual</th>
                                   <th>Sueldo Diario</th>
                                 </tr>
@@ -136,7 +134,8 @@
                             <table id="tabla-mes-pago" class="table table-bordered table-striped display" style="width: 100% !important; ">
                               <thead>
                                 <tr>
-                                  <th class="text-center">#</th>                                  
+                                  <th class="text-center">#</th>   
+                                  <th>Op</th>                               
                                   <th>Año</th>
                                   <th>Mes</th>
                                   <th>Ver Detalle</th>
@@ -146,7 +145,8 @@
                               <tbody></tbody>
                               <tfoot>
                                 <tr>
-                                  <th class="text-center">#</th>                                  
+                                  <th class="text-center">#</th>     
+                                  <th>Op</th>                             
                                   <th>Año</th>
                                   <th>Mes</th>
                                   <th>Ver Detalle</th>
@@ -196,7 +196,7 @@
                 </div>
                 <!-- /.container-fluid -->
 
-                <!-- Modal agregar mes -->
+                <!-- MODAL - AGREGAR MES - charge 1 -->
                 <div class="modal fade" id="modal-agregar-mes">
                   <div class="modal-dialog modal-dialog-scrollable modal-md">
                     <div class="modal-content">
@@ -217,51 +217,43 @@
                               <!-- id mes_pago_trabajador -->
                               <input type="hidden" name="idmes_pago_trabajador" id="idmes_pago_trabajador" />
                               <!-- id persona -->
-                              <input type="hidden" name="idpersona" id="idpersona" />
+                              <input type="hidden" name="idpersona" id="idpersona" />                              
 
-                              <!-- Nombre -->
-                              <div class="col-12 col-sm-12 col-md-12 "  style="display: none;">
-                                <div class="form-group">
-                                  <label for="nombre_trab">Nombre y Apellidos</label>
-                                  <input type="text" name="nombre_trabajador" class="form-control" id="nombre_trabajador" />                                  
-                                </div>
-                              </div>
-
-                              <!-- Sueldo(Mensual) -->
-                              <div class="col-12 col-sm-6 col-md-6"  style="display: none;">
-                                <div class="form-group">
-                                  <label for="extraer_cargo">Cargo Trabajador</label>
-                                  <input type="text" disabled step="any" name="extraer_cargo" class="form-control" id="extraer_cargo" />
-                                </div>
-                              </div>
-                              
-                              <!-- Sueldo(Mensual) -->
-                              <div class="col-12 col-sm-6 col-md-6" style="display: none;">
-                                <div class="form-group">
-                                  <label for="sueldo_mensual">Sueldo Mensual</label>
-                                  <input type="number" disabled step="any" name="sueldo_mensual" class="form-control" id="sueldo_mensual"/>
-                                </div>
-                              </div>
-                              <!-- input que muestra el mes -->
-                              <div class="col-6 col">
+                              <!-- Mes -->
+                              <div class="col-12 col-sm-6 col-md-6 col-lg-6">
                                 <div class="form-group">
                                   <label for="mes">Mes</label>
-                                  <input type="text"  name="mes" class="form-control" id="mes" readonly/>
+                                  <select name="mes" id="mes" class="form-control select2" placeholder="Tipo de documento">
+                                    <option value="Enero">Enero</option> 
+                                    <option value="Febrero">Febrero</option> 
+                                    <option value="Marzo">Marzo</option> 
+                                    <option value="Abril">Abril</option> 
+                                    <option value="Mayo">Mayo</option> 
+                                    <option value="Junio">Junio</option> 
+                                    <option value="Julio">Julio</option> 
+                                    <option value="Agosto">Agosto</option> 
+                                    <option value="Setiembre">Setiembre</option> 
+                                    <option value="Octubre">Octubre</option> 
+                                    <option value="Noviembre">Noviembre</option> 
+                                    <option value="Diciembre">Diciembre</option> 
+                                  </select>
                                 </div>
                               </div>
-                              <!-- input que muestra el mes -->
-                              <div class="col-6 col">
+
+                              <!-- Año -->
+                              <div class="col-6">
                                 <div class="form-group">
                                   <label for="anio">Año</label>
-                                  <input type="text"  name="anio" class="form-control" id="anio" readonly/>
+                                  <select name="anio" id="anio" class="form-control" placeholder="Seleccione">                                    
+                                  </select>
                                 </div>
                               </div>
                               
                               <!-- idpersona,mes,anio -->
                               <!-- Progress -->
-                              <div class="col-md-12">
+                              <div class="col-md-12" id="barra_progress_trabajador_div">
                                 <div class="form-group">
-                                  <div class="progress" id="div_barra_progress_trabajador" style="display: none !important;">
+                                  <div class="progress" style="display: none !important;">
                                     <div id="barra_progress_trabajador" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                   </div>
                                 </div>
@@ -288,7 +280,7 @@
                   </div>
                 </div>
 
-                <!-- Modal agregar pagos -->
+                <!-- MODAL - AGREGAR PAGO POR PERSONA - charge 3 -->
                 <div class="modal fade bg-color-02020280" id="modal-agregar-pago-trabajdor">
                   <div class="modal-dialog modal-dialog-scrollable modal-lg shadow-0px1rem3rem-rgb-0-0-0-50 rounded">
                     <div class="modal-content shadow-none border-0">
@@ -355,7 +347,7 @@
                                   <input style="display: none;" id="doc1" type="file" name="doc1" accept="application/pdf, image/*" class="docpdf" />
                                 </div>
                                 <div class="col-6 col-md-6 text-center">
-                                  <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1,'pago_trabajador', 'comprobante');"><i class="fas fa-redo"></i> Recargar.</button>
+                                  <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1,'admin/dist/docs/pago_trabajador/comprobante/', '100%'); reload_zoom();"><i class="fas fa-redo"></i> Recargar.</button>
                                 </div>
                               </div>
                               <div id="doc1_ver" class="text-center mt-4">
@@ -390,8 +382,59 @@
                       </div>
                     </div>
                   </div>
+                </div>               
+
+                <!-- MODAL - PAGOS ALL - charge 5 -->
+                <div class="modal fade" id="modal-agregar-pago-all-trabajador">
+                  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">Agregando pagos multiples</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span class="text-danger" aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+
+                      <div class="modal-body">
+                        <!-- form start -->
+                        <form id="form-pagos-all" name="form-pagos-all" method="POST">                          
+
+                          <div class="row" id="cargando-5-fomulario">    
+                            <div class="col-12">
+                              <div class="row html_all_trabajador">
+                                <!-- Aqui se mostrara los datos -->
+                              </div>
+                            </div> 
+                            
+                            <!-- Progress -->
+                            <div class="col-md-12" id="barra_progress_pagos_all_div">
+                              <div class="form-group">
+                                <div class="progress" style="display: none !important;">
+                                  <div id="barra_progress_pagos_all" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row" id="cargando-6-fomulario" style="display: none;" >
+                            <div class="col-lg-12 text-center" >
+                              <i class="fas fa-spinner fa-pulse fa-6x"></i><br><br>
+                              <h4>Cargando...</h4>
+                            </div>  
+                          </div>                                 
+                          
+                          <!-- /.card-body -->
+                          <button type="submit" style="display: none;" id="submit-form-pagos-all" >Submit</button>
+                        </form>
+                      </div>
+                      <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-danger" onclick="limpiar_form_pago();" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success" id="guardar_registro_pagos_all">Guardar Cambios</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                
+
                 <!-- MODAL - VER PERFIL PERSONA-->
                 <div class="modal fade bg-color-02020280" id="modal-ver-perfil-persona">
                   <div class="modal-dialog modal-dialog-centered modal-md">

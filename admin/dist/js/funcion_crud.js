@@ -494,10 +494,10 @@ function ver_errores(e) {
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire('Saliendo...', '<i class="fas fa-spinner fa-pulse"></i> Redireccionando...', 'success');
-        window.location.href = `${window.location.host=='localhost'?'http://localhost/admin_integra':window.location.origin}`;
+        window.location.href = `${window.location.host=='localhost'?'http://localhost/fun_route/admin':window.location.origin}/admin`;
       } else {
         Swal.fire('Cerrando sesion', '<i class="fas fa-spinner fa-pulse"></i> De igual manera vamos a cerrar la sesión, jijijiji...', 'success');
-        window.location.href = `${window.location.host=='localhost'?'http://localhost/admin_integra':window.location.origin}`;
+        window.location.href = `${window.location.host=='localhost'?'http://localhost/fun_route/admin':window.location.origin}/admin`;
       }
     });
 
@@ -516,9 +516,9 @@ function ver_errores(e) {
       cancelButtonAriaLabel: 'Thumbs down'
     }).then((result) => {
       if (result.isConfirmed) {        
-        window.location.href = `${window.location.host=='localhost'?'http://localhost/fun_route/admin/vistas/escritorio.php':window.location.origin+'/vistas/escritorio.php'}`;
+        window.location.href = `${window.location.host=='localhost'?'http://localhost/fun_route/admin/vistas/escritorio.php':window.location.origin+'/admin/vistas/escritorio.php'}`;
       } else {
-        window.location.href = `${window.location.host=='localhost'?'http://localhost/fun_route/admin/vistas/escritorio.php':window.location.origin+'/vistas/escritorio.php'}`;
+        window.location.href = `${window.location.host=='localhost'?'http://localhost/fun_route/admin/vistas/escritorio.php':window.location.origin+'/admin/vistas/escritorio.php'}`;
       }
     });
   

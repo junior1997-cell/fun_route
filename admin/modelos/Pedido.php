@@ -92,7 +92,7 @@
 
     //Implementamos un método para listar los registros
     public function tbla_principal_tours()  {
-      $sql="SELECT pd.idpedido_tours, pd.idtours, pd.nombre, pd.correo, pd.telefono, pd.descripcion as descripcionpedido, pd.estado_visto, pd.estado_vendido, p.created_at, 
+      $sql="SELECT pd.idpedido_tours, pd.idtours, pd.nombre, pd.correo, pd.telefono, pd.descripcion as descripcionpedido, pd.estado_visto, pd.estado_vendido, pd.created_at, 
       p.nombre as tours, p.duracion, p.descripcion , p.imagen as imgtours 
       FROM pedido_tours AS pd, tours AS p
       WHERE pd.idtours=p.idtours AND pd.estado=1 AND pd.estado_delete=1 ;";

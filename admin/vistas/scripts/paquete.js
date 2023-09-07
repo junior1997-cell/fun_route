@@ -263,7 +263,7 @@ function mostrar_paquete(idpaquete) {
             <div class="col-12 col-sm-12 col-md-4 col-lg-3">
               <div class="form-group">
                 <label for="idnumero_orden">Num. Día <sup class="text-danger">(unico*)</sup></label>                
-                <input type="number" name="r_numero_orden[${val.idtours}]" id="r_numero_orden_${val.idtours}" value="${val.numero_orden}" class="form-control" placeholder="N° Día" onkeyup="replicar_val_input(${val.idtours}, '#numero_orden_${val.idtours}', this );" onchange="replicar_val_input(${val.idtours}, '#numero_orden_${val.idtours}', this );" />
+                <input type="number" name="r_numero_orden[${val.idtours}]" id="r_numero_orden_${val.idtours}" value="${val.numero_orden}" class="form-control" placeholder="N° Día" onkeyup="replicar_value_input(${val.idtours}, '#numero_orden_${val.idtours}', this );" onchange="replicar_value_input(${val.idtours}, '#numero_orden_${val.idtours}', this );" />
                 <input type="hidden" name="numero_orden[]" id="numero_orden_${val.idtours}" value="${val.numero_orden}" />
               </div>
             </div>
@@ -285,7 +285,7 @@ function mostrar_paquete(idpaquete) {
         $("#doc_old_1").val(e.data.paquete.imagen); 
         $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>imagen.${extrae_extencion(e.data.paquete.imagen)}</i></div></div>`);
         // cargamos la imagen adecuada par el archivo
-        $("#doc1_ver").html(doc_view_extencion(e.data.paquete.imagen,'paquete', 'perfil', '100%', '210' ));   //ruta imagen          
+        $("#doc1_ver").html(doc_view_extencion(e.data.paquete.imagen,'admin/dist/docs/paquete/perfil/', '100%', '210' ));   //ruta imagen          
       }
 
       $('.jq_image_zoom').zoom({ on:'grab' });     
@@ -338,7 +338,7 @@ function ver_detalle_paquete(idpaquete) {
             </tr>
             <tr>
               <th>Imagen</th>
-              <td>${doc_view_extencion(e.data.paquete.imagen,'paquete', 'perfil', '300px', 'auto' )}</td>
+              <td>${doc_view_extencion(e.data.paquete.imagen,'admin/dist/docs/paquete/perfil/', '300px', 'auto' )}</td>
             </tr>
           </tbody>
         </table>
@@ -482,7 +482,7 @@ function add_itinerario(data) {
             <div class="col-12 col-sm-12 col-md-4 col-lg-3">
               <div class="form-group">
                 <label for="idnumero_orden">Num. Día <sup class="text-danger">(unico*)</sup></label>                
-                <input type="number" name="r_numero_orden[${idtours}]" id="r_numero_orden_${idtours}" class="form-control" placeholder="N° Día" onkeyup="replicar_val_input(${idtours}, '#numero_orden_${idtours}', this );" onchange="replicar_val_input(${idtours}, '#numero_orden_${idtours}', this );" />
+                <input type="number" name="r_numero_orden[${idtours}]" id="r_numero_orden_${idtours}" class="form-control" placeholder="N° Día" onkeyup="replicar_value_input(${idtours}, '#numero_orden_${idtours}', this );" onchange="replicar_value_input(${idtours}, '#numero_orden_${idtours}', this );" />
                 <input type="hidden" name="numero_orden[]" id="numero_orden_${idtours}" />
               </div>
             </div>
@@ -550,9 +550,9 @@ function galeria(idpaquete, nombre) {
         
         e.data.forEach((val, key) => {
           //style="border: 2px solid black;"
-          var galeria_html = `<div class="col-sm-2 pb-2 pt-2" style="border: 2px solid #837f7f;">
+          var galeria_html = `<div class="col-sm-2 text-center px-1 py-1 b-radio-5px" style="border: 2px solid #837f7f;" > 
             <a href="../dist/docs/paquete/galeria/${val.imagen}?text=1" data-toggle="lightbox" data-title="${val.descripcion}" data-gallery="gallery">
-            <img src="../dist/docs/paquete/galeria/${val.imagen}?text=1" class="img-fluid mb-2" alt="white sample"/>
+              <img src="../dist/docs/paquete/galeria/${val.imagen}?text=1" width="100%" class="img-fluid mb-2 b-radio-t-5px" alt="white sample"/>
             </a>            
             <button class="btn btn-warning btn-sm" onclick="mostrar_editar_galeria(${val.idgaleria_paquete})">Editar</button> 
             <button class="btn btn-danger btn-sm" onclick="eliminar_img(${val.idgaleria_paquete},'${val.descripcion}');">Eliminar</button> 
@@ -570,8 +570,7 @@ function galeria(idpaquete, nombre) {
   }).fail( function(e) { ver_errores(e); } );
 }
 
-function limpiar_galeria () { 
-  $('#idpaqueteg').val("");
+function limpiar_galeria () {   
   $('#idgaleria_paquete').val("");
   $('#descripcion_g').val("");  
 
@@ -632,7 +631,7 @@ function mostrar_editar_galeria(id) {
 
       if (e.data.imagen != null || e.data.imagen == '' ) {
         $("#doc_old_2").val(e.data.imagen);      
-        $('#doc2_ver').html( doc_view_extencion(e.data.imagen, 'paquete', 'galeria', '100%' ) );
+        $('#doc2_ver').html( doc_view_extencion(e.data.imagen, 'admin/dist/docs/paquete/galeria/', '100%' ) );
         $('#doc2_nombre').html(`img_galeria.${extrae_extencion(e.data.imagen)}`);
       }  
       $("#cargando-3-fomulario").show();

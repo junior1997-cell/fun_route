@@ -1,17 +1,14 @@
 //Requejo99@
 var reload_detraccion = "";
 
-var tabla_compra_insumo;
-var tabla_comprobantes;
+var tabla_venta_producto;
 
-var tabla_compra_x_proveedor;
+var tabla_venta_x_proveedor;
 var tabla_detalle_compra_x_proveedor;
 
 var tablamateriales;
 
-var tabla_pagos1;
-var tabla_pagos2;
-var tabla_pagos3;
+var tabla_pago_venta;
 
 var array_doc = [];
 var host = window.location.host == 'localhost'? `http://localhost/fun_route/admin/dist/docs/compra_insumo/comprobante_compra/` : `${window.location.origin}/dist/docs/compra_insumo/comprobante_compra/` ;
@@ -21,45 +18,45 @@ var array_class_trabajador = [];
 //Función que se ejecuta al inicio
 function init() {
 
-  $("#bloc_LogisticaAdquisiciones").addClass("menu-open");
-
-  $("#bloc_Compras").addClass("menu-open bg-color-191f24");
-
-  $("#mLogisticaAdquisiciones").addClass("active");
-
-  $("#mCompra").addClass("active bg-green");
-
-  $("#lCompras").addClass("active");
+  $("#bloc_ContableFinanciero").addClass("menu-open");
+  $("#mContableFinanciero").addClass("active");
+  $("#lVentaTours").addClass("active");
 
   $("#idproyecto").val(localStorage.getItem("nube_idproyecto"));
 
+  listarmateriales();
+
   // ══════════════════════════════════════ S E L E C T 2 ══════════════════════════════════════
-  lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=3", '#idproveedor', null);
-  lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=3", '#filtro_proveedor', null);
+  lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=2", '#idcliente', null);
+  lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=2", '#filtro_proveedor', null);
   lista_select2("../ajax/ajax_general.php?op=select2Banco", '#banco', null);
   lista_select2("../ajax/ajax_general.php?op=select2UnidaMedida", '#unidad_medida_pro', null);
   lista_select2("../ajax/ajax_general.php?op=select2Categoria", '#categoria_producto_pro', null);
 
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
-  $("#guardar_registro_compras").on("click", function (e) {  $("#submit-form-compras").submit(); });
+
+  $("#guardar_registro_ventas").on("click", function (e) {  $("#submit-form-ventas").submit(); });
+
   $("#guardar_registro_proveedor").on("click", function (e) { $("#submit-form-proveedor").submit(); });
-  $("#guardar_registro_pago").on("click", function (e) {  $("#submit-form-pago").submit(); });
+
+  $("#guardar_registro_pago_venta").on("click", function (e) {  $("#submit-form-pago-venta").submit(); });
+
   $("#guardar_registro_comprobante_compra").on("click", function (e) {  $("#submit-form-comprobante-compra").submit();  });  
+
   $("#guardar_registro_material").on("click", function (e) {  $("#submit-form-producto").submit(); });  
 
   // ══════════════════════════════════════ INITIALIZE SELECT2 - FILTROS ══════════════════════════════════════
   $("#filtro_tipo_comprobante").select2({ theme: "bootstrap4", placeholder: "Selecione comprobante", allowClear: true, });
-  $("#filtro_proveedor").select2({ theme: "bootstrap4", placeholder: "Selecione proveedor", allowClear: true, });
+  $("#filtro_proveedor").select2({ theme: "bootstrap4", placeholder: "Selecione cliente", allowClear: true, });
 
-  // ══════════════════════════════════════ INITIALIZE SELECT2 - COMPRAS ══════════════════════════════════════
-  $("#idproveedor").select2({templateResult: templatePersona, theme: "bootstrap4", placeholder: "Selecione proveedor", allowClear: true, });
+  // ══════════════════════════════════════ INITIALIZE SELECT2 - ventas ══════════════════════════════════════
+  $("#idcliente").select2({templateResult: templatePersona, theme: "bootstrap4", placeholder: "Selecione cliente", allowClear: true, });
   $("#tipo_comprobante").select2({ theme: "bootstrap4", placeholder: "Selecione Comprobante", allowClear: true, });
 
-  // ══════════════════════════════════════ INITIALIZE SELECT2 - PAGO COMPRAS ══════════════════════════════════════
-  $("#forma_pago").select2({ theme: "bootstrap4", placeholder: "Selecione una forma de pago", allowClear: true, });
-  $("#tipo_pago").select2({ theme: "bootstrap4", placeholder: "Selecione un tipo de pago", allowClear: true, });
+  // ══════════════════════════════════════ INITIALIZE SELECT2 - PAGO VENTAS ══════════════════════════════════════
+  $("#forma_pago_pv").select2({ theme: "bootstrap4", placeholder: "Selecione", allowClear: true, });
 
-  // ══════════════════════════════════════ INITIALIZE SELECT2 - PROVEEDOR ══════════════════════════════════════
+  // ══════════════════════════════════════ INITIALIZE SELECT2 - AGRICULTOR ══════════════════════════════════════
   $("#banco").select2({templateResult: templateBanco, theme: "bootstrap4", placeholder: "Selecione un banco", allowClear: true, });
   $("#tipo_documento_per").select2({theme:"bootstrap4", placeholder: "Selec. tipo Doc.", allowClear: true, });
   
@@ -67,10 +64,13 @@ function init() {
   $("#unidad_medida_pro").select2({ theme: "bootstrap4", placeholder: "Seleccinar una unidad", allowClear: true, });
   $("#categoria_producto_pro").select2({ theme: "bootstrap4", placeholder: "Seleccinar una categoria", allowClear: true, });
 
-  no_select_tomorrow("#fecha_compra");
+  $("#metodo_pago").select2({ theme: "bootstrap4", placeholder: "Selecione método", allowClear: true, });
+
+  no_select_tomorrow("#fecha_venta");
+  no_select_tomorrow("#fecha_pago_pv");
   no_select_over_18('#nacimiento_per');
 
-  // ══════════════════════════════════════ INITIALIZE SELECT2 - MATERIAL ══════════════════════════════════════
+  // ══════════════════════════════════════ INITIALIZE SELECT2 - P R O D U C T O ══════════════════════════════════════
   //$('#filtro_fecha_inicio').inputmask('dd-mm-yyyy', { 'placeholder': 'dd-mm-yyyy' });
   
   // Inicializar - Date picker  
@@ -82,6 +82,8 @@ function init() {
   $('#precio_sin_igv_p').number( true, 2 );
   $('#precio_igv_p').number( true, 2 );
   $('#precio_total_p').number( true, 2 );
+
+  $('#monto_pv').number( true, 2 );
 
   // Formato para telefono
   $("[data-mask]").inputmask();
@@ -116,9 +118,11 @@ function templatePersona (state) {
 function limpiar_form_compra() {
   $(".tooltip").removeClass("show").addClass("hidde");
 
-  $("#idcompra_producto").val("");
-  $("#idproveedor").val("null").trigger("change");
+  $("#idventa_producto").val("");
+  $("#idcliente").val("null").trigger("change");
   $("#tipo_comprobante").val("Ninguno").trigger("change");
+
+  $("#metodo_pago").val("").trigger("change");
 
   $("#serie_comprobante").val("");
   $("#val_igv").val(0);
@@ -130,8 +134,8 @@ function limpiar_form_compra() {
   $(".subtotal_compra").html("S/ 0.00");
   $("#subtotal_compra").val("");
 
-  $(".igv_compra").html("S/ 0.00");
-  $("#igv_compra").val("");
+  $(".igv_venta").html("S/ 0.00");
+  $("#igv_venta").val("");
 
   $(".total_venta").html("S/ 0.00");
   $("#total_venta").val("");
@@ -149,65 +153,111 @@ function limpiar_form_compra() {
   $(".error.invalid-feedback").remove();
 }
 
-function ver_form_add() {
-  array_class_trabajador = [];
-  $("#tabla-compra").hide();
-  $("#tabla-compra-proveedor").hide();
-  $("#agregar_compras").show();
-  $("#regresar").show();
-  $("#btn_agregar").hide();
-  $("#guardar_registro_compras").hide();
-  $("#div_tabla_compra").hide();
-  $("#factura_compras").hide();
+function table_show_hide(flag) {
+  $('.h1-nombre-cliente').html('- aumenta tus ingresos');
+  // tabla principal
+  if ( flag == 1 ) {
+    $("#btn-regresar").hide();
+    $("#btn-agregar").show();
+    $("#btn-pagar").hide();
+    $("#guardar_registro_ventas").hide();  
+    
+    $("#div-tabla-venta").show();
+    $("#div-tabla-factura-por-proveedor").hide();
+    $("#div-form-agregar-ventas").hide();  
+    $("#div-tabla-pago-ventas").hide();
 
-  // $(".leyecnda_pagos").hide();
-  // $(".leyecnda_saldos").hide();
-  listarmateriales();
+    limpiar_form_compra();
+    limpiar_form_proveedor();
+    listarmateriales();
+  //formulario venta 
+  } else if ( flag == 2 ) {
+    $("#btn-regresar").show();
+    $("#btn-agregar").hide();
+    $("#btn-pagar").hide();
+    $("#guardar_registro_ventas").hide();  
+    
+    $("#div-tabla-venta").hide();
+    $("#div-tabla-factura-por-proveedor").hide();
+    $("#div-form-agregar-ventas").show();  
+    $("#div-tabla-pago-ventas").hide();  
+    array_class_trabajador = [];   
+  
+  // tabla facturas por proveedor
+  } else if ( flag == 3 ) {
+
+    $("#btn-regresar").show();
+    $("#btn-agregar").hide();
+    $("#btn-pagar").hide();
+    $("#guardar_registro_ventas").hide();  
+    
+    $("#div-tabla-venta").hide();
+    $("#div-tabla-factura-por-proveedor").show();
+    $("#div-form-agregar-ventas").hide();  
+    $("#div-tabla-pago-ventas").hide();
+  // tabla pagos
+  } else if ( flag == 4 ) {
+    $("#btn-regresar").show();
+    $("#btn-agregar").hide();
+    $("#btn-pagar").show();
+    $("#guardar_registro_ventas").hide();  
+    
+    $("#div-tabla-venta").hide();
+    $("#div-tabla-factura-por-proveedor").hide();
+    $("#div-form-agregar-ventas").hide();  
+    $("#div-tabla-pago-ventas").show();
+    
+  }
 }
 
-function regresar() {
-  $("#regresar").hide();
-  $("#tabla-compra").show();
-  $("#tabla-compra-proveedor").show();
-  $("#agregar_compras").hide();
-  $("#btn_agregar").show();
-  $("#div_tabla_compra").show();
-  $("#div_tabla_compra_proveedor").hide();
-  //----
-  $("#factura_compras").hide();
-  $("#btn-factura").hide();
-  //-----
-  $("#pago_compras").hide();
-  $("#btn-pagar").hide();
+function capturar_pago_compra() {
 
-  // $(".leyecnda_pagos").show();
-  // $(".leyecnda_saldos").show();
+  $(".span-pago-compra").html('(Seleccione metodo pago)');
+  $("#monto_pago_compra").prop("readonly", true).val(0);
+  $("#fecha_proximo_pago").prop("readonly", true);   
+  $('#fecha_proximo_pago').rules('remove', 'required');
 
-  $("#monto_total").html("");
-  $("#ttl_monto_pgs_detracc").html("");
-  $("#pagos_con_detraccion").hide();
-  limpiar_form_compra();
-  limpiar_form_proveedor();
+  // si se edita, no se puede modificar estos datos
+  if ($("#idventa_producto").val() == "" || $("#idventa_producto").val() == null) {
+    if ($("#metodo_pago").select2("val") == "CONTADO") {      
+      var total_venta = $("#total_venta").val();
+      $("#monto_pago_compra").val(total_venta);   
+      $(".span-pago-compra").html('(Contado)');  
+      $("#fecha_proximo_pago").val(moment().format('YYYY-MM-DD')); 
+    } else if ($("#metodo_pago").select2("val") == "CREDITO") {
+      $("#monto_pago_compra").prop("readonly", false).val(0);
+      $("#fecha_proximo_pago").prop("readonly", false);
+      $(".span-pago-compra").html('(Crédito)'); 
+      $('#fecha_proximo_pago').rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
+    }
+  } else {
+    $('#fecha_proximo_pago').rules('remove', 'required');
+    if ($("#metodo_pago").select2("val") == "CONTADO") {      
+      $("#fecha_proximo_pago").val(moment().format('YYYY-MM-DD')); 
+    } else if ($("#metodo_pago").select2("val") == "CREDITO") {
+      $("#fecha_proximo_pago").prop("readonly", false);
+    }
+  }  
 }
 
-//TABLA - COMPRAS
+//TABLA - ventas
 function tbla_principal(fecha_1, fecha_2, id_proveedor, comprobante) {
   //console.log(idproyecto);
-  tabla_compra_insumo = $("#tabla-compra").dataTable({
+  tabla_venta_producto = $("#tabla-venta").dataTable({
     responsive: true, 
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]], //mostramos el menú de registros a revisar
     aProcessing: true, //Activamos el procesamiento del datatables
     aServerSide: true, //Paginación y filtrado realizados por el servidor
     dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
     buttons: [      
-      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i>', className: "btn bg-gradient-info", action: function ( e, dt, node, config ) { tabla_compra_insumo.ajax.reload(null, false); toastr_success('Exito!!', 'Actualizando tabla', 400); } },
-      { extend: 'copyHtml5', exportOptions: { columns: [0,2,3,7,8,5,6], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray", footer: true,  }, 
-      { extend: 'excelHtml5', exportOptions: { columns: [0,2,3,7,8,5,6], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success", footer: true,  }, 
-      { extend: 'pdfHtml5', exportOptions: { columns: [0,2,3,7,8,5,6], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
+      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i>', className: "btn bg-gradient-info", action: function ( e, dt, node, config ) { tabla_venta_producto.ajax.reload(null, false); toastr_success('Exito!!', 'Actualizando tabla', 400); } },
+      { extend: 'copyHtml5', exportOptions: { columns: [0,2,3,10,11,4,12,13,6,7,14,9,15], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray", footer: true,  }, 
+      { extend: 'excelHtml5', exportOptions: { columns: [0,2,3,10,11,4,12,13,6,7,14,9,15], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success", footer: true,  }, 
+      { extend: 'pdfHtml5', exportOptions: { columns: [0,2,3,10,11,4,12,13,6,7,14,9,15], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
       { extend: "colvis", text: `Columnas`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
     ],
     ajax: {
-      url: `../ajax/compra_producto.php?op=tbla_principal&fecha_1=${fecha_1}&fecha_2=${fecha_2}&id_proveedor=${id_proveedor}&comprobante=${comprobante}`,
+      url: `../ajax/venta_tours.php?op=tbla_principal&fecha_1=${fecha_1}&fecha_2=${fecha_2}&id_proveedor=${id_proveedor}&comprobante=${comprobante}`,
       type: "get",
       dataType: "json",
       error: function (e) {
@@ -218,6 +268,11 @@ function tbla_principal(fecha_1, fecha_2, id_proveedor, comprobante) {
       //console.log(data);
       if (data[1] != '') { $("td", row).eq(1).addClass('text-nowrap'); }
       if (data[6] != '') { $("td", row).eq(6).addClass('text-nowrap'); }
+      if (data[9] != '' || data[9] == 0 ) { 
+        $("td", row).eq(9).addClass('text-right');  
+        parseFloat(data[9]) < 0 ? $("td", row).eq(9).addClass('bg-red') : "";
+        parseFloat(data[9]) == 0 ? $("td", row).eq(9).addClass('bg-success') : ""; 
+      }       
     },
     language: {
       lengthMenu: "Mostrar: _MENU_ registros",
@@ -225,37 +280,45 @@ function tbla_principal(fecha_1, fecha_2, id_proveedor, comprobante) {
       sLoadingRecords: '<i class="fas fa-spinner fa-pulse fa-lg"></i> Cargando datos...'
     },
     footerCallback: function( tfoot, data, start, end, display ) {
-      var api = this.api(); var total = api.column( 5 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
-      $( api.column( 5 ).footer() ).html( ` <span class="float-left">S/</span> <span class="float-right">${formato_miles(total)}</span>` );
+      var api1 = this.api(); var total1 = api1.column( 7 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
+      $( api1.column( 7 ).footer() ).html( `<span class="float-left">S/</span> <span class="float-right">${formato_miles(total1)}</span>` ); 
+      
+      var api2 = this.api(); var total2 = api2.column( 14 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
+      $( api2.column( 8 ).footer() ).html( ` <span class="float-left">S/</span> <span class="float-right">${formato_miles(total2)}</span>` );
+      $( api2.column( 14 ).footer() ).html( ` <span class="float-left">S/</span> <span class="float-right">${formato_miles(total2)}</span>` );
+
+      var api3 = this.api(); var total3 = api3.column( 9 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
+      $( api3.column( 9 ).footer() ).html( ` <span class="float-left">S/</span> <span class="float-right">${formato_miles(total3)}</span>` );
     },
     bDestroy: true,
     iDisplayLength: 10, //Paginación
     order: [[0, "asc"]], //Ordenar (columna,orden)
     columnDefs: [
-      { targets: [7,8],  visible: false,  searchable: false,  },
-      { targets: [5], render: function (data, type) { var number = $.fn.dataTable.render.number(',', '.', 2).display(data); if (type === 'display') { let color = 'numero_positivos'; if (data < 0) {color = 'numero_negativos'; } return `<span class="float-left">S/</span> <span class="float-right ${color} "> ${number} </span>`; } return number; }, },
       { targets: [2], render: $.fn.dataTable.render.moment('YYYY-MM-DD', 'DD/MM/YYYY'), },
+      { targets: [7], render: function (data, type) { var number = $.fn.dataTable.render.number(',', '.', 2).display(data); if (type === 'display') { let color = 'numero_positivos'; if (data < 0) {color = 'numero_negativos'; } return `<span class="float-left">S/</span> <span class="float-right ${color} "> ${number} </span>`; } return number; }, },      
+      { targets: [9], render: $.fn.dataTable.render.number( ',', '.', 2) },
+      { targets: [10,11,12,13,14,15],  visible: false,  searchable: false,  },
     ],
   }).DataTable();
 
-  $(tabla_compra_insumo).ready(function () {  $('.cargando').hide(); });
+  $(tabla_venta_producto).ready(function () {  $('.cargando').hide(); });
 
   //console.log(idproyecto);
-  tabla_compra_x_proveedor = $("#tabla-compra-proveedor").dataTable({
+  tabla_venta_x_proveedor = $("#tabla-venta-proveedor").dataTable({
     responsive: true,
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]], //mostramos el menú de registros a revisar
     aProcessing: true, //Activamos el procesamiento del datatables
     aServerSide: true, //Paginación y filtrado realizados por el servidor
     dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
     buttons: [      
-      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i>', className: "btn bg-gradient-info", action: function ( e, dt, node, config ) { tabla_compra_x_proveedor.ajax.reload(null, false); toastr_success('Exito!!', 'Actualizando tabla', 400); } },
-      { extend: 'copyHtml5', exportOptions: { columns: [0,2,3], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray", footer: true,  }, 
-      { extend: 'excelHtml5', exportOptions: { columns: [0,2,3], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success", footer: true,  }, 
-      { extend: 'pdfHtml5', exportOptions: { columns: [0,2,3], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
+      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i>', className: "btn bg-gradient-info", action: function ( e, dt, node, config ) { tabla_venta_x_proveedor.ajax.reload(null, false); toastr_success('Exito!!', 'Actualizando tabla', 400); } },
+      { extend: 'copyHtml5', exportOptions: { columns: [0,1,2,3], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray", footer: true,  }, 
+      { extend: 'excelHtml5', exportOptions: { columns: [0,1,2,3], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success", footer: true,  }, 
+      { extend: 'pdfHtml5', exportOptions: { columns: [0,1,2,3], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
       { extend: "colvis", text: `Columnas`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
     ],
     ajax: {
-      url: "../ajax/compra_producto.php?op=listar_compraxporvee",
+      url: "../ajax/venta_tours.php?op=listar_compra_x_porveedor",
       type: "get",
       dataType: "json",
       error: function (e) {
@@ -264,9 +327,8 @@ function tbla_principal(fecha_1, fecha_2, id_proveedor, comprobante) {
     },
     createdRow: function (row, data, ixdex) {
       //console.log(data);
-      if (data[5] != '') {
-        $("td", row).eq(5).addClass('text-right');
-      }
+      if (data[4] != '') {  $("td", row).eq(4).addClass('text-center'); }
+      if (data[6] != '') {  $("td", row).eq(6).addClass('text-right'); }
     },
     language: {
       lengthMenu: "Mostrar: _MENU_ registros",
@@ -274,26 +336,26 @@ function tbla_principal(fecha_1, fecha_2, id_proveedor, comprobante) {
       sLoadingRecords: '<i class="fas fa-spinner fa-pulse fa-lg"></i> Cargando datos...'
     },
     footerCallback: function( tfoot, data, start, end, display ) {
-      var api = this.api(); var total = api.column( 5 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
-      $( api.column( 5 ).footer() ).html( ` <span class="float-left">S/</span> <span class="float-right">${formato_miles(total)}</span>` );
+      var api1 = this.api(); var total1 = api1.column( 4 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
+      $( api1.column( 4 ).footer() ).html( `${formato_miles(total1)}` );
+
+      var api2 = this.api(); var total2 = api2.column( 6 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
+      $( api2.column( 6 ).footer() ).html( `<span class="float-left">S/</span> <span class="float-right">${formato_miles(total2)}</span>` );
     },
     bDestroy: true,
     iDisplayLength: 10, //Paginación
     order: [[0, "asc"]], //Ordenar (columna,orden)
-    columnDefs: [
-      { targets: [5], render: function (data, type) { var number = $.fn.dataTable.render.number(',', '.', 2).display(data); if (type === 'display') { let color = 'numero_positivos'; if (data < 0) {color = 'numero_negativos'; } return `<span class="float-left">S/</span> <span class="float-right ${color} "> ${number} </span>`; } return number; }, },
-    ],
+    columnDefs:[       
+      // { "targets": [ 3 ], "visible": false, "searchable": false }, 
+      // { targets: [7], render: $.fn.dataTable.render.number(',', '.', 2) },
+      { targets: [6], render: function (data, type) { var number = $.fn.dataTable.render.number(',', '.', 2).display(data); if (type === 'display') { let color = 'numero_positivos'; if (data < 0) {color = 'numero_negativos'; } return `<span class="float-left">S/</span> <span class="float-right ${color} "> ${number} </span>`; } return number; }, },
+    ]
   }).DataTable();
 }
 
 //facturas agrupadas por proveedor.
-function listar_facuras_proveedor(idproveedor) {
-  //console.log('idproyecto '+idproyecto, 'idproveedor '+idproveedor);
-  $("#div_tabla_compra").hide();
-  $("#agregar_compras").hide();
-  $("#btn_agregar").hide();
-  $("#regresar").show();
-  $("#div_tabla_compra_proveedor").show();
+function listar_facuras_proveedor(idcliente) {
+  table_show_hide(3);
 
   tabla_detalle_compra_x_proveedor = $("#detalles-tabla-compra-prov").dataTable({
     responsive: true,
@@ -303,13 +365,13 @@ function listar_facuras_proveedor(idproveedor) {
     dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
     buttons: [      
       { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i>', className: "btn bg-gradient-info", action: function ( e, dt, node, config ) { tabla_detalle_compra_x_proveedor.ajax.reload(null, false); toastr_success('Exito!!', 'Actualizando tabla', 400); } },
-      { extend: 'copyHtml5', exportOptions: { columns: [0,2,3], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray", footer: true,  }, 
-      { extend: 'excelHtml5', exportOptions: { columns: [0,2,3], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success", footer: true,  }, 
-      { extend: 'pdfHtml5', exportOptions: { columns: [0,2,3], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
+      { extend: 'copyHtml5', exportOptions: { columns: [0,1,2,3], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray", footer: true,  }, 
+      { extend: 'excelHtml5', exportOptions: { columns: [0,1,2,3], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success", footer: true,  }, 
+      { extend: 'pdfHtml5', exportOptions: { columns: [0,1,2,3], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
       { extend: "colvis", text: `Columnas`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
     ],
     ajax: {
-      url: "../ajax/compra_producto.php?op=listar_detalle_compraxporvee&idproveedor=" + idproveedor,
+      url: "../ajax/venta_tours.php?op=tabla_detalle_compra_x_porveedor&idcliente=" + idcliente,
       type: "get",
       dataType: "json",
       error: function (e) {
@@ -327,10 +389,10 @@ function listar_facuras_proveedor(idproveedor) {
   }).DataTable();
 }
 
-//Función para guardar o editar - COMPRAS
-function guardar_y_editar_compras(e) {
+//Función para guardar o editar - ventas
+function guardar_y_editar_ventas(e) {
   // e.preventDefault(); //No se activará la acción predeterminada del evento
-  var formData = new FormData($("#form-compras")[0]);  
+  var formData = new FormData($("#form-ventas")[0]);  
 
   Swal.fire({
     title: "¿Está seguro que deseas guardar esta compra?",
@@ -341,7 +403,7 @@ function guardar_y_editar_compras(e) {
     cancelButtonColor: "#d33",
     confirmButtonText: "Si, Guardar!",
     preConfirm: (input) => {
-      return fetch("../ajax/compra_producto.php?op=guardaryeditarcompra", {
+      return fetch("../ajax/venta_tours.php?op=guardaryeditarcompra", {
         method: 'POST', // or 'PUT'
         body: formData, // data can be `string` or {object}!        
       }).then(response => {
@@ -356,10 +418,10 @@ function guardar_y_editar_compras(e) {
       if (result.value.status == true){        
         Swal.fire("Correcto!", "Compra guardada correctamente", "success");
 
-        tabla_compra_insumo.ajax.reload(null, false);
-        tabla_compra_x_proveedor.ajax.reload(null, false);
+        tabla_venta_producto.ajax.reload(null, false);
+        tabla_venta_x_proveedor.ajax.reload(null, false);
 
-        limpiar_form_compra(); regresar();
+        limpiar_form_compra(); table_show_hide(1);
         
         $("#modal-agregar-usuario").modal("hide");        
       } else {
@@ -370,20 +432,20 @@ function guardar_y_editar_compras(e) {
 }
 
 //Función para eliminar registros
-function eliminar_compra(idcompra_producto, nombre) {
+function eliminar_venta(idventa_producto, nombre) {
 
   $(".tooltip").removeClass("show").addClass("hidde");
 
   crud_eliminar_papelera(
-    "../ajax/compra_producto.php?op=anular",
-    "../ajax/compra_producto.php?op=eliminar_compra", 
-    idcompra_producto, 
+    "../ajax/venta_tours.php?op=papelera_venta",
+    "../ajax/venta_tours.php?op=eliminar_venta", 
+    idventa_producto, 
     "!Elija una opción¡", 
     `<b class="text-danger">${nombre}</b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
     function(){ sw_success('♻️ Papelera! ♻️', "Tu compra ha sido reciclado." ) }, 
     function(){ sw_success('Eliminado!', 'Tu compra ha sido Eliminado.' ) }, 
-    function(){ tabla_compra_insumo.ajax.reload(null, false); tabla_compra_x_proveedor.ajax.reload(null, false); },
-    false, 
+    function(){ tabla_venta_producto.ajax.reload(null, false); tabla_venta_x_proveedor.ajax.reload(null, false); },
+    function(){ tablamateriales.ajax.reload(null, false); },
     false, 
     false,
     false
@@ -392,7 +454,7 @@ function eliminar_compra(idcompra_producto, nombre) {
 }
 
 // .......::::::::::::::::::::::::::::::::::::::::: AGREGAR FACURAS, BOLETAS, NOTA DE VENTA, ETC :::::::::::::::::::::::::::::::::::.......
-//Declaración de variables necesarias para trabajar con las compras y sus detalles
+//Declaración de variables necesarias para trabajar con las ventas y sus detalles
 var impuesto = 18;
 var cont = 0;
 var detalles = 0;
@@ -405,93 +467,105 @@ function agregarDetalleComprobante(idproducto, nombre, unidad_medida, categoria,
   var cantidad = 1;
   var descuento = 0;
   var precio_igv = 0;
-  // console.log( stock );
 
   if (idproducto != "") {
 
     if ($(".producto_" + idproducto).hasClass("producto_selecionado")) {
+      if (stock == 0) {
+        toastr_error('No hay Stock!!', 'El producto se quedo sin stock, recarga en el modulo de <a href="ingreso_producto.php">compras</a>', 700);
+      } else {
+
+        $(`#table_stock_${idproducto}`).html(formato_miles(stock - 1));
+
+        toastr_success("Agregado!!",`Producto: ${nombre} agregado !!`, 700);
+
+        var cant_producto = $(".producto_" + idproducto).val();
+
+        var sub_total = parseInt(cant_producto, 10) + 1;
+
+        $(".producto_" + idproducto).val(sub_total).trigger('change');
+
+        modificarSubtotales();
+      }
       
-      toastr_success("Agregado!!",`Producto: ${nombre} agregado !!`, 700);
-
-      var cant_producto = $(".producto_" + idproducto).val();
-
-      var sub_total = parseInt(cant_producto, 10) + 1;
-
-      $(".producto_" + idproducto).val(sub_total);
-
-      modificarSubtotales();
     } else {
-
-      if ($("#tipo_comprobante").select2("val") == "Factura") {
-        var subtotal = cantidad * precio_venta;
+      if (stock <= 0) {        
+        toastr_error('No hay Stock!!', 'El producto se quedo sin stock, recarga en el modulo de <a href="ingreso_producto.php">compras</a>', 700);
       } else {
-        var subtotal = cantidad * precio_sin_igv;
-      }
 
-      var img_p = "";
+        $(`#table_stock_${idproducto}`).html(formato_miles(stock - 1));
 
-      if (img == "" || img == null) {
-        img_p = `../dist/docs/producto/img_perfil/producto-sin-foto.svg`;
-      } else {
-        img_p = `../dist/docs/producto/img_perfil/${img}`;
-      }
+        if ($("#tipo_comprobante").select2("val") == "Factura") {
+          var subtotal = cantidad * precio_venta;
+        } else {
+          var subtotal = cantidad * precio_sin_igv;
+        }
 
-      var fila = `
-      <tr class="filas" id="fila${cont}">         
-        <td class="py-1">
-          <button type="button" class="btn btn-warning btn-sm" onclick="mostrar_productos(${idproducto}, ${cont})"><i class="fas fa-pencil-alt"></i></button>
-          <button type="button" class="btn btn-danger btn-sm" onclick="eliminarDetalle(${cont})"><i class="fas fa-times"></i></button>
-        </td>
-        <td class="py-1">         
-          <input type="hidden" name="idproducto[]" value="${idproducto}">
-          <div class="user-block text-nowrap">
-            <img class="profile-user-img img-responsive img-circle cursor-pointer img_perfil_${cont}" src="${img_p}" alt="user image" onerror="this.src='../dist/svg/404-v2.svg';" onclick="ver_img_producto('${img_p}', '${encodeHtml(nombre)}')">
-            <span class="username"><p class="mb-0 nombre_producto_${cont}">${nombre}</p></span>
-            <span class="description categoria_${cont}"><b>Categoría: </b>${categoria}</span>
-          </div>
-        </td>
-        <td class="py-1"><span class="unidad_medida_${cont}">${unidad_medida}</span> <input class="unidad_medida_${cont}" type="hidden" name="unidad_medida[]" id="unidad_medida[]" value="${unidad_medida}"><input class="categoria_${cont}" type="hidden" name="categoria[]" id="categoria[]" value="${categoria}"></td>
-        <td class="py-1 form-group"><input class="producto_${idproducto} producto_selecionado w-100px cantidad_${cont} form-control" type="number" name="cantidad[]" id="cantidad[]" value="${cantidad}" min="0.01" required onkeyup="modificarSubtotales()" onchange="modificarSubtotales()"></td>
-        <td class="py-1 hidden"><input type="number" class="w-135px input-no-border precio_sin_igv_${cont}" name="precio_sin_igv[]" id="precio_sin_igv[]" value="${parseFloat(precio_sin_igv).toFixed(2)}" readonly min="0" ></td>
-        <td class="py-1 hidden"><input class="w-135px input-no-border precio_igv_${cont}" type="number" name="precio_igv[]" id="precio_igv[]" value="${parseFloat(precio_igv).toFixed(2)}" readonly  ></td>
-        <td class="py-1 form-group">
-          <input type="number" class="w-135px form-control valid_precio_con_igv "  name="valid_precio_con_igv[${cont}]" id="valid_precio_con_igv_${cont}" value="${parseFloat(precio_venta).toFixed(2)}" min="0.01" required onkeyup="replicar_precio_venta(${cont}, '#precio_con_igv_${cont}', this);" onchange="replicar_precio_venta(${cont}, '#precio_con_igv_${cont}', this);">
-          <input type="hidden" class="precio_con_igv_${cont}" name="precio_con_igv[]" id="precio_con_igv_${cont}" value="${parseFloat(precio_venta).toFixed(2)}" onkeyup="modificarSubtotales();" onchange="modificarSubtotales();">
-        </td>
-        <td class="py-1 form-group">
-          <input type="number" class="w-135px form-control valid_precio_venta" name="valid_precio_venta[${cont}]" id="valid_precio_venta_${cont}" value="${parseFloat(precio_venta).toFixed(2)}" min="0.01" required onkeyup="replicar_precio_venta(${cont}, '#precio_venta_${cont}', this);" onchange="replicar_precio_venta(${cont}, '#precio_venta_${cont}', this);" >
-          <input type="hidden" class="precio_venta_${cont}" name="precio_venta[]" id="precio_venta_${cont}" value="${parseFloat(precio_venta).toFixed(2)}"  >
-        </td>
-        <td class="py-1 form-group">
-          <input type="number" class="w-135px form-control descuento_${cont}" name="descuento[]" value="${descuento}" min="0.00" onkeyup="modificarSubtotales()" onchange="modificarSubtotales()">
-        </td>
-        <td class="py-1 text-right"><span class="text-right subtotal_producto_${cont}" name="subtotal_producto" id="subtotal_producto">${subtotal}</span></td>
-        <td class="py-1"><button type="button" onclick="modificarSubtotales()" class="btn btn-info btn-sm"><i class="fas fa-sync"></i></button></td>
-      </tr>`;
+        var img_p = "";
 
-      detalles = detalles + 1;
+        if (img == "" || img == null) {
+          img_p = `../dist/docs/producto/img_perfil/producto-sin-foto.svg`;
+        } else {
+          img_p = `../dist/docs/producto/img_perfil/${img}`;
+        }
 
-      $("#detalles").append(fila);
+        var fila = `
+        <tr class="filas" id="fila${cont}">         
+          <td class="py-1">
+            <button type="button" class="btn btn-warning btn-sm" onclick="mostrar_productos(${idproducto}, ${cont})"><i class="fas fa-pencil-alt"></i></button>
+            <button type="button" class="btn btn-danger btn-sm btn-file-delete-${cont}" onclick="recover_stock(${idproducto}, ${cont}, 0, 'recover_remove_new');"><i class="fas fa-times"></i></button>
+          </td>
+          <td class="py-1">         
+            <input type="hidden" name="idproducto[]" value="${idproducto}">
+            <div class="user-block text-nowrap">
+              <img class="profile-user-img img-responsive img-circle cursor-pointer img_perfil_${cont}" src="${img_p}" alt="user image" onerror="this.src='../dist/svg/404-v2.svg';" onclick="ver_img_producto('${img_p}', '${encodeHtml(nombre)}')">
+              <span class="username"><p class="mb-0 nombre_producto_${cont}">${nombre}</p></span>
+              <span class="description categoria_${cont}"><b>Categoría: </b>${categoria}</span>
+            </div>
+          </td>
+          <td class="py-1"><span class="unidad_medida_${cont}">${unidad_medida}</span> <input type="hidden" class="unidad_medida_${cont}" name="unidad_medida[]" id="unidad_medida[]" value="${unidad_medida}"><input class="categoria_${cont}" type="hidden" name="categoria[]" id="categoria[]" value="${categoria}"></td>
+          <td class="py-1 form-group">
+            <input type="number" class="w-100px valid_cantidad form-control producto_${idproducto} producto_selecionado" name="valid_cantidad[${cont}]" id="valid_cantidad_${cont}" value="${cantidad}" min="0.01" required onkeyup="replicar_precio_venta(${cont}, '#cantidad_${cont}', this);" onchange="replicar_precio_venta(${cont}, '#cantidad_${cont}', this);">
+            <input type="hidden" class="cantidad_${cont}" name="cantidad[]" id="cantidad_${cont}" value="${cantidad}" min="0.01" required onkeyup="update_stock(${idproducto},${cont});" onchange="update_stock(${idproducto},${cont});">            
+          </td>
+          <td class="py-1 hidden"><input type="number" class="w-135px input-no-border precio_sin_igv_${cont}" name="precio_sin_igv[]" id="precio_sin_igv[]" value="${parseFloat(precio_sin_igv).toFixed(2)}" readonly min="0" ></td>
+          <td class="py-1 hidden"><input type="number" class="w-135px input-no-border precio_igv_${cont}" name="precio_igv[]" id="precio_igv[]" value="${parseFloat(precio_igv).toFixed(2)}" readonly  ></td>
+          <td class="py-1 form-group">
+            <input type="number" class="w-135px form-control valid_precio_con_igv" name="valid_precio_con_igv[${cont}]" id="valid_precio_con_igv_${cont}" value="${parseFloat(precio_venta).toFixed(2)}" min="0.01" required onkeyup="replicar_precio_venta(${cont}, '#precio_con_igv_${cont}', this);" onchange="replicar_precio_venta(${cont}, '#precio_con_igv_${cont}', this);">
+            <input type="hidden" class="precio_con_igv_${cont}" name="precio_con_igv[]" id="precio_con_igv_${cont}" value="${parseFloat(precio_venta).toFixed(2)}" onkeyup="modificarSubtotales();" onchange="modificarSubtotales();">
+            <input type="hidden" name="precio_compra[]" id="precio_compra_${cont}" value="${precio_compra}" >
+          </td>        
+          <td class="py-1 form-group">
+            <input type="number" class="w-135px form-control descuento_${cont}" name="descuento[]" value="${descuento}" min="0.00" onkeyup="modificarSubtotales()" onchange="modificarSubtotales()">
+          </td>
+          <td class="py-1 text-right"><span class="text-right subtotal_producto_${cont}" name="subtotal_producto" id="subtotal_producto">${subtotal}</span></td>
+          <td class="py-1"><button type="button" onclick="modificarSubtotales()" class="btn btn-info btn-sm"><i class="fas fa-sync"></i></button></td>
+        </tr>`;
 
-      array_class_trabajador.push({ id_cont: cont });
+        detalles = detalles + 1;
 
-      modificarSubtotales();
-      
-      toastr_success("Agregado!!",`Producto: ${nombre} agregado !!`, 700);
+        $("#detalles").append(fila);
 
-      // reglas de validación
-      $('.valid_precio_venta').each(function(e) { 
-        $(this).rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
-        $(this).rules('add', { min:0.01, messages: { min:"Mínimo 0.01" } }); 
-      });
+        array_class_trabajador.push({ id_cont: cont });
 
-      $('.valid_precio_con_igv').each(function(e) { 
-        $(this).rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
-        $(this).rules('add', { min:0.01, messages: { min:"Mínimo 0.01" } }); 
-      });
+        modificarSubtotales();
+        
+        toastr_success("Agregado!!",`Producto: ${nombre} agregado !!`, 700);
 
-      cont++;
-      evaluar();      
+        // reglas de validación     
+        $('.valid_precio_con_igv').each(function(e) { 
+          $(this).rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
+          $(this).rules('add', { min:0.01, messages: { min:"Mínimo 0.01" } }); 
+        });
+        $('.valid_cantidad').each(function(e) { 
+          $(this).rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
+          $(this).rules('add', { min:0.01, messages: { min:"Mínimo 0.01" } }); 
+        });
+
+        cont++;
+        evaluar(); 
+      } 
+           
     }
   } else {
     // alert("Error al ingresar el detalle, revisar los datos del artículo");
@@ -501,19 +575,18 @@ function agregarDetalleComprobante(idproducto, nombre, unidad_medida, categoria,
 
 function evaluar() {
   if (detalles > 0) {
-    $("#guardar_registro_compras").show();
+    $("#guardar_registro_ventas").show();
   } else {
-    $("#guardar_registro_compras").hide();
+    $("#guardar_registro_ventas").hide();
     cont = 0;
     $(".subtotal_compra").html("S/ 0.00");
     $("#subtotal_compra").val(0);
 
-    $(".igv_compra").html("S/ 0.00");
-    $("#igv_compra").val(0);
+    $(".igv_venta").html("S/ 0.00");
+    $("#igv_venta").val(0);
 
     $(".total_venta").html("S/ 0.00");
     $("#total_compra").val(0);
-
   }
 }
 
@@ -527,7 +600,7 @@ function modificarSubtotales() {
 
     $(".hidden").hide(); //Ocultamos: IGV, PRECIO CON IGV
 
-    $("#colspan_subtotal").attr("colspan", 6); //cambiamos el: colspan
+    $("#colspan_subtotal").attr("colspan", 5); //cambiamos el: colspan
 
     $("#val_igv").val(0);
     $("#val_igv").prop("readonly",true);
@@ -563,7 +636,7 @@ function modificarSubtotales() {
 
       $(".hidden").show(); //Mostramos: IGV, PRECIO SIN IGV
 
-      $("#colspan_subtotal").attr("colspan", 8); //cambiamos el: colspan
+      $("#colspan_subtotal").attr("colspan", 7); //cambiamos el: colspan
       
       $("#val_igv").prop("readonly",false);
 
@@ -606,7 +679,7 @@ function modificarSubtotales() {
 
       $(".hidden").hide(); //Ocultamos: IGV, PRECIO CON IGV
 
-      $("#colspan_subtotal").attr("colspan", 6); //cambiamos el: colspan
+      $("#colspan_subtotal").attr("colspan", 5); //cambiamos el: colspan
 
       $("#val_igv").val(0);
       $("#val_igv").prop("readonly",true);
@@ -641,6 +714,7 @@ function modificarSubtotales() {
     }
   }
   toastr_success("Actualizado!!",`Precio Actualizado.`, 700);
+  capturar_pago_compra();
 }
 
 function calcularTotalesSinIgv() {
@@ -657,8 +731,8 @@ function calcularTotalesSinIgv() {
     $(".subtotal_compra").html("S/ " + formato_miles(total));
     $("#subtotal_compra").val(redondearExp(total, 4));
 
-    $(".igv_compra").html("S/ 0.00");
-    $("#igv_compra").val(0.0);
+    $(".igv_venta").html("S/ 0.00");
+    $("#igv_venta").val(0.0);
     $(".val_igv").html('IGV (0%)');
 
     $(".total_venta").html("S/ " + formato_miles(total.toFixed(2)));
@@ -685,15 +759,14 @@ function calcularTotalesConIgv() {
   $(".subtotal_compra").html(`S/ ${formato_miles(subotal_sin_igv)}`);
   $("#subtotal_compra").val(redondearExp(subotal_sin_igv, 4));
 
-  $(".igv_compra").html("S/ " + formato_miles(igv));
-  $("#igv_compra").val(igv);
+  $(".igv_venta").html("S/ " + formato_miles(igv));
+  $("#igv_venta").val(igv);
 
   $(".total_venta").html("S/ " + formato_miles(total.toFixed(2)));
   $("#total_venta").val(redondearExp(total, 4));
 
   total = 0.0;
 }
-
 
 function ocultar_comprob() {
   if ($("#tipo_comprobante").select2("val") == "Ninguno") {
@@ -709,14 +782,14 @@ function ocultar_comprob() {
   }
 }
 
-function eliminarDetalle(indice) {
+function eliminarDetalle(idproducto, indice) {
   $("#fila" + indice).remove();
 
   array_class_trabajador.forEach(function (car, index, object) {
     if (car.id_cont === indice) {
       object.splice(index, 1);
     }
-  });
+  });  
 
   modificarSubtotales();
 
@@ -727,8 +800,8 @@ function eliminarDetalle(indice) {
   toastr_warning("Removido!!","Producto removido", 700);
 }
 
-//mostramos para editar el datalle del comprobante de la compras
-function mostrar_compra(idcompra_producto) {
+//mostramos para editar el datalle del comprobante de la ventas
+function mostrar_venta(idventa_producto) {
 
   $("#cargando-1-fomulario").hide();
   $("#cargando-2-fomulario").show();
@@ -738,26 +811,25 @@ function mostrar_compra(idcompra_producto) {
 
   cont = 0;
   detalles = 0;
-  ver_form_add();
+  table_show_hide(2);
 
-  $.post("../ajax/compra_producto.php?op=ver_compra_editar", { idcompra_producto: idcompra_producto }, function (e, status) {
+  $.post("../ajax/venta_tours.php?op=ver_venta_editar", { idventa_producto: idventa_producto }, function (e, status) {
     
     e = JSON.parse(e); //console.log(e);
 
     if (e.status == true) {
-
-      console.log(e.data.compra.tipo_comprobante);
-      if (e.data.compra.tipo_comprobante == "Factura") {
+      
+      if (e.data.venta.tipo_comprobante == "Factura") {
         $(".content-igv").show();
         $(".content-tipo-comprobante").removeClass("col-lg-5 col-lg-4").addClass("col-lg-4");
         $(".content-descripcion").removeClass("col-lg-4 col-lg-5 col-lg-7 col-lg-8").addClass("col-lg-5");
         $(".content-serie-comprobante").show();
-      } else if (e.data.compra.tipo_comprobante == "Boleta" || e.data.compra.tipo_comprobante == "Nota de venta") {
+      } else if (e.data.venta.tipo_comprobante == "Boleta" || e.data.venta.tipo_comprobante == "Nota de venta") {
         $(".content-serie-comprobante").show();
         $(".content-igv").hide();
         $(".content-tipo-comprobante").removeClass("col-lg-4 col-lg-5").addClass("col-lg-5");
         $(".content-descripcion").removeClass(" col-lg-4 col-lg-5 col-lg-7 col-lg-8").addClass("col-lg-5");
-      } else if (e.data.compra.tipo_comprobante == "Ninguno") {
+      } else if (e.data.venta.tipo_comprobante == "Ninguno") {
         $(".content-serie-comprobante").hide();
         $(".content-serie-comprobante").val("");
         $(".content-igv").hide();
@@ -768,47 +840,61 @@ function mostrar_compra(idcompra_producto) {
         //$(".content-descripcion").removeClass("col-lg-7").addClass("col-lg-4");
       }
 
-      $("#idcompra_producto").val(e.data.compra.idcompra_producto);
-      $("#idproveedor").val(e.data.compra.idpersona).trigger("change");
-      $("#fecha_compra").val(e.data.compra.fecha_compra);
-      $("#tipo_comprobante").val(e.data.compra.tipo_comprobante).trigger("change");
-      $("#serie_comprobante").val(e.data.compra.serie_comprobante).trigger("change");
-      $("#val_igv").val(e.data.compra.val_igv);
-      $("#descripcion").val(e.data.compra.descripcion);
+      $("#idventa_producto").val(e.data.venta.idventa_producto);
+      $("#idcliente").val(e.data.venta.idpersona).trigger("change");
+      $("#fecha_venta").val(e.data.venta.fecha_venta);
+      $("#tipo_comprobante").val(e.data.venta.tipo_comprobante).trigger("change");
+      $("#serie_comprobante").val(e.data.venta.serie_comprobante).trigger("change");
+      $("#val_igv").val(e.data.venta.val_igv);
+      $("#descripcion").val(e.data.venta.descripcion);
+
+      $("#metodo_pago").val(e.data.venta.metodo_pago).trigger("change");
+      $("#fecha_proximo_pago").val(e.data.venta.fecha_proximo_pago);
 
       if (e.data.detalle) {
 
-        e.data.detalle.forEach((element, index) => {
+        e.data.detalle.forEach((val, index) => {
 
           var img = "";
 
-          if (element.imagen == "" || element.imagen == null) {
+          if (val.imagen == "" || val.imagen == null) {
             img = `../dist/docs/producto/img_perfil/producto-sin-foto.svg`;
           } else {
-            img = `../dist/docs/producto/img_perfil/${element.imagen}`;
+            img = `../dist/docs/producto/img_perfil/${val.imagen}`;
           }
+
+          recover_stock(val.idproducto, cont, val.cantidad );
 
           var fila = `
           <tr class="filas" id="fila${cont}">
             <td>
-              <button type="button" class="btn btn-warning btn-sm" onclick="mostrar_productos(${element.idproducto}, ${cont})"><i class="fas fa-pencil-alt"></i></button>
-              <button type="button" class="btn btn-danger btn-sm" onclick="eliminarDetalle(${cont})"><i class="fas fa-times"></i></button></td>
+              <button type="button" class="btn btn-warning btn-sm" onclick="mostrar_productos(${val.idproducto}, ${cont})"><i class="fas fa-pencil-alt"></i></button>
+              <button type="button" class="btn btn-danger btn-sm btn-file-delete-${cont}" onclick="recover_stock(${val.idproducto}, ${cont}, 0, 'recover_remove_edit');"><i class="fas fa-times"></i></button></td>
             </td>
             <td>
-              <input type="hidden" name="idproducto[]" value="${element.idproducto}">
+              <input type="hidden" name="idproducto[]" value="${val.idproducto}">
               <div class="user-block text-nowrap">
-                <img class="profile-user-img img-responsive img-circle cursor-pointer img_perfil_${cont}" src="${img}" alt="user image" onerror="this.src='../dist/svg/404-v2.svg';" onclick="ver_img_producto('${img}', '${encodeHtml(element.nombre)}')">
-                <span class="username"><p class="mb-0 nombre_producto_${cont}" >${element.nombre}</p></span>
-                <span class="description categoria_${cont}"><b>Categoría: </b>${element.categoria}</span>
+                <img class="profile-user-img img-responsive img-circle cursor-pointer img_perfil_${cont}" src="${img}" alt="user image" onerror="this.src='../dist/svg/404-v2.svg';" onclick="ver_img_producto('${img}', '${encodeHtml(val.nombre)}')">
+                <span class="username"><p class="mb-0 nombre_producto_${cont}" >${val.nombre}</p></span>
+                <span class="description categoria_${cont}"><b>Categoría: </b>${val.categoria}</span>
               </div>
             </td>
-            <td> <span class="unidad_medida_${cont}">${element.unidad_medida}</span> <input class="unidad_medida_${cont}" type="hidden" name="unidad_medida[]" id="unidad_medida[]" value="${element.unidad_medida}"> <input class="categoria_${cont}" type="hidden" name="categoria[]" id="categoria[]" value="${element.categoria}"></td>
-            <td class="form-group"><input class="producto_${element.idproducto} producto_selecionado w-100px cantidad_${cont} form-control" type="number" name="cantidad[]" id="cantidad[]" value="${element.cantidad}" min="0.01" required onkeyup="modificarSubtotales()" onchange="modificarSubtotales()"></td>
-            <td class="hidden"><input class="w-135px input-no-border precio_sin_igv_${cont}" type="number" name="precio_sin_igv[]" id="precio_sin_igv[]" value="${element.precio_sin_igv}" readonly ></td>
-            <td class="hidden"><input class="w-135px input-no-border precio_igv_${cont}" type="number"  name="precio_igv[]" id="precio_igv[]" value="${element.igv}" readonly ></td>
-            <td class="form-group"><input type="number" class="w-135px precio_con_igv_${cont} form-control" type="number"  name="precio_con_igv[]" id="precio_con_igv[]" value="${parseFloat(element.precio_con_igv).toFixed(2)}" min="0.01" required onkeyup="modificarSubtotales();" onchange="modificarSubtotales();"></td>
-            <td class="form-group"><input type="number" class="w-135px form-control precio_venta_${cont}" name="precio_venta[]" id="precio_venta[]" value="${parseFloat(element.precio_venta).toFixed(2)}" min="0" ></td>
-            <td><input type="number" class="w-135px descuento_${cont}" name="descuento[]" value="${element.descuento}" onkeyup="modificarSubtotales()" onchange="modificarSubtotales()"></td>
+            <td> <span class="unidad_medida_${cont}">${val.unidad_medida}</span> <input class="unidad_medida_${cont}" type="hidden" name="unidad_medida[]" id="unidad_medida[]" value="${val.unidad_medida}"> <input class="categoria_${cont}" type="hidden" name="categoria[]" id="categoria[]" value="${val.categoria}"></td>            
+            <td class="py-1 form-group">
+              <input class="w-100px valid_cantidad form-control producto_${val.idproducto} producto_selecionado" type="number" name="valid_cantidad[${cont}]" id="valid_cantidad_${cont}" value="${val.cantidad}" min="0.01" required onkeyup="replicar_precio_venta(${cont}, '#cantidad_${cont}', this);" onchange="replicar_precio_venta(${cont}, '#cantidad_${cont}', this);">
+              <input type="hidden" class="cantidad_${cont}" name="cantidad[]" id="cantidad_${cont}" value="${val.cantidad}" onkeyup="update_stock(${val.idproducto},${cont});" onchange="update_stock(${val.idproducto},${cont});">              
+              <input type="hidden" class="" name="cantidad_old[]" id="cantidad_old_${cont}" value="${val.cantidad}">
+            </td>
+            <td class="hidden"><input type="number" class="w-135px input-no-border precio_sin_igv_${cont}" name="precio_sin_igv[]" id="precio_sin_igv[]" value="${val.precio_sin_igv}" readonly ></td>
+            <td class="hidden"><input type="number" class="w-135px input-no-border precio_igv_${cont}" name="precio_igv[]" id="precio_igv[]" value="${val.igv}" readonly ></td>             
+            <td class="py-1 form-group">
+              <input type="number" class="w-135px form-control valid_precio_con_igv" name="valid_precio_con_igv[${cont}]" id="valid_precio_con_igv_${cont}" value="${parseFloat(val.precio_con_igv).toFixed(2)}" min="0.01" required onkeyup="replicar_precio_venta(${cont}, '#precio_con_igv_${cont}', this);" onchange="replicar_precio_venta(${cont}, '#precio_con_igv_${cont}', this);">
+              <input type="hidden" class="precio_con_igv_${cont}" name="precio_con_igv[]" id="precio_con_igv_${cont}" value="${parseFloat(val.precio_con_igv).toFixed(2)}" onkeyup="modificarSubtotales();" onchange="modificarSubtotales();">
+              <input type="hidden" name="precio_compra[]" id="precio_compra_${cont}" value="${val.precio_compra}" >
+            </td>
+            <td class="py-1 form-group">
+              <input type="number" class="w-135px form-control descuento_${cont}" name="descuento[]" value="${val.descuento}" min="0.00" onkeyup="modificarSubtotales()" onchange="modificarSubtotales()">
+            </td>
             <td class="text-right"><span class="text-right subtotal_producto_${cont}" name="subtotal_producto" id="subtotal_producto">0.00</span></td>
             <td><button type="button" onclick="modificarSubtotales()" class="btn btn-info btn-sm"><i class="fas fa-sync"></i></button></td>
           </tr>`;
@@ -818,6 +904,16 @@ function mostrar_compra(idcompra_producto) {
           $("#detalles").append(fila);
 
           array_class_trabajador.push({ id_cont: cont });
+
+          // reglas de validación     
+          $('.valid_precio_con_igv').each(function(e) { 
+            $(this).rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
+            $(this).rules('add', { min:0.01, messages: { min:"Mínimo 0.01" } }); 
+          });
+          $('.valid_cantidad').each(function(e) { 
+            $(this).rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
+            $(this).rules('add', { min:0.01, messages: { min:"Mínimo 0.01" } }); 
+          });
 
           cont++;
           evaluar();
@@ -838,8 +934,8 @@ function mostrar_compra(idcompra_producto) {
   }).fail( function(e) { ver_errores(e); } );
 }
 
-//mostramos para editar el datalle del comprobante de la compras
-function copiar_venta(idcompra_producto) {
+//mostramos para editar el datalle del comprobante de la ventas
+function copiar_venta(idventa_producto) {
 
   $("#cargando-1-fomulario").hide();
   $("#cargando-2-fomulario").show();
@@ -849,26 +945,25 @@ function copiar_venta(idcompra_producto) {
 
   cont = 0;
   detalles = 0;
-  ver_form_add();
+  table_show_hide(2);
 
-  $.post("../ajax/compra_producto.php?op=ver_compra_editar", { idcompra_producto: idcompra_producto }, function (e, status) {
+  $.post("../ajax/venta_tours.php?op=ver_venta_editar", { idventa_producto: idventa_producto }, function (e, status) {
     
     e = JSON.parse(e); //console.log(e);
 
     if (e.status == true) {
-
-      console.log(e.data.compra.tipo_comprobante);
-      if (e.data.compra.tipo_comprobante == "Factura") {
+      
+      if (e.data.venta.tipo_comprobante == "Factura") {
         $(".content-igv").show();
         $(".content-tipo-comprobante").removeClass("col-lg-5 col-lg-4").addClass("col-lg-4");
         $(".content-descripcion").removeClass("col-lg-4 col-lg-5 col-lg-7 col-lg-8").addClass("col-lg-5");
         $(".content-serie-comprobante").show();
-      } else if (e.data.compra.tipo_comprobante == "Boleta" || e.data.compra.tipo_comprobante == "Nota de venta") {
+      } else if (e.data.venta.tipo_comprobante == "Boleta" || e.data.venta.tipo_comprobante == "Nota de venta") {
         $(".content-serie-comprobante").show();
         $(".content-igv").hide();
         $(".content-tipo-comprobante").removeClass("col-lg-4 col-lg-5").addClass("col-lg-5");
         $(".content-descripcion").removeClass(" col-lg-4 col-lg-5 col-lg-7 col-lg-8").addClass("col-lg-5");
-      } else if (e.data.compra.tipo_comprobante == "Ninguno") {
+      } else if (e.data.venta.tipo_comprobante == "Ninguno") {
         $(".content-serie-comprobante").hide();
         $(".content-serie-comprobante").val("");
         $(".content-igv").hide();
@@ -879,47 +974,59 @@ function copiar_venta(idcompra_producto) {
         //$(".content-descripcion").removeClass("col-lg-7").addClass("col-lg-4");
       }
 
-      // $("#idcompra_producto").val(e.data.compra.idcompra_producto); #no se usa cuando se copia
-      $("#idproveedor").val(e.data.compra.idpersona).trigger("change");
-      $("#fecha_compra").val(e.data.compra.fecha_compra);
-      $("#tipo_comprobante").val(e.data.compra.tipo_comprobante).trigger("change");
-      $("#serie_comprobante").val(e.data.compra.serie_comprobante).trigger("change");
-      $("#val_igv").val(e.data.compra.val_igv);
-      $("#descripcion").val(e.data.compra.descripcion);
+      // $("#idventa_producto").val(e.data.venta.idventa_producto); // esto no se usa cuando duplicams la factura
+      $("#idcliente").val(e.data.venta.idpersona).trigger("change");
+      $("#fecha_venta").val(e.data.venta.fecha_venta);
+      $("#tipo_comprobante").val(e.data.venta.tipo_comprobante).trigger("change");
+      $("#serie_comprobante").val(e.data.venta.serie_comprobante).trigger("change");
+      $("#val_igv").val(e.data.venta.val_igv);
+      $("#descripcion").val(e.data.venta.descripcion);
+
+      $("#metodo_pago").val(e.data.venta.metodo_pago).trigger("change");
+      $("#fecha_proximo_pago").val(e.data.venta.fecha_proximo_pago);
 
       if (e.data.detalle) {
 
-        e.data.detalle.forEach((element, index) => {
+        e.data.detalle.forEach((val, index) => {
 
           var img = "";
 
-          if (element.imagen == "" || element.imagen == null) {
+          if (val.imagen == "" || val.imagen == null) {
             img = `../dist/docs/producto/img_perfil/producto-sin-foto.svg`;
           } else {
-            img = `../dist/docs/producto/img_perfil/${element.imagen}`;
-          }
+            img = `../dist/docs/producto/img_perfil/${val.imagen}`;
+          }    
 
           var fila = `
           <tr class="filas" id="fila${cont}">
             <td>
-              <button type="button" class="btn btn-warning btn-sm" onclick="mostrar_productos(${element.idproducto}, ${cont})"><i class="fas fa-pencil-alt"></i></button>
-              <button type="button" class="btn btn-danger btn-sm" onclick="eliminarDetalle(${cont})"><i class="fas fa-times"></i></button></td>
+              <button type="button" class="btn btn-warning btn-sm" onclick="mostrar_productos(${val.idproducto}, ${cont})"><i class="fas fa-pencil-alt"></i></button>
+              <button type="button" class="btn btn-danger btn-sm btn-file-delete-${cont}" onclick="recover_stock(${val.idproducto}, ${cont}, 0, 'recover_remove_new');"><i class="fas fa-times"></i></button></td>
             </td>
             <td>
-              <input type="hidden" name="idproducto[]" value="${element.idproducto}">
+              <input type="hidden" name="idproducto[]" value="${val.idproducto}">
               <div class="user-block text-nowrap">
-                <img class="profile-user-img img-responsive img-circle cursor-pointer img_perfil_${cont}" src="${img}" alt="user image" onerror="this.src='../dist/svg/404-v2.svg';" onclick="ver_img_producto('${img}', '${encodeHtml(element.nombre)}')">
-                <span class="username"><p class="mb-0 nombre_producto_${cont}" >${element.nombre}</p></span>
-                <span class="description categoria_${cont}"><b>Categoría: </b>${element.categoria}</span>
+                <img class="profile-user-img img-responsive img-circle cursor-pointer img_perfil_${cont}" src="${img}" alt="user image" onerror="this.src='../dist/svg/404-v2.svg';" onclick="ver_img_producto('${img}', '${encodeHtml(val.nombre)}')">
+                <span class="username"><p class="mb-0 nombre_producto_${cont}" >${val.nombre}</p></span>
+                <span class="description categoria_${cont}"><b>Categoría: </b>${val.categoria}</span>
               </div>
             </td>
-            <td> <span class="unidad_medida_${cont}">${element.unidad_medida}</span> <input class="unidad_medida_${cont}" type="hidden" name="unidad_medida[]" id="unidad_medida[]" value="${element.unidad_medida}"> <input class="categoria_${cont}" type="hidden" name="categoria[]" id="categoria[]" value="${element.categoria}"></td>
-            <td class="form-group"><input class="producto_${element.idproducto} producto_selecionado w-100px cantidad_${cont} form-control" type="number" name="cantidad[]" id="cantidad[]" value="${element.cantidad}" min="0.01" required onkeyup="modificarSubtotales()" onchange="modificarSubtotales()"></td>
-            <td class="hidden"><input class="w-135px input-no-border precio_sin_igv_${cont}" type="number" name="precio_sin_igv[]" id="precio_sin_igv[]" value="${element.precio_sin_igv}" readonly ></td>
-            <td class="hidden"><input class="w-135px input-no-border precio_igv_${cont}" type="number"  name="precio_igv[]" id="precio_igv[]" value="${element.igv}" readonly ></td>
-            <td class="form-group"><input type="number" class="w-135px precio_con_igv_${cont} form-control" type="number"  name="precio_con_igv[]" id="precio_con_igv[]" value="${parseFloat(element.precio_con_igv).toFixed(2)}" min="0.01" required onkeyup="modificarSubtotales();" onchange="modificarSubtotales();"></td>
-            <td class="form-group"><input type="number" class="w-135px form-control precio_venta_${cont}" name="precio_venta[]" id="precio_venta[]" value="${parseFloat(element.precio_venta).toFixed(2)}" min="0" ></td>
-            <td class="form-group"><input type="number" class="w-135px form-control descuento_${cont}" name="descuento[]" value="${element.descuento}" onkeyup="modificarSubtotales()" onchange="modificarSubtotales()"></td>
+            <td> <span class="unidad_medida_${cont}">${val.unidad_medida}</span> <input class="unidad_medida_${cont}" type="hidden" name="unidad_medida[]" id="unidad_medida[]" value="${val.unidad_medida}"> <input class="categoria_${cont}" type="hidden" name="categoria[]" id="categoria[]" value="${val.categoria}"></td>            
+            <td class="py-1 form-group">
+              <input class="w-100px valid_cantidad form-control producto_${val.idproducto} producto_selecionado" type="number" name="valid_cantidad[${cont}]" id="valid_cantidad_${cont}" value="${val.cantidad}" min="0.01" required onkeyup="replicar_precio_venta(${cont}, '#cantidad_${cont}', this);" onchange="replicar_precio_venta(${cont}, '#cantidad_${cont}', this);">
+              <input type="hidden" class="cantidad_${cont}" name="cantidad[]" id="cantidad_${cont}" value="${val.cantidad}" onkeyup="update_stock(${val.idproducto},${cont});" onchange="update_stock(${val.idproducto},${cont});">              
+              <input type="hidden" class="" name="cantidad_old[]" id="cantidad_old_${cont}" value="${val.cantidad}">
+            </td>
+            <td class="hidden"><input type="number" class="w-135px input-no-border precio_sin_igv_${cont}" name="precio_sin_igv[]" id="precio_sin_igv[]" value="${val.precio_sin_igv}" readonly ></td>
+            <td class="hidden"><input type="number" class="w-135px input-no-border precio_igv_${cont}" name="precio_igv[]" id="precio_igv[]" value="${val.igv}" readonly ></td>             
+            <td class="py-1 form-group">
+              <input type="number" class="w-135px form-control valid_precio_con_igv" name="valid_precio_con_igv[${cont}]" id="valid_precio_con_igv_${cont}" value="${parseFloat(val.precio_con_igv).toFixed(2)}" min="0.01" required onkeyup="replicar_precio_venta(${cont}, '#precio_con_igv_${cont}', this);" onchange="replicar_precio_venta(${cont}, '#precio_con_igv_${cont}', this);">
+              <input type="hidden" class="precio_con_igv_${cont}" name="precio_con_igv[]" id="precio_con_igv_${cont}" value="${parseFloat(val.precio_con_igv).toFixed(2)}" onkeyup="modificarSubtotales();" onchange="modificarSubtotales();">
+              <input type="hidden" name="precio_compra[]" id="precio_compra_${cont}" value="${val.precio_compra}" >
+            </td>
+            <td class="py-1 form-group">
+              <input type="number" class="w-135px form-control descuento_${cont}" name="descuento[]" value="${val.descuento}" min="0.00" onkeyup="modificarSubtotales()" onchange="modificarSubtotales()">
+            </td>
             <td class="text-right"><span class="text-right subtotal_producto_${cont}" name="subtotal_producto" id="subtotal_producto">0.00</span></td>
             <td><button type="button" onclick="modificarSubtotales()" class="btn btn-info btn-sm"><i class="fas fa-sync"></i></button></td>
           </tr>`;
@@ -929,6 +1036,18 @@ function copiar_venta(idcompra_producto) {
           $("#detalles").append(fila);
 
           array_class_trabajador.push({ id_cont: cont });
+
+          // reglas de validación     
+          $('.valid_precio_con_igv').each(function(e) { 
+            $(this).rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
+            $(this).rules('add', { min:0.01, messages: { min:"Mínimo 0.01" } }); 
+          });
+          $('.valid_cantidad').each(function(e) { 
+            $(this).rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
+            $(this).rules('add', { min:0.01, messages: { min:"Mínimo 0.01" } }); 
+          });
+
+          update_stock(val.idproducto, cont);
 
           cont++;
           evaluar();
@@ -949,8 +1068,8 @@ function copiar_venta(idcompra_producto) {
   }).fail( function(e) { ver_errores(e); } );
 }
 
-//mostramos el detalle del comprobante de la compras
-function ver_detalle_compras(idcompra_producto) {
+//mostramos el detalle del comprobante de la ventas
+function ver_detalle_ventas(idventa_producto) {
 
   $("#cargando-5-fomulario").hide();
   $("#cargando-6-fomulario").show();
@@ -958,23 +1077,264 @@ function ver_detalle_compras(idcompra_producto) {
   $("#print_pdf_compra").addClass('disabled');
   $("#excel_compra").addClass('disabled');
 
-  $("#modal-ver-compras").modal("show");
+  $("#modal-ver-ventas").modal("show");
 
-  $.post("../ajax/ajax_general.php?op=ver_detalle_compras&id_compra=" + idcompra_producto, function (r) {
-    r = JSON.parse(r);
-    if (r.status == true) {
-      $(".detalle_de_compra").html(r.data); 
+  $.post(`../ajax/ajax_general.php?op=ver_detalle_ventas&idventa_producto=${idventa_producto}`, function (e) {
+    e = JSON.parse(e); console.log(e);
+    if (e.status == true) {
+      $(".detalle_de_compra").html(e.data); 
       $("#cargando-5-fomulario").show();
       $("#cargando-6-fomulario").hide();
 
-      $("#excel_compra").removeClass('disabled').attr('href', `../reportes/export_xlsx_compra_producto.php?id=${idcompra_producto}`);
-      $("#print_pdf_compra").removeClass('disabled').attr('href', `../reportes/pdf_compra_productos.php?id=${idcompra_producto}` );
+      $("#excel_compra").removeClass('disabled').attr('href', `../reportes/export_xlsx_venta_tours.php?id=${idventa_producto}`);
+      $("#print_pdf_compra").removeClass('disabled').attr('href', `../reportes/pdf_venta_productos.php?id=${idventa_producto}` );
+      
     } else {
       ver_errores(e);
     }    
   }).fail( function(e) { ver_errores(e); } );
 }
 
+// :::::::::::::::::::::::::: S E C C I O N   P A G O   V E N T A  ::::::::::::::::::::::::::
+
+// abrimos el navegador de archivos
+$("#doc1_i").click(function() {  $('#doc1').trigger('click'); });
+$("#doc1").change(function(e) {  addImageApplication(e,$("#doc1").attr("id")) });
+
+// Eliminamos el doc 1
+function doc1_eliminar() {
+
+	$("#doc1").val("");
+
+	$("#doc1_ver").html('<img src="../dist/svg/pdf_trasnparent.svg" alt="" width="50%" >');
+
+	$("#doc1_nombre").html("");
+}
+
+function limpiar_form_pago_compra() {  
+
+  $("#idpago_venta_producto_pv").val(""); 
+  $("#forma_pago_pv").val("null").trigger("change"); 
+  $("#fecha_pago_pv").val(""); 
+  $("#monto_pv").val(""); 
+  $("#descripcion_pv").val(""); 
+  $(".deuda-actual").val("0.00"); 
+
+  $("#doc_old_1").val("");
+  $("#doc1").val("");  
+  $('#doc1_ver').html(`<img src="../dist/svg/pdf_trasnparent.svg" alt="" width="50%" >`);
+  $('#doc1_nombre').html(""); 
+  
+  // Limpiamos las validaciones
+  $(".form-control").removeClass('is-valid');
+  $(".form-control").removeClass('is-invalid');
+  $(".error.invalid-feedback").remove();
+}
+
+function tbla_pago_venta( idventa_producto, total_compra, total_pago, cliente) {
+
+  table_show_hide(4);
+  $("#idventa_producto_pv").val(idventa_producto);
+  $("#total_de_venta").html(formato_miles(total_compra));
+  $(".h1-nombre-cliente").html(` - <b>${cliente}</b>` );
+
+  tabla_pago_venta = $("#tabla-pagos-ventas").dataTable({
+    responsive: true, 
+    lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]], //mostramos el menú de registros a revisar
+    aProcessing: true, //Activamos el procesamiento del datatables
+    aServerSide: true, //Paginación y filtrado realizados por el servidor
+    dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
+    buttons: [      
+      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i>', className: "btn bg-gradient-info", action: function ( e, dt, node, config ) { tabla_pago_venta.ajax.reload(null, false); toastr_success('Exito!!', 'Actualizando tabla', 400); } },
+      { extend: 'copyHtml5', exportOptions: { columns: [0,2,3,4,5], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray", footer: true,  }, 
+      { extend: 'excelHtml5', exportOptions: { columns: [0,2,3,4,5], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success", footer: true,  }, 
+      { extend: 'pdfHtml5', exportOptions: { columns: [0,2,3,4,5], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
+      { extend: "colvis", text: `Columnas`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
+    ],
+    ajax: {
+      url: `../ajax/venta_tours.php?op=tabla_pago_venta&idventa_producto=${idventa_producto}`,
+      type: "get",
+      dataType: "json",
+      error: function (e) {
+        console.log(e.responseText); ver_errores(e);
+      },
+    },     
+    createdRow: function (row, data, ixdex) {
+      //console.log(data);
+      if (data[1] != '') { $("td", row).eq(1).addClass('text-nowrap'); }
+    },
+    footerCallback: function( tfoot, data, start, end, display ) {
+      var api = this.api(); 
+      var total = api.column( 4 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
+      $( api.column( 4 ).footer() ).html( ` <span class="float-left">S/</span> <span class="float-right" id="total_depositos">${formato_miles(total)}</span>` );      
+    },
+    language: {
+      lengthMenu: "Mostrar: _MENU_ registros",
+      buttons: { copyTitle: "Tabla Copiada", copySuccess: { _: "%d líneas copiadas", 1: "1 línea copiada", }, },
+      sLoadingRecords: '<i class="fas fa-spinner fa-pulse fa-lg"></i> Cargando datos...'
+    },
+    bDestroy: true,
+    iDisplayLength: 10, //Paginación
+    order: [[0, "asc"]], //Ordenar (columna,orden)
+    columnDefs: [
+      { targets: [4], render: function (data, type) { var number = $.fn.dataTable.render.number(',', '.', 2).display(data); if (type === 'display') { let color = 'numero_positivos'; if (data < 0) {color = 'numero_negativos'; } return `<span class="float-left">S/</span> <span class="float-right ${color} "> ${number} </span>`; } return number; }, },
+      //{ targets: [9], render: $.fn.dataTable.render.number( ',', '.', 2) },
+      { targets: [2], render: $.fn.dataTable.render.moment('YYYY-MM-DD', 'DD/MM/YYYY'), },
+      //{ targets: [10,11,12,13],  visible: false,  searchable: false,  },
+    ],
+  }).DataTable();
+
+}
+
+//Función para eliminar registros
+function eliminar_pago_venta(idpago_venta_producto, nombre) {
+
+  $(".tooltip").removeClass("show").addClass("hidde");
+
+  crud_eliminar_papelera(
+    "../ajax/venta_tours.php?op=papelera_pago_venta",
+    "../ajax/venta_tours.php?op=eliminar_pago_venta", 
+    idpago_venta_producto, 
+    "!Elija una opción¡", 
+    `<b class="text-danger"><del>${nombre}</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
+    function(){ sw_success('♻️ Papelera! ♻️', "Tu compra ha sido reciclado." ) }, 
+    function(){ sw_success('Eliminado!', 'Tu compra ha sido Eliminado.' ) }, 
+    function(){ $("#total_depositos").html('0.00'); tabla_pago_venta.ajax.reload(null, false); },
+    function(){ tabla_venta_x_proveedor.ajax.reload(null, false); tabla_venta_producto.ajax.reload(null, false); },
+    false, 
+    false,
+    false
+  );
+}
+
+function calcular_deuda() {
+  var monto_actual = $('#monto_pv').val() == '' || $('#monto_pv').val() == null ? 0 : quitar_formato_miles($('#monto_pv').val());
+  var monto_pagados = $('#total_depositos').text() == '' || $('#total_depositos').text() == null ? 0 : quitar_formato_miles($('#total_depositos').text());
+  var monto_de_compra = $('#total_de_venta').text() == '' || $('#total_de_venta').text() == null ? 0 : quitar_formato_miles($('#total_de_venta').text());
+  var idpago_venta_producto_pv = $('#idpago_venta_producto_pv').val();
+
+  var monto_deuda = 0;
+  if (idpago_venta_producto_pv == ''  || idpago_venta_producto_pv == null) {
+    monto_deuda = parseFloat(monto_de_compra) - parseFloat(monto_pagados) - parseFloat(monto_actual);
+  } else {
+    var btn_monto_pagados = $(`#btn_monto_pagado_${idpago_venta_producto_pv}`).attr("monto_pagado");
+    monto_deuda = parseFloat(monto_de_compra) - (parseFloat(monto_pagados) - parseFloat(btn_monto_pagados)) - parseFloat(monto_actual) ;
+  }  
+
+  console.log(monto_deuda);
+
+  if (monto_deuda < 0) {
+    $('.deuda-actual').html(formato_miles(monto_deuda)).addClass('input-no-valido').removeClass('input-valido input-no-valido-warning');
+  } else if (monto_deuda == 0 ) {
+    $('.deuda-actual').html(formato_miles(monto_deuda)).addClass('input-valido').removeClass('input-no-valido input-no-valido-warning');
+  }else if (monto_deuda > 0) {
+    $('.deuda-actual').html(formato_miles(monto_deuda)).addClass('input-no-valido-warning').removeClass('input-no-valido input-valid');
+  }
+}
+
+//guardar cliente
+function guardar_y_editar_pago_venta(e) {
+  // e.preventDefault(); //No se activará la acción predeterminada del evento
+  var formData = new FormData($("#form-pago-venta")[0]);
+
+  $.ajax({
+    url: "../ajax/venta_tours.php?op=guardar_y_editar_pago_venta",
+    type: "POST",
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function (e) {
+      e = JSON.parse(e);
+      try {
+        if (e.status == true) {          
+          if (tabla_pago_venta) { tabla_pago_venta.ajax.reload(null, false); } 
+          if (tabla_venta_x_proveedor) { tabla_venta_x_proveedor.ajax.reload(null, false); }     
+          if (tabla_venta_producto) { tabla_venta_producto.ajax.reload(null, false); } 
+                
+          
+          Swal.fire("Correcto!", "Pago guardado correctamente.", "success");          
+          limpiar_form_pago_compra();
+          $("#modal-agregar-pago-venta").modal("hide");
+        } else {
+          ver_errores(e);
+        }
+      } catch (err) { console.log('Error: ', err.message); toastr_error("Error temporal!!",'Puede intentalo mas tarde, o comuniquese con:<br> <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>', 700); }       
+      
+      $("#guardar_registro_pago_venta").html('Guardar Cambios').removeClass('disabled');
+    },
+    xhr: function () {
+      var xhr = new window.XMLHttpRequest();
+      xhr.upload.addEventListener("progress", function (evt) {
+        if (evt.lengthComputable) {
+          var percentComplete = (evt.loaded / evt.total)*100;
+          /*console.log(percentComplete + '%');*/
+          $("#barra_progress_pago_venta").css({"width": percentComplete+'%'});
+          $("#barra_progress_pago_venta").text(percentComplete.toFixed(2)+" %");
+        }
+      }, false);
+      return xhr;
+    },
+    beforeSend: function () {
+      $("#guardar_registro_pago_venta").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+      $("#barra_progress_pago_venta").css({ width: "0%",  });
+      $("#barra_progress_pago_venta").text("0%").addClass('progress-bar-striped progress-bar-animated');
+    },
+    complete: function () {
+      $("#barra_progress_pago_venta").css({ width: "0%", });
+      $("#barra_progress_pago_venta").text("0%").removeClass('progress-bar-striped progress-bar-animated');
+    },
+    error: function (jqXhr) { ver_errores(jqXhr); },
+  });
+}
+
+function mostrar_editar_pago(idpago_venta) {
+  $(".tooltip").remove();
+  $("#cargando-7-fomulario").hide();
+  $("#cargando-8-fomulario").show();
+  
+  limpiar_form_pago_compra();
+
+  $("#modal-agregar-pago-venta").modal("show")
+
+  $.post("../ajax/venta_tours.php?op=mostrar_editar_pago", { 'idpago_venta': idpago_venta }, function (e, status) {
+
+    e = JSON.parse(e);  console.log(e);  
+
+    if (e.status == true) {
+
+      $("#idpago_venta_producto_pv").val(e.data.idpago_venta_producto);
+      $("#idventa_producto_pv").val(e.data.idventa_producto); 
+      $("#forma_pago_pv").val(e.data.forma_pago).trigger("change");
+      $("#fecha_pago_pv").val(e.data.fecha_pago); 
+      $("#monto_pv").val(e.data.monto).trigger("change");
+      $("#descripcion_pv").val(e.data.descripcion); 
+
+      if (e.data.comprobante == "" || e.data.comprobante == null  ) {
+        $("#doc1_ver").html('<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >');
+        $("#doc1_nombre").html('');
+        $("#doc_old_1").val(""); $("#doc1").val("");
+      } else {
+        $("#doc_old_1").val(e.data.comprobante);
+        $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Baucher.${extrae_extencion(e.data.comprobante)}</i></div></div>`);
+        // cargamos la imagen adecuada par el archivo
+        $("#doc1_ver").html(doc_view_extencion(e.data.comprobante,'admin/dist/docs/venta_producto/comprobante_pago/', '100%', '210' ));            
+      }
+
+      $("#cargando-7-fomulario").show();
+      $("#cargando-8-fomulario").hide();
+    } else {
+      ver_errores(e);
+    }
+    
+  }).fail( function(e) { ver_errores(e); } );
+}
+
+function ver_documento_pago(doc, name_download) {
+  $('.tile-modal-comprobante').html(name_download);
+  $('#modal-ver-comprobante-pago').modal('show');
+  $('.div-view-comprobante-pago').html(doc_view_download_expand(doc, 'dist/docs/venta_producto/comprobante_pago',name_download,'100%', '410'));
+  $('.jq_image_zoom').zoom({ on:'grab' });
+}
 
 // :::::::::::::::::::::::::: - S E C C I O N   D E S C A R G A S -  ::::::::::::::::::::::::::
 
@@ -982,7 +1342,7 @@ function download_no_multimple(id_compra, cont, nombre_doc) {
   $(`.descarga_compra_${id_compra}`).html('<i class="fas fa-spinner fa-pulse"></i>');
   //console.log(id_compra, nombre_doc);
   var cant_download_ok = 0; var cant_download_error = 0;
-  $.post("../ajax/compra_producto.php?op=ver_comprobante_compra", { 'id_compra': id_compra }, function (e, textStatus, jqXHR) {
+  $.post("../ajax/venta_tours.php?op=ver_comprobante_compra", { 'id_compra': id_compra }, function (e, textStatus, jqXHR) {
     e = JSON.parse(e); console.log(e);
     if (e.status == true) {
       e.data.forEach((val, index) => {
@@ -1013,7 +1373,7 @@ function add_remove_comprobante(id_compra, doc, factura_name) {
   $('.cargando_check').removeClass('hidden');
 
   if ($(`#check_descarga_${id_compra}`).is(':checked')) {
-    $.post("../ajax/compra_producto.php?op=ver_comprobante_compra", { 'id_compra': id_compra }, function (e, textStatus, jqXHR) {
+    $.post("../ajax/venta_tours.php?op=ver_comprobante_compra", { 'id_compra': id_compra }, function (e, textStatus, jqXHR) {
       e = JSON.parse(e); console.log(e);
       if (e.status == true) {
         var cont_docs_ok = 0; var cont_docs_error = 0;
@@ -1050,7 +1410,7 @@ function add_remove_comprobante(id_compra, doc, factura_name) {
     }).fail( function(e) { ver_errores(e); } );
     
   } else {
-    $.post("../ajax/compra_producto.php?op=ver_comprobante_compra", { 'id_compra': id_compra }, function (e, textStatus, jqXHR) {
+    $.post("../ajax/venta_tours.php?op=ver_comprobante_compra", { 'id_compra': id_compra }, function (e, textStatus, jqXHR) {
       e = JSON.parse(e); console.log(e);
       if (e.status == true) {
         var cont_doc = 0;
@@ -1111,8 +1471,7 @@ function download_multimple() {
   }  
 }
 
-// :::::::::::::::::::::::::: S E C C I O N   P R O V E E D O R  ::::::::::::::::::::::::::
-
+// :::::::::::::::::::::::::: S E C C I O N   A G R I C U L T O R  ::::::::::::::::::::::::::
 // abrimos el navegador de archivos
 $("#foto1_i").click(function() { $('#foto1').trigger('click'); });
 $("#foto1").change(function(e) { addImage(e,$("#foto1").attr("id")) });
@@ -1128,7 +1487,7 @@ function limpiar_form_proveedor() {
   $("#idpersona_per").val(""); 
   $("#tipo_documento_per").val("null").trigger("change");
   $("#cargo_trabajador_per").val("1");
-  $("#id_tipo_persona_per").val("3");
+  $("#id_tipo_persona_per").val("2");
 
   $("#num_documento_per").val(""); 
   $("#nombre_per").val("");   
@@ -1211,7 +1570,7 @@ function guardar_proveedor(e) {
   var formData = new FormData($("#form-proveedor")[0]);
 
   $.ajax({
-    url: "../ajax/compra_producto.php?op=guardar_proveedor",
+    url: "../ajax/venta_tours.php?op=guardar_proveedor",
     type: "POST",
     data: formData,
     contentType: false,
@@ -1224,8 +1583,10 @@ function guardar_proveedor(e) {
           Swal.fire("Correcto!", "Proveedor guardado correctamente.", "success");          
           limpiar_form_proveedor();
           $("#modal-agregar-proveedor").modal("hide");
+          
           //Cargamos los items al select cliente
-          lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=3", '#idproveedor', e.data);
+          lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=2", '#idcliente', e.data);
+          lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=2", '#filtro_proveedor', null);
         } else {
           ver_errores(e);
         }
@@ -1246,13 +1607,11 @@ function guardar_proveedor(e) {
       return xhr;
     },
     beforeSend: function () {
-      $("#barra_progress_proveedor_div").show();
       $("#guardar_registro_proveedor").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
       $("#barra_progress_proveedor").css({ width: "0%",  });
       $("#barra_progress_proveedor").text("0%").addClass('progress-bar-striped progress-bar-animated');
     },
     complete: function () {
-      $("#barra_progress_proveedor_div").hide();
       $("#barra_progress_proveedor").css({ width: "0%", });
       $("#barra_progress_proveedor").text("0%").removeClass('progress-bar-striped progress-bar-animated');
     },
@@ -1263,11 +1622,13 @@ function guardar_proveedor(e) {
 function mostrar_para_editar_proveedor() {
   $("#cargando-11-fomulario").hide();
   $("#cargando-12-fomulario").show();
+  
+  limpiar_form_proveedor();
 
   $('#modal-agregar-proveedor').modal('show');
   $(".tooltip").remove();
 
-  $.post("../ajax/compra_producto.php?op=mostrar_editar_proveedor", { 'idproveedor': $('#idproveedor').select2("val") }, function (e, status) {
+  $.post("../ajax/venta_tours.php?op=mostrar_editar_proveedor", { 'idpersona': $('#idcliente').select2("val") }, function (e, status) {
 
     e = JSON.parse(e);  console.log(e);
 
@@ -1298,7 +1659,12 @@ function mostrar_para_editar_proveedor() {
       $("#sueldo_mensual_per").val(e.data.sueldo_mensual);
       $("#sueldo_diario_per").val(e.data.sueldo_diario);  
       
-      $("#input_socio_per").val(e.data.es_socio);       
+      $("#input_socio_per").val(e.data.es_socio); 
+      if (e.data.es_socio==1) {        
+        $("#input_socio_per").val('1');
+        $(".sino_per").html('(SI)');        
+        if($('#socio_per').is(':checked') ){$("#definiendo").prop('checked', false);  }else{ $("#socio_per").prop('checked', true); }
+      }
 
       if (e.data.foto_perfil!="") {
         $("#foto1_i").attr("src", "../dist/docs/persona/perfil/" + e.data.foto_perfil);
@@ -1335,7 +1701,8 @@ function foto2_eliminar() {
 }
 
 //Función limpiar
-function limpiar_producto() {  
+function limpiar_producto() {
+  
   $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
   $('.name-modal-title-agregar').html('Agregar Producto');
 
@@ -1353,7 +1720,7 @@ function limpiar_producto() {
   $("#foto1_i").attr("src", "../dist/img/default/img_defecto_producto.jpg");
   $("#foto1").val("");
   $("#foto1_actual").val("");
-  $("#foto1_nombre").html(""); 
+  $("#foto1_nombre").html("");  
 
   // Limpiamos las validaciones
   $(".form-control").removeClass('is-valid');
@@ -1368,12 +1735,12 @@ function listarmateriales() {
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]], //mostramos el menú de registros a revisar
     aProcessing: true, //Activamos el procesamiento del datatables
     aServerSide: true, //Paginación y filtrado realizados por el servidor
-    dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",//Definimos los elementos del control de tabla
+    dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
     buttons: [
       { text: '<i class="fa-solid fa-arrows-rotate"></i>', action: function ( e, dt, node, config ) { tablamateriales.ajax.reload(); toastr_success('Exito!!', 'Actualizando tabla', 400); } }
     ],
     ajax: {
-      url: "../ajax/ajax_general.php?op=tblaProductos",
+      url: "../ajax/ajax_general.php?op=tblaProductoTours",
       type: "get",
       dataType: "json",
       error: function (e) {
@@ -1390,7 +1757,7 @@ function listarmateriales() {
       sLoadingRecords: '<i class="fas fa-spinner fa-pulse fa-lg"></i> Cargando datos...'
     },
     bDestroy: true,
-    iDisplayLength: 10, //Paginación
+    iDisplayLength: 100, //Paginación
     // order: [[0, "desc"]], //Ordenar (columna,orden)
   }).DataTable();
 }
@@ -1401,12 +1768,12 @@ function mostrar_productos(idproducto, cont) {
 
   $("#cargando-9-fomulario").hide();
   $("#cargando-10-fomulario").show();
-  $('.name-modal-title-agregar').html('Editar Producto');   
+  $('.name-modal-title-agregar').html('Editar Producto');
   $("#cont").val(cont); 
 
   $("#modal-agregar-productos").modal("show");
 
-  $.post("../ajax/compra_producto.php?op=mostrar_productos", { 'idproducto_pro': idproducto }, function (e, status) {
+  $.post("../ajax/venta_tours.php?op=mostrar_productos", { 'idproducto_pro': idproducto }, function (e, status) {
     
     e = JSON.parse(e); console.log(e);    
 
@@ -1443,7 +1810,7 @@ function guardar_y_editar_productos(e) {
   var formData = new FormData($("#form-producto")[0]);
 
   $.ajax({
-    url: "../ajax/compra_producto.php?op=guardar_y_editar_productos",
+    url: "../ajax/venta_tours.php?op=guardar_y_editar_productos",
     type: "POST",
     data: formData,
     contentType: false,
@@ -1474,7 +1841,7 @@ function actualizar_producto() {
   var idproducto      = $("#idproducto_pro").val(); 
   var cont            = $("#cont").val(); 
 
-  var nombre_p        = $("#nombre_producto_pro").val();
+  var nombre_p        = $("#nombre_producto_pro").val();  
   var unidad_medida_p = $("#unidad_medida_pro").find(':selected').text();
   var categoria_p     = $("#categoria_producto_pro").find(':selected').text();
 
@@ -1500,37 +1867,38 @@ init();
 // .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
 $(function () {
   // Aplicando la validacion del select cada vez que cambie
+  $("#metodo_pago").on('change', function() { $(this).trigger('blur'); });
 
-  $("#idproveedor").on('change', function() { $(this).trigger('blur'); });
+  $("#idcliente").on('change', function() { $(this).trigger('blur'); });
   $("#tipo_comprobante").on('change', function() { $(this).trigger('blur'); });
-  $("#tipo_documento_per").on('change', function() { $(this).trigger('blur'); });
+  $("#tipo_documento").on('change', function() { $(this).trigger('blur'); });
   $("#banco").on('change', function() { $(this).trigger('blur'); });
   
   $('#unidad_medida_pro').on('change', function() { $(this).trigger('blur'); });
   $('#categoria_producto_pro').on('change', function() { $(this).trigger('blur'); });
+  
+  $('#forma_pago_pago').on('change', function() { $(this).trigger('blur'); });;
 
-  $("#form-compras").validate({
+  $("#form-ventas").validate({
     ignore: '.select2-input, .select2-focusser',
     rules: {
-      idproveedor:        { required: true },
+      idcliente:        { required: true },
       tipo_comprobante:   { required: true },
       serie_comprobante:  { minlength: 2 },
       descripcion:        { minlength: 4 },
-      fecha_compra:       { required: true },
+      fecha_venta:       { required: true },
       val_igv:            { required: true, number: true, min:0, max:1 },
     },
     messages: {
-      idproveedor:        { required: "Campo requerido", },
+      idcliente:        { required: "Campo requerido", },
       tipo_comprobante:   { required: "Campo requerido", },
       serie_comprobante:  { minlength: "Minimo 2 caracteres", },
       descripcion:        { minlength: "Minimo 4 caracteres", },
-      fecha_compra:       { required: "Campo requerido", },
+      fecha_venta:       { required: "Campo requerido", },
       val_igv:            { required: "Campo requerido", number: 'Ingrese un número', min:'Mínimo 0', max:'Maximo 1' },
-      'cantidad[]':       { min: "Mínimo 0.01", required: "Campo requerido"},
+      // 'cantidad[]':       { min: "Mínimo 0.01", required: "Campo requerido"},
       'precio_con_igv[]': { min: "Mínimo 0.01", required: "Campo requerido"},
       'descuento[]':      { min: "Mínimo 0.00", required: "Campo requerido"},
-      // 'precio_con_igv[]': { min: "Mínimo 0.01", required: "Campo requerido"},
-      // 'precio_con_igv[]': { min: "Mínimo 0.01", required: "Campo requerido"},
     },
 
     errorElement: "span",
@@ -1549,7 +1917,7 @@ $(function () {
     },
 
     submitHandler: function (form) {
-      guardar_y_editar_compras(form);
+      guardar_y_editar_ventas(form);
     },
   });  
 
@@ -1561,8 +1929,8 @@ $(function () {
       email_per:          { email: true, minlength: 10, maxlength: 50 },
       direccion_per:      { minlength: 5, maxlength: 200 },
       telefono_per:       { minlength: 8 },
-      cta_bancaria_per:   { minlength: 10,},
-      banco_per:          { required: true},
+      cta_bancaria:       { minlength: 10,},
+      banco:              { required: true},
     },
     messages: {
       tipo_documento_per: { required: "Campo requerido.", },
@@ -1571,8 +1939,8 @@ $(function () {
       email_per:          { required: "Campo requerido.", email: "Ingrese un coreo electronico válido.", minlength: "MÍNIMO 10 caracteres.", maxlength: "MÁXIMO 50 caracteres.", },
       direccion_per:      { minlength: "MÍNIMO 5 caracteres.", maxlength: "MÁXIMO 200 caracteres.", },
       telefono_per:       { minlength: "MÍNIMO 8 caracteres.", },
-      cta_bancaria_per:   { minlength: "MÍNIMO 10 caracteres.", },
-      banco_per:          { required: "Campo requerido.", },
+      cta_bancaria:       { minlength: "MÍNIMO 10 caracteres.", },
+      banco:              { required: "Campo requerido.", },
     },
 
     errorElement: "span",
@@ -1634,15 +2002,54 @@ $(function () {
 
   });
 
-  $("#idproveedor").rules('add', { required: true, messages: {  required: "Campo requerido" } });
+  $("#form-pago-venta").validate({
+    rules: {
+      forma_pago_pv: { required: true },
+      fecha_pago_pv: { required: true, },
+      monto_pv:      { required: true, },
+      descripcion_pv:{ minlength: 4, maxlength: 200 },
+    },
+    messages: {
+      forma_pago_pv: { required: "Campo requerido.", },
+      fecha_pago_pv: { required: "Campo requerido.", },
+      monto_pv:      { required: "Campo requerido.", },
+      descripcion_pv:{ minlength: "MÍNIMO 4 caracteres.", maxlength: "MÁXIMO 200 caracteres.", },
+    },
+
+    errorElement: "span",
+
+    errorPlacement: function (error, element) {
+      error.addClass("invalid-feedback");
+      element.closest(".form-group").append(error);
+    },
+
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass("is-invalid").removeClass("is-valid");
+    },
+
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass("is-invalid").addClass("is-valid");
+    },
+
+    submitHandler: function (e) {
+      guardar_y_editar_pago_venta(e);
+    },
+  });
+
+  $("#metodo_pago").rules('add', { required: true, messages: {  required: "Campo requerido" } });
+
+  $("#idcliente").rules('add', { required: true, messages: {  required: "Campo requerido" } });
   $("#tipo_comprobante").rules('add', { required: true, messages: {  required: "Campo requerido" } });
-  $("#tipo_documento_per").rules('add', { required: true, messages: {  required: "Campo requerido" } });
+  $("#tipo_documento").rules('add', { required: true, messages: {  required: "Campo requerido" } });
   $("#banco").rules('add', { required: true, messages: {  required: "Campo requerido" } });
 
   $('#unidad_medida_pro').rules('add', { required: true, messages: {  required: "Campo requerido" } });
   $('#categoria_producto_pro').rules('add', { required: true, messages: {  required: "Campo requerido" } });
 
+  $('#forma_pago_pago').rules('add', { required: true, messages: {  required: "Campo requerido" } });
+
 });
+
 
 // .....::::::::::::::::::::::::::::::::::::: F U N C I O N E S    A L T E R N A S  :::::::::::::::::::::::::::::::::::::::..
 
@@ -1717,10 +2124,70 @@ function formato_banco() {
   }  
 }
 
-function replicar_precio_venta(id, name_input, valor) {
+function replicar_precio_venta(cont, name_input, valor) {
   var value = $(valor).val(); console.log(value);
   $(`${name_input}`).val(value).trigger("change");
 }
 
+function update_stock(id, count) {console.log(id, count);  
+  var stock = $(`#table_stock_${id}`).attr('stock') == 0  ||  $(`#table_stock_${id}`).attr('stock') == ''? 0 : parseFloat($(`#table_stock_${id}`).attr('stock')) ;
+  var cant  = $(`.cantidad_${count}`).val() == 0  ||  $(`.cantidad_${count}`).val() == ''? 0 : parseFloat($(`.cantidad_${count}`).val()) ;
+  var dif   = stock - cant;
+  console.log('stock =' + stock, 'cant =' + cant, 'dif =' + dif);
+  if (stock >= cant) {    
+    $(`#table_stock_${id}`).html(formato_miles(dif));    
+    modificarSubtotales();    
+  } else {
+    $(`#valid_cantidad_${count}`).val(0);
+    toastr_error('No hay Stock!!', 'El producto se quedo sin stock, recarga en el modulo de <a href="ingreso_producto.php">compras</a>', 700);
+  }  
+}
 
+function recover_stock(id, count, cantidad_entrante, type_recover = false) {
+  var stock_actual = $(`#table_stock_${id}`).attr('stock') == 0  ||  $(`#table_stock_${id}`).attr('stock') == ''? 0 : parseFloat($(`#table_stock_${id}`).attr('stock')) ;
+  var cant  = $(`.cantidad_${count}`).val() == 0  ||  $(`.cantidad_${count}`).val() == ''? 0 : parseFloat($(`.cantidad_${count}`).val()) ;
+  var cant_old  = $(`#cantidad_old_${count}`).val() == 0  ||  $(`#cantidad_old_${count}`).val() == ''? 0 : parseFloat($(`#cantidad_old_${count}`).val()) ;
+  
+  if (type_recover == null || type_recover == '' || type_recover == false) {
 
+    var diferencia = stock_actual + parseFloat(cantidad_entrante);
+    $(`#table_stock_${id}`).attr('stock', diferencia);
+
+  } else if(type_recover == 'recover_remove_new') { /* -- recuperamos cuando CREAMOS una nueva venta -- */ 
+    
+    $(`.btn-file-delete-${count}`).html(`<i class="fas fa-spinner fa-pulse"></i>`).addClass('disabled');    
+    $(`#table_stock_${id}`).html( formato_miles(stock_actual) );
+    eliminarDetalle(id, count);
+
+  } else if(type_recover == 'recover_remove_edit') { /* -- recuperamos cuando EDITAMOS una nueva venta -- */ 
+    //  esta funcioalidad queda pendiente ---------
+    
+    $(`.btn-file-delete-${count}`).html(`<i class="fas fa-spinner fa-pulse"></i>`).addClass('disabled');     
+    $(`#table_stock_${id}`).html( formato_miles(stock_actual) );    
+    $(`#add-productos-eliminados`).append(`<input name="idproducto_recover[] value="" /><input name="stock_recover[] value="" />`);    
+    eliminarDetalle(id, count);
+     
+  }
+}
+
+function autoincrement_comprobante(data) {
+  var comprobante = $(data).select2('val');  
+
+  if (comprobante == null || comprobante == '' ) {
+    $('#serie_comprobante').val("");
+  } else {
+    
+    $.post(`../ajax/ajax_general.php?op=autoincrement_comprobante`, function (e, textStatus, jqXHR) {
+      e = JSON.parse(e); //console.log(e);
+
+      if (comprobante == 'Boleta') {
+        $('#serie_comprobante').val(`B-${e.data.venta_producto_b}`);
+      } else if (comprobante == 'Factura'){
+        $('#serie_comprobante').val(`F-${e.data.venta_producto_f}`);
+      } else if (comprobante == 'Nota de venta'){
+        $('#serie_comprobante').val(`NV-${e.data.venta_producto_nv}`);
+      }
+      
+    },);
+  }
+}

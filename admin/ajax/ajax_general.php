@@ -14,13 +14,13 @@
   } else {     
     
     require_once "../modelos/Ajax_general.php";
-    require_once "../modelos/Producto.php";
-    require_once "../modelos/Venta_producto.php";
+    require_once "../modelos/Tours.php";
+    require_once "../modelos/Venta_tours.php";
     
     
     $ajax_general   = new Ajax_general($_SESSION['idusuario']);
-    $compra_insumos = new Producto($_SESSION['idusuario']);
-    $venta_producto = new Venta_producto($_SESSION['idusuario']);
+    $tours = new Tours($_SESSION['idusuario']);
+    $venta_producto = new Venta_tours($_SESSION['idusuario']);
    
 
     date_default_timezone_set('America/Lima'); $date_now = date("d_m_Y__h_i_s_A");
@@ -345,38 +345,36 @@
         }
       break;
 
-      /* ══════════════════════════════════════ P R O D U C T O ══════════════════════════════════════ */
+      /* ══════════════════════════════════════ P R O D U C T O - T O U R S ══════════════════════════════════════ */
 
-      case 'tblaProductos':
+      case 'tblaProductoTours':
           
-        $rspta = $ajax_general->tblaProductos(); 
+        $rspta = $ajax_general->tblaProductoTours(); 
 
-        $datas = [];         
+        $datas = []; $imagen_error = "this.src='../dist/docs/tours/perfil/tours-sin-foto.jpg'";
 
         if ($rspta['status'] == true) {
 
           while ($reg = $rspta['data']->fetch_object()) {
 
-            $img_parametro = ""; $img = "";  $clas_stok = "";
+            $img_url = "";
   
             if (empty($reg->imagen)) {
-              $img = '../dist/docs/producto/img_perfil/producto-sin-foto.svg';
+              $img_url = '../dist/docs/tours/perfil/tours-sin-foto.jpg';
             } else {
-              $img = '../dist/docs/producto/img_perfil/' . $reg->imagen;
-              $img_parametro = $reg->imagen;
+              $img_url = '../dist/docs/tours/perfil/' . $reg->imagen;
+              
             }
 
-            if ( $reg->stock <= 0) { $clas_stok = 'badge-danger'; }else if ($reg->stock > 0 && $reg->stock <= 10) { $clas_stok = 'badge-warning'; }else if ($reg->stock > 10) { $clas_stok = 'badge-success'; }
-
             $datas[] = [
-              "0" => '<button class="btn btn-warning" onclick="agregarDetalleComprobante(' . $reg->idproducto . ', \'' .  htmlspecialchars($reg->nombre, ENT_QUOTES) . '\', \'' . $reg->nombre_medida . '\',\'' . $reg->categoria . '\',\'' . $reg->precio_unitario . '\',\'' . $reg->precio_compra_actual . '\',\'' . $img_parametro . '\',\'' .$reg->stock. '\')" data-toggle="tooltip" data-original-title="Agregar Activo"><span class="fa fa-plus"></span></button>',
+              "0" => '<button class="btn btn-warning" onclick="agregarDetalleComprobante(' . $reg->idtours . ')" data-toggle="tooltip" data-original-title="Agregar Tours"><span class="fa fa-plus"></span></button>',
               "1" => '<div class="user-block w-250px">'.
-                '<img class="profile-user-img img-responsive img-circle cursor-pointer" src="' . $img . '" alt="user image" onerror="' . $imagen_error . '" onclick="ver_img_producto(\'' . $img . '\', \''.encodeCadenaHtml($reg->nombre).'\');">'.
+                '<img class="profile-user-img img-responsive img-circle cursor-pointer" src="' . $img_url . '" alt="user image" onerror="' . $imagen_error . '" onclick="ver_img_producto(\'' . $img_url . '\', \''.encodeCadenaHtml($reg->nombre).'\');">'.
                 '<span class="username"><p class="mb-0" >' . $reg->nombre . '</p></span>
-                <span class="description"><b>Categoria: </b>' . $reg->categoria . '</span>'.
+                <span class="description"><b>Tipo: </b>' . $reg->tipo_tours . '</span>'.
               '</div>',
-              "2" =>'<span class="badge '.$clas_stok.' font-size-14px" stock="'.$reg->stock.'" id="table_stock_'.$reg->idproducto.'">'.$reg->stock.'</span>',
-              "3" => number_format($reg->precio_unitario, 2, '.', ','),
+              "2" =>0,
+              "3" => $reg->costo ,
               "4" => '<textarea class="form-control textarea_datatable" cols="30" rows="1">' . $reg->descripcion . '</textarea>'. $toltip,
             ];
           }

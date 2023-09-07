@@ -256,7 +256,7 @@ function mostrar_tours(idtours) {
         $("#doc_old_1").val(e.data.imagen);
         $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Perfil.${extrae_extencion(e.data.imagen)}</i></div></div>`);
         // cargamos la imagen adecuada par el archivo
-        $("#doc1_ver").html(doc_view_extencion(e.data.imagen,'tours', 'perfil', '100%', '210' ));   //ruta imagen           
+        $("#doc1_ver").html(doc_view_extencion(e.data.imagen, 'admin/dist/docs/tours/perfil/', '100%', '210' ));   //ruta imagen           
       }
 
       $('.jq_image_zoom').zoom({ on:'grab' });     
@@ -301,7 +301,7 @@ function ver_detalle_tours(idtours) {
             </tr>
             <tr>
               <th>Imagen</th>
-              <td>${doc_view_extencion(e.data.imagen,'tours', 'perfil', '300px', 'auto' )}</td>
+              <td>${doc_view_extencion(e.data.imagen,'admin/dist/docs/tours/perfil/', '300px', 'auto' )}</td>
             </tr>
           </tbody>
         </table>
@@ -463,7 +463,7 @@ function galeria(idtours, nombre) {
         e.data.forEach((val, key) => {        
           codigoHTML = `<div class="col-sm-2 text-center px-1 py-1 b-radio-5px" style="border: 2px solid #837f7f;" >             
             <a href="../dist/docs/tours/galeria/${val.imagen}?text=1" data-toggle="lightbox" data-title="${val.descripcion}" data-gallery="gallery">
-              <img src="../dist/docs/tours/galeria/${val.imagen}?text=1" class="img-fluid mb-2 b-radio-t-5px" alt="white sample"/>
+              <img src="../dist/docs/tours/galeria/${val.imagen}?text=1" width="100%" class="img-fluid mb-2 b-radio-t-5px" alt="white sample"/>
             </a>
             <button class="btn btn-warning btn-sm" onclick="mostrar_editar_galeria(${val.idgaleria_tours})">Editar</button> 
             <button class="btn btn-danger btn-sm" onclick="eliminar_img(${val.idgaleria_tours},'${val.descripcion}');">Eliminar</button>                   
@@ -527,7 +527,7 @@ function mostrar_editar_galeria(id) {
 
       if (e.data.imagen != null || e.data.imagen == '' ) {
         $("#doc_old_2").val(e.data.imagen);      
-        $('#doc2_ver').html( doc_view_extencion(e.data.imagen, 'tours', 'galeria', '100%' ) );
+        $('#doc2_ver').html( doc_view_extencion(e.data.imagen, 'admin/dist/docs/tours/galeria/', '100%', 'auto' ) );
         $('#doc2_nombre').html(`img_galeria.${extrae_extencion(e.data.imagen)}`);
       }  
       $("#cargando-3-fomulario").show();

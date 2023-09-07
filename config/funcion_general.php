@@ -121,6 +121,20 @@ if (!function_exists('ejecutarConsulta')) {
     return $fecha;
   }
 
+  function calculaedad($fechanacimiento){
+    $ano_diferencia = '-';
+    if (empty($fechanacimiento) || $fechanacimiento=='0000-00-00') { } else{
+      list($ano,$mes,$dia) = explode("-",$fechanacimiento);
+      $ano_diferencia  = date("Y") - $ano;
+      $mes_diferencia = date("m") - $mes;
+      $dia_diferencia   = date("d") - $dia;
+      if ($dia_diferencia < 0 || $mes_diferencia < 0)
+        $ano_diferencia--;
+    } 
+    
+    return $ano_diferencia;
+  }
+
   /*  ══════════════════════════════════════════ - N U M E R I C O S - ══════════════════════════════════════════ */
 
   function multiplo_number($numero, $multiplo) {  if($numero%$multiplo == 0){ return true; }else{ return false; } }

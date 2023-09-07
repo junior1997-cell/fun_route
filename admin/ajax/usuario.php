@@ -65,10 +65,16 @@
           in_array(8, $valores) ? ($_SESSION['tours'] = 1)          : ($_SESSION['tours'] = 0);
           in_array(9, $valores) ? ($_SESSION['pedido'] = 1)         : ($_SESSION['pedido'] = 0);
           
-          // REPORTES
-          in_array(10, $valores) ? ($_SESSION['reporte'] = 1)        : ($_SESSION['reporte'] = 0); 
           // CONTABLE Y FINANCIERO        
-          in_array(11, $valores) ? ($_SESSION['contable_financiero'] = 1)   : ($_SESSION['contable_financiero'] = 0);
+          in_array(10, $valores) ? ($_SESSION['venta_tours'] = 1)   : ($_SESSION['venta_tours'] = 0);
+          in_array(11, $valores) ? ($_SESSION['venta_paquete'] = 1) : ($_SESSION['venta_paquete'] = 0);
+          in_array(12, $valores) ? ($_SESSION['cotizacion'] = 1)    : ($_SESSION['cotizacion'] = 0);
+          in_array(13, $valores) ? ($_SESSION['pago_trabajador'] = 1): ($_SESSION['pago_trabajador'] = 0);
+          in_array(14, $valores) ? ($_SESSION['otro_ingreso'] = 1)   : ($_SESSION['otro_ingreso'] = 0);
+
+          // REPORTES
+          in_array(15, $valores) ? ($_SESSION['reporte'] = 1)        : ($_SESSION['reporte'] = 0); 
+          
 
         } else {
           echo json_encode($rspta, true);
@@ -265,7 +271,7 @@
             array_push($valores, $value['idpermiso']);
           }
 
-          $data = ""; $num = 2;  $stado_close = false;
+          $data = ""; $num = 3;  $stado_close = false;
           //Mostramos la lista de permisos en la vista y si están o no marcados <label for=""></label>
           foreach ($rspta['data'] as $key => $value) {
 
@@ -279,7 +285,7 @@
             } else {
               if ( ($key + 1) == $num ) { 
                 $div_close = '</div>';
-                $num += 3;
+                $num += 4;
                 $stado_close = true;
               } else {
                 if ($stado_close) {
