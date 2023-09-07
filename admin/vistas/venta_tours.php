@@ -61,31 +61,21 @@
                 <div class="container-fluid">
                   <div class="row">
                     <div class="col-12">
-                      <div class="card card-primary card-outline">
-                        <!-- Start Main Top -->
-                        <div class="main-top">
-                          <div class="container-fluid border-bottom">
-                            <div class="row">
-                              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"> 
-                                <div class="card-header">
-                                  <h3 class="card-title">
-                                    <!--data-toggle="modal" data-target="#modal-agregar-compra"  onclick="limpiar();"-->
-                                    <button type="button" class="btn bg-gradient-success" id="btn-agregar" onclick="table_show_hide(2); limpiar_form_compra();">
-                                      <i class="fas fa-plus-circle"></i> Agregar
-                                    </button>                                    
-                                    <button type="button" class="btn bg-gradient-warning" id="btn-regresar" style="display: none;" onclick="table_show_hide(1);">
-                                      <i class="fas fa-arrow-left"></i> Regresar
-                                    </button>
-                                    <button type="button" class="btn bg-gradient-success" id="btn-pagar" style="display: none;" data-toggle="modal"  data-target="#modal-agregar-pago-venta" onclick="limpiar_form_pago_compra(); calcular_deuda();">
-                                      <i class="fas fa-dollar-sign"></i> Agregar Pago
-                                    </button>                                     
-                                  </h3>
-                                </div>
-                              </div>
-
-                            </div>
-                          </div>
-                        </div>
+                      <div class="card card-primary card-outline">                                                 
+                        <div class="card-header">
+                          <h3 class="card-title">
+                            <!--data-toggle="modal" data-target="#modal-agregar-compra"  onclick="limpiar();"-->
+                            <button type="button" class="btn bg-gradient-success" id="btn-agregar" onclick="table_show_hide(2); limpiar_form_compra();">
+                              <i class="fas fa-plus-circle"></i> Agregar
+                            </button>                                    
+                            <button type="button" class="btn bg-gradient-warning" id="btn-regresar" style="display: none;" onclick="table_show_hide(1);">
+                              <i class="fas fa-arrow-left"></i> Regresar
+                            </button>
+                            <button type="button" class="btn bg-gradient-success" id="btn-pagar" style="display: none;" data-toggle="modal"  data-target="#modal-agregar-pago-venta" onclick="limpiar_form_pago_compra(); calcular_deuda();">
+                              <i class="fas fa-dollar-sign"></i> Agregar Pago
+                            </button>                                     
+                          </h3>
+                        </div>                          
                         <!-- End Main Top -->
 
                         <!-- /.card-header -->
@@ -138,8 +128,8 @@
                                   <select id="filtro_tipo_comprobante" class="form-control select2" onchange="cargando_search(); delay(function(){filtros()}, 50 );" style="width: 100%;"> 
                                     <option value="0">Todos</option>
                                     <option value="Ninguno">Ninguno</option>
-                                    <option value="Boleta">Boleta</option>
-                                    <option value="Factura">Factura</option>
+                                    <!-- <option value="Boleta">Boleta</option>
+                                    <option value="Factura">Factura</option> -->
                                     <option value="Nota de venta">Nota de venta</option>
                                   </select>
                                 </div>
@@ -270,9 +260,9 @@
                                   <div style="display: none !important;" id="add-productos-eliminados"> </div>
 
                                   <!-- Tipo de Empresa -->
-                                  <div class="col-lg-5">
+                                  <div class="col-lg-8">
                                     <div class="form-group">
-                                      <label for="idcliente">Agricultor <sup class="text-danger">(único*)</sup></label>
+                                      <label for="idcliente">Cliente <sup class="text-danger">(único*)</sup></label>
                                       <select id="idcliente" name="idcliente" class="form-control select2" data-live-search="true" required title="Seleccione cliente" onchange="extrae_ruc('#idcliente', '#num_doc');"> </select>
                                     </div>
                                   </div> 
@@ -299,22 +289,15 @@
                                       <input type="date" name="fecha_venta" id="fecha_venta" class="form-control" placeholder="Fecha" />
                                     </div>
                                   </div>
-                                  <!-- Establecimiento-->
-                                  <div class="col-lg-3" >
-                                    <div class="form-group">
-                                      <label for="establecimiento">Establecimiento </label> <br />
-                                      <textarea name="establecimiento" id="establecimiento" class="form-control" rows="1">JR. LOS MARINOS #453 - JAEN - CAJAMARCA</textarea>
-                                    </div>
-                                  </div>  
 
                                   <!-- Tipo de comprobante -->
-                                  <div class="col-lg-4" id="content-tipo-comprobante">
+                                  <div class="col-lg-3" id="content-tipo-comprobante">
                                     <div class="form-group">
                                       <label for="tipo_comprobante">Tipo Comprobante <sup class="text-danger">(único*)</sup></label>
                                       <select name="tipo_comprobante" id="tipo_comprobante" class="form-control select2"  onchange="default_val_igv(); modificarSubtotales(); ocultar_comprob(); autoincrement_comprobante(this);" placeholder="Seleccinar un tipo de comprobante">
                                         <option value="Ninguno">Ninguno</option>
-                                        <option value="Boleta">Boleta</option>
-                                        <option value="Factura">Factura</option>
+                                        <!-- <option value="Boleta">Boleta</option>
+                                        <option value="Factura">Factura</option> -->
                                         <option value="Nota de venta">Nota de venta</option>
                                       </select>
                                     </div>
@@ -323,13 +306,21 @@
                                   <!-- serie_comprobante-->
                                   <div class="col-lg-2" id="content-serie-comprobante">
                                     <div class="form-group">
-                                      <label for="serie_comprobante">N° de Comprobante <sup class="text-danger">(único*)</sup></label>
+                                      <label for="serie_comprobante">Serie Comprobante <sup class="text-danger">(único*)</sup></label>
                                       <input type="text" name="serie_comprobante" id="serie_comprobante" class="form-control" placeholder="N° de Comprobante" readonly />
                                     </div>
                                   </div>
 
+                                  <!-- numero_comprobante-->
+                                  <div class="col-lg-2" id="content-numero-comprobante">
+                                    <div class="form-group">
+                                      <label for="numero_comprobante">Numero Comprobante <sup class="text-danger">(único*)</sup></label>
+                                      <input type="text" name="numero_comprobante" id="numero_comprobante" class="form-control" placeholder="N° de Comprobante" readonly />
+                                    </div>
+                                  </div>
+
                                   <!-- IGV-->
-                                  <div class="col-lg-1" id="content-igv">
+                                  <div class="col-lg-1" style="display: none;">
                                     <div class="form-group">
                                       <label for="val_igv">IGV <sup class="text-danger">*</sup></label>
                                       <input type="text" name="val_igv" id="val_igv" class="form-control" value="0.18" onkeyup="modificarSubtotales();" />
@@ -350,23 +341,23 @@
                                       <select id="metodo_pago" name="metodo_pago" class="form-control select2" data-live-search="true" required title="Seleccione metodo" onchange="capturar_pago_compra();"> 
                                         <option title="fas fa-hammer" value="CONTADO">CONTADO</option>
                                         <option title="fas fa-gas-pump" value="CREDITO">CREDITO</option>
+                                        <option title="fas fa-gas-pump" value="TARJETA">TARJETA</option>
+                                        <option title="fas fa-gas-pump" value="TRANSFERENCIA">TRANSFERENCIA</option>
+                                        <option title="fas fa-gas-pump" value="MIXTO">MIXTO</option>                                       
+                                        <option title="fas fa-gas-pump" value="YAPE">YAPE</option>
+                                        <option title="fas fa-gas-pump" value="PLIN">PLIN</option>
+                                        <option title="fas fa-gas-pump" value="CULQI">CULQI</option>                                                      
+                                        <option title="fas fa-gas-pump" value="LUKITA">LUKITA</option>                                                      
+                                        <option title="fas fa-gas-pump" value="TUNKI">TUNKI</option>
                                       </select>
                                     </div> 
-                                  </div>
-
-                                  <!-- Fecha pago -->
-                                  <div class="col-lg-3" >
-                                    <div class="form-group">
-                                      <label for="fecha_proximo_pago">Fecha proximo pago<sup class="text-danger">*</sup></label>
-                                      <input type="date" name="fecha_proximo_pago" id="fecha_proximo_pago" class="form-control" placeholder="Fecha" />
-                                    </div>
-                                  </div>
+                                  </div>                                  
 
                                   <!-- Pago a realizar -->
-                                  <div class="col-sm-6 col-lg-3 ">
+                                  <div class="col-sm-6 col-lg-3" id="content-code-baucher">
                                     <div class="form-group">
-                                      <label for="monto_pago_compra">Pago de compra <span class="span-pago-compra"></span> </label>
-                                      <input type="text" name="monto_pago_compra" id="monto_pago_compra" class="form-control" readonly onClick="this.select();" placeholder="Pago realizado" />
+                                      <label for="code_baucher">Código de Baucher <span class="span-pago-compra"></span> </label>
+                                      <input type="text" name="code_baucher" id="code_baucher" class="form-control" onClick="this.select();" placeholder="Codigo de baucher" />
                                     </div>
                                   </div>                              
 
@@ -388,19 +379,38 @@
                                   <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive row-horizon disenio-scroll">
                                     <br />
                                     <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
-                                      <thead style="background-color: #ff6c046b;">
+                                      <thead class="bg-color-252e38 text-white" >
                                         <th data-toggle="tooltip" data-original-title="Opciones">Op.</th>
                                         <th>Producto</th>
                                         <th>Unidad</th>
-                                        <th>Cantidad</th>
-                                        <th class="hidden" data-toggle="tooltip" data-original-title="Valor Unitario" >V/U</th>
-                                        <th class="hidden">IGV</th>
+                                        <th>Cantidad</th>                                        
                                         <th data-toggle="tooltip" data-original-title="Precio Unitario">P/U</th>
                                         <th>Descuento</th>
                                         <th>Subtotal</th>
                                       </thead>
                                       <tfoot>
-                                        <td colspan="4" id="colspan_subtotal"></td>
+                                        <td colspan="4" id="colspan_subtotal">
+                                          <div class="row">
+                                            <div class="col-4 col-sm-4 col-lg-4" id="content-pagar-ctdo">
+                                              <div class="form-group">
+                                                <label for="pagar_con">Pagar Ctdo. </label>
+                                                <input type="text" name="pagar_con_ctdo" id="pagar_con_ctdo" class="form-control" onClick="this.select();" placeholder="Pagar con" />
+                                              </div>
+                                            </div>
+                                            <div class="col-4 col-sm-4 col-lg-4" id="content-pagar-tarj">
+                                              <div class="form-group">
+                                                <label for="pagar_con">Pagar Tarj. </label>
+                                                <input type="text" name="pagar_con_tarj" id="pagar_con_tarj" class="form-control" onClick="this.select();" placeholder="Pagar con" />
+                                              </div>
+                                            </div>
+                                            <div class="col-4 col-sm-4 col-lg-4" id="content-vuelto">
+                                              <div class="form-group">
+                                                <label for="pagar_con">Vuelto</label>
+                                                <span class="form-control-mejorado">0.00</span>                                                
+                                              </div>
+                                            </div>
+                                          </div>                                          
+                                        </td>
                                         <th class="text-right">
                                           <h6 class="tipo_gravada">GRAVADA</h6>
                                           <h6 class="val_igv">IGV (18%)</h6>
@@ -617,17 +627,7 @@
                                     <label for="titular_cuenta_per">Titular de la cuenta</label>
                                     <input type="text" name="titular_cuenta_per" class="form-control" id="titular_cuenta_per" placeholder="Titular de la cuenta" />
                                   </div>
-                                </div>                               
-
-                                <!-- Swichs permanente -->
-                                <div class="col-4 col-sm-5 col-md-6 col-lg-3 classswichs">
-                                  <label for="socio_per">Es socio ? <small class="text-danger text-bold sino_per">(NO)</small> </label>
-                                  <div class="switch-toggle">
-                                    <input type="checkbox" id="socio_per" >
-                                    <label for="socio_per" onclick="habilitando_socio();" onchange="habilitando_socio();"></label>
-                                  </div>
-                                  <input type="hidden" name="input_socio_per" id="input_socio_per" value="0"  >
-                                </div>
+                                </div>                                 
 
                                 <!-- Direccion -->
                                 <div class="col-12 col-sm-12 col-md-6 col-lg-9 classdirecc">
@@ -696,8 +696,8 @@
                           <table id="tblamateriales" class="table table-striped table-bordered table-condensed table-hover" style="width: 100% !important;">
                             <thead>
                               <th data-toggle="tooltip" data-original-title="Opciones">Op.</th>
-                              <th>Nombre Producto</th>
-                              <th>Stock</th>
+                              <th>Code</th>
+                              <th>Nombre Producto</th>                              
                               <th data-toggle="tooltip" data-original-title="Precio Unitario">P/U.</th>
                               <th>Descripción</th>
                             </thead>
@@ -990,6 +990,7 @@
         <script src="../plugins/FileSaver/dist/FileSaver.js"></script>
         
         <script type="text/javascript" src="scripts/venta_tours.js"></script>         
+        <script type="text/javascript" src="scripts/js_venta_tours.js"></script>         
 
         <script> $(function () { $('[data-toggle="tooltip"]').tooltip(); }); </script>
         

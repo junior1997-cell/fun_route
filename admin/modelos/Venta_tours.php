@@ -244,58 +244,57 @@ class Venta_tours
     $filtro_proveedor = ""; $filtro_fecha = ""; $filtro_comprobante = ""; 
 
     if ( !empty($fecha_1) && !empty($fecha_2) ) {
-      $filtro_fecha = "AND vp.fecha_venta BETWEEN '$fecha_1' AND '$fecha_2'";
+      $filtro_fecha = "AND vt.fecha_venta BETWEEN '$fecha_1' AND '$fecha_2'";
     } else if (!empty($fecha_1)) {      
-      $filtro_fecha = "AND vp.fecha_venta = '$fecha_1'";
+      $filtro_fecha = "AND vt.fecha_venta = '$fecha_1'";
     }else if (!empty($fecha_2)) {        
-      $filtro_fecha = "AND vp.fecha_venta = '$fecha_2'";
+      $filtro_fecha = "AND vt.fecha_venta = '$fecha_2'";
     }    
 
-    if (empty($id_proveedor) ) {  $filtro_proveedor = ""; } else { $filtro_proveedor = "AND vp.idpersona = '$id_proveedor'"; }
+    if (empty($id_proveedor) ) {  $filtro_proveedor = ""; } else { $filtro_proveedor = "AND vt.idpersona = '$id_proveedor'"; }
+    if ( empty($comprobante) ) { } else { $filtro_comprobante = "AND vt.tipo_comprobante = '$comprobante'"; } 
 
-    if ( empty($comprobante) ) { } else { $filtro_comprobante = "AND vp.tipo_comprobante = '$comprobante'"; } 
+    $data = Array();    
 
-    $data = Array();
-    $scheme_host=  ($_SERVER['HTTP_HOST'] == 'localhost' ? 'http://localhost/fun_route/admin/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/');
-
-    $sql = "SELECT vp.idventa_producto, vp.idpersona, vp.fecha_venta, vp.establecimiento, vp.tipo_comprobante, vp.serie_comprobante, 
-    vp.val_igv, vp.subtotal, vp.igv, vp.total, vp.descripcion, vp.fecha_proximo_pago, vp.comprobante, vp.metodo_pago, vp.estado,
-    p.nombres as cliente, p.tipo_documento, p.numero_documento, p.celular, p.direccion,  p.es_socio, tp.nombre as tipo_persona
-    FROM venta_producto as vp, persona as p, tipo_persona as tp 
-    WHERE vp.idpersona = p.idpersona AND p.idtipo_persona = tp.idtipo_persona AND vp.estado= '1' AND vp.estado_delete = '1' 
-    $filtro_proveedor $filtro_comprobante $filtro_fecha ORDER BY vp.fecha_venta DESC;";
-
-    $venta = ejecutarConsultaArray($sql);
+    $sql = "SELECT vt.idventa_tours, vt.idpersona, vt.fecha_venta, vt.tipo_comprobante, vt.serie_comprobante, vt.numero_comprobante, vt.impuesto, vt.subtotal, vt.igv, 
+    vt.total, vt.tipo_gravada, vt.descripcion, vt.metodo_pago, vt.code_vaucher, vt.pago_con_efe, vt.pago_con_tar, vt.vuelto_pago, vt.comprobante,
+    p.nombres as cliente, p.tipo_documento, p.numero_documento, p.celular, p.direccion, tp.nombre as tipo_persona
+    FROM venta_tours AS vt, persona as p, tipo_persona as tp 
+    WHERE vt.idpersona = p.idpersona AND p.idtipo_persona = tp.idtipo_persona AND vt.estado ='1' AND vt.estado_delete = '1' 
+    $filtro_proveedor $filtro_comprobante $filtro_fecha ORDER BY vt.fecha_venta DESC;";
+    $venta = ejecutarConsultaArray($sql); if ($venta['status'] == false) {return $venta; }
 
     foreach ($venta['data'] as $key => $value) {
-      $id = $value['idventa_producto'];
-      $sql_3 ="SELECT SUM(monto) as deposito FROM pago_venta_producto WHERE idventa_producto = '$id' AND estado ='1' AND estado_delete = '1'";
-      $pagos = ejecutarConsultaSimpleFila($sql_3); if ($pagos['status'] == false) { return $pagos; }
+      $id = $value['idventa_tours'];
+      $sql_3 ="SELECT SUM(monto) as deposito FROM venta_tours_pago WHERE idventa_tours = '$id' AND estado ='1' AND estado_delete = '1'";
+      $pagos = ejecutarConsultaSimpleFila($sql_3); if ($pagos['status'] == false) { return $pagos; }     
 
-      $sql_4 ="SELECT SUM(dvp.subtotal - (dvp.cantidad * dvp.precio_compra)) as utilidad 
-      FROM detalle_venta_producto as dvp, venta_producto as vp 
-      WHERE dvp.idventa_producto = vp.idventa_producto AND dvp.idventa_producto = '$id' AND vp.estado ='1' AND vp.estado_delete='1' AND dvp.estado='1' AND dvp.estado_delete='1';";
-      $utilidad = ejecutarConsultaSimpleFila($sql_4); if ($utilidad['status'] == false) { return $utilidad; }
-
-      $data[] = [
-        'idventa_producto'  => $value['idventa_producto'],
+      $data[] = [        
+        'idventa_tours'     => $value['idventa_tours'],
         'idpersona'         => $value['idpersona'],
-        'cliente'           => $value['cliente'],
-        'tipo_documento'    => $value['tipo_documento'],
-        'numero_documento'  => $value['numero_documento'],
-        'tipo_persona'      => $value['tipo_persona'],
-        'es_socio'          => ($value['es_socio'] ? 'SOCIO' : 'NO SOCIO') ,
         'fecha_venta'       => $value['fecha_venta'],
         'tipo_comprobante'  => $value['tipo_comprobante'],
         'serie_comprobante' => $value['serie_comprobante'],
-        'descripcion'       => $value['descripcion'],
+        'numero_comprobante'=> $value['numero_comprobante'],
+        'impuesto'          => $value['impuesto'],
         'subtotal'          => $value['subtotal'],
-        'val_igv'           => $value['val_igv'],
         'igv'               => $value['igv'],
         'total'             => $value['total'],
-        'utilidad'          => (empty($utilidad['data']) ? 0 : (empty($utilidad['data']['utilidad']) ? 0 : floatval($utilidad['data']['utilidad']) ) ),
+        'tipo_gravada'      => $value['tipo_gravada'],
+        'descripcion'       => $value['descripcion'],
         'metodo_pago'       => $value['metodo_pago'],
-        'estado'            => $value['estado'],
+        'code_vaucher'      => $value['code_vaucher'],
+        'pago_con_efe'      => $value['pago_con_efe'],
+        'pago_con_tar'      => $value['pago_con_tar'],
+        'vuelto_pago'       => $value['vuelto_pago'],
+        'comprobante'       => $value['comprobante'],
+        'cliente'           => $value['cliente'],
+        'tipo_documento'    => $value['tipo_documento'],
+        'numero_documento'  => $value['numero_documento'],
+        'celular'           => $value['celular'],
+        'direccion'         => $value['direccion'],
+        'tipo_persona'      => $value['tipo_persona'],
+        
         'total_pago'        => (empty($pagos['data']) ? 0 : (empty($pagos['data']['deposito']) ? 0 : floatval($pagos['data']['deposito']) ) ),
       ];
     }
@@ -306,11 +305,11 @@ class Venta_tours
   //Implementar un método para listar los registros x proveedor
   public function listar_compra_x_porveedor() {
     // $idproyecto=2;
-    $sql = "SELECT  COUNT(vp.idventa_producto) as cantidad, SUM(vp.total) as total, 
-    vp.idpersona, p.nombres as razon_social, p.numero_documento, p.celular
-		FROM venta_producto as vp, persona as p 
-		WHERE  vp.idpersona=p.idpersona  AND  vp.estado = '1' AND vp.estado_delete = '1'
-    GROUP BY vp.idpersona ORDER BY p.nombres ASC;";
+    $sql = "SELECT  COUNT(vt.idventa_tours) as cantidad, SUM(vt.total) as total, 
+    vt.idpersona, p.nombres as razon_social, p.numero_documento, p.celular
+		FROM venta_tours as vt, persona as p 
+		WHERE  vt.idpersona=p.idpersona  AND  vt.estado = '1' AND vt.estado_delete = '1'
+    GROUP BY vt.idpersona ORDER BY p.nombres ASC;";
     return ejecutarConsulta($sql);
   }
 
@@ -332,7 +331,6 @@ class Venta_tours
     p.nombres, p.tipo_documento, p.numero_documento, p.celular, p.correo, p.direccion 
     FROM venta_producto as cp, persona as p 
     WHERE cp.idpersona = p.idpersona AND cp.idventa_producto ='$idventa_producto';";
-
     $compra=  ejecutarConsultaSimpleFila($sql); if ($compra['status'] == false) {return $compra; }
 
     $sql = "SELECT dvp.iddetalle_venta_producto, dvp.idventa_producto, dvp.idproducto, dvp.unidad_medida, dvp.categoria, dvp.cantidad, 

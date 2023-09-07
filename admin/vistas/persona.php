@@ -307,17 +307,7 @@
                                   <label for="sueldo_diario">Sueldo(Diario)</label>
                                   <input type="number" step="any" name="sueldo_diario" class="form-control" id="sueldo_diario" readonly />
                                 </div>
-                              </div>
-                              <!--nacimiento,ruc,cargo_trabajador, sueldo_mensual,sueldo_diario -->
-                              <!-- Swichs permanente -->
-                              <div class="col-4 col-sm-5 col-md-6 col-lg-3 classswichs">
-                                  <label for="socio">Es socio ? <small class="text-danger text-bold sino">(NO)</small> </label>
-                                  <div class="switch-toggle">
-                                    <input type="checkbox" id="socio" >
-                                    <label for="socio" onclick="habilitando_socio();" onchange="habilitando_socio();"></label>
-                                  </div>
-                                  <input type="hidden" name="input_socio" id="input_socio" value="0"  >
-                              </div>
+                              </div>                              
 
                               <!-- Direccion -->
                               <div class="col-12 col-sm-12 col-md-6 col-lg-9 classdirecc">

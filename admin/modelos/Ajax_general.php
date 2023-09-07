@@ -121,7 +121,7 @@
     
     /* ══════════════════════════════════════ C L I E N T E  ══════════════════════════════════════ */
     public function select2_cliente() {
-      $sql = "SELECT p.idpersona, p.idtipo_persona, p.idbancos, p.nombres, p.es_socio, p.tipo_documento,  p.numero_documento, p.foto_perfil, tp.nombre as tipo_persona
+      $sql = "SELECT p.idpersona, p.idtipo_persona, p.idbancos, p.nombres, p.tipo_documento,  p.numero_documento, p.foto_perfil, tp.nombre as tipo_persona
       FROM persona AS p, tipo_persona as tp
       WHERE p.idtipo_persona = tp.idtipo_persona and p.idtipo_persona = 2 and p.estado='1' AND p.estado_delete = '1' AND p.idpersona > 1 ORDER BY p.nombres ASC;";
       return ejecutarConsulta($sql);
@@ -134,14 +134,14 @@
     }
     /* ══════════════════════════════════════ TIPO Paquete  ══════════════════════════════════════ */
     public function select2_paquete() {
-      $sql = "SELECT `idpaquete`, `nombre`, `cant_dias`, `cant_noches`, `descripcion`, `imagen`, `estado` FROM `paquete` WHERE estado='1' AND estado_delete = '1' ORDER BY nombre ASC;";
+      $sql = "SELECT idpaquete, nombre, cant_dias, cant_noches, descripcion, imagen, estado FROM paquete WHERE estado='1' AND estado_delete = '1' ORDER BY nombre ASC;";
       return ejecutarConsulta($sql);
     }
 
     /* ══════════════════════════════════════ P R O V E E D O R -- C L I E N T E S  ══════════════════════════════════════ */
 
     public function select2_proveedor_cliente($tipo) {
-      $sql = "SELECT idpersona, nombres, tipo_documento, numero_documento, es_socio, foto_perfil FROM persona 
+      $sql = "SELECT idpersona, nombres, tipo_documento, numero_documento, foto_perfil FROM persona 
       WHERE idtipo_persona ='$tipo' AND estado='1' AND estado_delete ='1'";
 
       return ejecutarConsulta($sql);
@@ -194,7 +194,14 @@
     }
 
     /* ══════════════════════════════════════ P R O D U C T O   T O U R S ══════════════════════════════════════ */
-
+    //funcion para mostrar registros de prosuctos
+    public function mostrar_producto_tours($idtours) {
+      $sql = "SELECT idtours, t.idtipo_tours, t.nombre, t.descripcion, t.imagen, t.actividad, t.incluye, t.no_incluye, t.recomendaciones, t.duracion, t.alojamiento, 
+      t.resumen_actividad, t.resumen_comida, t.mapa, t.costo, t.estado_descuento, t.porcentaje_descuento, t.monto_descuento, tp.nombre as tipo_tours 
+      FROM tours as t, tipo_tours as tp 
+      WHERE t.idtipo_tours = tp.idtipo_tours AND t.estado='1' and t.estado_delete='1' AND t.idtours = '$idtours';";
+      return ejecutarConsultaSimpleFila($sql);
+    }
     //funcion para mostrar registros de prosuctos
     public function tblaProductoTours() {
       $sql = "SELECT t.idtours,t.alojamiento,t.nombre, t.descripcion, t.imagen, t.costo, t.estado_descuento, t.mapa, 

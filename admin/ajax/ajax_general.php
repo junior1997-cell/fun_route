@@ -164,8 +164,7 @@
         if ($rspta['status'] == true) {
 
           foreach ($rspta['data'] as $key => $value) {
-            $es_socio = $value['es_socio'] ? 'SOCIO': 'NO SOCIO' ;
-            $data .= '<option  value=' . $value['idpersona'] . ' title="'.$value['foto_perfil'].'" ruc_dni="'.$value['numero_documento'].'">' . $cont++ . '. ' . $value['nombres'] .' - '. $value['numero_documento'] . ' - ' . $es_socio . '</option>';
+            $data .= '<option  value=' . $value['idpersona'] . ' title="'.$value['foto_perfil'].'" ruc_dni="'.$value['numero_documento'].'">' . $cont++ . '. ' . $value['nombres'] .' - '. $value['numero_documento'] .  '</option>';
           }
 
           $retorno = array(
@@ -189,9 +188,8 @@
 
         if ($rspta['status'] == true) {
 
-          foreach ($rspta['data'] as $key => $value) {  
-            $es_socio = $value['es_socio'] ? 'SOCIO': 'NO SOCIO';
-            $data .= '<option value="' .  $value['idpersona'] . '" title="'.$value['foto_perfil'].'" ruc_dni="'.$value['numero_documento'].'">' .$cont++.'. '.  $value['nombres'] .' - '.  $value['numero_documento'] . ' - ' . $es_socio . '</option>';      
+          foreach ($rspta['data'] as $key => $value) {              
+            $data .= '<option value="' .  $value['idpersona'] . '" title="'.$value['foto_perfil'].'" ruc_dni="'.$value['numero_documento'].'">' .$cont++.'. '.  $value['nombres'] .' - '.  $value['numero_documento'] . '</option>';      
           }
 
           $retorno = array(
@@ -346,6 +344,11 @@
       break;
 
       /* ══════════════════════════════════════ P R O D U C T O - T O U R S ══════════════════════════════════════ */
+      case 'mostrar_producto_tours':
+        $rspta=$ajax_general->mostrar_producto_tours($_POST["idtours"]);
+        //Codificar el resultado utilizando json
+        echo json_encode($rspta, true);
+      break;  
 
       case 'tblaProductoTours':
           
@@ -357,23 +360,17 @@
 
           while ($reg = $rspta['data']->fetch_object()) {
 
-            $img_url = "";
-  
-            if (empty($reg->imagen)) {
-              $img_url = '../dist/docs/tours/perfil/tours-sin-foto.jpg';
-            } else {
-              $img_url = '../dist/docs/tours/perfil/' . $reg->imagen;
-              
-            }
+            $img_url = empty($reg->imagen) ? '../dist/docs/tours/perfil/tours-sin-foto.jpg' :'../dist/docs/tours/perfil/' . $reg->imagen ;           
 
             $datas[] = [
-              "0" => '<button class="btn btn-warning" onclick="agregarDetalleComprobante(' . $reg->idtours . ')" data-toggle="tooltip" data-original-title="Agregar Tours"><span class="fa fa-plus"></span></button>',
-              "1" => '<div class="user-block w-250px">'.
+              "0" => '<button class="btn btn-warning mr-1 px-1 py-1" onclick="agregarDetalleComprobante(' . $reg->idtours . ', false)" data-toggle="tooltip" data-original-title="Agregar continuo"><span class="fa fa-plus"></span></button>
+              <button class="btn btn-success px-1 py-1" onclick="agregarDetalleComprobante(' . $reg->idtours . ', true)" data-toggle="tooltip" data-original-title="Agregar individual"><i class="fa-solid fa-list-ol"></i></button>',
+              "1" => zero_fill($reg->idtours, 5) ,
+              "2" => '<div class="user-block w-250px">'.
                 '<img class="profile-user-img img-responsive img-circle cursor-pointer" src="' . $img_url . '" alt="user image" onerror="' . $imagen_error . '" onclick="ver_img_producto(\'' . $img_url . '\', \''.encodeCadenaHtml($reg->nombre).'\');">'.
                 '<span class="username"><p class="mb-0" >' . $reg->nombre . '</p></span>
-                <span class="description"><b>Tipo: </b>' . $reg->tipo_tours . '</span>'.
-              '</div>',
-              "2" =>0,
+                <span class="description"><b>Dcto: </b>' . floatval($reg->porcentaje_descuento) . '%<b> | Tipo: </b>' . $reg->tipo_tours . '</span>'.
+              '</div>',              
               "3" => $reg->costo ,
               "4" => '<textarea class="form-control textarea_datatable" cols="30" rows="1">' . $reg->descripcion . '</textarea>'. $toltip,
             ];
@@ -385,10 +382,8 @@
             "iTotalDisplayRecords" => count($datas), //enviamos el total registros a visualizar
             "aaData" => $datas,
           ];
-
           echo json_encode($results, true);
         } else {
-
           echo $rspta['code_error'] .' - '. $rspta['message'] .' '. $rspta['data'];
         }
     

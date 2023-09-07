@@ -13,7 +13,7 @@ var tabla_pago_venta;
 var array_doc = [];
 var host = window.location.host == 'localhost'? `http://localhost/fun_route/admin/dist/docs/compra_insumo/comprobante_compra/` : `${window.location.origin}/dist/docs/compra_insumo/comprobante_compra/` ;
 
-var array_class_trabajador = [];
+var array_data_venta = [];
 
 //Función que se ejecuta al inicio
 function init() {
@@ -27,11 +27,11 @@ function init() {
   listarmateriales();
 
   // ══════════════════════════════════════ S E L E C T 2 ══════════════════════════════════════
-  lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=2", '#idcliente', null);
-  lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=2", '#filtro_proveedor', null);
+  lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=3", '#idcliente', null);
+  lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=3", '#filtro_proveedor', null);
   lista_select2("../ajax/ajax_general.php?op=select2Banco", '#banco', null);
-  lista_select2("../ajax/ajax_general.php?op=select2UnidaMedida", '#unidad_medida_pro', null);
-  lista_select2("../ajax/ajax_general.php?op=select2Categoria", '#categoria_producto_pro', null);
+  // lista_select2("../ajax/ajax_general.php?op=select2UnidaMedida", '#unidad_medida_pro', null);
+  // lista_select2("../ajax/ajax_general.php?op=select2Categoria", '#categoria_producto_pro', null);
 
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
 
@@ -181,7 +181,7 @@ function table_show_hide(flag) {
     $("#div-tabla-factura-por-proveedor").hide();
     $("#div-form-agregar-ventas").show();  
     $("#div-tabla-pago-ventas").hide();  
-    array_class_trabajador = [];   
+    array_data_venta = [];   
   
   // tabla facturas por proveedor
   } else if ( flag == 3 ) {
@@ -205,39 +205,8 @@ function table_show_hide(flag) {
     $("#div-tabla-venta").hide();
     $("#div-tabla-factura-por-proveedor").hide();
     $("#div-form-agregar-ventas").hide();  
-    $("#div-tabla-pago-ventas").show();
-    
+    $("#div-tabla-pago-ventas").show();    
   }
-}
-
-function capturar_pago_compra() {
-
-  $(".span-pago-compra").html('(Seleccione metodo pago)');
-  $("#monto_pago_compra").prop("readonly", true).val(0);
-  $("#fecha_proximo_pago").prop("readonly", true);   
-  $('#fecha_proximo_pago').rules('remove', 'required');
-
-  // si se edita, no se puede modificar estos datos
-  if ($("#idventa_producto").val() == "" || $("#idventa_producto").val() == null) {
-    if ($("#metodo_pago").select2("val") == "CONTADO") {      
-      var total_venta = $("#total_venta").val();
-      $("#monto_pago_compra").val(total_venta);   
-      $(".span-pago-compra").html('(Contado)');  
-      $("#fecha_proximo_pago").val(moment().format('YYYY-MM-DD')); 
-    } else if ($("#metodo_pago").select2("val") == "CREDITO") {
-      $("#monto_pago_compra").prop("readonly", false).val(0);
-      $("#fecha_proximo_pago").prop("readonly", false);
-      $(".span-pago-compra").html('(Crédito)'); 
-      $('#fecha_proximo_pago').rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
-    }
-  } else {
-    $('#fecha_proximo_pago').rules('remove', 'required');
-    if ($("#metodo_pago").select2("val") == "CONTADO") {      
-      $("#fecha_proximo_pago").val(moment().format('YYYY-MM-DD')); 
-    } else if ($("#metodo_pago").select2("val") == "CREDITO") {
-      $("#fecha_proximo_pago").prop("readonly", false);
-    }
-  }  
 }
 
 //TABLA - ventas
@@ -453,647 +422,6 @@ function eliminar_venta(idventa_producto, nombre) {
 
 }
 
-// .......::::::::::::::::::::::::::::::::::::::::: AGREGAR FACURAS, BOLETAS, NOTA DE VENTA, ETC :::::::::::::::::::::::::::::::::::.......
-//Declaración de variables necesarias para trabajar con las ventas y sus detalles
-var impuesto = 18;
-var cont = 0;
-var detalles = 0;
-
-function agregarDetalleComprobante(idproducto, nombre, unidad_medida, categoria, precio_venta, precio_compra, img, stock) {
-  // console.log(idproducto,nombre,unidad_medida, categoria,precio_venta,img,stock);
-  var stock = $(`#table_stock_${idproducto}`).text() == 0  ||  $(`#table_stock_${idproducto}`).text() == ''? 0 : parseFloat($(`#table_stock_${idproducto}`).text()) ;
-  // var precio_venta = 0;
-  var precio_sin_igv =0;
-  var cantidad = 1;
-  var descuento = 0;
-  var precio_igv = 0;
-
-  if (idproducto != "") {
-
-    if ($(".producto_" + idproducto).hasClass("producto_selecionado")) {
-      if (stock == 0) {
-        toastr_error('No hay Stock!!', 'El producto se quedo sin stock, recarga en el modulo de <a href="ingreso_producto.php">compras</a>', 700);
-      } else {
-
-        $(`#table_stock_${idproducto}`).html(formato_miles(stock - 1));
-
-        toastr_success("Agregado!!",`Producto: ${nombre} agregado !!`, 700);
-
-        var cant_producto = $(".producto_" + idproducto).val();
-
-        var sub_total = parseInt(cant_producto, 10) + 1;
-
-        $(".producto_" + idproducto).val(sub_total).trigger('change');
-
-        modificarSubtotales();
-      }
-      
-    } else {
-      if (stock <= 0) {        
-        toastr_error('No hay Stock!!', 'El producto se quedo sin stock, recarga en el modulo de <a href="ingreso_producto.php">compras</a>', 700);
-      } else {
-
-        $(`#table_stock_${idproducto}`).html(formato_miles(stock - 1));
-
-        if ($("#tipo_comprobante").select2("val") == "Factura") {
-          var subtotal = cantidad * precio_venta;
-        } else {
-          var subtotal = cantidad * precio_sin_igv;
-        }
-
-        var img_p = "";
-
-        if (img == "" || img == null) {
-          img_p = `../dist/docs/producto/img_perfil/producto-sin-foto.svg`;
-        } else {
-          img_p = `../dist/docs/producto/img_perfil/${img}`;
-        }
-
-        var fila = `
-        <tr class="filas" id="fila${cont}">         
-          <td class="py-1">
-            <button type="button" class="btn btn-warning btn-sm" onclick="mostrar_productos(${idproducto}, ${cont})"><i class="fas fa-pencil-alt"></i></button>
-            <button type="button" class="btn btn-danger btn-sm btn-file-delete-${cont}" onclick="recover_stock(${idproducto}, ${cont}, 0, 'recover_remove_new');"><i class="fas fa-times"></i></button>
-          </td>
-          <td class="py-1">         
-            <input type="hidden" name="idproducto[]" value="${idproducto}">
-            <div class="user-block text-nowrap">
-              <img class="profile-user-img img-responsive img-circle cursor-pointer img_perfil_${cont}" src="${img_p}" alt="user image" onerror="this.src='../dist/svg/404-v2.svg';" onclick="ver_img_producto('${img_p}', '${encodeHtml(nombre)}')">
-              <span class="username"><p class="mb-0 nombre_producto_${cont}">${nombre}</p></span>
-              <span class="description categoria_${cont}"><b>Categoría: </b>${categoria}</span>
-            </div>
-          </td>
-          <td class="py-1"><span class="unidad_medida_${cont}">${unidad_medida}</span> <input type="hidden" class="unidad_medida_${cont}" name="unidad_medida[]" id="unidad_medida[]" value="${unidad_medida}"><input class="categoria_${cont}" type="hidden" name="categoria[]" id="categoria[]" value="${categoria}"></td>
-          <td class="py-1 form-group">
-            <input type="number" class="w-100px valid_cantidad form-control producto_${idproducto} producto_selecionado" name="valid_cantidad[${cont}]" id="valid_cantidad_${cont}" value="${cantidad}" min="0.01" required onkeyup="replicar_precio_venta(${cont}, '#cantidad_${cont}', this);" onchange="replicar_precio_venta(${cont}, '#cantidad_${cont}', this);">
-            <input type="hidden" class="cantidad_${cont}" name="cantidad[]" id="cantidad_${cont}" value="${cantidad}" min="0.01" required onkeyup="update_stock(${idproducto},${cont});" onchange="update_stock(${idproducto},${cont});">            
-          </td>
-          <td class="py-1 hidden"><input type="number" class="w-135px input-no-border precio_sin_igv_${cont}" name="precio_sin_igv[]" id="precio_sin_igv[]" value="${parseFloat(precio_sin_igv).toFixed(2)}" readonly min="0" ></td>
-          <td class="py-1 hidden"><input type="number" class="w-135px input-no-border precio_igv_${cont}" name="precio_igv[]" id="precio_igv[]" value="${parseFloat(precio_igv).toFixed(2)}" readonly  ></td>
-          <td class="py-1 form-group">
-            <input type="number" class="w-135px form-control valid_precio_con_igv" name="valid_precio_con_igv[${cont}]" id="valid_precio_con_igv_${cont}" value="${parseFloat(precio_venta).toFixed(2)}" min="0.01" required onkeyup="replicar_precio_venta(${cont}, '#precio_con_igv_${cont}', this);" onchange="replicar_precio_venta(${cont}, '#precio_con_igv_${cont}', this);">
-            <input type="hidden" class="precio_con_igv_${cont}" name="precio_con_igv[]" id="precio_con_igv_${cont}" value="${parseFloat(precio_venta).toFixed(2)}" onkeyup="modificarSubtotales();" onchange="modificarSubtotales();">
-            <input type="hidden" name="precio_compra[]" id="precio_compra_${cont}" value="${precio_compra}" >
-          </td>        
-          <td class="py-1 form-group">
-            <input type="number" class="w-135px form-control descuento_${cont}" name="descuento[]" value="${descuento}" min="0.00" onkeyup="modificarSubtotales()" onchange="modificarSubtotales()">
-          </td>
-          <td class="py-1 text-right"><span class="text-right subtotal_producto_${cont}" name="subtotal_producto" id="subtotal_producto">${subtotal}</span></td>
-          <td class="py-1"><button type="button" onclick="modificarSubtotales()" class="btn btn-info btn-sm"><i class="fas fa-sync"></i></button></td>
-        </tr>`;
-
-        detalles = detalles + 1;
-
-        $("#detalles").append(fila);
-
-        array_class_trabajador.push({ id_cont: cont });
-
-        modificarSubtotales();
-        
-        toastr_success("Agregado!!",`Producto: ${nombre} agregado !!`, 700);
-
-        // reglas de validación     
-        $('.valid_precio_con_igv').each(function(e) { 
-          $(this).rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
-          $(this).rules('add', { min:0.01, messages: { min:"Mínimo 0.01" } }); 
-        });
-        $('.valid_cantidad').each(function(e) { 
-          $(this).rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
-          $(this).rules('add', { min:0.01, messages: { min:"Mínimo 0.01" } }); 
-        });
-
-        cont++;
-        evaluar(); 
-      } 
-           
-    }
-  } else {
-    // alert("Error al ingresar el detalle, revisar los datos del artículo");
-    toastr_error("Error!!",`Error al ingresar el detalle, revisar los datos del producto.`, 700);
-  }
-}
-
-function evaluar() {
-  if (detalles > 0) {
-    $("#guardar_registro_ventas").show();
-  } else {
-    $("#guardar_registro_ventas").hide();
-    cont = 0;
-    $(".subtotal_compra").html("S/ 0.00");
-    $("#subtotal_compra").val(0);
-
-    $(".igv_venta").html("S/ 0.00");
-    $("#igv_venta").val(0);
-
-    $(".total_venta").html("S/ 0.00");
-    $("#total_compra").val(0);
-  }
-}
-
-function default_val_igv() { if ($("#tipo_comprobante").select2("val") == "Factura") { $("#val_igv").val(0.18); } }
-
-function modificarSubtotales() {  
-
-  var val_igv = $('#val_igv').val(); //console.log(array_class_trabajador);
-
-  if ($("#tipo_comprobante").select2("val") == null) {
-
-    $(".hidden").hide(); //Ocultamos: IGV, PRECIO CON IGV
-
-    $("#colspan_subtotal").attr("colspan", 5); //cambiamos el: colspan
-
-    $("#val_igv").val(0);
-    $("#val_igv").prop("readonly",true);
-    $(".val_igv").html('IGV (0%)');
-
-    $("#tipo_gravada").val('NO GRAVADA');
-    $(".tipo_gravada").html('NO GRAVADA');
-
-    if (array_class_trabajador.length === 0) {
-    } else {
-      array_class_trabajador.forEach((element, index) => {
-        var cantidad = parseFloat($(`.cantidad_${element.id_cont}`).val());
-        var precio_con_igv = parseFloat($(`.precio_con_igv_${element.id_cont}`).val());
-        var deacuento = parseFloat($(`.descuento_${element.id_cont}`).val());
-        var subtotal_producto = 0;
-
-        // Calculamos: IGV
-        var precio_sin_igv = precio_con_igv;
-        $(`.precio_sin_igv_${element.id_cont}`).val(precio_sin_igv);
-
-        // Calculamos: precio + IGV
-        var igv = 0;
-        $(`.precio_igv_${element.id_cont}`).val(igv);
-
-        // Calculamos: Subtotal de cada producto
-        subtotal_producto = cantidad * parseFloat(precio_con_igv) - deacuento;
-        $(`.subtotal_producto_${element.id_cont}`).html(formato_miles(subtotal_producto.toFixed(4)));
-      });
-      calcularTotalesSinIgv();
-    }
-  } else {
-    if ($("#tipo_comprobante").select2("val") == "Factura") {
-
-      $(".hidden").show(); //Mostramos: IGV, PRECIO SIN IGV
-
-      $("#colspan_subtotal").attr("colspan", 7); //cambiamos el: colspan
-      
-      $("#val_igv").prop("readonly",false);
-
-      if (array_class_trabajador.length === 0) {
-        if (val_igv == '' || val_igv <= 0) {
-          $("#tipo_gravada").val('NO GRAVADA');
-          $(".tipo_gravada").html('NO GRAVADA');
-          $(".val_igv").html(`IGV (0%)`);
-        } else {
-          $("#tipo_gravada").val('GRAVADA');
-          $(".tipo_gravada").html('GRAVADA');
-          $(".val_igv").html(`IGV (${(parseFloat(val_igv) * 100).toFixed(2)}%)`);
-        }
-        
-      } else {
-        // validamos el valor del igv ingresado        
-
-        array_class_trabajador.forEach((element, index) => {
-          var cantidad = parseFloat($(`.cantidad_${element.id_cont}`).val());
-          var precio_con_igv = parseFloat($(`.precio_con_igv_${element.id_cont}`).val());
-          var deacuento = parseFloat($(`.descuento_${element.id_cont}`).val());
-          var subtotal_producto = 0;
-
-          // Calculamos: Precio sin IGV
-          var precio_sin_igv = ( quitar_igv_del_precio(precio_con_igv, val_igv, 'decimal')).toFixed(2);
-          $(`.precio_sin_igv_${element.id_cont}`).val(precio_sin_igv);
-
-          // Calculamos: IGV
-          var igv = (parseFloat(precio_con_igv) - parseFloat(precio_sin_igv)).toFixed(2);
-          $(`.precio_igv_${element.id_cont}`).val(igv);
-
-          // Calculamos: Subtotal de cada producto
-          subtotal_producto = cantidad * parseFloat(precio_con_igv) - deacuento;
-          $(`.subtotal_producto_${element.id_cont}`).html(formato_miles(subtotal_producto.toFixed(2)));
-        });
-
-        calcularTotalesConIgv();
-      }
-    } else {
-
-      $(".hidden").hide(); //Ocultamos: IGV, PRECIO CON IGV
-
-      $("#colspan_subtotal").attr("colspan", 5); //cambiamos el: colspan
-
-      $("#val_igv").val(0);
-      $("#val_igv").prop("readonly",true);
-      $(".val_igv").html('IGV (0%)');
-
-      $("#tipo_gravada").val('NO GRAVADA');
-      $(".tipo_gravada").html('NO GRAVADA');
-
-      if (array_class_trabajador.length === 0) {
-      } else {
-        array_class_trabajador.forEach((element, index) => {
-          var cantidad = parseFloat($(`.cantidad_${element.id_cont}`).val());
-          var precio_con_igv = parseFloat($(`.precio_con_igv_${element.id_cont}`).val());
-          var deacuento = parseFloat($(`.descuento_${element.id_cont}`).val());
-          var subtotal_producto = 0;
-
-          // Calculamos: IGV
-          var precio_sin_igv = precio_con_igv;
-          $(`.precio_sin_igv_${element.id_cont}`).val(precio_sin_igv);
-
-          // Calculamos: precio + IGV
-          var igv = 0;
-          $(`.precio_igv_${element.id_cont}`).val(igv);
-
-          // Calculamos: Subtotal de cada producto
-          subtotal_producto = cantidad * parseFloat(precio_con_igv) - deacuento;
-          $(`.subtotal_producto_${element.id_cont}`).html(formato_miles(subtotal_producto.toFixed(4)));
-        });
-
-        calcularTotalesSinIgv();
-      }
-    }
-  }
-  toastr_success("Actualizado!!",`Precio Actualizado.`, 700);
-  capturar_pago_compra();
-}
-
-function calcularTotalesSinIgv() {
-  var total = 0.0;
-  var igv = 0;
-  var mtotal = 0;
-
-  if (array_class_trabajador.length === 0) {
-  } else {
-    array_class_trabajador.forEach((element, index) => {
-      total += parseFloat(quitar_formato_miles($(`.subtotal_producto_${element.id_cont}`).text()));
-    });
-
-    $(".subtotal_compra").html("S/ " + formato_miles(total));
-    $("#subtotal_compra").val(redondearExp(total, 4));
-
-    $(".igv_venta").html("S/ 0.00");
-    $("#igv_venta").val(0.0);
-    $(".val_igv").html('IGV (0%)');
-
-    $(".total_venta").html("S/ " + formato_miles(total.toFixed(2)));
-    $("#total_venta").val(redondearExp(total, 4));
-  }
-}
-
-function calcularTotalesConIgv() {
-  var val_igv = $('#val_igv').val();
-  var igv = 0;
-  var total = 0.0;
-
-  var subotal_sin_igv = 0;
-
-  array_class_trabajador.forEach((element, index) => {
-    total += parseFloat(quitar_formato_miles($(`.subtotal_producto_${element.id_cont}`).text()));
-  });
-
-  //console.log(total); 
-
-  subotal_sin_igv = quitar_igv_del_precio(total, val_igv, 'decimal').toFixed(2);
-  igv = (parseFloat(total) - parseFloat(subotal_sin_igv)).toFixed(2);
-
-  $(".subtotal_compra").html(`S/ ${formato_miles(subotal_sin_igv)}`);
-  $("#subtotal_compra").val(redondearExp(subotal_sin_igv, 4));
-
-  $(".igv_venta").html("S/ " + formato_miles(igv));
-  $("#igv_venta").val(igv);
-
-  $(".total_venta").html("S/ " + formato_miles(total.toFixed(2)));
-  $("#total_venta").val(redondearExp(total, 4));
-
-  total = 0.0;
-}
-
-function ocultar_comprob() {
-  if ($("#tipo_comprobante").select2("val") == "Ninguno") {
-    $("#content-serie-comprobante").hide();
-
-    $("#content-serie-comprobante").val("");
-
-    $("#content-descripcion").removeClass("col-lg-5").addClass("col-lg-7");
-  } else {
-    $("#content-serie-comprobante").show();
-
-    $("#content-descripcion").removeClass("col-lg-7").addClass("col-lg-5");
-  }
-}
-
-function eliminarDetalle(idproducto, indice) {
-  $("#fila" + indice).remove();
-
-  array_class_trabajador.forEach(function (car, index, object) {
-    if (car.id_cont === indice) {
-      object.splice(index, 1);
-    }
-  });  
-
-  modificarSubtotales();
-
-  detalles = detalles - 1;
-
-  evaluar();
-
-  toastr_warning("Removido!!","Producto removido", 700);
-}
-
-//mostramos para editar el datalle del comprobante de la ventas
-function mostrar_venta(idventa_producto) {
-
-  $("#cargando-1-fomulario").hide();
-  $("#cargando-2-fomulario").show();
-
-  limpiar_form_compra();
-  array_class_trabajador = [];
-
-  cont = 0;
-  detalles = 0;
-  table_show_hide(2);
-
-  $.post("../ajax/venta_tours.php?op=ver_venta_editar", { idventa_producto: idventa_producto }, function (e, status) {
-    
-    e = JSON.parse(e); //console.log(e);
-
-    if (e.status == true) {
-      
-      if (e.data.venta.tipo_comprobante == "Factura") {
-        $(".content-igv").show();
-        $(".content-tipo-comprobante").removeClass("col-lg-5 col-lg-4").addClass("col-lg-4");
-        $(".content-descripcion").removeClass("col-lg-4 col-lg-5 col-lg-7 col-lg-8").addClass("col-lg-5");
-        $(".content-serie-comprobante").show();
-      } else if (e.data.venta.tipo_comprobante == "Boleta" || e.data.venta.tipo_comprobante == "Nota de venta") {
-        $(".content-serie-comprobante").show();
-        $(".content-igv").hide();
-        $(".content-tipo-comprobante").removeClass("col-lg-4 col-lg-5").addClass("col-lg-5");
-        $(".content-descripcion").removeClass(" col-lg-4 col-lg-5 col-lg-7 col-lg-8").addClass("col-lg-5");
-      } else if (e.data.venta.tipo_comprobante == "Ninguno") {
-        $(".content-serie-comprobante").hide();
-        $(".content-serie-comprobante").val("");
-        $(".content-igv").hide();
-        $(".content-tipo-comprobante").removeClass("col-lg-5 col-lg-4").addClass("col-lg-4");
-        $(".content-descripcion").removeClass(" col-lg-4 col-lg-5 col-lg-7").addClass("col-lg-8");
-      } else {
-        $(".content-serie-comprobante").show();
-        //$(".content-descripcion").removeClass("col-lg-7").addClass("col-lg-4");
-      }
-
-      $("#idventa_producto").val(e.data.venta.idventa_producto);
-      $("#idcliente").val(e.data.venta.idpersona).trigger("change");
-      $("#fecha_venta").val(e.data.venta.fecha_venta);
-      $("#tipo_comprobante").val(e.data.venta.tipo_comprobante).trigger("change");
-      $("#serie_comprobante").val(e.data.venta.serie_comprobante).trigger("change");
-      $("#val_igv").val(e.data.venta.val_igv);
-      $("#descripcion").val(e.data.venta.descripcion);
-
-      $("#metodo_pago").val(e.data.venta.metodo_pago).trigger("change");
-      $("#fecha_proximo_pago").val(e.data.venta.fecha_proximo_pago);
-
-      if (e.data.detalle) {
-
-        e.data.detalle.forEach((val, index) => {
-
-          var img = "";
-
-          if (val.imagen == "" || val.imagen == null) {
-            img = `../dist/docs/producto/img_perfil/producto-sin-foto.svg`;
-          } else {
-            img = `../dist/docs/producto/img_perfil/${val.imagen}`;
-          }
-
-          recover_stock(val.idproducto, cont, val.cantidad );
-
-          var fila = `
-          <tr class="filas" id="fila${cont}">
-            <td>
-              <button type="button" class="btn btn-warning btn-sm" onclick="mostrar_productos(${val.idproducto}, ${cont})"><i class="fas fa-pencil-alt"></i></button>
-              <button type="button" class="btn btn-danger btn-sm btn-file-delete-${cont}" onclick="recover_stock(${val.idproducto}, ${cont}, 0, 'recover_remove_edit');"><i class="fas fa-times"></i></button></td>
-            </td>
-            <td>
-              <input type="hidden" name="idproducto[]" value="${val.idproducto}">
-              <div class="user-block text-nowrap">
-                <img class="profile-user-img img-responsive img-circle cursor-pointer img_perfil_${cont}" src="${img}" alt="user image" onerror="this.src='../dist/svg/404-v2.svg';" onclick="ver_img_producto('${img}', '${encodeHtml(val.nombre)}')">
-                <span class="username"><p class="mb-0 nombre_producto_${cont}" >${val.nombre}</p></span>
-                <span class="description categoria_${cont}"><b>Categoría: </b>${val.categoria}</span>
-              </div>
-            </td>
-            <td> <span class="unidad_medida_${cont}">${val.unidad_medida}</span> <input class="unidad_medida_${cont}" type="hidden" name="unidad_medida[]" id="unidad_medida[]" value="${val.unidad_medida}"> <input class="categoria_${cont}" type="hidden" name="categoria[]" id="categoria[]" value="${val.categoria}"></td>            
-            <td class="py-1 form-group">
-              <input class="w-100px valid_cantidad form-control producto_${val.idproducto} producto_selecionado" type="number" name="valid_cantidad[${cont}]" id="valid_cantidad_${cont}" value="${val.cantidad}" min="0.01" required onkeyup="replicar_precio_venta(${cont}, '#cantidad_${cont}', this);" onchange="replicar_precio_venta(${cont}, '#cantidad_${cont}', this);">
-              <input type="hidden" class="cantidad_${cont}" name="cantidad[]" id="cantidad_${cont}" value="${val.cantidad}" onkeyup="update_stock(${val.idproducto},${cont});" onchange="update_stock(${val.idproducto},${cont});">              
-              <input type="hidden" class="" name="cantidad_old[]" id="cantidad_old_${cont}" value="${val.cantidad}">
-            </td>
-            <td class="hidden"><input type="number" class="w-135px input-no-border precio_sin_igv_${cont}" name="precio_sin_igv[]" id="precio_sin_igv[]" value="${val.precio_sin_igv}" readonly ></td>
-            <td class="hidden"><input type="number" class="w-135px input-no-border precio_igv_${cont}" name="precio_igv[]" id="precio_igv[]" value="${val.igv}" readonly ></td>             
-            <td class="py-1 form-group">
-              <input type="number" class="w-135px form-control valid_precio_con_igv" name="valid_precio_con_igv[${cont}]" id="valid_precio_con_igv_${cont}" value="${parseFloat(val.precio_con_igv).toFixed(2)}" min="0.01" required onkeyup="replicar_precio_venta(${cont}, '#precio_con_igv_${cont}', this);" onchange="replicar_precio_venta(${cont}, '#precio_con_igv_${cont}', this);">
-              <input type="hidden" class="precio_con_igv_${cont}" name="precio_con_igv[]" id="precio_con_igv_${cont}" value="${parseFloat(val.precio_con_igv).toFixed(2)}" onkeyup="modificarSubtotales();" onchange="modificarSubtotales();">
-              <input type="hidden" name="precio_compra[]" id="precio_compra_${cont}" value="${val.precio_compra}" >
-            </td>
-            <td class="py-1 form-group">
-              <input type="number" class="w-135px form-control descuento_${cont}" name="descuento[]" value="${val.descuento}" min="0.00" onkeyup="modificarSubtotales()" onchange="modificarSubtotales()">
-            </td>
-            <td class="text-right"><span class="text-right subtotal_producto_${cont}" name="subtotal_producto" id="subtotal_producto">0.00</span></td>
-            <td><button type="button" onclick="modificarSubtotales()" class="btn btn-info btn-sm"><i class="fas fa-sync"></i></button></td>
-          </tr>`;
-
-          detalles = detalles + 1;
-
-          $("#detalles").append(fila);
-
-          array_class_trabajador.push({ id_cont: cont });
-
-          // reglas de validación     
-          $('.valid_precio_con_igv').each(function(e) { 
-            $(this).rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
-            $(this).rules('add', { min:0.01, messages: { min:"Mínimo 0.01" } }); 
-          });
-          $('.valid_cantidad').each(function(e) { 
-            $(this).rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
-            $(this).rules('add', { min:0.01, messages: { min:"Mínimo 0.01" } }); 
-          });
-
-          cont++;
-          evaluar();
-        });
-
-        modificarSubtotales();
-      } else {  
-        toastr_error("Sin productos!!","Este registro no tiene productos para mostrar", 700);     
-      }
-
-      $("#cargando-1-fomulario").show();
-      $("#cargando-2-fomulario").hide();
-      
-    } else {
-      ver_errores(e);
-    }
-    
-  }).fail( function(e) { ver_errores(e); } );
-}
-
-//mostramos para editar el datalle del comprobante de la ventas
-function copiar_venta(idventa_producto) {
-
-  $("#cargando-1-fomulario").hide();
-  $("#cargando-2-fomulario").show();
-
-  limpiar_form_compra();
-  array_class_trabajador = [];
-
-  cont = 0;
-  detalles = 0;
-  table_show_hide(2);
-
-  $.post("../ajax/venta_tours.php?op=ver_venta_editar", { idventa_producto: idventa_producto }, function (e, status) {
-    
-    e = JSON.parse(e); //console.log(e);
-
-    if (e.status == true) {
-      
-      if (e.data.venta.tipo_comprobante == "Factura") {
-        $(".content-igv").show();
-        $(".content-tipo-comprobante").removeClass("col-lg-5 col-lg-4").addClass("col-lg-4");
-        $(".content-descripcion").removeClass("col-lg-4 col-lg-5 col-lg-7 col-lg-8").addClass("col-lg-5");
-        $(".content-serie-comprobante").show();
-      } else if (e.data.venta.tipo_comprobante == "Boleta" || e.data.venta.tipo_comprobante == "Nota de venta") {
-        $(".content-serie-comprobante").show();
-        $(".content-igv").hide();
-        $(".content-tipo-comprobante").removeClass("col-lg-4 col-lg-5").addClass("col-lg-5");
-        $(".content-descripcion").removeClass(" col-lg-4 col-lg-5 col-lg-7 col-lg-8").addClass("col-lg-5");
-      } else if (e.data.venta.tipo_comprobante == "Ninguno") {
-        $(".content-serie-comprobante").hide();
-        $(".content-serie-comprobante").val("");
-        $(".content-igv").hide();
-        $(".content-tipo-comprobante").removeClass("col-lg-5 col-lg-4").addClass("col-lg-4");
-        $(".content-descripcion").removeClass(" col-lg-4 col-lg-5 col-lg-7").addClass("col-lg-8");
-      } else {
-        $(".content-serie-comprobante").show();
-        //$(".content-descripcion").removeClass("col-lg-7").addClass("col-lg-4");
-      }
-
-      // $("#idventa_producto").val(e.data.venta.idventa_producto); // esto no se usa cuando duplicams la factura
-      $("#idcliente").val(e.data.venta.idpersona).trigger("change");
-      $("#fecha_venta").val(e.data.venta.fecha_venta);
-      $("#tipo_comprobante").val(e.data.venta.tipo_comprobante).trigger("change");
-      $("#serie_comprobante").val(e.data.venta.serie_comprobante).trigger("change");
-      $("#val_igv").val(e.data.venta.val_igv);
-      $("#descripcion").val(e.data.venta.descripcion);
-
-      $("#metodo_pago").val(e.data.venta.metodo_pago).trigger("change");
-      $("#fecha_proximo_pago").val(e.data.venta.fecha_proximo_pago);
-
-      if (e.data.detalle) {
-
-        e.data.detalle.forEach((val, index) => {
-
-          var img = "";
-
-          if (val.imagen == "" || val.imagen == null) {
-            img = `../dist/docs/producto/img_perfil/producto-sin-foto.svg`;
-          } else {
-            img = `../dist/docs/producto/img_perfil/${val.imagen}`;
-          }    
-
-          var fila = `
-          <tr class="filas" id="fila${cont}">
-            <td>
-              <button type="button" class="btn btn-warning btn-sm" onclick="mostrar_productos(${val.idproducto}, ${cont})"><i class="fas fa-pencil-alt"></i></button>
-              <button type="button" class="btn btn-danger btn-sm btn-file-delete-${cont}" onclick="recover_stock(${val.idproducto}, ${cont}, 0, 'recover_remove_new');"><i class="fas fa-times"></i></button></td>
-            </td>
-            <td>
-              <input type="hidden" name="idproducto[]" value="${val.idproducto}">
-              <div class="user-block text-nowrap">
-                <img class="profile-user-img img-responsive img-circle cursor-pointer img_perfil_${cont}" src="${img}" alt="user image" onerror="this.src='../dist/svg/404-v2.svg';" onclick="ver_img_producto('${img}', '${encodeHtml(val.nombre)}')">
-                <span class="username"><p class="mb-0 nombre_producto_${cont}" >${val.nombre}</p></span>
-                <span class="description categoria_${cont}"><b>Categoría: </b>${val.categoria}</span>
-              </div>
-            </td>
-            <td> <span class="unidad_medida_${cont}">${val.unidad_medida}</span> <input class="unidad_medida_${cont}" type="hidden" name="unidad_medida[]" id="unidad_medida[]" value="${val.unidad_medida}"> <input class="categoria_${cont}" type="hidden" name="categoria[]" id="categoria[]" value="${val.categoria}"></td>            
-            <td class="py-1 form-group">
-              <input class="w-100px valid_cantidad form-control producto_${val.idproducto} producto_selecionado" type="number" name="valid_cantidad[${cont}]" id="valid_cantidad_${cont}" value="${val.cantidad}" min="0.01" required onkeyup="replicar_precio_venta(${cont}, '#cantidad_${cont}', this);" onchange="replicar_precio_venta(${cont}, '#cantidad_${cont}', this);">
-              <input type="hidden" class="cantidad_${cont}" name="cantidad[]" id="cantidad_${cont}" value="${val.cantidad}" onkeyup="update_stock(${val.idproducto},${cont});" onchange="update_stock(${val.idproducto},${cont});">              
-              <input type="hidden" class="" name="cantidad_old[]" id="cantidad_old_${cont}" value="${val.cantidad}">
-            </td>
-            <td class="hidden"><input type="number" class="w-135px input-no-border precio_sin_igv_${cont}" name="precio_sin_igv[]" id="precio_sin_igv[]" value="${val.precio_sin_igv}" readonly ></td>
-            <td class="hidden"><input type="number" class="w-135px input-no-border precio_igv_${cont}" name="precio_igv[]" id="precio_igv[]" value="${val.igv}" readonly ></td>             
-            <td class="py-1 form-group">
-              <input type="number" class="w-135px form-control valid_precio_con_igv" name="valid_precio_con_igv[${cont}]" id="valid_precio_con_igv_${cont}" value="${parseFloat(val.precio_con_igv).toFixed(2)}" min="0.01" required onkeyup="replicar_precio_venta(${cont}, '#precio_con_igv_${cont}', this);" onchange="replicar_precio_venta(${cont}, '#precio_con_igv_${cont}', this);">
-              <input type="hidden" class="precio_con_igv_${cont}" name="precio_con_igv[]" id="precio_con_igv_${cont}" value="${parseFloat(val.precio_con_igv).toFixed(2)}" onkeyup="modificarSubtotales();" onchange="modificarSubtotales();">
-              <input type="hidden" name="precio_compra[]" id="precio_compra_${cont}" value="${val.precio_compra}" >
-            </td>
-            <td class="py-1 form-group">
-              <input type="number" class="w-135px form-control descuento_${cont}" name="descuento[]" value="${val.descuento}" min="0.00" onkeyup="modificarSubtotales()" onchange="modificarSubtotales()">
-            </td>
-            <td class="text-right"><span class="text-right subtotal_producto_${cont}" name="subtotal_producto" id="subtotal_producto">0.00</span></td>
-            <td><button type="button" onclick="modificarSubtotales()" class="btn btn-info btn-sm"><i class="fas fa-sync"></i></button></td>
-          </tr>`;
-
-          detalles = detalles + 1;
-
-          $("#detalles").append(fila);
-
-          array_class_trabajador.push({ id_cont: cont });
-
-          // reglas de validación     
-          $('.valid_precio_con_igv').each(function(e) { 
-            $(this).rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
-            $(this).rules('add', { min:0.01, messages: { min:"Mínimo 0.01" } }); 
-          });
-          $('.valid_cantidad').each(function(e) { 
-            $(this).rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
-            $(this).rules('add', { min:0.01, messages: { min:"Mínimo 0.01" } }); 
-          });
-
-          update_stock(val.idproducto, cont);
-
-          cont++;
-          evaluar();
-        });
-
-        modificarSubtotales();
-      } else {  
-        toastr_error("Sin productos!!","Este registro no tiene productos para mostrar", 700);     
-      }
-
-      $("#cargando-1-fomulario").show();
-      $("#cargando-2-fomulario").hide();
-      
-    } else {
-      ver_errores(e);
-    }
-    
-  }).fail( function(e) { ver_errores(e); } );
-}
-
-//mostramos el detalle del comprobante de la ventas
-function ver_detalle_ventas(idventa_producto) {
-
-  $("#cargando-5-fomulario").hide();
-  $("#cargando-6-fomulario").show();
-
-  $("#print_pdf_compra").addClass('disabled');
-  $("#excel_compra").addClass('disabled');
-
-  $("#modal-ver-ventas").modal("show");
-
-  $.post(`../ajax/ajax_general.php?op=ver_detalle_ventas&idventa_producto=${idventa_producto}`, function (e) {
-    e = JSON.parse(e); console.log(e);
-    if (e.status == true) {
-      $(".detalle_de_compra").html(e.data); 
-      $("#cargando-5-fomulario").show();
-      $("#cargando-6-fomulario").hide();
-
-      $("#excel_compra").removeClass('disabled').attr('href', `../reportes/export_xlsx_venta_tours.php?id=${idventa_producto}`);
-      $("#print_pdf_compra").removeClass('disabled').attr('href', `../reportes/pdf_venta_productos.php?id=${idventa_producto}` );
-      
-    } else {
-      ver_errores(e);
-    }    
-  }).fail( function(e) { ver_errores(e); } );
-}
 
 // :::::::::::::::::::::::::: S E C C I O N   P A G O   V E N T A  ::::::::::::::::::::::::::
 
@@ -1502,11 +830,7 @@ function limpiar_form_proveedor() {
 
   $("#nacimiento_per").val("");
   $("#edad_per").val("");
-  $(".edad_per").html("0 años.");  
-
-  $("#input_socio_per").val("0"); 
-  $(".sino_per").html('(NO)');
-  $("#socio_per").prop('checked', false);  
+  $(".edad_per").html("0 años.");    
 
   $("#foto1_i").attr("src", "../dist/img/default/img_defecto.png");
 	$("#foto1").val("");
@@ -1657,14 +981,7 @@ function mostrar_para_editar_proveedor() {
       $("#id_tipo_persona_per").val(e.data.idtipo_persona); 
 
       $("#sueldo_mensual_per").val(e.data.sueldo_mensual);
-      $("#sueldo_diario_per").val(e.data.sueldo_diario);  
-      
-      $("#input_socio_per").val(e.data.es_socio); 
-      if (e.data.es_socio==1) {        
-        $("#input_socio_per").val('1');
-        $(".sino_per").html('(SI)');        
-        if($('#socio_per').is(':checked') ){$("#definiendo").prop('checked', false);  }else{ $("#socio_per").prop('checked', true); }
-      }
+      $("#sueldo_diario_per").val(e.data.sueldo_diario);       
 
       if (e.data.foto_perfil!="") {
         $("#foto1_i").attr("src", "../dist/docs/persona/perfil/" + e.data.foto_perfil);
@@ -1678,14 +995,6 @@ function mostrar_para_editar_proveedor() {
       ver_errores(e);
     }    
   }).fail( function(e) { ver_errores(e); });
-}
-
-function habilitando_socio() {  
-  if ($("#socio_per").val()==null || $("#socio_per").val()=="" || $('#socio_per').is(':checked') ) {
-    $("#input_socio_per").val('0'); $(".sino_per").html('(NO)');
-  }else{
-    $("#input_socio_per").val('1'); $(".sino_per").html('(SI)');
-  }
 }
 
 // :::::::::::::::::::::::::: S E C C I O N   P R O D U C T O  ::::::::::::::::::::::::::
@@ -1748,6 +1057,8 @@ function listarmateriales() {
       },
     },
     createdRow: function (row, data, ixdex) {
+      // columna: op
+      if (data[0] != '') { $("td", row).eq(0).addClass('text-nowrap'); }  
       // columna: sueldo mensual
       if (data[3] != '') { $("td", row).eq(3).addClass('text-right'); }  
     },
@@ -1757,7 +1068,7 @@ function listarmateriales() {
       sLoadingRecords: '<i class="fas fa-spinner fa-pulse fa-lg"></i> Cargando datos...'
     },
     bDestroy: true,
-    iDisplayLength: 100, //Paginación
+    iDisplayLength: 10, //Paginación
     // order: [[0, "desc"]], //Ordenar (columna,orden)
   }).DataTable();
 }
@@ -2050,7 +1361,6 @@ $(function () {
 
 });
 
-
 // .....::::::::::::::::::::::::::::::::::::: F U N C I O N E S    A L T E R N A S  :::::::::::::::::::::::::::::::::::::::..
 
 function cargando_search() {
@@ -2124,70 +1434,4 @@ function formato_banco() {
   }  
 }
 
-function replicar_precio_venta(cont, name_input, valor) {
-  var value = $(valor).val(); console.log(value);
-  $(`${name_input}`).val(value).trigger("change");
-}
 
-function update_stock(id, count) {console.log(id, count);  
-  var stock = $(`#table_stock_${id}`).attr('stock') == 0  ||  $(`#table_stock_${id}`).attr('stock') == ''? 0 : parseFloat($(`#table_stock_${id}`).attr('stock')) ;
-  var cant  = $(`.cantidad_${count}`).val() == 0  ||  $(`.cantidad_${count}`).val() == ''? 0 : parseFloat($(`.cantidad_${count}`).val()) ;
-  var dif   = stock - cant;
-  console.log('stock =' + stock, 'cant =' + cant, 'dif =' + dif);
-  if (stock >= cant) {    
-    $(`#table_stock_${id}`).html(formato_miles(dif));    
-    modificarSubtotales();    
-  } else {
-    $(`#valid_cantidad_${count}`).val(0);
-    toastr_error('No hay Stock!!', 'El producto se quedo sin stock, recarga en el modulo de <a href="ingreso_producto.php">compras</a>', 700);
-  }  
-}
-
-function recover_stock(id, count, cantidad_entrante, type_recover = false) {
-  var stock_actual = $(`#table_stock_${id}`).attr('stock') == 0  ||  $(`#table_stock_${id}`).attr('stock') == ''? 0 : parseFloat($(`#table_stock_${id}`).attr('stock')) ;
-  var cant  = $(`.cantidad_${count}`).val() == 0  ||  $(`.cantidad_${count}`).val() == ''? 0 : parseFloat($(`.cantidad_${count}`).val()) ;
-  var cant_old  = $(`#cantidad_old_${count}`).val() == 0  ||  $(`#cantidad_old_${count}`).val() == ''? 0 : parseFloat($(`#cantidad_old_${count}`).val()) ;
-  
-  if (type_recover == null || type_recover == '' || type_recover == false) {
-
-    var diferencia = stock_actual + parseFloat(cantidad_entrante);
-    $(`#table_stock_${id}`).attr('stock', diferencia);
-
-  } else if(type_recover == 'recover_remove_new') { /* -- recuperamos cuando CREAMOS una nueva venta -- */ 
-    
-    $(`.btn-file-delete-${count}`).html(`<i class="fas fa-spinner fa-pulse"></i>`).addClass('disabled');    
-    $(`#table_stock_${id}`).html( formato_miles(stock_actual) );
-    eliminarDetalle(id, count);
-
-  } else if(type_recover == 'recover_remove_edit') { /* -- recuperamos cuando EDITAMOS una nueva venta -- */ 
-    //  esta funcioalidad queda pendiente ---------
-    
-    $(`.btn-file-delete-${count}`).html(`<i class="fas fa-spinner fa-pulse"></i>`).addClass('disabled');     
-    $(`#table_stock_${id}`).html( formato_miles(stock_actual) );    
-    $(`#add-productos-eliminados`).append(`<input name="idproducto_recover[] value="" /><input name="stock_recover[] value="" />`);    
-    eliminarDetalle(id, count);
-     
-  }
-}
-
-function autoincrement_comprobante(data) {
-  var comprobante = $(data).select2('val');  
-
-  if (comprobante == null || comprobante == '' ) {
-    $('#serie_comprobante').val("");
-  } else {
-    
-    $.post(`../ajax/ajax_general.php?op=autoincrement_comprobante`, function (e, textStatus, jqXHR) {
-      e = JSON.parse(e); //console.log(e);
-
-      if (comprobante == 'Boleta') {
-        $('#serie_comprobante').val(`B-${e.data.venta_producto_b}`);
-      } else if (comprobante == 'Factura'){
-        $('#serie_comprobante').val(`F-${e.data.venta_producto_f}`);
-      } else if (comprobante == 'Nota de venta'){
-        $('#serie_comprobante').val(`NV-${e.data.venta_producto_nv}`);
-      }
-      
-    },);
-  }
-}

@@ -329,11 +329,7 @@ function limpiar_form_trabajador() {
 
   $("#nacimiento_per").val("");
   $("#edad_per").val("");
-  $(".edad_per").html("0 años.");  
-
-  $("#input_socio_per").val("0"); 
-  $(".sino_per").html('(NO)');
-  $("#socio_per").prop('checked', false);  
+  $(".edad_per").html("0 años.");    
 
   $("#foto1_i").attr("src", "../dist/img/default/img_defecto.png");
 	$("#foto1").val("");

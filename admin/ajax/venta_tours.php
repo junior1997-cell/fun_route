@@ -25,7 +25,7 @@ if (!isset($_SESSION["nombre"])) {
     $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/fun_route/admin/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/admin/');
 
     // :::::::::::::::::::::::::::::::::::: D A T O S   V E N T A ::::::::::::::::::::::::::::::::::::::
-    $idventa_producto   = isset($_POST["idventa_producto"]) ? limpiarCadena($_POST["idventa_producto"]) : "";
+    $idventa_tours   = isset($_POST["idventa_tours"]) ? limpiarCadena($_POST["idventa_tours"]) : "";
     $idcliente          = isset($_POST["idcliente"]) ? limpiarCadena($_POST["idcliente"]) : "";
     $num_doc            = isset($_POST["num_doc"]) ? limpiarCadena($_POST["num_doc"]) : "";
     $fecha_venta        = isset($_POST["fecha_venta"]) ? limpiarCadena($_POST["fecha_venta"]) : "";
@@ -44,7 +44,7 @@ if (!isset($_SESSION["nombre"])) {
     
     // :::::::::::::::::::::::::::::::::::: D A T O S   P A G O   V E N T A ::::::::::::::::::::::::::::::::::::::
     $idpago_venta_producto_pv  = isset($_POST["idpago_venta_producto_pv"]) ? limpiarCadena($_POST["idpago_venta_producto_pv"]) : "";
-    $idventa_producto_pv       = isset($_POST["idventa_producto_pv"]) ? limpiarCadena($_POST["idventa_producto_pv"]) : "";  
+    $idventa_tours_pv       = isset($_POST["idventa_tours_pv"]) ? limpiarCadena($_POST["idventa_tours_pv"]) : "";  
     $forma_pago_pv             = isset($_POST["forma_pago_pv"]) ? limpiarCadena($_POST["forma_pago_pv"]) : "";
     $fecha_pago_pv             = isset($_POST["fecha_pago_pv"]) ? limpiarCadena($_POST["fecha_pago_pv"]) : "";
     $monto_pv                  = isset($_POST["monto_pv"]) ? limpiarCadena($_POST["monto_pv"]) : "";  
@@ -71,8 +71,7 @@ if (!isset($_SESSION["nombre"])) {
     $id_tipo_persona_per 	= isset($_POST["id_tipo_persona_per"])? limpiarCadena($_POST["id_tipo_persona_per"]):"";
     $nombre_per 		      = isset($_POST["nombre_per"])? limpiarCadena($_POST["nombre_per"]):"";
     $tipo_documento_per 	= isset($_POST["tipo_documento_per"])? limpiarCadena($_POST["tipo_documento_per"]):"";
-    $num_documento_per  	= isset($_POST["num_documento_per"])? limpiarCadena($_POST["num_documento_per"]):"";
-    $input_socio_per     	= isset($_POST["input_socio_per"])? limpiarCadena($_POST["input_socio_per"]):"";
+    $num_documento_per  	= isset($_POST["num_documento_per"])? limpiarCadena($_POST["num_documento_per"]):"";    
     $direccion_per		    = isset($_POST["direccion_per"])? limpiarCadena($_POST["direccion_per"]):"";
     $telefono_per		      = isset($_POST["telefono_per"])? limpiarCadena($_POST["telefono_per"]):"";     
     $email_per			      = isset($_POST["email_per"])? limpiarCadena($_POST["email_per"]):"";
@@ -147,7 +146,7 @@ if (!isset($_SESSION["nombre"])) {
 
         if (empty($idpersona_per)){
 
-          $rspta=$persona->insertar($id_tipo_persona_per,$tipo_documento_per,$num_documento_per,$nombre_per,$input_socio_per,$email_per,$telefono_per,$banco,$cta_bancaria,$cci,
+          $rspta=$persona->insertar($id_tipo_persona_per,$tipo_documento_per,$num_documento_per,$nombre_per,$email_per,$telefono_per,$banco,$cta_bancaria,$cci,
             $titular_cuenta_per,$direccion_per,$nacimiento_per,$cargo_trabajador_per,$sueldo_mensual_per,$sueldo_diario_per,$edad_per, $imagen1);
                       
           echo json_encode($rspta, true);
@@ -161,7 +160,7 @@ if (!isset($_SESSION["nombre"])) {
           }           
 
           // editamos un persona existente
-          $rspta=$persona->editar($idpersona_per,$id_tipo_persona_per,$tipo_documento_per,$num_documento_per,$nombre_per,$input_socio_per,$email_per,$telefono_per,$banco,$cta_bancaria,$cci,
+          $rspta=$persona->editar($idpersona_per,$id_tipo_persona_per,$tipo_documento_per,$num_documento_per,$nombre_per,$email_per,$telefono_per,$banco,$cta_bancaria,$cci,
             $titular_cuenta_per,$direccion_per,$nacimiento_per,$cargo_trabajador_per,$sueldo_mensual_per,$sueldo_diario_per,$edad_per, $imagen1);
             
           echo json_encode($rspta, true);
@@ -178,7 +177,7 @@ if (!isset($_SESSION["nombre"])) {
       // :::::::::::::::::::::::::: S E C C I O N   V E N T A  ::::::::::::::::::::::::::
       case 'guardaryeditarcompra':
 
-        if (empty($idventa_producto)) {
+        if (empty($idventa_tours)) {
           
           $rspta = $venta_producto->insertar($idcliente, $num_doc, $fecha_venta, $tipo_comprobante, $serie_comprobante, $val_igv, $descripcion, 
           $metodo_pago, $fecha_proximo_pago, $monto_pago_compra,
@@ -189,7 +188,7 @@ if (!isset($_SESSION["nombre"])) {
           echo json_encode($rspta, true);
         } else {
 
-          $rspta = $venta_producto->editar( $idventa_producto, $idcliente, $num_doc, $fecha_venta,  $tipo_comprobante, $serie_comprobante, $val_igv, $descripcion, 
+          $rspta = $venta_producto->editar( $idventa_tours, $idcliente, $num_doc, $fecha_venta,  $tipo_comprobante, $serie_comprobante, $val_igv, $descripcion, 
           $metodo_pago, $fecha_proximo_pago, $monto_pago_compra,
           $total_venta, $subtotal_compra, $igv_venta,  $_POST["idproducto"], $_POST["unidad_medida"], 
           $_POST["categoria"], $_POST["cantidad"], $_POST["cantidad_old"], $_POST["precio_sin_igv"], $_POST["precio_igv"],  $_POST["precio_con_igv"], $_POST["precio_compra"], $_POST["descuento"], 
@@ -240,19 +239,19 @@ if (!isset($_SESSION["nombre"])) {
 
             $data[] = [
               "0" => $cont,
-              "1" => '<button class="btn btn-info btn-sm" onclick="ver_detalle_ventas(' . $reg['idventa_producto'] . ')" data-toggle="tooltip" data-original-title="Ver detalle compra"><i class="fa fa-eye"></i></button>' .
-                ' <button class="btn bg-purple btn-sm" onclick="copiar_venta(' . $reg['idventa_producto'] . ')" data-toggle="tooltip" data-original-title="copiar"><i class="fa-regular fa-copy"></i></button>' . 
-                '<!-- <button class="btn btn-warning btn-sm" onclick="mostrar_venta(' . $reg['idventa_producto'] . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button> -->' . 
-                ' <button class="btn btn-danger  btn-sm" onclick="eliminar_venta(' . $reg['idventa_producto'] .', \''.encodeCadenaHtml('<del><b>' . $reg['tipo_comprobante'] .  '</b> '.(empty($reg['serie_comprobante']) ?  "" :  '- '.$reg['serie_comprobante']).'</del> <del>'.$reg['cliente'].'</del>'). '\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>',
+              "1" => '<button class="btn btn-info btn-sm" onclick="ver_detalle_ventas(' . $reg['idventa_tours'] . ')" data-toggle="tooltip" data-original-title="Ver detalle compra"><i class="fa fa-eye"></i></button>' .
+                ' <button class="btn bg-purple btn-sm" onclick="copiar_venta(' . $reg['idventa_tours'] . ')" data-toggle="tooltip" data-original-title="copiar"><i class="fa-regular fa-copy"></i></button>' . 
+                '<!-- <button class="btn btn-warning btn-sm" onclick="mostrar_venta(' . $reg['idventa_tours'] . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button> -->' . 
+                ' <button class="btn btn-danger  btn-sm" onclick="eliminar_venta(' . $reg['idventa_tours'] .', \''.encodeCadenaHtml('<del><b>' . $reg['tipo_comprobante'] .  '</b> '.(empty($reg['serie_comprobante']) ?  "" :  '- '.$reg['serie_comprobante']).'</del> <del>'.$reg['cliente'].'</del>'). '\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>',
                  
               "2" => $reg['fecha_venta'],
               "3" => '<span class="text-primary font-weight-bold" >' . $reg['cliente'] . '</span>',
-              "4" => $reg['es_socio'],
-              "5" =>'<span class="" ><b>' . $reg['tipo_comprobante'] .  '</b> '.(empty($reg['serie_comprobante']) ?  "" :  '- '.$reg['serie_comprobante']).'</span>',
+              "4" => '',
+              "5" =>'<span class="" ><b>' . $reg['tipo_comprobante'] . '</b> '.(empty($reg['serie_comprobante']) ?  "" : '- '.$reg['serie_comprobante'].'-'.$reg['numero_comprobante']).'</span>',
               "6" => $reg['metodo_pago'], 
               "7" => $reg['total'],
               "8" => '<div class="text-center text-nowrap">'.
-                '<button class="btn btn-' . $color_btn . ' btn-xs m-t-2px" onclick="tbla_pago_venta(' . $reg['idventa_producto'] . ', ' . $reg['total'] . ', ' . floatval($reg['total_pago']) .', \''.encodeCadenaHtml($reg['cliente']) .'\')" data-toggle="tooltip" data-original-title="Ingresar a pagos"> <i class="fas fa-' . $icon . ' nav-icon"></i> ' . $nombre . '</button>' . 
+                '<button class="btn btn-' . $color_btn . ' btn-xs m-t-2px" onclick="tbla_pago_venta(' . $reg['idventa_tours'] . ', ' . $reg['total'] . ', ' . floatval($reg['total_pago']) .', \''.encodeCadenaHtml($reg['cliente']) .'\')" data-toggle="tooltip" data-original-title="Ingresar a pagos"> <i class="fas fa-' . $icon . ' nav-icon"></i> ' . $nombre . '</button>' . 
                 ' <button style="font-size: 14px;" class="btn btn-' . $color_btn . ' btn-sm">' . number_format(floatval($reg['total_pago']), 2, '.', ',') . '</button>'.
               '</div>'. $toltip,
               "9" => $saldo,
@@ -260,9 +259,9 @@ if (!isset($_SESSION["nombre"])) {
               "10" => $reg['tipo_documento'],
               "11" => $reg['numero_documento'],
               "12" => $reg['tipo_comprobante'],
-              "13" => $reg['serie_comprobante'],
+              "13" => $reg['serie_comprobante'].'-'.$reg['numero_comprobante'],
               "14" => $reg['total_pago'],
-              "15" => $reg['utilidad'],
+              "15" => 0,
             ];
             $cont++;
           }
@@ -284,16 +283,12 @@ if (!isset($_SESSION["nombre"])) {
         $rspta = $venta_producto->listar_compra_x_porveedor();
         //Vamos a declarar un array
         $data = []; $cont = 1;
-        $c = "info";
-        $nombre = "Ver";
-        $info = "info";
-        $icon = "eye";
         
-        if ($rspta['status']) {
+        if ($rspta['status'] == true) {
           while ($reg = $rspta['data']->fetch_object()) {
             $data[] = [
               "0" => $cont++,
-              "1" => '<button class="btn btn-info btn-sm" onclick="listar_facuras_proveedor(' . $reg->idpersona . ')" data-toggle="tooltip" data-original-title="Ver Compras">
+              "1" => '<button class="btn btn-info btn-sm" onclick="listar_facuras_proveedor(' . $reg->idventa_tours . ')" data-toggle="tooltip" data-original-title="Ver Compras">
                 <i class="fa fa-eye"></i>
               </button>'. $toltip ,
               "2" => $reg->razon_social,
@@ -326,7 +321,7 @@ if (!isset($_SESSION["nombre"])) {
           while ($reg = $rspta['data']->fetch_object()) {
             $data[] = [
               "0" => $cont++,
-              "1" => '<center><button class="btn btn-info btn-sm" onclick="ver_detalle_ventas(' . $reg->idventa_producto . ')" data-toggle="tooltip" data-original-title="Ver detalle venta">Ver detalle <i class="fa fa-eye"></i></button></center>' . $toltip,
+              "1" => '<center><button class="btn btn-info btn-sm" onclick="ver_detalle_ventas(' . $reg->idventa_tours . ')" data-toggle="tooltip" data-original-title="Ver detalle venta">Ver detalle <i class="fa fa-eye"></i></button></center>' . $toltip,
               "2" => $reg->fecha_venta,
               "3" => $reg->tipo_comprobante,
               "4" => $reg->serie_comprobante,
@@ -349,7 +344,7 @@ if (!isset($_SESSION["nombre"])) {
     
       case 'ver_venta_editar':
 
-        $rspta = $venta_producto->mostrar_venta_para_editar($_POST["idventa_producto"]);
+        $rspta = $venta_producto->mostrar_venta_para_editar($_POST["idventa_tours"]);
         //Codificar el resultado utilizando json
         echo json_encode($rspta, true);
     
@@ -369,7 +364,7 @@ if (!isset($_SESSION["nombre"])) {
 
         if (empty($idpago_venta_producto_pv)){
           
-          $rspta=$venta_producto->crear_pago_compra( $idventa_producto_pv, $forma_pago_pv, $fecha_pago_pv, quitar_formato_miles($monto_pv), $descripcion_pv, $comprobante_pago);          
+          $rspta=$venta_producto->crear_pago_compra( $idventa_tours_pv, $forma_pago_pv, $fecha_pago_pv, quitar_formato_miles($monto_pv), $descripcion_pv, $comprobante_pago);          
           echo json_encode($rspta, true);
 
         }else {
@@ -382,7 +377,7 @@ if (!isset($_SESSION["nombre"])) {
           }            
 
           // editamos un persona existente
-          $rspta=$venta_producto->editar_pago_compra( $idpago_venta_producto_pv, $idventa_producto_pv, $forma_pago_pv, $fecha_pago_pv, quitar_formato_miles($monto_pv), $descripcion_pv, $comprobante_pago );          
+          $rspta=$venta_producto->editar_pago_compra( $idpago_venta_producto_pv, $idventa_tours_pv, $forma_pago_pv, $fecha_pago_pv, quitar_formato_miles($monto_pv), $descripcion_pv, $comprobante_pago );          
           echo json_encode($rspta, true);
         }
     
@@ -390,7 +385,7 @@ if (!isset($_SESSION["nombre"])) {
 
       case 'tabla_pago_venta':
         
-        $rspta = $venta_producto->tabla_pago_compras($_GET["idventa_producto"]);
+        $rspta = $venta_producto->tabla_pago_compras($_GET["idventa_tours"]);
         //Vamos a declarar un array
         $data = []; $cont = 1;
         

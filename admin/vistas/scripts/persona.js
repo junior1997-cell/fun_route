@@ -63,7 +63,7 @@ function limpiar_form_persona() {
 
   $("#num_documento").val(""); 
   $("#nombre").val(""); 
-  $("#input_socio").val("0"); 
+  
   $("#email").val(""); 
   $("#telefono").val(""); 
   $("#direccion").val(""); 
@@ -71,10 +71,7 @@ function limpiar_form_persona() {
   $("#banco").val("").trigger("change");
   $("#cta_bancaria").val(""); 
   $("#cci").val(""); 
-  $("#titular_cuenta").val("");    
-
-  $("#socio").prop('checked', false);
-  $(".sino").html('(NO)');
+  $("#titular_cuenta").val("");      
 
   $("#nacimiento").val("");
   $("#edad").val("");
@@ -413,20 +410,10 @@ function mostrar(idpersona) {
 
       $("#sueldo_mensual").val(e.data.sueldo_mensual);
       $("#sueldo_diario").val(e.data.sueldo_diario);  
-
-      $("#input_socio").val(e.data.es_socio); 
-      $("#id_tipo_persona").val(e.data.idtipo_persona); 
-      // $('#socio').is(':checked'); ("#definiendo").prop('checked', true);
-      $("#sueldo_mensual").val(e.data.sueldo_mensual);
-      $("#sueldo_diario").val(e.data.sueldo_diario);  
       
-      if (e.data.es_socio==1) {
-        
-        $("#input_socio").val('1');
-        $(".sino").html('(SI)');
-        
-        if($('#socio').is(':checked') ){$("#definiendo").prop('checked', false);  }else{ $("#socio").prop('checked', true); }
-      }
+      $("#id_tipo_persona").val(e.data.idtipo_persona);
+      $("#sueldo_mensual").val(e.data.sueldo_mensual);
+      $("#sueldo_diario").val(e.data.sueldo_diario);      
 
       if (e.data.foto_perfil!="") {
         $("#foto1_i").attr("src", "../dist/docs/persona/perfil/" + e.data.foto_perfil);
@@ -566,14 +553,6 @@ function formato_banco() {
 
     }).fail( function(e) { ver_errores(e); } );   
   }  
-}
-
-function habilitando_socio() {  
-  if ($("#socio").val()==null || $("#socio").val()=="" || $('#socio').is(':checked') ) {
-    $("#input_socio").val('0'); $(".sino").html('(NO)');
-  }else{
-    $("#input_socio").val('1'); $(".sino").html('(SI)');
-  }
 }
 
 function sueld_mensual(){

@@ -237,8 +237,7 @@
                               <input type="hidden" name="idpersona_per" id="idpersona_per" />                                
 
                               <!-- tipo persona  -->
-                              <input type="hidden" name="id_tipo_persona_per" id="id_tipo_persona_per" value="4" />                              
-                              <input type="hidden" name="input_socio_per" id="input_socio_per" value="0"  >
+                              <input type="hidden" name="id_tipo_persona_per" id="id_tipo_persona_per" value="4" />                               
 
                               <!-- Tipo de documento -->
                               <div class="col-12 col-sm-6 col-md-6 col-lg-2">
