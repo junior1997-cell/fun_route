@@ -3,6 +3,7 @@ $(window).on('load', function () { $('#js-preloader').addClass('loaded'); });
 
 $(document).ready(function () {
   mostrar_detalle(localStorage.getItem("nube_idtours"));
+  
 });
 
 function mostrar_detalle(id) {
@@ -52,12 +53,37 @@ function mostrar_detalle(id) {
       $("#nombre_tours_email").val(e.data.nombre); 
       $("#costo_email").val(e.data.costo); 
       $('.descripcion_email').html(`${e.data.descripcion.slice(0,150)}...` );
+      mostrar_politicas();
+    } else {
+      ver_errores(e);
+    }
+  }).fail(function (e) { ver_errores(e); });
+}
+
+
+function mostrar_politicas() {
+
+  $.post("controlador/politicas_tour_paquete.php?op=politicas_tours", {}, function (e, status) {
+    e = JSON.parse(e); console.log('hola'); console.log(e);
+    if (e.status == true) {
+
+      $(".p_reservas").html(e.data.reservas); 
+      $(".cancelacion_modificacion").html(e.data.cancelacion); 
+      $(".responsabilidadcliente").html(e.data.responsabilidad_cliente); 
+      $(".cambioxproveedor").html(e.data.cancelaiones_proveedor); 
+      $(".responsabilidad_proveedor").html(e.data.responsabilidad_proveedor); 
+
+      $(".spiner_reservas_tours").hide(); 
       
     } else {
       ver_errores(e);
     }
   }).fail(function (e) { ver_errores(e); });
 }
+
+
+
+
 
 function activate_descripcion() {  
 	$('.boton-drop').toggleClass("drop-rotate");
@@ -119,6 +145,9 @@ function enviar_correo_tours(e) {
     error: function (jqXhr) { ver_errores(jqXhr); },
   });
 }
+
+
+
 
 $(function () {
 
