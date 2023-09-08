@@ -1,3 +1,5 @@
+// Declarar un array vacío
+var nombres_itenerario ="" ;
 // Page loading animation
 $(window).on('load', function () { $('#js-preloader').addClass('loaded'); });
 
@@ -6,7 +8,10 @@ $(document).ready(function () {
   mostrar_hotel();
 });
 
+
+
 function mostrar_detalle(id) {
+  nombres_itenerario ="";
   $.post("controlador/paquete.php?op=mostrar_detalle", {'id_paquete': id}, function (e, status) {
     e = JSON.parse(e); console.log(e);
     if (e.status == true) {
@@ -24,10 +29,6 @@ function mostrar_detalle(id) {
         $('.precio_actual').html(`<span><b>Sin Descuentos  </b></span>`);
       }         
 
-      // ::::::::::::::::::::: RESUMEN :::::::::::::::::::::
-      $('.duracion_html').html(`${e.data.cant_dias} dias / ${e.data.cant_noches} noches` );      
-      $('.comida_html').html(e.data.desc_comida);      
-      $('.alojamiento_html').html(e.data.desc_alojamiento );  
 
       // ::::::::::::::::::::: DETALLE :::::::::::::::::::::
       $('.itinerario_html').html(e.data.actividad);
@@ -35,7 +36,7 @@ function mostrar_detalle(id) {
       $('.no_incluye_html').html(e.data.no_incluye);
       $('.recomendaciones_html').html(e.data.recomendaciones);           
           
-      $('.actividades_html').html(e.data.resumen);      
+    
       $('.mapa_html').html(e.data.mapa); 
       
       // ::::::::::::::::::::: POLITICA :::::::::::::::::::::
@@ -53,7 +54,8 @@ function mostrar_detalle(id) {
 
       // ::::::::::::::::::::: LISTA DIAS :::::::::::::::::::::
       $(".btn_dia_html").html('');  //limpiamos el div     
-      e.data.itinerario.forEach((val, key) => {        
+      e.data.itinerario.forEach((val, key) => {       
+        nombres_itenerario +=`<p style="color: #333;margin: 5px 0;font-size: 14px;"> <i class="fa-solid fa-check"></i> ${val.nombre_tours} </p>`;
         $(".btn_dia_html").append(`<li><a href="javascript:;" class="tabLink ${key == 0 ? 'activeLink' : ''} " id="cont-${key}">DÍA ${val.numero_orden}</a></li>`); 
         $(".content_dia_html").append(`<div class="tabcontent ${key == 0 ? '' : 'hide'}" id="cont-${key}-1">
           <div class="TabImage">
@@ -73,6 +75,14 @@ function mostrar_detalle(id) {
         });
         $('.content_fotos_html').append(`<div id="conta-${key+1}-2" class="tabContentImg"> <div class="gallery_all"> ${html_foto} </div> </div>`);
       }); 
+
+      // ::::::::::::::::::::: RESUMEN :::::::::::::::::::::
+      console.log(nombres_itenerario);
+      $('.duracion_html').html(`${e.data.cant_dias} dias / ${e.data.cant_noches} noches` );      
+      $('.comida_html').html(e.data.desc_comida);      
+      $('.alojamiento_html').html(e.data.desc_alojamiento );  
+      $('.actividades_html').html(nombres_itenerario);  
+
       
       // ::::::::::::::::::::: FORMULARIO CORREO :::::::::::::::::::::
       $("#idpaquete_email").val(id); 

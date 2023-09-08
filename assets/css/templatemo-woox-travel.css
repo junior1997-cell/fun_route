@@ -1253,6 +1253,76 @@ About Page Style
   transform: translateY(-100%);
 }
 
+/** ===========R E S P O N S I V E==================== **/
+@media screen and (max-width: 540px) {
+  .paquetes-tours .slider-container {
+    position: relative;
+    overflow: hidden;
+    width: 100vw;
+    height: 60vh;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .paquetes-tours .slider-container .left-slide > div {
+    height: 50%;
+    width: 100%;
+  }
+
+  .paquetes-tours .slider-container .left-slide {
+    display: none;
+  }
+
+  .paquetes-tours .slider-container .right-slide > div{
+    height: 100%;
+    width: 100%;
+  }
+
+  .paquetes-tours .slider-container .right-slide {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    width: 80%;
+    transition: transform .5s ease-in-out;
+  }
+
+  .paquetes-tours .slider-container .action-buttons .down-button {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    transform: translateY(-100%);
+    position: absolute;
+    left: 77%;
+    top: 50%;
+    z-index: 100;
+    background-color: #000;
+  }
+  
+  .paquetes-tours .slider-container .action-buttons .up-button {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    transform: translateX(100%);
+    position: absolute;
+    left: 5%;
+    top: 50%;
+    z-index: 100;
+    background-color: #000;
+  }
+
+  /* .paquetes-tours .slider-container .action-buttons .down-button {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    transform: translateY(-100%);
+  }
+  
+  .paquetes-tours .slider-container .action-buttons .up-button {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    transform: translateX(100%);
+  } */
+}
+
 /**=============Paquetes convencionales===============**/
 .paquetes-tours1 {
   position: relative;
