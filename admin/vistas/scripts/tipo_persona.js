@@ -90,47 +90,38 @@ function guardaryeditar_tipo(e) {
     contentType: false,
     processData: false,
     success: function (e) {
-      e = JSON.parse(e);  console.log(e);  
-      if (e.status == true) {
-
-				Swal.fire("Correcto!", "Tipo trabajado registrado correctamente.", "success");
-
-	      tabla_tipo.ajax.reload(null, false);
-         
-				limpiar_tipo();
-
-        $("#modal-agregar-tipo").modal("hide");        
-        
-        $("#guardar_registro_tipo").html('Guardar Cambios').removeClass('disabled');
-			}else{
-				ver_errores(e);	
-			}
+      try {
+        e = JSON.parse(e);  console.log(e);  
+        if (e.status == true) {
+          Swal.fire("Correcto!", "Tipo trabajado registrado correctamente.", "success");
+          tabla_tipo.ajax.reload(null, false);         
+          limpiar_tipo();
+          $("#modal-agregar-tipo").modal("hide");           
+        }else{
+          ver_errores(e);	
+        }
+      } catch (err) {
+        console.log('Error: ', err.message); toastr.error('<h5 class="font-size-16px">Error temporal!!</h5> puede intentalo mas tarde, o comuniquese con <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>');
+      } 
+      $("#guardar_registro_tipo").html('Guardar Cambios').removeClass('disabled');
     },
     xhr: function () {
-
       var xhr = new window.XMLHttpRequest();
-
       xhr.upload.addEventListener("progress", function (evt) {
-
         if (evt.lengthComputable) {
-
           var percentComplete = (evt.loaded / evt.total)*100;
           /*console.log(percentComplete + '%');*/
-          $("#barra_progress_tipo").css({"width": percentComplete+'%'});
-
-          $("#barra_progress_tipo").text(percentComplete.toFixed(2)+" %");
+          $("#barra_progress_tipo").css({"width": percentComplete+'%'}).text(percentComplete.toFixed(2)+" %");
         }
       }, false);
       return xhr;
     },
     beforeSend: function () {
       $("#guardar_registro_tipo").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
-      $("#barra_progress_tipo").css({ width: "0%",  });
-      $("#barra_progress_tipo").text("0%");
+      $("#barra_progress_tipo").css({ width: "0%",  }).text("0%");
     },
     complete: function () {
-      $("#barra_progress_tipo").css({ width: "0%", });
-      $("#barra_progress_tipo").text("0%");
+      $("#barra_progress_tipo").css({ width: "0%", }).text("0%");
     },
     error: function (jqXhr) { ver_errores(jqXhr); },
   });
@@ -138,8 +129,8 @@ function guardaryeditar_tipo(e) {
 
 function mostrar_tipo(idtipo_persona) {
   $(".tooltip").removeClass("show").addClass("hidde");
-  $("#cargando-7-fomulario").hide();
-  $("#cargando-8-fomulario").show();
+  $("#cargando-3-fomulario").hide();
+  $("#cargando-4-fomulario").show();
 
   limpiar_tipo();
 
@@ -154,8 +145,8 @@ function mostrar_tipo(idtipo_persona) {
       $("#nombre_tipo").val(e.data.nombre);
       $("#descripcion_t").val(e.data.descripcion);
 
-      $("#cargando-7-fomulario").show();
-      $("#cargando-8-fomulario").hide();
+      $("#cargando-3-fomulario").show();
+      $("#cargando-4-fomulario").hide();
     } else {
       ver_errores(e);
     }

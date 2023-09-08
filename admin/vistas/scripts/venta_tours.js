@@ -125,7 +125,7 @@ function limpiar_form_compra() {
   $("#metodo_pago").val("").trigger("change");
 
   $("#serie_comprobante").val("");
-  $("#val_igv").val(0);
+  $("#impuesto").val(0);
   $("#descripcion").val("");
   
   $("#total_venta").val("");  
@@ -1193,21 +1193,21 @@ $(function () {
   $("#form-ventas").validate({
     ignore: '.select2-input, .select2-focusser',
     rules: {
-      idcliente:        { required: true },
+      idcliente:          { required: true },
       tipo_comprobante:   { required: true },
       serie_comprobante:  { minlength: 2 },
       descripcion:        { minlength: 4 },
-      fecha_venta:       { required: true },
-      val_igv:            { required: true, number: true, min:0, max:1 },
+      fecha_venta:        { required: true },      
+      pagar_con_ctdo:     { required: true, number: true, min:0,  },
     },
     messages: {
-      idcliente:        { required: "Campo requerido", },
+      idcliente:          { required: "Campo requerido", },
       tipo_comprobante:   { required: "Campo requerido", },
       serie_comprobante:  { minlength: "Minimo 2 caracteres", },
       descripcion:        { minlength: "Minimo 4 caracteres", },
-      fecha_venta:       { required: "Campo requerido", },
-      val_igv:            { required: "Campo requerido", number: 'Ingrese un número', min:'Mínimo 0', max:'Maximo 1' },
-      // 'cantidad[]':       { min: "Mínimo 0.01", required: "Campo requerido"},
+      fecha_venta:        { required: "Campo requerido", },      
+      pagar_con_ctdo:     { required: "Campo requerido", number: 'Ingrese un número', min:'Mínimo 0', },
+      // 'cantidad[]':    { min: "Mínimo 0.01", required: "Campo requerido"},
       'precio_con_igv[]': { min: "Mínimo 0.01", required: "Campo requerido"},
       'descuento[]':      { min: "Mínimo 0.00", required: "Campo requerido"},
     },

@@ -49,15 +49,24 @@ if (!isset($_SESSION["nombre"])) {
                 <div class="col-12 col-sm-12 mt-4">
                   <div class="card card-primary card-outline card-tabs">
                     <div class="card-header p-0 pt-1 border-bottom-0">
-                      <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                      <ul class="nav nav-tabs" id="custom-tabs-otro-tab" role="tablist">
                         <li class="nav-item">
-                          <a class="nav-link active" id="custom-tabs-three-producto-tab mostrarLengthMenu" data-toggle="pill" href="#custom-tabs-three-producto" role="tab" aria-controls="custom-tabs-three-producto" aria-selected="true"><i class="fas fa-building"></i> Bancos</a>
+                          <a class="nav-link active" id="custom-tabs-persona-tab mostrarLengthMenu" data-toggle="pill" href="#custom-tabs-persona" role="tab" aria-controls="custom-tabs-persona" aria-selected="true"><i class="fa-solid fa-user-tie"></i> PERSONA</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" id="custom-tabs-three-persona-tab mostrarLengthMenu" data-toggle="pill" href="#custom-tabs-three-persona" role="tab" aria-controls="custom-tabs-three-persona" aria-selected="false"><i class="fas fa-shopping-cart"></i> TIPOS </a>
+                          <a class="nav-link" id="custom-tabs-tours-tab" data-toggle="pill" href="#custom-tabs-tours" role="tab" aria-controls="custom-tabs-tours" aria-selected="false"><i class="fa-solid fa-sun"></i> TOURS</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" id="custom-tabs-three-compra-tab" data-toggle="pill" href="#custom-tabs-three-compra" role="tab" aria-controls="custom-tabs-three-compra" aria-selected="false"><i class="fas fa-hotel"></i> HOTELES</a>
+                          <a class="nav-link" id="custom-tabs-paquete-tab" data-toggle="pill" href="#custom-tabs-paquete" role="tab" aria-controls="custom-tabs-paquete" aria-selected="false"><i class="fas fa-shopping-cart"></i> PAQUETE</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="custom-tabs-hoteles-tab" data-toggle="pill" href="#custom-tabs-hoteles" role="tab" aria-controls="custom-tabs-hoteles" aria-selected="false"><i class="fas fa-hotel"></i> HOTELES</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="custom-tabs-empresa-tab" data-toggle="pill" href="#custom-tabs-empresa" role="tab" aria-controls="custom-tabs-empresa" aria-selected="false"><i class="fa-solid fa-briefcase"></i> EMPRESA</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="custom-tabs-sunat-tab" data-toggle="pill" href="#custom-tabs-sunat" role="tab" aria-controls="custom-tabs-sunat" aria-selected="false"><i class="fas fa-hotel"></i> SUNAT</a>
                         </li>
                       </ul>
                     </div>
@@ -67,12 +76,12 @@ if (!isset($_SESSION["nombre"])) {
                 </div>
 
                 <div class="col-12">
-                  <div class="tab-content" id="custom-tabs-three-tabContent">
-
-                    <div class="tab-pane fade show active" id="custom-tabs-three-producto" role="tabpanel" aria-labelledby="custom-tabs-three-producto-tab">
+                  <div class="tab-content" id="custom-tabs-otro-tabContent">
+                    <!-- ::::::::::::::::::: P E R S O N  A ::::::::::::::::::: -->
+                    <div class="tab-pane fade show active" id="custom-tabs-persona" role="tabpanel" aria-labelledby="custom-tabs-persona-tab">
                       <div class="row">
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                          <!-- TBLA - BANCOS-->
+                        <!-- TBLA - BANCOS-->
+                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">                          
                           <div class="row">
                             <div class="col-sm-6">
                               <h2>BANCOS</h2>
@@ -131,15 +140,6 @@ if (!isset($_SESSION["nombre"])) {
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <!-- /.row -->
-                    </div>
-                    <!-- /.tab-1 -->
-
-                    <div class="tab-pane fade" id="custom-tabs-three-persona" role="tabpanel" aria-labelledby="custom-tabs-three-persona-tab">
-
-                      <div class="row">
-
                         <!-- TBLA - TIPO TRABAJADOR-->
                         <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                           <!-- Content Header (Page header) -->
@@ -198,8 +198,15 @@ if (!isset($_SESSION["nombre"])) {
                           </section>
                           <!-- /.content -->
                         </div>
+                      </div>
+                      <!-- /.row -->
+                    </div>
+                    <!-- /.tab -->
 
-                        <!-- TBLA - TIPO tours-->
+                    <!-- ::::::::::::::::::: T O U R S ::::::::::::::::::: -->
+                    <div class="tab-pane fade" id="custom-tabs-tours" role="tabpanel" aria-labelledby="custom-tabs-tours-tab">
+                      <div class="row">
+                        <!-- TBLA - TIPO TOURS-->
                         <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                           <!-- Content Header (Page header) -->
                           <section class="content-header">
@@ -257,18 +264,22 @@ if (!isset($_SESSION["nombre"])) {
                           </section>
                           <!-- /.content -->
                         </div>
-
-
-                      </div>
-
-
+                      </div>                      
                     </div>
-                    <!-- /.tab-2 -->
 
-                    <div class="tab-pane fade" id="custom-tabs-three-compra" role="tabpanel" aria-labelledby="custom-tabs-three-compra-tab">
-
+                    <!-- ::::::::::::::::::: P A Q U E T E ::::::::::::::::::: -->
+                    <div class="tab-pane fade" id="custom-tabs-paquete" role="tabpanel" aria-labelledby="custom-tabs-paquete-tab">
+                      <div class="row">                       
+                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                          -- vacio paquete --
+                        </div>                        
+                      </div>
+                    </div>
+                    <!-- /.tab -->
+                    
+                    <!-- ::::::::::::::::::: H O T E L E S ::::::::::::::::::: -->
+                    <div class="tab-pane fade" id="custom-tabs-hoteles" role="tabpanel" aria-labelledby="custom-tabs-hoteles-tab">
                       <div class="row">
-
                         <div class="col-4">
                           <div class="container-fluid">
                             <div class="card card-primary card-outline">
@@ -436,10 +447,87 @@ if (!isset($_SESSION["nombre"])) {
 
                       </div>
                         
-                    </div>
+                    </div>                        
+                    <!-- /.tab -->
 
-                        
-                    <!-- /.tab-3 -->
+                    <!-- ::::::::::::::::::: E M P R E S A ::::::::::::::::::: -->
+                    <div class="tab-pane fade" id="custom-tabs-empresa" role="tabpanel" aria-labelledby="custom-tabs-empresa-tab">
+                      <div class="row">                       
+                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                          -- vacio empresa --
+                        </div>                        
+                      </div>
+                    </div>
+                    <!-- /.tab -->
+
+                    <!-- ::::::::::::::::::: S U N A T ::::::::::::::::::: -->
+                    <div class="tab-pane fade" id="custom-tabs-sunat" role="tabpanel" aria-labelledby="custom-tabs-sunat-tab">
+                      <div class="row">                       
+                        <!-- TBLA - TIPO TOURS-->
+                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                          <!-- Content Header (Page header) -->
+                          <section class="content-header">
+                            <div class="container-fluid">
+                              <div class="row mb-2">
+                                <div class="col-sm-6">
+                                  <h1>Correlacion comprobantes</h1>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- /.container-fluid -->
+                          </section>
+
+                          <!-- Main content -->
+
+                          <!-- Main content -->
+                          <section class="content">
+                            <div class="container-fluid">
+                              <div class="card card-primary card-outline">
+                                <div class="card-header">
+                                  <h3 class="card-title">
+                                    <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-correlacion" onclick="limpiar_correlacion();"><i class="fas fa-plus-circle"></i> Agregar</button>
+                                    Admnistrar la correlacion .
+                                  </h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                  <table id="tabla-correlacion" class="table table-bordered table-striped display" style="width: 100% !important;">
+                                    <thead>
+                                      <tr>
+                                        <th class="text-center">#</th>
+                                        <th class="">Acciones</th>
+                                        <th>Nombre</th>
+                                        <th>Abrev.</th>
+                                        <th>Serie</th>
+                                        <th>Núm.</th>
+                                        <th>Estado</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                    <tfoot>
+                                      <tr>
+                                        <th class="text-center">#</th>
+                                        <th class="">Acciones</th>
+                                        <th>Nombre</th>
+                                        <th>Abrev.</th>
+                                        <th>Serie</th>
+                                        <th>Núm.</th>
+                                        <th>Estado</th>
+                                      </tr>
+                                    </tfoot>
+                                  </table>
+                                </div>
+                                <!-- /.card-body -->
+                              </div>
+                              <!-- /.card -->
+                            </div>
+                            <!-- /.container-fluid -->
+                          </section>
+                          <!-- /.content -->
+                        </div>                   
+                      </div>
+                    </div>
+                    <!-- /.tab -->
                   </div>
                 </div>
               </div>
@@ -449,7 +537,7 @@ if (!isset($_SESSION["nombre"])) {
           <!-- /.content -->
 
 
-          <!-- MODAL - BANCOS -->
+          <!-- MODAL - BANCOS - charge 1,2 -->
           <div class="modal fade" id="modal-agregar-bancos">
             <div class="modal-dialog modal-dialog-scrollable modal-md">
               <div class="modal-content">
@@ -464,7 +552,7 @@ if (!isset($_SESSION["nombre"])) {
                   <!-- form start -->
                   <form id="form-bancos" name="form-bancos" method="POST" autocomplete="off">
                     <div class="card-body">
-                      <div class="row" id="cargando-a-fomulario">
+                      <div class="row" id="cargando-1-fomulario">
                         <!-- id banco -->
                         <input type="hidden" name="idbancos" id="idbancos" />
 
@@ -529,7 +617,7 @@ if (!isset($_SESSION["nombre"])) {
                         </div>
                       </div>
 
-                      <div class="row" id="cargando-b-fomulario" style="display: none;">
+                      <div class="row" id="cargando-2-fomulario" style="display: none;">
                         <div class="col-lg-12 text-center">
                           <i class="fas fa-spinner fa-pulse fa-6x"></i><br />
                           <br />
@@ -551,65 +639,7 @@ if (!isset($_SESSION["nombre"])) {
 
           <!-- MODAL - COLOR -->
 
-
-          <!-- MODAL - OCUPACION-->
-          <div class="modal fade" id="modal-agregar-ocupacion">
-            <div class="modal-dialog modal-dialog-scrollable modal-md">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title">Agregar Ocupación</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span class="text-danger" aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-
-                <div class="modal-body">
-                  <!-- form start -->
-                  <form id="form-ocupacion" name="form-ocupacion" method="POST" autocomplete="off">
-                    <div class="card-body">
-                      <div class="row" id="cargando-5-fomulario">
-                        <!-- id idunidad_medida -->
-                        <input type="hidden" name="idocupacion" id="idocupacion" />
-                        <!-- nombre_medida -->
-                        <div class="col-lg-12 class_pading">
-                          <div class="form-group">
-                            <label for="nombre_ocupacion">Nombre Ocupación</label>
-                            <input type="text" name="nombre_ocupacion" id="nombre_ocupacion" class="form-control" placeholder="Nombre de la Ocupación" />
-                          </div>
-                        </div>
-
-                        <!-- barprogress -->
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px;">
-                          <div class="progress" id="div_barra_progress_ocupacion">
-                            <div id="barra_progress_ocupacion" class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%;">
-                              0%
-                            </div>
-                          </div>
-                        </div>
-
-                      </div>
-
-                      <div class="row" id="cargando-6-fomulario" style="display: none;">
-                        <div class="col-lg-12 text-center">
-                          <i class="fas fa-spinner fa-pulse fa-6x"></i><br />
-                          <br />
-                          <h4>Cargando...</h4>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- /.card-body -->
-                    <button type="submit" style="display: none;" id="submit-form-ocupacion">Submit</button>
-                  </form>
-                </div>
-                <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="limpiar_ocupacion();">Close</button>
-                  <button type="submit" class="btn btn-success" id="guardar_registro_ocupacion">Guardar Cambios</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- MODAL - TIPO DE TRABAJDOR -->
+          <!-- MODAL - TIPO PERSONA - charge 3,4 -->
           <div class="modal fade" id="modal-agregar-tipo">
             <div class="modal-dialog modal-dialog-scrollable modal-md">
               <div class="modal-content">
@@ -624,7 +654,7 @@ if (!isset($_SESSION["nombre"])) {
                   <!-- form start -->
                   <form id="form-tipo" name="form-tipo" method="POST" autocomplete="off">
                     <div class="card-body">
-                      <div class="row" id="cargando-7-fomulario">
+                      <div class="row" id="cargando-3-fomulario">
                         <!-- id idunidad_medida -->
                         <input type="hidden" name="idtipo_persona" id="idtipo_persona" />
 
@@ -655,7 +685,7 @@ if (!isset($_SESSION["nombre"])) {
 
                       </div>
 
-                      <div class="row" id="cargando-8-fomulario" style="display: none;">
+                      <div class="row" id="cargando-4-fomulario" style="display: none;">
                         <div class="col-lg-12 text-center">
                           <i class="fas fa-spinner fa-pulse fa-6x"></i><br />
                           <br />
@@ -694,7 +724,7 @@ if (!isset($_SESSION["nombre"])) {
             </div>
           </div>
 
-          <!-- MODAL - TIPO Tours -->
+          <!-- MODAL - TIPO TOURS - charge 5,6 -->
           <div class="modal fade" id="modal-agregar-tipo-tours">
             <div class="modal-dialog modal-dialog-scrollable modal-md">
               <div class="modal-content">
@@ -709,7 +739,7 @@ if (!isset($_SESSION["nombre"])) {
                   <!-- form start -->
                   <form id="form-tipo-tours" name="form-tipo-tours" method="POST" autocomplete="off">
                     <div class="card-body">
-                      <div class="row" id="cargando-7-fomulario">
+                      <div class="row" id="cargando-5-fomulario">
                         <!-- id idunidad_medida -->
                         <input type="hidden" name="idtipo_tours" id="idtipo_tours" />
 
@@ -740,7 +770,7 @@ if (!isset($_SESSION["nombre"])) {
 
                       </div>
 
-                      <div class="row" id="cargando-8-fomulario" style="display: none;">
+                      <div class="row" id="cargando-6-fomulario" style="display: none;">
                         <div class="col-lg-12 text-center">
                           <i class="fas fa-spinner fa-pulse fa-6x"></i><br />
                           <br />
@@ -760,7 +790,7 @@ if (!isset($_SESSION["nombre"])) {
             </div>
           </div>
 
-          <!-- MODAL - HOTELES -->
+          <!-- MODAL - HOTELES - charge 7,8 -->
           <div class="modal fade" id="modal-agregar-hotel">
             <div class="modal-dialog modal-dialog-scrollable modal-lg">
               <div class="modal-content">
@@ -775,7 +805,7 @@ if (!isset($_SESSION["nombre"])) {
                   <!-- form start -->
                   <form id="form-hotel" name="form-hotel" method="POST" autocomplete="off" enctype="multipart/form-data">
                     <div class="card-body">
-                      <div class="row" id="cargando-9-fomulario">
+                      <div class="row" id="cargando-7-fomulario">
                         <!-- id idunidad_medida -->
                         <input type="hidden" name="idhoteles" id="idhoteles" />
 
@@ -844,7 +874,7 @@ if (!isset($_SESSION["nombre"])) {
 
                       </div>
 
-                      <div class="row" id="cargando-10-fomulario" style="display: none;">
+                      <div class="row" id="cargando-8-fomulario" style="display: none;">
                         <div class="col-lg-12 text-center">
                           <i class="fas fa-spinner fa-pulse fa-6x"></i><br />
                           <br />
@@ -864,7 +894,7 @@ if (!isset($_SESSION["nombre"])) {
             </div>
           </div>
 
-          <!-- MODAL - HABITACIONES -->
+          <!-- MODAL - HABITACIONES charge 9,10 -->
           <div class="modal fade" id="modal-agregar-habitacion">
             <div class="modal-dialog modal-dialog-scrollable modal-md">
               <div class="modal-content">
@@ -879,7 +909,7 @@ if (!isset($_SESSION["nombre"])) {
                   <!-- form start -->
                   <form id="form-habitacion" name="form-habitacion" method="POST" autocomplete="off">
                     <div class="card-body">
-                      <div class="row" id="cargando-11-fomulario">
+                      <div class="row" id="cargando-9-fomulario">
                         <!-- id idunidad_medida -->
                         <input type="hidden" name="idhoteles_G" id="idhoteles_G" />
                         <input type="hidden" name="idhabitacion" id="idhabitacion" />
@@ -904,7 +934,7 @@ if (!isset($_SESSION["nombre"])) {
 
                       </div>
 
-                      <div class="row" id="cargando-12-fomulario" style="display: none;">
+                      <div class="row" id="cargando-10-fomulario" style="display: none;">
                         <div class="col-lg-12 text-center">
                           <i class="fas fa-spinner fa-pulse fa-6x"></i><br />
                           <br />
@@ -924,7 +954,7 @@ if (!isset($_SESSION["nombre"])) {
             </div>
           </div>
 
-          <!-- MODAL -CARACTERISTICAS HABITACIONES -->
+          <!-- MODAL -CARACTERISTICAS HABITACIONES - charge 11,12 -->
           <div class="modal fade" id="modal-agregar-caracteristicas_h">
             <div class="modal-dialog modal-dialog-scrollable modal-md">
               <div class="modal-content">
@@ -939,7 +969,7 @@ if (!isset($_SESSION["nombre"])) {
                   <!-- form start -->
                   <form id="form-caracteristicas_h" name="form-caracteristicas_h" method="POST" autocomplete="off">
                     <div class="card-body">
-                      <div class="row" id="cargando-13-fomulario">
+                      <div class="row" id="cargando-11-fomulario">
                         <!-- id idunidad_medida -->
                         <input type="hidden" name="iddetalle_habitacion" id="iddetalle_habitacion" />
                         <input type="hidden" name="idhabitacion_G" id="idhabitacion_G" />
@@ -1027,7 +1057,7 @@ if (!isset($_SESSION["nombre"])) {
 
                       </div>
 
-                      <div class="row" id="cargando-14-fomulario" style="display: none;">
+                      <div class="row" id="cargando-12-fomulario" style="display: none;">
                         <div class="col-lg-12 text-center">
                           <i class="fas fa-spinner fa-pulse fa-6x"></i><br />
                           <br />
@@ -1047,7 +1077,7 @@ if (!isset($_SESSION["nombre"])) {
             </div>
           </div>
 
-          <!-- MODAL - INSTALACIONES HOTELES -->
+          <!-- MODAL - INSTALACIONES HOTELES - charge 13,14 -->
           <div class="modal fade" id="modal-agregar-caract-hotel">
             <div class="modal-dialog modal-dialog-scrollable modal-md">
               <div class="modal-content">
@@ -1062,7 +1092,7 @@ if (!isset($_SESSION["nombre"])) {
                   <!-- form start -->
                   <form id="form-caract-hotel" name="form-caract-hotel" method="POST" autocomplete="off">
                     <div class="card-body">
-                      <div class="row" id="cargando-15-fomulario">
+                      <div class="row" id="cargando-13-fomulario">
                         <!-- id hotel e instalaciones -->
                         <input type="hidden" name="idhoteles_GN" id="idhoteles_GN" />
                         <input type="hidden" name="idinstalaciones_hotel" id="idinstalaciones_hotel" />
@@ -1149,7 +1179,7 @@ if (!isset($_SESSION["nombre"])) {
 
                       </div>
 
-                      <div class="row" id="cargando-16-fomulario" style="display: none;">
+                      <div class="row" id="cargando-14-fomulario" style="display: none;">
                         <div class="col-lg-12 text-center">
                           <i class="fas fa-spinner fa-pulse fa-6x"></i><br />
                           <br />
@@ -1168,9 +1198,8 @@ if (!isset($_SESSION["nombre"])) {
               </div>
             </div>
           </div>
-
           
-          <!-- MODAL AGREGAR IMAGEN -->
+          <!-- MODAL AGREGAR IMAGEN charge 15,16 -->
           <div class="modal fade" id="modal-agregar-imagen-hotel">
             <div class="modal-dialog modal-dialog-scrollable modal-lg">
               <div class="modal-content">
@@ -1186,7 +1215,7 @@ if (!isset($_SESSION["nombre"])) {
                   <form id="form-galeria-hotel" name="form-galeria-hotel" method="POST">
                     <div class="card-body">
 
-                      <div class="row" id="cargando-17-fomulario">
+                      <div class="row" id="cargando-15-fomulario">
                         <!-- id hotel -->
                         <input type="hidden" name="idhotelesG" id="idhotelesG" />
                         <!-- id galeria paquete  -->
@@ -1232,7 +1261,7 @@ if (!isset($_SESSION["nombre"])) {
                         </div>
                       </div>
 
-                      <div class="row" id="cargando-18-fomulario" style="display: none;" >
+                      <div class="row" id="cargando-16-fomulario" style="display: none;" >
                         <div class="col-lg-12 text-center">
                           <i class="fas fa-spinner fa-pulse fa-6x"></i><br><br>
                           <h4>Cargando...</h4>
@@ -1251,26 +1280,107 @@ if (!isset($_SESSION["nombre"])) {
 
               </div>
             </div>
-          </div>
-            
+          </div>            
 
           <!-- MODAL - VER IMAGEN HOTEL -->
           <div class="modal fade bg-color-02020280" id="modal-ver-imagen-hotel">
-              <div class="modal-dialog modal-dialog-centered modal-md">
-                <div class="modal-content bg-color-0202022e shadow-none border-0">
-                  <div class="modal-header">
-                    <h4 class="modal-title text-white nombre-hotel"></h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span class="text-white cursor-pointer" aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <div id="imagen-hotel" class="text-center">
-                    </div>
+            <div class="modal-dialog modal-dialog-centered modal-md">
+              <div class="modal-content bg-color-0202022e shadow-none border-0">
+                <div class="modal-header">
+                  <h4 class="modal-title text-white nombre-hotel"></h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-white cursor-pointer" aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div id="imagen-hotel" class="text-center">
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+
+          <!-- MODAL - CORRELACION COMPROBANTE - charge 17,18 -->
+          <div class="modal fade" id="modal-agregar-correlacion">
+            <div class="modal-dialog modal-dialog-scrollable modal-md">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Correlacion Comprobante</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-danger" aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-body">
+                  <!-- form start -->
+                  <form id="form-correlacion" name="form-correlacion" method="POST" autocomplete="off">
+                    <div class="card-body">
+                      <div class="row" id="cargando-17-fomulario">
+                        <!-- id hotel e instalaciones -->
+                        <input type="hidden" name="idcorrelacion" id="idcorrelacion" />
+
+                        <!-- nombre_habitacion -->
+                        <div class="col-lg-12">
+                          <div class="form-group">
+                            <label for="nombre_co">Nombre</label>
+                            <input type="text" name="nombre_co" id="nombre_co" class="form-control" placeholder="Nombre" />
+                          </div>                          
+                        </div>
+
+                        <!-- Abreviatura -->
+                        <div class="col-lg-12">
+                          <div class="form-group">
+                            <label for="abreviatura_co">Abreviatura</label>
+                            <input type="text" name="abreviatura_co" id="abreviatura_co" class="form-control" placeholder="Abreviatura" />
+                          </div>                          
+                        </div>
+
+                        <!-- Serie -->
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label for="serie_co">Serie</label>
+                            <input type="text" name="serie_co" id="serie_co" class="form-control" placeholder="Serie" />
+                          </div>                          
+                        </div>
+
+                        <!-- Número -->
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label for="numero_co">Número</label>
+                            <input type="text" name="numero_co" id="numero_co" class="form-control" placeholder="Número" />
+                          </div>                          
+                        </div>                                         
+
+                        <!-- barprogress -->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px;">
+                          <div class="progress" id="barra_progress_correlacion_div">
+                            <div id="barra_progress_correlacion" class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%;">
+                              0%
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="row" id="cargando-18-fomulario" style="display: none;">
+                        <div class="col-lg-12 text-center">
+                          <i class="fas fa-spinner fa-pulse fa-6x"></i><br />
+                          <br />
+                          <h4>Cargando...</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <button type="submit" style="display: none;" id="submit-form-correlacion">Submit</button>
+                  </form>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="limpiar_correlacion();">Close</button>
+                  <button type="submit" class="btn btn-success" id="guardar_registro_correlacion">Guardar Cambios</button>
+                </div>
+              </div>
+            </div>
+          </div>
 
         </div>
 
@@ -1289,6 +1399,7 @@ if (!isset($_SESSION["nombre"])) {
     <script type="text/javascript" src="scripts/bancos.js"></script>
     <script type="text/javascript" src="scripts/tipo_persona.js"></script>
     <script type="text/javascript" src="scripts/tipo_tours.js"></script>
+    <script type="text/javascript" src="scripts/correlacion_comprobante.js"></script>
     <!-- Ekko Lightbox -->
     <script src="../plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
 

@@ -15,7 +15,7 @@ function agregarDetalleComprobante(idtours, individual) {
   if (idtours != "") {    
 
     if ($(`.producto_${idtours}`).hasClass("producto_selecionado") && individual == false ) {    
-      if (document.getElementsByClassName(`.producto_${idtours}`).length == 1) {
+      if (document.getElementsByClassName(`producto_${idtours}`).length == 1) {
         var cant_producto = $(`.producto_${idtours}`).val();
         var sub_total = parseInt(cant_producto, 10) + 1;
         $(`.producto_${idtours}`).val(sub_total).trigger('change');
@@ -40,7 +40,7 @@ function agregarDetalleComprobante(idtours, individual) {
           <tr class="filas" id="fila${cont}">         
             <td class="py-1">
               <button type="button" class="btn btn-warning btn-sm" onclick="mostrar_productos(${e.data.idtours}, ${cont})"><i class="fas fa-pencil-alt"></i></button>
-              <button type="button" class="btn btn-danger btn-sm btn-file-delete-${cont}" onclick="recover_stock(${e.data.idtours}, ${cont}, 0, 'recover_remove_new');"><i class="fas fa-times"></i></button>
+              <button type="button" class="btn btn-danger btn-sm btn-file-delete-${cont}" onclick="eliminarDetalle(${e.data.idtours}, ${cont});"><i class="fas fa-times"></i></button>
             </td>
             <td class="py-1">         
               <input type="hidden" name="idtours[]" value="${e.data.idtours}">
@@ -62,8 +62,8 @@ function agregarDetalleComprobante(idtours, individual) {
             <td class="py-1 form-group">
               <input type="number" class="w-135px form-control valid_precio_con_igv" name="valid_precio_con_igv[${cont}]" id="valid_precio_con_igv_${cont}" value="${e.data.costo}" min="0.01" required onkeyup="replicar_value_input(${cont}, '#precio_con_igv_${cont}', this); update_price(); " onchange="replicar_value_input(${cont}, '#precio_con_igv_${cont}', this); update_price(); ">
               <input type="hidden" class="precio_con_igv_${cont}" name="precio_con_igv[]" id="precio_con_igv_${cont}" value="${e.data.costo}" onkeyup="modificarSubtotales();" onchange="modificarSubtotales();">              
-              <input type="number" class="w-135px input-no-border precio_sin_igv_${cont}" name="precio_sin_igv[]" id="precio_sin_igv[]" value="0" readonly min="0" >
-              <input type="number" class="w-135px input-no-border precio_igv_${cont}" name="precio_igv[]" id="precio_igv[]" value="0" readonly  >
+              <input type="hidden" class="precio_sin_igv_${cont}" name="precio_sin_igv[]" id="precio_sin_igv[]" value="0" min="0" >
+              <input type="hidden" class="precio_igv_${cont}" name="precio_igv[]" id="precio_igv[]" value="0"  >
             </td>        
             <td class="py-1 form-group">
               <input type="number" class="w-135px form-control descuento_${cont}" name="descuento[]" value="${ ( e.data.estado_descuento == 0 ? 0 : ( e.data.monto_descuento )) }" min="0.00" onkeyup="modificarSubtotales()" onchange="modificarSubtotales()">
@@ -104,8 +104,18 @@ function agregarDetalleComprobante(idtours, individual) {
 function evaluar() {
   if (detalles > 0) {
     $("#guardar_registro_ventas").show();
+    $("#content-pagar-ctdo").show();    
+    if ($("#metodo_pago").select2("val") == "CONTADO" || $("#metodo_pago").select2("val") == "CREDITO" || $("#metodo_pago").select2("val") == null) {      
+      $("#content-pagar-tarj").hide();
+    } else if ( $("#metodo_pago").select2("val") == "MIXTO" ) {
+      $("#content-pagar-tarj").show();  
+    }
+    $("#content-vuelto").show();
   } else {
     $("#guardar_registro_ventas").hide();
+    $("#content-pagar-ctdo").hide();
+    $("#content-pagar-tarj").hide();
+    $("#content-vuelto").hide();
     cont = 0;
     $(".subtotal_compra").html("S/ 0.00");
     $("#subtotal_compra").val(0);
@@ -118,18 +128,15 @@ function evaluar() {
   }
 }
 
-function default_val_igv() { if ($("#tipo_comprobante").select2("val") == "Factura") { $("#val_igv").val(0.18); } }
+function default_val_igv() { if ($("#tipo_comprobante").select2("val") == "Factura") { $("#impuesto").val(0.18); } }
 
 function modificarSubtotales() {  
 
-  var val_igv = $('#val_igv').val(); //console.log(array_data_venta);
+  var val_igv = $('#impuesto').val(); //console.log(array_data_venta);
 
-  if ($("#tipo_comprobante").select2("val") == null) {
+  if ($("#tipo_comprobante").select2("val") == null) {    
 
-    $("#colspan_subtotal").attr("colspan", 5); //cambiamos el: colspan
-
-    $("#val_igv").val(0);
-    $("#val_igv").prop("readonly",true);
+    $("#impuesto").val(0);
     $(".val_igv").html('IGV (0%)');
 
     $("#tipo_gravada").val('NO GRAVADA');
@@ -157,9 +164,7 @@ function modificarSubtotales() {
       });
       calcularTotalesSinIgv();
     }
-  } else if ($("#tipo_comprobante").select2("val") == "Nota de venta") {    
-    $("#colspan_subtotal").attr("colspan", 7); //cambiamos el: colspan      
-    $("#val_igv").prop("readonly",false);
+  } else if ($("#tipo_comprobante").select2("val") == "Nota de venta") {      
 
     if (array_data_venta.length === 0) {
       if (val_igv == '' || val_igv <= 0) {
@@ -198,10 +203,7 @@ function modificarSubtotales() {
     }
   } else {
 
-    $("#colspan_subtotal").attr("colspan", 5); //cambiamos el: colspan
-
-    $("#val_igv").val(0);
-    $("#val_igv").prop("readonly",true);
+    $("#impuesto").val(0);    
     $(".val_igv").html('IGV (0%)');
 
     $("#tipo_gravada").val('NO GRAVADA');
@@ -259,7 +261,7 @@ function calcularTotalesSinIgv() {
 }
 
 function calcularTotalesConIgv() {
-  var val_igv = $('#val_igv').val();
+  var val_igv = $('#impuesto').val();
   var igv = 0;
   var total = 0.0;
 
@@ -290,11 +292,11 @@ function ocultar_comprob() {
   if ($("#tipo_comprobante").select2("val") == "Ninguno") {
     $("#content-serie-comprobante").hide().val("");
     $("#content-numero-comprobante").hide().val("");
-    $("#content-descripcion").removeClass("col-lg-5").addClass("col-lg-9");
+    $("#content-descripcion").removeClass("col-lg-3").addClass("col-lg-9");
   } else {
     $("#content-serie-comprobante").show();
     $("#content-numero-comprobante").show();
-    $("#content-descripcion").removeClass("col-lg-9").addClass("col-lg-5");
+    $("#content-descripcion").removeClass("col-lg-9").addClass("col-lg-3");
   }
 }
 
@@ -326,25 +328,20 @@ function mostrar_venta(idventa_producto) {
 
     if (e.status == true) {
       
-      if (e.data.venta.tipo_comprobante == "Factura") {
-        $(".content-igv").show();
-        $(".content-tipo-comprobante").removeClass("col-lg-5 col-lg-4").addClass("col-lg-4");
-        $(".content-descripcion").removeClass("col-lg-4 col-lg-5 col-lg-7 col-lg-8").addClass("col-lg-5");
-        $(".content-serie-comprobante").show();
-      } else if (e.data.venta.tipo_comprobante == "Boleta" || e.data.venta.tipo_comprobante == "Nota de venta") {
+      
+      if ( e.data.venta.tipo_comprobante == "Nota de venta" ) {
         $(".content-serie-comprobante").show();
         $(".content-igv").hide();
         $(".content-tipo-comprobante").removeClass("col-lg-4 col-lg-5").addClass("col-lg-5");
-        $(".content-descripcion").removeClass(" col-lg-4 col-lg-5 col-lg-7 col-lg-8").addClass("col-lg-5");
+        $(".content-descripcion").removeClass("col-lg-9").addClass("col-lg-3");
       } else if (e.data.venta.tipo_comprobante == "Ninguno") {
         $(".content-serie-comprobante").hide();
         $(".content-serie-comprobante").val("");
         $(".content-igv").hide();
         $(".content-tipo-comprobante").removeClass("col-lg-5 col-lg-4").addClass("col-lg-4");
-        $(".content-descripcion").removeClass(" col-lg-4 col-lg-5 col-lg-7").addClass("col-lg-8");
+        $(".content-descripcion").removeClass("col-lg-3").addClass("col-lg-9");
       } else {
         $(".content-serie-comprobante").show();
-        //$(".content-descripcion").removeClass("col-lg-7").addClass("col-lg-4");
       }
 
       $("#idventa_producto").val(e.data.venta.idventa_producto);
@@ -352,7 +349,7 @@ function mostrar_venta(idventa_producto) {
       $("#fecha_venta").val(e.data.venta.fecha_venta);
       $("#tipo_comprobante").val(e.data.venta.tipo_comprobante).trigger("change");
       $("#serie_comprobante").val(e.data.venta.serie_comprobante).trigger("change");
-      $("#val_igv").val(e.data.venta.val_igv);
+      $("#impuesto").val(e.data.venta.impuesto);
       $("#descripcion").val(e.data.venta.descripcion);
 
       $("#metodo_pago").val(e.data.venta.metodo_pago).trigger("change");
@@ -368,15 +365,13 @@ function mostrar_venta(idventa_producto) {
             img = `../dist/docs/producto/img_perfil/producto-sin-foto.svg`;
           } else {
             img = `../dist/docs/producto/img_perfil/${val.imagen}`;
-          }
-
-          recover_stock(val.idtours, cont, val.cantidad );
+          }          
 
           var fila = `
           <tr class="filas" id="fila${cont}">
             <td>
               <button type="button" class="btn btn-warning btn-sm" onclick="mostrar_productos(${val.idtours}, ${cont})"><i class="fas fa-pencil-alt"></i></button>
-              <button type="button" class="btn btn-danger btn-sm btn-file-delete-${cont}" onclick="recover_stock(${val.idtours}, ${cont}, 0, 'recover_remove_edit');"><i class="fas fa-times"></i></button></td>
+              <button type="button" class="btn btn-danger btn-sm btn-file-delete-${cont}" onclick="eliminarDetalle(${val.idtours}, ${cont});"><i class="fas fa-times"></i></button></td>
             </td>
             <td>
               <input type="hidden" name="idtours[]" value="${val.idtours}">
@@ -460,25 +455,19 @@ function copiar_venta(idventa_producto) {
 
     if (e.status == true) {
       
-      if (e.data.venta.tipo_comprobante == "Factura") {
-        $(".content-igv").show();
-        $(".content-tipo-comprobante").removeClass("col-lg-5 col-lg-4").addClass("col-lg-4");
-        $(".content-descripcion").removeClass("col-lg-4 col-lg-5 col-lg-7 col-lg-8").addClass("col-lg-5");
-        $(".content-serie-comprobante").show();
-      } else if (e.data.venta.tipo_comprobante == "Boleta" || e.data.venta.tipo_comprobante == "Nota de venta") {
+      if ( e.data.venta.tipo_comprobante == "Nota de venta") {
         $(".content-serie-comprobante").show();
         $(".content-igv").hide();
         $(".content-tipo-comprobante").removeClass("col-lg-4 col-lg-5").addClass("col-lg-5");
-        $(".content-descripcion").removeClass(" col-lg-4 col-lg-5 col-lg-7 col-lg-8").addClass("col-lg-5");
+        $(".content-descripcion").removeClass("col-lg-9").addClass("col-lg-3");
       } else if (e.data.venta.tipo_comprobante == "Ninguno") {
         $(".content-serie-comprobante").hide();
         $(".content-serie-comprobante").val("");
         $(".content-igv").hide();
         $(".content-tipo-comprobante").removeClass("col-lg-5 col-lg-4").addClass("col-lg-4");
-        $(".content-descripcion").removeClass(" col-lg-4 col-lg-5 col-lg-7").addClass("col-lg-8");
+        $(".content-descripcion").removeClass("col-lg-3").addClass("col-lg-9");
       } else {
         $(".content-serie-comprobante").show();
-        //$(".content-descripcion").removeClass("col-lg-7").addClass("col-lg-4");
       }
 
       // $("#idventa_producto").val(e.data.venta.idventa_producto); // esto no se usa cuando duplicams la factura
@@ -486,7 +475,7 @@ function copiar_venta(idventa_producto) {
       $("#fecha_venta").val(e.data.venta.fecha_venta);
       $("#tipo_comprobante").val(e.data.venta.tipo_comprobante).trigger("change");
       $("#serie_comprobante").val(e.data.venta.serie_comprobante).trigger("change");
-      $("#val_igv").val(e.data.venta.val_igv);
+      $("#impuesto").val(e.data.venta.impuesto);
       $("#descripcion").val(e.data.venta.descripcion);
 
       $("#metodo_pago").val(e.data.venta.metodo_pago).trigger("change");
@@ -508,7 +497,7 @@ function copiar_venta(idventa_producto) {
           <tr class="filas" id="fila${cont}">
             <td>
               <button type="button" class="btn btn-warning btn-sm" onclick="mostrar_productos(${val.idtours}, ${cont})"><i class="fas fa-pencil-alt"></i></button>
-              <button type="button" class="btn btn-danger btn-sm btn-file-delete-${cont}" onclick="recover_stock(${val.idtours}, ${cont}, 0, 'recover_remove_new');"><i class="fas fa-times"></i></button></td>
+              <button type="button" class="btn btn-danger btn-sm btn-file-delete-${cont}" onclick="eliminarDetalle(${val.idtours}, ${cont});"><i class="fas fa-times"></i></button></td>
             </td>
             <td>
               <input type="hidden" name="idtours[]" value="${val.idtours}">
@@ -628,22 +617,19 @@ function autoincrement_comprobante(data) {
   }
 }
 
-function capturar_pago_compra() {
-
-  $(".span-pago-compra").html('(Seleccione metodo pago)'); 
+function capturar_pago_compra() {   
+  
   var metodo_pago = $("#metodo_pago").val();
-
-  // si se edita, no se puede modificar estos datos  
-  if ($("#metodo_pago").select2("val") == null) {
+  $(".span-pago-compra").html(`(${metodo_pago == null ? 'Seleccione metodo pago' : metodo_pago })`);
+ 
+  if ($("#metodo_pago").select2("val") == null || $("#metodo_pago").select2("val") == "CONTADO" || $("#metodo_pago").select2("val") == "CREDITO") {
     $("#content-code-baucher").hide(); 
-  } else if ($("#metodo_pago").select2("val") == "CONTADO") { 
-    $("#content-code-baucher").hide();     
-    $(".span-pago-compra").html(`(${metodo_pago})`);
-  } else if ($("#metodo_pago").select2("val") == "CREDITO") {
-    $("#content-code-baucher").hide();    
-  } else {   
-    
+    $("#content-pagar-tarj").hide();  
+  } else if ( $("#metodo_pago").select2("val") == "MIXTO" ) {
+    $("#content-code-baucher").show();
+    if (detalles > 0) { $("#content-pagar-tarj").show(); }    
+  } else {    
     $("#content-code-baucher").show();    
-    $(".span-pago-compra").html(`(${metodo_pago})`);     
+    $("#content-pagar-tarj").hide();
   }  
 }

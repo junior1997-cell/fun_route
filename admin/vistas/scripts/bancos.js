@@ -58,10 +58,9 @@ function listar_bancos() {
     dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",//Definimos los elementos del control de tabla
     buttons: [      
       { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i>', className: "btn bg-gradient-info", action: function ( e, dt, node, config ) { tabla_bancos.ajax.reload(null, false); toastr_success('Exito!!', 'Actualizando tabla', 400); } },
-      { extend: 'copyHtml5', exportOptions: { columns: [0,5,6,7,8,9], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray", footer: true,  }, 
-      { extend: 'excelHtml5', exportOptions: { columns: [0,5,6,7,8,9], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success", footer: true,  }, 
-      { extend: 'pdfHtml5', exportOptions: { columns: [0,5,6,7,8,9], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
-      { extend: "colvis", text: `Columnas`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
+      { extend: 'copyHtml5', exportOptions: { columns: [0,5,6,7,8,9], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "px-2 btn bg-gradient-gray", footer: true,  }, 
+      { extend: 'excelHtml5', exportOptions: { columns: [0,5,6,7,8,9], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "px-2 btn bg-gradient-success", footer: true,  }, 
+      { extend: 'pdfHtml5', exportOptions: { columns: [0,5,6,7,8,9], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "px-2 btn bg-gradient-danger", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },      
     ],
     ajax:{
       url: '../ajax/bancos.php?op=listar',
@@ -112,50 +111,40 @@ function guardaryeditar_bancos(e) {
     data: formData,
     contentType: false,
     processData: false,
-    success: function (e) {  
-      e = JSON.parse(e);  console.log(e);            
-      if (e.status == true) {
-
-				Swal.fire("Correcto!", "Banco registrado correctamente.", "success");
-
-	      tabla_bancos.ajax.reload(null, false);
-         
-				limpiar_banco();
-
-        $("#modal-agregar-bancos").modal("hide");
-
-        $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
-
-			}else{
-
-				ver_errores(e);
-			}
+    success: function (e) { 
+      try {
+        e = JSON.parse(e);  console.log(e);            
+        if (e.status == true) {
+          Swal.fire("Correcto!", "Banco registrado correctamente.", "success");
+          tabla_bancos.ajax.reload(null, false);         
+          limpiar_banco();
+          $("#modal-agregar-bancos").modal("hide");
+          
+        }else{
+          ver_errores(e);
+        }
+      } catch (err) {
+        console.log('Error: ', err.message); toastr.error('<h5 class="font-size-16px">Error temporal!!</h5> puede intentalo mas tarde, o comuniquese con <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>');
+      } 
+      $("#guardar_registro").html('Guardar Cambios').removeClass('disabled');
     },
     xhr: function () {
-
       var xhr = new window.XMLHttpRequest();
-
       xhr.upload.addEventListener("progress", function (evt) {
-
         if (evt.lengthComputable) {
-
           var percentComplete = (evt.loaded / evt.total)*100;
           /*console.log(percentComplete + '%');*/
-          $("#barra_progress_banco").css({"width": percentComplete+'%'});
-
-          $("#barra_progress_banco").text(percentComplete.toFixed(2)+" %");
+          $("#barra_progress_banco").css({"width": percentComplete+'%'}).text(percentComplete.toFixed(2)+" %");
         }
       }, false);
       return xhr;
     },
     beforeSend: function () {
       $("#guardar_registro").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
-      $("#barra_progress_banco").css({ width: "0%",  });
-      $("#barra_progress_banco").text("0%");
+      $("#barra_progress_banco").css({ width: "0%",  }).text("0%");
     },
     complete: function () {
-      $("#barra_progress_banco").css({ width: "0%", });
-      $("#barra_progress_banco").text("0%");
+      $("#barra_progress_banco").css({ width: "0%", }).text("0%");
     },
     error: function (jqXhr) { ver_errores(jqXhr); },
   });
@@ -165,8 +154,8 @@ function mostrar_bancos(idbancos) {
 
   $(".tooltip").removeClass("show").addClass("hidde");
   
-  $("#cargando-a-fomulario").hide();
-  $("#cargando-b-fomulario").show();
+  $("#cargando-1-fomulario").hide();
+  $("#cargando-2-fomulario").show();
 
   limpiar_banco(); //console.log(idbancos);
 
@@ -189,8 +178,8 @@ function mostrar_bancos(idbancos) {
         $("#imagen1_actual").val(e.data.icono);
       }
 
-      $("#cargando-a-fomulario").show();
-      $("#cargando-b-fomulario").hide();
+      $("#cargando-1-fomulario").show();
+      $("#cargando-2-fomulario").hide();
     } else {
       ver_errores(e);
     }

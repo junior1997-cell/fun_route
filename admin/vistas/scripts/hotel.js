@@ -198,8 +198,8 @@ function guardaryeditar_hotel(e) {
 function mostrar_hotel(idhoteles) {
 
   $(".tooltip").remove();
-  $("#cargando-9-fomulario").hide();
-  $("#cargando-10-fomulario").show();
+  $("#cargando-7-fomulario").hide();
+  $("#cargando-8-fomulario").show();
 
   limpiar_hotel();
 
@@ -223,8 +223,8 @@ function mostrar_hotel(idhoteles) {
         $("#foto1_nombre").html(`Imagen-perfil.${extrae_extencion(e.data.imagen_perfil)}`);
       }
 
-      $("#cargando-9-fomulario").show();
-      $("#cargando-10-fomulario").hide();
+      $("#cargando-7-fomulario").show();
+      $("#cargando-8-fomulario").hide();
     } else {
       ver_errores(e);
     }
@@ -405,8 +405,8 @@ function guardaryeditar_habitacion(e) {
 function mostrar_habitacion(idhabitacion) {
 
   $(".tooltip").removeClass("show").addClass("hidde");
-  $("#cargando-11-fomulario").hide();
-  $("#cargando-12-fomulario").show();
+  $("#cargando-9-fomulario").hide();
+  $("#cargando-10-fomulario").show();
 
   limpiar_habitacion();
 
@@ -421,8 +421,8 @@ function mostrar_habitacion(idhabitacion) {
       $("#idhabitacion").val(e.data.idhabitacion);
       $("#nombre_habitacion").val(e.data.nombre);
 
-      $("#cargando-11-fomulario").show();
-      $("#cargando-12-fomulario").hide();
+      $("#cargando-9-fomulario").show();
+      $("#cargando-10-fomulario").hide();
     } else {
       ver_errores(e);
     }
@@ -590,8 +590,8 @@ function guardaryeditar_caracteristicas_h(e) {
 function mostrar_caracteristicas_h(iddetalle_habitacion) {
 
   $(".tooltip").removeClass("show").addClass("hidde");
-  $("#cargando-13-fomulario").hide();
-  $("#cargando-14-fomulario").show();
+  $("#cargando-11-fomulario").hide();
+  $("#cargando-12-fomulario").show();
 
   limpiar_caracteristicas_h();
 
@@ -610,8 +610,8 @@ function mostrar_caracteristicas_h(iddetalle_habitacion) {
 
       $("#icono_font_c").val(e.data.icono_font).trigger('change');
 
-      $("#cargando-13-fomulario").show();
-      $("#cargando-14-fomulario").hide();
+      $("#cargando-11-fomulario").show();
+      $("#cargando-12-fomulario").hide();
     } else {
       ver_errores(e);
     }
@@ -782,8 +782,8 @@ function guardaryeditar_caract_hotel(e) {
 function mostrar_caract_hotel(idinstalaciones_hotel) {
 
   $(".tooltip").removeClass("show").addClass("hidde");
-  $("#cargando-15-fomulario").hide();
-  $("#cargando-16-fomulario").show();
+  $("#cargando-13-fomulario").hide();
+  $("#cargando-14-fomulario").show();
 
   limpiar_caract_hotel();
 
@@ -800,8 +800,8 @@ function mostrar_caract_hotel(idinstalaciones_hotel) {
       $("#icono_font_i").val(e.data.icono_font).trigger('change');
       if (e.data.estado_si_no == '1') { $('#estado_switch2').prop('checked', true);   }
 
-      $("#cargando-15-fomulario").show();
-      $("#cargando-16-fomulario").hide();
+      $("#cargando-13-fomulario").show();
+      $("#cargando-14-fomulario").hide();
     } else {
       ver_errores(e);
     }
@@ -850,52 +850,59 @@ function eliminar_galeria() {
 //Función Listar
 function listar_galeria_hotel(idhoteles, nombre) {
 
+  $("#cargando-15-fomulario").hide();
+  $("#cargando-16-fomulario").show();
+
   idhoteles_R = idhoteles; nombre_R = nombre;
   $("#idhotelesG").val(idhoteles);
   $(".vacio").hide(); $(".mGaleria").show();
   var codigoHTML="";
   $('.nombre_galeria').html(`Galería del hotel - ${nombre}`);
   $('.imagenes_galeria').html('');
+
   $.post("../ajax/hotel.php?op=listar_galeria_hotel", { idhoteles: idhoteles }, function (e, status) {
     
     e = JSON.parse(e);  console.log(e);
-
-    if (e.data==null || e.data=="") {
-      $(".g_imagenes").hide(); $(".sin_imagenes").show();
-    }else{
-      $(".sin_imagenes").hide(); $(".g_imagenes").show();
-
-      // $('.imagenes_galeria').filterizr('destroy');
-      
-      e.data.forEach(element => {
-        //style="border: 2px solid black;"
-        codigoHTML =codigoHTML.concat(`<div class="col-sm-2 pb-2 pt-2" style="border: 2px solid #837f7f;">
-        <a href="../dist/docs/hotel/galeria/${element.imagen}?text=1" data-toggle="lightbox" data-title="${element.descripcion}" data-gallery="gallery">
-         <img src="../dist/docs/hotel/galeria/${element.imagen}?text=1" class="img-fluid mb-2" alt="white sample"/>
-        </a>
-        <div class="text-center text-white" style="background-color: #1f7387; cursor: pointer; border-radius: 0.25rem;" onclick="eliminar_imagen_hotel(${element.idgaleria_hotel},'${element.descripcion}');">Eliminar
-        </div>
-
-      </div> `);
-
-      });
+    if (e.status == true) {      
     
-      $('.imagenes_galeria').html(codigoHTML); // Agregar el contenido 
+      if (e.data==null || e.data=="") {
+        $(".g_imagenes").hide(); $(".sin_imagenes").show();
+      }else{
+        $(".sin_imagenes").hide(); $(".g_imagenes").show();
 
-      $(document).on('click', '[data-toggle="lightbox"]', function(event) {
-        event.preventDefault();
-        $(this).ekkoLightbox({
-          alwaysShowClose: true
+        // $('.imagenes_galeria').filterizr('destroy');
+        
+        e.data.forEach(element => {
+          //style="border: 2px solid black;"
+          codigoHTML =codigoHTML.concat(`<div class="col-sm-2 pb-2 pt-2" style="border: 2px solid #837f7f;">
+          <a href="../dist/docs/hotel/galeria/${element.imagen}?text=1" data-toggle="lightbox" data-title="${element.descripcion}" data-gallery="gallery">
+          <img src="../dist/docs/hotel/galeria/${element.imagen}?text=1" class="img-fluid mb-2" alt="white sample"/>
+          </a>
+          <div class="text-center text-white" style="background-color: #1f7387; cursor: pointer; border-radius: 0.25rem;" onclick="eliminar_imagen_hotel(${element.idgaleria_hotel},'${element.descripcion}');">Eliminar
+          </div>
+
+        </div> `);
+
         });
-      });
+      
+        $('.imagenes_galeria').html(codigoHTML); // Agregar el contenido 
 
+        $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+          event.preventDefault();
+          $(this).ekkoLightbox({
+            alwaysShowClose: true
+          });
+        });
+
+      }
+
+      $('.jq_image_zoom').zoom({ on:'grab' });      
+      
+      $("#cargando-15-fomulario").show();
+      $("#cargando-16-fomulario").hide();
+    } else {
+      ver_errores(e);
     }
-
-    $('.jq_image_zoom').zoom({ on:'grab' });
-     
-    
-    $("#cargando-17-fomulario").show();
-    $("#cargando-18-fomulario").hide();
   }).fail( function(e) { ver_errores(e); } );
 
 }

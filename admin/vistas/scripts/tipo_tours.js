@@ -137,8 +137,8 @@ function guardaryeditar_tipo(e) {
 
 function mostrar_tipo_tours(idtipo_tours) {
   $(".tooltip").removeClass("show").addClass("hidde");
-  $("#cargando-7-fomulario").hide();
-  $("#cargando-8-fomulario").show();
+  $("#cargando-5-fomulario").hide();
+  $("#cargando-6-fomulario").show();
 
   limpiar_tipo_tours();
 
@@ -153,8 +153,8 @@ function mostrar_tipo_tours(idtipo_tours) {
       $("#nombre_tt").val(e.data.nombre);
       $("#descripcion_tt").val(e.data.descripcion);
 
-      $("#cargando-7-fomulario").show();
-      $("#cargando-8-fomulario").hide();
+      $("#cargando-5-fomulario").show();
+      $("#cargando-6-fomulario").hide();
     } else {
       ver_errores(e);
     }

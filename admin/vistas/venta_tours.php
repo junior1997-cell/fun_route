@@ -141,7 +141,7 @@
                             <table id="tabla-venta" class="table table-bordered table-striped display" style="width: 100% !important;">
                               <thead>
                                 <tr>
-                                  <th colspan="15" class="cargando text-center bg-danger"><i class="fas fa-spinner fa-pulse fa-sm"></i> Buscando... </th>
+                                  <th colspan="16" class="cargando text-center bg-danger"><i class="fas fa-spinner fa-pulse fa-sm"></i> Buscando... </th>
                                 </tr>
                                 <tr>
                                   <th class="">#</th>
@@ -304,7 +304,7 @@
                                   </div> 
 
                                   <!-- serie_comprobante-->
-                                  <div class="col-lg-2" id="content-serie-comprobante">
+                                  <div class="col-lg-3" id="content-serie-comprobante">
                                     <div class="form-group">
                                       <label for="serie_comprobante">Serie Comprobante <sup class="text-danger">(único*)</sup></label>
                                       <input type="text" name="serie_comprobante" id="serie_comprobante" class="form-control" placeholder="N° de Comprobante" readonly />
@@ -312,7 +312,7 @@
                                   </div>
 
                                   <!-- numero_comprobante-->
-                                  <div class="col-lg-2" id="content-numero-comprobante">
+                                  <div class="col-lg-3" id="content-numero-comprobante">
                                     <div class="form-group">
                                       <label for="numero_comprobante">Numero Comprobante <sup class="text-danger">(único*)</sup></label>
                                       <input type="text" name="numero_comprobante" id="numero_comprobante" class="form-control" placeholder="N° de Comprobante" readonly />
@@ -322,12 +322,12 @@
                                   <!-- IGV-->
                                   <div class="col-lg-1" style="display: none;">
                                     <div class="form-group">
-                                      <label for="val_igv">IGV <sup class="text-danger">*</sup></label>
-                                      <input type="text" name="val_igv" id="val_igv" class="form-control" value="0.18" onkeyup="modificarSubtotales();" />
+                                      <label for="impuesto">IGV <sup class="text-danger">*</sup></label>
+                                      <input type="text" name="impuesto" id="impuesto" class="form-control" value="0" onkeyup="modificarSubtotales();" />
                                     </div>
                                   </div>
                                   <!-- Descripcion-->
-                                  <div class="col-lg-5" id="content-descripcion">
+                                  <div class="col-lg-3" id="content-descripcion">
                                     <div class="form-group">
                                       <label for="descripcion">Descripción </label> <br />
                                       <textarea name="descripcion" id="descripcion" class="form-control" rows="1"></textarea>
@@ -389,21 +389,21 @@
                                         <th>Subtotal</th>
                                       </thead>
                                       <tfoot>
-                                        <td colspan="4" id="colspan_subtotal">
+                                        <td colspan="5" id="colspan_subtotal">
                                           <div class="row">
-                                            <div class="col-4 col-sm-4 col-lg-4" id="content-pagar-ctdo">
+                                            <div class="col-4 col-sm-4 col-lg-4" id="content-pagar-ctdo" style="display: none;">
                                               <div class="form-group">
                                                 <label for="pagar_con">Pagar Ctdo. </label>
                                                 <input type="text" name="pagar_con_ctdo" id="pagar_con_ctdo" class="form-control" onClick="this.select();" placeholder="Pagar con" />
                                               </div>
                                             </div>
-                                            <div class="col-4 col-sm-4 col-lg-4" id="content-pagar-tarj">
+                                            <div class="col-4 col-sm-4 col-lg-4" id="content-pagar-tarj" style="display: none;">
                                               <div class="form-group">
                                                 <label for="pagar_con">Pagar Tarj. </label>
                                                 <input type="text" name="pagar_con_tarj" id="pagar_con_tarj" class="form-control" onClick="this.select();" placeholder="Pagar con" />
                                               </div>
                                             </div>
-                                            <div class="col-4 col-sm-4 col-lg-4" id="content-vuelto">
+                                            <div class="col-4 col-sm-4 col-lg-4" id="content-vuelto" style="display: none;">
                                               <div class="form-group">
                                                 <label for="pagar_con">Vuelto</label>
                                                 <span class="form-control-mejorado">0.00</span>                                                
