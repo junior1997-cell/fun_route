@@ -8,12 +8,19 @@ $(document).ready(function () {
 });
 
 function mostrar_vista() {
+  var destinos ="";
   $.post("controlador/paquete.php?op=mostrar_todos", {}, function (e, status) {
-    e = JSON.parse(e); console.log(e);
+    e = JSON.parse(e); console.log(e); console.log('hola');
     if (e.status == true) {
       $('#paquete-container').html(''); //limpiamos el div
-      e.data.forEach((val, key) => {       
-       
+      e.data.forEach((val, key) => { 
+
+        destinos ="";
+
+        val.destinos.data.forEach(function(valor) {
+          destinos +=`<p style="color: #fff;margin: 5px 0;font-size: 14px;"> <i class="fa-solid fa-check"></i> ${valor.nombre} </p>`;
+        });
+
         // Estructura interna del tourDiv
         var codigoHTML = `<div class="c-card">
           <div class="card">
@@ -29,10 +36,10 @@ function mostrar_vista() {
                       <button class="buton2">Paquete Turístico</button>
                       <div class="space1"></div>                    
                       <h4 class="title-actividades"><i class="fa-solid fa-location-dot espacio2"></i>Destinos :</h4>
-                      <div class="actividades">
-                        <a href="#" class="btn-txt">
+                      <div class="actividades"> ${destinos}
+                       <!--<a href="#" class="btn-txt">
                           ${val.alojamiento}
-                        </a>
+                        </a>-->
                         
                       </div>
                       <a href="#" onclick="ir_a_detalle_paquete(${val.idpaquete},'${removeCaracterEspecial_v2(val.nombre)}')">

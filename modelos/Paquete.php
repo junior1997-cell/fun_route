@@ -80,8 +80,33 @@
     }
 
     public function mostrar_todos(){
-      $sql = "SELECT * FROM paquete WHERE estado = '1' and estado_delete = '1'; ";
-      return ejecutarConsultaArray($sql); // Retorna todos los resultados
+
+      $sql = "SELECT idpaquete,nombre,descripcion,imagen FROM paquete WHERE estado='1' and estado_delete='1';";
+      $A_paquetes = ejecutarConsultaArray($sql); if ( $A_paquetes['status'] == false) {return $A_paquetes; }
+
+      $array__paquetes = [];
+
+      foreach ($A_paquetes['data'] as $key => $val) {
+
+        $id=$val['idpaquete'];
+
+        $sql_1 = "SELECT i.idpaquete, t.nombre FROM itinerario as i inner join tours as t  on i.idtours=t.idtours where idpaquete='$id';";
+        $Arr_itinerario = ejecutarConsultaArray($sql_1); if ( $Arr_itinerario['status'] == false) {return $Arr_itinerario; }
+
+
+        $array__paquetes []= [
+          'idpaquete'     => $val['idpaquete'],
+          'nombre'        => $val['nombre'],
+          'descripcion'     => $val['descripcion'],
+          'imagen'      => $val['imagen'], 
+
+          'destinos'      => $Arr_itinerario, 
+        ];
+
+      }
+
+      return $retorno=[ 'status'=>true, 'message'=>'todo okey','data'=>$array__paquetes ];
+
     } 
 
     //========================= S E C C I O N   G A L E R  I A =============================
