@@ -227,7 +227,7 @@ if (!isset($_SESSION["nombre"])) {
                                 </div>
                               </div>
 
-                              <!-- Factura -->
+                              <!-- IMG -->
                               <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                 <!-- linea divisoria -->
                                 <div class="borde-arriba-naranja mt-4"></div>
@@ -249,6 +249,27 @@ if (!isset($_SESSION["nombre"])) {
                                 </div>
                                 <div class="text-center" id="doc1_nombre"><!-- aqui va el nombre del pdf --></div>
                               </div>
+                              <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                  <div class="borde-arriba-naranja mt-4"></div>
+
+                                  <div class="col-md-12" style="padding-top: 15px; padding-bottom: 5px;">
+                                    <label for="cip" class="control-label" style="color: white;"> . </label>                                  
+                                  </div>
+
+                                  <div class="alert alert-info alert-dismissible">
+                                    <h6><i class="icon fas fa-info"></i> Para la imagen de portada!</h6>
+                                    <ul>
+                                      <li>Dimenciones:1080 x 1350</li>
+                                      <li>Peso:2 mb max</li>
+                                      <li>Formato: Recomendado JPG</li>
+                                      <li>Orientación: Vertical</li>
+                                    </ul>
+                                  </div>
+
+                              </div>
+
+
+
                             </div>
                             <!-- /.card-body -->
 
@@ -507,7 +528,7 @@ if (!isset($_SESSION["nombre"])) {
 
             <!-- MODAL - AGREGAR GALERIA - charge 3 -->
             <div class="modal fade" id="modal-agregar-galeria-tours">
-              <div class="modal-dialog modal-dialog-scrollable modal-md">
+              <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h4 class="modal-title">Agregar Galería</h4>
@@ -535,7 +556,7 @@ if (!isset($_SESSION["nombre"])) {
                         
 
                         <!-- imagen perfil -->
-                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                           <!-- linea divisoria -->
                           <div class="borde-arriba-naranja mt-4"></div>
                           <div class="row text-center">
@@ -555,6 +576,23 @@ if (!isset($_SESSION["nombre"])) {
                             <img src="../dist/img/default/img_defecto.png" alt="" width="50%" />
                           </div>
                           <div class="text-center" id="doc2_nombre"><!-- aqui va el nombre del pdf --></div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                          <div class="borde-arriba-naranja mt-4"></div>
+
+                          <div class="col-md-12" style="padding-top: 15px; padding-bottom: 5px;">
+                            <label for="cip" class="control-label" style="color: white;"> . </label>                                  
+                          </div>
+
+                          <div class="alert alert-info alert-dismissible">
+                            <h6><i class="icon fas fa-info"></i> Para la imagen de Galería!</h6>
+                            <ul>
+                              <li>Dimenciones:1000 x 600</li>
+                              <li>Peso:2 mb max</li>
+                              <li>Formato: Recomendado JPG</li>
+                              <li>Orientación: Horizontal</li>
+                            </ul>
+                          </div>
                         </div>
 
                         <!-- barprogress -->
