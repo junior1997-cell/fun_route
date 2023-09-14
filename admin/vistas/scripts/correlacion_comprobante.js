@@ -198,13 +198,13 @@ $(function () {
       nombre_co:      { required: true, minlength:2, maxlength:30 },      
       abreviatura_co: { required: true, minlength:1, maxlength:20 },     
       serie_co:       { required: true, minlength:2, maxlength:7 },  
-      numero_co:      { required: true, min:1,  },  
+      numero_co:      { required: true, number: true, min:0,  },  
     },
     messages: {
       nombre_co:      { required: "Campo requerido.", minlength: "MINIMO 2 caracteres.", maxlength: "MAXIMO 30 caracteres." },
       abreviatura_co: { required: "Campo requerido.", minlength: "MINIMO 1 caracteres.", maxlength: "MAXIMO 20 caracteres." },
       serie_co:       { required: "Campo requerido.", minlength: "MINIMO 2 caracteres.", maxlength: "MAXIMO 7 caracteres." },
-      numero_co:      { required: "Campo requerido.", min: "MINIMO 1 digitos." },
+      numero_co:      { required: "Campo requerido.", number: "Campo númerico", min: "MINIMO 0 digitos." },
     },
         
     errorElement: "span",

@@ -76,7 +76,7 @@ if (!isset($_SESSION["nombre"])) {
               "2" => '<span class="text-primary font-weight-bold" >' . $reg['nombre'] . '</span>',
               "3" =>  $reg['abreviatura'] ,
               "4" => $reg['serie'],
-              "5" => $reg['numero'],   
+              "5" => zero_fill($reg['numero'], 5) ,   
               "6" => ($reg['estado'] ? '<span class="text-center badge badge-success">Activado</span>' : '<span class="text-center badge badge-danger">Desactivado</span>'),   
             ];
             $cont++;

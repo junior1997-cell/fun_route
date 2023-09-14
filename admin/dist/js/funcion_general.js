@@ -1380,7 +1380,7 @@ function quitar_igv_del_precio(precio , igv, tipo ) {
       if (igv > 0 && igv <= 1) { 
         $("#tipo_gravada").val('GRAVADA');
         $(".tipo_gravada").html('GRAVADA');
-        $(".val_igv").html(`IGV (${(parseFloat(igv) * 100).toFixed(2)}%)`); 
+        $(".val_igv").html(`IGV (${redondearExp((parseFloat(igv) * 100), 2)}%)`); 
       } else { 
         igv = 0; 
         $(".val_igv").html('IGV (0%)'); 

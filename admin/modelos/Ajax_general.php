@@ -59,52 +59,7 @@
 
       return $respuestas;    	
 
-    }
-
-    /* ══════════════════════════════════════ C O M P R O B A N T E  ══════════════════════════════════════ */
-
-    //Implementamos un método para activar categorías
-  public function autoincrement_comprobante() {
-    $update_producto = "SELECT * FROM autoincrement_comprobante WHERE idautoincrement_comprobante = '1'";
-		$val =  ejecutarConsultaSimpleFila($update_producto); if ( $val['status'] == false) {return $val; }   
-
-		$compra_producto_f = empty($val['data']) ? 1 : (empty($val['data']['compra_producto_f']) ? 1 : (intval($val['data']['compra_producto_f']) +1)); 
-    $compra_producto_b = empty($val['data']) ? 1 : (empty($val['data']['compra_producto_b']) ? 1 : (intval($val['data']['compra_producto_b']) +1));
-    $compra_producto_nv = empty($val['data']) ? 1 : (empty($val['data']['compra_producto_nv']) ? 1 : (intval($val['data']['compra_producto_nv']) +1));
-
-    $venta_producto_f =  empty($val['data']) ? 1 : (empty($val['data']['venta_producto_f']) ? 1 : (intval($val['data']['venta_producto_f']) +1)); 
-    $venta_producto_b =  empty($val['data']) ? 1 : (empty($val['data']['venta_producto_b']) ? 1 : (intval($val['data']['venta_producto_b']) +1)); 
-    $venta_producto_nv =  empty($val['data']) ? 1 : (empty($val['data']['venta_producto_nv']) ? 1 : (intval($val['data']['venta_producto_nv']) +1)); 
-
-    $compra_cafe_f = empty($val['data']) ? 1 : (empty($val['data']['compra_cafe_f']) ? 1 : (intval($val['data']['compra_cafe_f']) +1));
-    $compra_cafe_b = empty($val['data']) ? 1 : (empty($val['data']['compra_cafe_b']) ? 1 : (intval($val['data']['compra_cafe_b']) +1));
-    $compra_cafe_nv = empty($val['data']) ? 1 : (empty($val['data']['compra_cafe_nv']) ? 1 : (intval($val['data']['compra_cafe_nv']) +1));
-
-    $venta_cafe_f = empty($val['data']) ? 1 : (empty($val['data']['venta_cafe_f']) ? 1 : (intval($val['data']['venta_cafe_f']) +1));
-    $venta_cafe_n = empty($val['data']) ? 1 : (empty($val['data']['venta_cafe_n']) ? 1 : (intval($val['data']['venta_cafe_n']) +1));
-    $venta_cafe_nv = empty($val['data']) ? 1 : (empty($val['data']['venta_cafe_nv']) ? 1 : (intval($val['data']['venta_cafe_nv']) +1));
-
-    return $sw = array( 'status' => true, 'message' => 'todo okey bro', 
-      'data' => [
-        'compra_producto_f'=> zero_fill($compra_producto_f, 6), 
-        'compra_producto_b'=> zero_fill($compra_producto_b, 6), 
-        'compra_producto_nv'=> zero_fill($compra_producto_nv, 6),
-
-        'venta_producto_f'=> zero_fill($venta_producto_f, 6), 
-        'venta_producto_b'=> zero_fill($venta_producto_b, 6), 
-        'venta_producto_nv'=> zero_fill($venta_producto_nv, 6), 
-
-        'compra_cafe_f'=> zero_fill($compra_cafe_f, 6), 
-        'compra_cafe_b'=> zero_fill($compra_cafe_b, 6), 
-        'compra_cafe_nv'=> zero_fill($compra_cafe_nv, 6), 
-
-        'venta_cafe_f'=> zero_fill($venta_cafe_f, 6),
-        'venta_cafe_n'=> zero_fill($venta_cafe_n, 6),
-        'venta_cafe_nv'=> zero_fill($venta_cafe_nv, 6),
-        
-      ] 
-    );      
-  }
+    }    
 
     /* ══════════════════════════════════════ T R A B A J A D O R ══════════════════════════════════════ */
 
@@ -210,26 +165,37 @@
       WHERE t.idtipo_tours = tp.idtipo_tours AND t.estado='1' and t.estado_delete='1';";
       return ejecutarConsulta($sql);
     }
+
     /* ══════════════════════════════════════ S E R V i C I O S  M A Q U I N A RI A ════════════════════════════ */
+    public function select2TipoComprobante() {
+      $sql = "SELECT idsunat_correlacion_comprobante as id, nombre FROM sunat_correlacion_comprobante WHERE estado ='1' AND estado_delete = '1' AND idsunat_correlacion_comprobante > 1";
+      return ejecutarConsultaArray($sql);
+    }    
 
-    public function select2_servicio($tipo) {
-      $sql = "SELECT mq.idmaquinaria as idmaquinaria, mq.nombre as nombre, mq.codigo_maquina as codigo_maquina, p.razon_social as nombre_proveedor, mq.idproveedor as idproveedor
-      FROM maquinaria as mq, proveedor as p WHERE mq.idproveedor=p.idproveedor AND mq.estado='1' AND mq.estado_delete='1' AND mq.tipo=$tipo";
-      return ejecutarConsulta($sql);
+    //Implementamos un método para activar categorías
+    public function autoincrement_comprobante($nombre) {
+      $update_producto = "SELECT * FROM sunat_correlacion_comprobante WHERE nombre = '$nombre'";
+      $val =  ejecutarConsultaSimpleFila($update_producto); if ( $val['status'] == false) {return $val; }   
+
+      $idcorrelacion= $val['data']['idsunat_correlacion_comprobante']; 
+      $nombre       = empty($val['data']) ? '' : ( $val['data']['nombre'] ? '' : $val['data']['nombre'] );
+      $abreviatura  = empty($val['data']) ? '' : (empty($val['data']['abreviatura']) ? '' : $val['data']['abreviatura'] );
+      $serie        = empty($val['data']) ? '' : (empty($val['data']['serie']) ? '' : $val['data']['serie']);
+      $numero       = empty($val['data']) ? 1 : (empty($val['data']['numero']) ? 1 : (intval($val['data']['numero']) +1));
+
+      
+
+      return $sw = array( 'status' => true, 'message' => 'todo okey bro', 
+        'data' => [
+          'idcorrelacion'=> $idcorrelacion, 
+          'nombre'      => $nombre, 
+          'abreviatura' => $abreviatura,      
+          'serie'       => $serie,      
+          'numero'      => zero_fill($numero, 5),          
+        ] 
+      );      
     }
-
-    /* ══════════════════════════════════════ E M P R E S A   A   C A R G O ══════════════════════════════════════ */
-    public function select2_empresa_a_cargo() {
-      $sql3 = "SELECT idempresa_a_cargo as id, razon_social as nombre, tipo_documento, numero_documento, logo FROM empresa_a_cargo WHERE estado ='1' AND estado_delete ='1' AND idempresa_a_cargo > 1 ;";
-      return ejecutarConsultaArray($sql3);
-    }
-
-    /* ══════════════════════════════════════ M A R C A S   D E   A C T I V O S ════════════════════════════ */
-
-    public function marcas_activos() {
-      $sql = "SELECT idmarca, nombre_marca FROM marca WHERE estado=1 and estado_delete=1;";
-      return ejecutarConsulta($sql);
-    }
+    
 
     /* ══════════════════════════════════════ N O T I F I C A C I O N   P E D I D O S ════════════════════════════ */
     public function notificacion_pedido() {

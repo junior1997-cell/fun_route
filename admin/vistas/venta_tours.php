@@ -147,10 +147,9 @@
                                   <th class="">#</th>
                                   <th class="">Acciones</th>
                                   <th>Fecha</th>
-                                  <th>Agricultor</th>
-                                  <th>Tipo</th>
+                                  <th>Agricultor</th>                                 
                                   <th>Comprobante</th>
-                                  <th>Metodo de Pago</th>
+                                  <th>Metodo</th>
                                   <th>Total</th>
                                   <th>Pagos</th>
                                   <th>Saldo</th>
@@ -159,8 +158,7 @@
                                   <th>Num. Doc.</th>
                                   <th>Tipo Comprobante</th>
                                   <th>Num. Comprobante</th>
-                                  <th>Pagos</th>
-                                  <th>Utilidad</th>
+                                  <th>Pagos</th>                                  
                                 </tr>
                               </thead>
                               <tbody></tbody>
@@ -169,10 +167,9 @@
                                   <th class="">#</th>
                                   <th class="">Acciones</th>
                                   <th>Fecha</th>
-                                  <th>Agricultor</th>
-                                  <th>Tipo</th>
+                                  <th>Agricultor</th>                                 
                                   <th>Comprobante</th>
-                                  <th>Metodo de Pago</th>
+                                  <th>Metodo</th>
                                   <th class="px-2">Total</th>
                                   <th>Pagos</th>
                                   <th>Saldo</th>
@@ -182,7 +179,6 @@
                                   <th>Tipo Comprobante</th>
                                   <th>Num. Comprobante</th>
                                   <th>Pagos</th>
-                                  <th>Utilidad</th>
                                 </tr>
                               </tfoot>
                             </table>
@@ -253,7 +249,7 @@
                                  
                                 <div class="row" id="cargando-1-fomulario">
                                   <!-- id compra_producto  -->
-                                  <input type="hidden" name="idventa_producto" id="idventa_producto" />
+                                  <input type="hidden" name="idventa_tours" id="idventa_tours" />
                                   <input type="hidden" name="num_doc" id="num_doc" /> 
 
                                   <!-- no se usa -->
@@ -294,11 +290,11 @@
                                   <div class="col-lg-3" id="content-tipo-comprobante">
                                     <div class="form-group">
                                       <label for="tipo_comprobante">Tipo Comprobante <sup class="text-danger">(único*)</sup></label>
-                                      <select name="tipo_comprobante" id="tipo_comprobante" class="form-control select2"  onchange="default_val_igv(); modificarSubtotales(); ocultar_comprob(); autoincrement_comprobante(this);" placeholder="Seleccinar un tipo de comprobante">
-                                        <option value="Ninguno">Ninguno</option>
+                                      <select name="tipo_comprobante" id="tipo_comprobante" class="form-control select2"  onchange="default_val_igv(); modificarSubtotales(); ocultar_comprob(); autoincrement_comprobante(this);" placeholder="Seleccionar ">
+                                        <option value="NINGUNO">Ninguno</option>
                                         <!-- <option value="Boleta">Boleta</option>
                                         <option value="Factura">Factura</option> -->
-                                        <option value="Nota de venta">Nota de venta</option>
+                                        <!-- <option value="Nota de venta">Nota de venta</option> -->
                                       </select>
                                     </div>
                                   </div> 
@@ -306,18 +302,14 @@
                                   <!-- serie_comprobante-->
                                   <div class="col-lg-3" id="content-serie-comprobante">
                                     <div class="form-group">
-                                      <label for="serie_comprobante">Serie Comprobante <sup class="text-danger">(único*)</sup></label>
-                                      <input type="text" name="serie_comprobante" id="serie_comprobante" class="form-control" placeholder="N° de Comprobante" readonly />
+                                      <label for="serie_comprobante">Serie y numero <sup class="text-danger cargando_serie_numero">(único*)</sup></label>
+                                      <div class="input-group">  
+                                        <input type="text" name="serie_comprobante" id="serie_comprobante" class="form-control" placeholder="N° de Comprobante" readonly />
+                                        <span class="btn btn-default" style="border-radius: 0px;">-</span>       
+                                        <input type="text" name="numero_comprobante" id="numero_comprobante" class="form-control" placeholder="N° de Comprobante" readonly />                                                                                
+                                      </div>
                                     </div>
-                                  </div>
-
-                                  <!-- numero_comprobante-->
-                                  <div class="col-lg-3" id="content-numero-comprobante">
-                                    <div class="form-group">
-                                      <label for="numero_comprobante">Numero Comprobante <sup class="text-danger">(único*)</sup></label>
-                                      <input type="text" name="numero_comprobante" id="numero_comprobante" class="form-control" placeholder="N° de Comprobante" readonly />
-                                    </div>
-                                  </div>
+                                  </div>                                  
 
                                   <!-- IGV-->
                                   <div class="col-lg-1" style="display: none;">
@@ -327,7 +319,7 @@
                                     </div>
                                   </div>
                                   <!-- Descripcion-->
-                                  <div class="col-lg-3" id="content-descripcion">
+                                  <div class="col-lg-6" id="content-descripcion">
                                     <div class="form-group">
                                       <label for="descripcion">Descripción </label> <br />
                                       <textarea name="descripcion" id="descripcion" class="form-control" rows="1"></textarea>
@@ -356,8 +348,8 @@
                                   <!-- Pago a realizar -->
                                   <div class="col-sm-6 col-lg-3" id="content-code-baucher">
                                     <div class="form-group">
-                                      <label for="code_baucher">Código de Baucher <span class="span-pago-compra"></span> </label>
-                                      <input type="text" name="code_baucher" id="code_baucher" class="form-control" onClick="this.select();" placeholder="Codigo de baucher" />
+                                      <label for="code_vaucher">Código de Baucher <span class="span-pago-compra"></span> </label>
+                                      <input type="text" name="code_vaucher" id="code_vaucher" class="form-control" onClick="this.select();" placeholder="Codigo de baucher" />
                                     </div>
                                   </div>                              
 
@@ -394,20 +386,29 @@
                                             <div class="col-4 col-sm-4 col-lg-4" id="content-pagar-ctdo" style="display: none;">
                                               <div class="form-group">
                                                 <label for="pagar_con">Pagar Ctdo. </label>
-                                                <input type="text" name="pagar_con_ctdo" id="pagar_con_ctdo" class="form-control" onClick="this.select();" placeholder="Pagar con" />
+                                                <input type="text" name="pagar_con_ctdo" id="pagar_con_ctdo" class="form-control" onClick="this.select();" onchange="calcular_vuelto();" onkeyup="calcular_vuelto();" placeholder="Pagar con" />
                                               </div>
                                             </div>
                                             <div class="col-4 col-sm-4 col-lg-4" id="content-pagar-tarj" style="display: none;">
                                               <div class="form-group">
                                                 <label for="pagar_con">Pagar Tarj. </label>
-                                                <input type="text" name="pagar_con_tarj" id="pagar_con_tarj" class="form-control" onClick="this.select();" placeholder="Pagar con" />
+                                                <input type="text" name="pagar_con_tarj" id="pagar_con_tarj" class="form-control" onClick="this.select();" onchange="calcular_vuelto();" onkeyup="calcular_vuelto();" placeholder="Pagar con" />
                                               </div>
                                             </div>
                                             <div class="col-4 col-sm-4 col-lg-4" id="content-vuelto" style="display: none;">
                                               <div class="form-group">
-                                                <label for="pagar_con">Vuelto</label>
-                                                <span class="form-control-mejorado">0.00</span>                                                
+                                                <label >Vuelto <small class="falta_o_completo"></small> </label>
+                                                <span class="form-control-mejorado vuelto_venta font-weight-bold" >0.00</span>   
+                                                <input type="hidden" name="vuelto_venta" id="vuelto_venta">                                             
                                               </div>
+                                            </div>
+                                            <div class="col-12">
+                                              <button type="button" class="btn btn-primary btn-sm pago_rapido" onclick="pago_rapido(this)" >0</button>
+                                              <button type="button" class="btn btn-info btn-sm" onclick="pago_rapido(this)" >10</button>
+                                              <button type="button" class="btn btn-info btn-sm" onclick="pago_rapido(this)" >20</button>
+                                              <button type="button" class="btn btn-info btn-sm" onclick="pago_rapido(this)" >50</button>
+                                              <button type="button" class="btn btn-info btn-sm" onclick="pago_rapido(this)" >100</button>
+                                              <button type="button" class="btn btn-info btn-sm" onclick="pago_rapido(this)" >200</button>
                                             </div>
                                           </div>                                          
                                         </td>
@@ -417,8 +418,8 @@
                                           <h5 class="font-weight-bold">TOTAL</h5>
                                         </th>
                                         <th class="text-right"> 
-                                          <h6 class="font-weight-bold subtotal_compra">S/ 0.00</h6>
-                                          <input type="hidden" name="subtotal_compra" id="subtotal_compra" />
+                                          <h6 class="font-weight-bold subtotal_venta">S/ 0.00</h6>
+                                          <input type="hidden" name="subtotal_venta" id="subtotal_venta" />
                                           <input type="hidden" name="tipo_gravada" id="tipo_gravada" />
 
                                           <h6 class="font-weight-bold igv_venta">S/ 0.00</h6>
@@ -430,9 +431,11 @@
                                         </th>
                                       </tfoot>
                                       <tbody></tbody>
-                                    </table>
-                                  </div>                                    
+                                    </table>                                   
+                                  </div>   
+                                  <!-- /.col -->
                                 </div>
+                                <!-- /.row -->
 
                                 <div class="row" id="cargando-2-fomulario" style="display: none;">
                                   <div class="col-lg-12 text-center">

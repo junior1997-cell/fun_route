@@ -25,22 +25,26 @@ if (!isset($_SESSION["nombre"])) {
     $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/fun_route/admin/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/admin/');
 
     // :::::::::::::::::::::::::::::::::::: D A T O S   V E N T A ::::::::::::::::::::::::::::::::::::::
-    $idventa_tours   = isset($_POST["idventa_tours"]) ? limpiarCadena($_POST["idventa_tours"]) : "";
+    $idventa_tours      = isset($_POST["idventa_tours"]) ? limpiarCadena($_POST["idventa_tours"]) : "";
     $idcliente          = isset($_POST["idcliente"]) ? limpiarCadena($_POST["idcliente"]) : "";
     $num_doc            = isset($_POST["num_doc"]) ? limpiarCadena($_POST["num_doc"]) : "";
     $fecha_venta        = isset($_POST["fecha_venta"]) ? limpiarCadena($_POST["fecha_venta"]) : "";
     $tipo_comprobante   = isset($_POST["tipo_comprobante"]) ? limpiarCadena($_POST["tipo_comprobante"]) : "";    
     $serie_comprobante  = isset($_POST["serie_comprobante"]) ? limpiarCadena($_POST["serie_comprobante"]) : "";
-    $val_igv            = isset($_POST["val_igv"]) ? limpiarCadena($_POST["val_igv"]) : "";
+    $numero_comprobante = isset($_POST["numero_comprobante"]) ? limpiarCadena($_POST["numero_comprobante"]) : "";
+    $impuesto           = isset($_POST["impuesto"]) ? limpiarCadena($_POST["impuesto"]) : "";    
     $descripcion        = isset($_POST["descripcion"]) ? limpiarCadena($_POST["descripcion"]) : "";
-    $subtotal_compra    = isset($_POST["subtotal_compra"]) ? limpiarCadena($_POST["subtotal_compra"]) : "";
-    $tipo_gravada       = isset($_POST["tipo_gravada"]) ? limpiarCadena($_POST["tipo_gravada"]) : "";    
-    $igv_venta          = isset($_POST["igv_venta"]) ? limpiarCadena($_POST["igv_venta"]) : "";
-    $total_venta        = isset($_POST["total_venta"]) ? limpiarCadena($_POST["total_venta"]) : "";
 
-    $metodo_pago        = isset($_POST["metodo_pago"]) ? limpiarCadena($_POST["metodo_pago"]) : "";
-    $fecha_proximo_pago = isset($_POST["fecha_proximo_pago"]) ? limpiarCadena($_POST["fecha_proximo_pago"]) : "";
-    $monto_pago_compra  = isset($_POST["monto_pago_compra"]) ? limpiarCadena($_POST["monto_pago_compra"]) : "";
+    $subtotal_venta   = isset($_POST["subtotal_venta"]) ? limpiarCadena($_POST["subtotal_venta"]) : "";
+    $tipo_gravada     = isset($_POST["tipo_gravada"]) ? limpiarCadena($_POST["tipo_gravada"]) : "";    
+    $igv_venta        = isset($_POST["igv_venta"]) ? limpiarCadena($_POST["igv_venta"]) : "";
+    $total_venta      = isset($_POST["total_venta"]) ? limpiarCadena($_POST["total_venta"]) : "";    
+
+    $metodo_pago      = isset($_POST["metodo_pago"]) ? limpiarCadena($_POST["metodo_pago"]) : "";
+    $code_vaucher     = isset($_POST["code_vaucher"]) ? limpiarCadena($_POST["code_vaucher"]) : "";
+    $pagar_con_ctdo   = isset($_POST["pagar_con_ctdo"]) ? limpiarCadena($_POST["pagar_con_ctdo"]) : "";
+    $pagar_con_tarj   = isset($_POST["pagar_con_tarj"]) ? limpiarCadena($_POST["pagar_con_tarj"]) : "";
+    $vuelto_venta     = isset($_POST["vuelto_venta"]) ? limpiarCadena($_POST["vuelto_venta"]) : "";
     
     // :::::::::::::::::::::::::::::::::::: D A T O S   P A G O   V E N T A ::::::::::::::::::::::::::::::::::::::
     $idpago_venta_producto_pv  = isset($_POST["idpago_venta_producto_pv"]) ? limpiarCadena($_POST["idpago_venta_producto_pv"]) : "";
@@ -90,7 +94,7 @@ if (!isset($_SESSION["nombre"])) {
     $edad_per             = isset($_POST["edad_per"])? limpiarCadena($_POST["edad_per"]):"";
       
     $imagen1			        = isset($_POST["foto1"])? limpiarCadena($_POST["foto1"]):"";
-
+    
     switch ($_GET["op"]) {   
       
       // :::::::::::::::::::::::::: S E C C I O N   P R O D U C T O S ::::::::::::::::::::::::::
@@ -175,24 +179,22 @@ if (!isset($_SESSION["nombre"])) {
       break;
     
       // :::::::::::::::::::::::::: S E C C I O N   V E N T A  ::::::::::::::::::::::::::
-      case 'guardaryeditarcompra':
+      case 'guardar_y_editar_venta':
 
         if (empty($idventa_tours)) {
           
-          $rspta = $venta_producto->insertar($idcliente, $num_doc, $fecha_venta, $tipo_comprobante, $serie_comprobante, $val_igv, $descripcion, 
-          $metodo_pago, $fecha_proximo_pago, $monto_pago_compra,
-          $total_venta, $subtotal_compra, $igv_venta,  $_POST["idproducto"], $_POST["unidad_medida"], 
-          $_POST["categoria"], $_POST["cantidad"], $_POST["precio_sin_igv"], $_POST["precio_igv"], $_POST["precio_con_igv"], $_POST["precio_compra"], $_POST["descuento"], 
-          $tipo_gravada);
+          $rspta = $venta_producto->insertar( $idcliente, $num_doc, $fecha_venta, $tipo_comprobante, $serie_comprobante, $numero_comprobante, $impuesto, $descripcion,
+          $subtotal_venta, $tipo_gravada, $igv_venta, $total_venta, $metodo_pago, $code_vaucher, $pagar_con_ctdo, $pagar_con_tarj , $vuelto_venta ,
+          $_POST["idtours"], $_POST["unidad_medida"], $_POST["tipo_tours"], $_POST["cantidad"], $_POST["precio_sin_igv"], $_POST["precio_igv"], $_POST["precio_con_igv"], 
+          $_POST["descuento"], $_POST["subtotal_producto"]);
 
           echo json_encode($rspta, true);
         } else {
 
-          $rspta = $venta_producto->editar( $idventa_tours, $idcliente, $num_doc, $fecha_venta,  $tipo_comprobante, $serie_comprobante, $val_igv, $descripcion, 
-          $metodo_pago, $fecha_proximo_pago, $monto_pago_compra,
-          $total_venta, $subtotal_compra, $igv_venta,  $_POST["idproducto"], $_POST["unidad_medida"], 
-          $_POST["categoria"], $_POST["cantidad"], $_POST["cantidad_old"], $_POST["precio_sin_igv"], $_POST["precio_igv"],  $_POST["precio_con_igv"], $_POST["precio_compra"], $_POST["descuento"], 
-          $tipo_gravada);
+          $rspta = $venta_producto->editar( $idventa_tours, $idcliente, $num_doc, $fecha_venta, $tipo_comprobante, $serie_comprobante, $numero_comprobante, $impuesto, $descripcion,
+          $subtotal_venta, $tipo_gravada, $igv_venta, $total_venta, $metodo_pago, $code_vaucher, $pagar_con_ctdo, $pagar_con_tarj , $vuelto_venta ,
+          $_POST["idtours"], $_POST["unidad_medida"], $_POST["tipo_tours"], $_POST["cantidad"], $_POST["precio_sin_igv"], $_POST["precio_igv"], $_POST["precio_con_igv"], 
+          $_POST["descuento"], $_POST["subtotal_producto"]);
     
           echo json_encode($rspta, true);
         }
@@ -245,23 +247,21 @@ if (!isset($_SESSION["nombre"])) {
                 ' <button class="btn btn-danger  btn-sm" onclick="eliminar_venta(' . $reg['idventa_tours'] .', \''.encodeCadenaHtml('<del><b>' . $reg['tipo_comprobante'] .  '</b> '.(empty($reg['serie_comprobante']) ?  "" :  '- '.$reg['serie_comprobante']).'</del> <del>'.$reg['cliente'].'</del>'). '\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>',
                  
               "2" => $reg['fecha_venta'],
-              "3" => '<span class="text-primary font-weight-bold" >' . $reg['cliente'] . '</span>',
-              "4" => '',
-              "5" =>'<span class="" ><b>' . $reg['tipo_comprobante'] . '</b> '.(empty($reg['serie_comprobante']) ?  "" : '- '.$reg['serie_comprobante'].'-'.$reg['numero_comprobante']).'</span>',
-              "6" => $reg['metodo_pago'], 
-              "7" => $reg['total'],
-              "8" => '<div class="text-center text-nowrap">'.
+              "3" => '<span class="text-primary font-weight-bold" >' . $reg['cliente'] . '</span>',              
+              "4" =>'<span class="" ><b>' . $reg['tipo_comprobante'] . '</b> '.(empty($reg['serie_comprobante']) ?  "" : '- '.$reg['serie_comprobante'].'-'.$reg['numero_comprobante']).'</span>',
+              "5" => $reg['metodo_pago'], 
+              "6" => $reg['total'],
+              "7" => '<div class="text-center text-nowrap">'.
                 '<button class="btn btn-' . $color_btn . ' btn-xs m-t-2px" onclick="tbla_pago_venta(' . $reg['idventa_tours'] . ', ' . $reg['total'] . ', ' . floatval($reg['total_pago']) .', \''.encodeCadenaHtml($reg['cliente']) .'\')" data-toggle="tooltip" data-original-title="Ingresar a pagos"> <i class="fas fa-' . $icon . ' nav-icon"></i> ' . $nombre . '</button>' . 
                 ' <button style="font-size: 14px;" class="btn btn-' . $color_btn . ' btn-sm">' . number_format(floatval($reg['total_pago']), 2, '.', ',') . '</button>'.
               '</div>'. $toltip,
-              "9" => $saldo,
+              "8" => $saldo,
 
-              "10" => $reg['tipo_documento'],
-              "11" => $reg['numero_documento'],
-              "12" => $reg['tipo_comprobante'],
-              "13" => $reg['serie_comprobante'].'-'.$reg['numero_comprobante'],
-              "14" => $reg['total_pago'],
-              "15" => 0,
+              "9" => $reg['tipo_documento'],
+              "10" => $reg['numero_documento'],
+              "11" => $reg['tipo_comprobante'],
+              "12" => $reg['serie_comprobante'].'-'.$reg['numero_comprobante'],
+              "13" => $reg['total_pago'],
             ];
             $cont++;
           }
@@ -288,7 +288,7 @@ if (!isset($_SESSION["nombre"])) {
           while ($reg = $rspta['data']->fetch_object()) {
             $data[] = [
               "0" => $cont++,
-              "1" => '<button class="btn btn-info btn-sm" onclick="listar_facuras_proveedor(' . $reg->idventa_tours . ')" data-toggle="tooltip" data-original-title="Ver Compras">
+              "1" => '<button class="btn btn-info btn-sm" onclick="listar_facuras_proveedor(' . $reg->idventa_tours . ')" data-toggle="tooltip" data-original-title="Ver ventas">
                 <i class="fa fa-eye"></i>
               </button>'. $toltip ,
               "2" => $reg->razon_social,

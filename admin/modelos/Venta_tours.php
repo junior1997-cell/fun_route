@@ -13,48 +13,55 @@ class Venta_tours
   
   // ::::::::::::::::::::::::::::::::::::::::: S E C C I O N   C O M P R A  ::::::::::::::::::::::::::::::::::::::::: 
   //Implementamos un método para insertar registros
-  public function insertar( $idcliente, $num_doc, $fecha_venta,  $tipo_comprobante, $serie_comprobante, $val_igv, $descripcion, 
-  $metodo_pago, $fecha_proximo_pago, $monto_pago_compra,
-  $total_compra, $subtotal_compra, $igv_venta,  $idproducto, $unidad_medida, $categoria, $cantidad, $precio_sin_igv, $precio_igv, 
-  $precio_con_igv, $precio_compra, $descuento, $tipo_gravada) {
+  public function insertar( $idcliente, $num_doc, $fecha_venta, $tipo_comprobante, $serie_comprobante, $numero_comprobante, $impuesto, $descripcion,
+  $subtotal_venta, $tipo_gravada, $igv_venta, $total_venta, $metodo_pago, $code_vaucher, $pagar_con_ctdo, $pagar_con_tarj , $vuelto_venta ,
+  $idtours, $unidad_medida, $tipo_tours, $cantidad, $precio_sin_igv, $precio_igv, $precio_con_igv, $descuento, $subtotal_producto) {
 
     // buscamos al si la FACTURA existe
-    $sql_2 = "SELECT  vp.fecha_venta, vp.tipo_comprobante, vp.serie_comprobante, vp.igv, vp.total, p.numero_documento, 
-    p.tipo_documento, p.nombres as razon_social,  vp.estado, vp.estado_delete, vp.metodo_pago
-    FROM venta_producto as vp, persona as p 
-    WHERE vp.idpersona = p.idpersona AND vp.tipo_comprobante ='$tipo_comprobante' AND vp.serie_comprobante = '$serie_comprobante' AND p.numero_documento='$num_doc'";
+    $sql_2 = "SELECT  vt.fecha_venta, vt.tipo_comprobante, vt.serie_comprobante, vt.igv, vt.total, p.numero_documento, 
+    p.tipo_documento, p.nombres as razon_social,  vt.estado, vt.estado_delete, vt.metodo_pago
+    FROM venta_tours as vt, persona as p 
+    WHERE vt.idpersona = p.idpersona AND vt.tipo_comprobante ='$tipo_comprobante' AND vt.serie_comprobante = '$serie_comprobante' AND vt.numero_comprobante = '$numero_comprobante' AND p.numero_documento='$num_doc'";
     $venta_existe = ejecutarConsultaArray($sql_2); if ($venta_existe['status'] == false) { return  $venta_existe;}
 
     if (empty($venta_existe['data']) || $tipo_comprobante == 'Ninguno') {
-     
-      $sql_3 = "INSERT INTO venta_producto(idpersona, fecha_venta, tipo_comprobante, serie_comprobante, val_igv, subtotal, igv, total,tipo_gravada, descripcion, metodo_pago, fecha_proximo_pago, user_created) 
-      VALUES ('$idcliente','$fecha_venta','$tipo_comprobante','$serie_comprobante','$val_igv','$subtotal_compra','$igv_venta','$total_compra','$tipo_gravada','$descripcion', '$metodo_pago', '$fecha_proximo_pago', '$this->id_usr_sesion')";
+
+      // Extraemos la correlacion actual
+      $sql_comp = "SELECT * FROM sunat_correlacion_comprobante WHERE nombre = '$tipo_comprobante'";
+      $data_comp = ejecutarConsultaSimpleFila($sql_comp); if ( $data_comp['status'] == false) {return $data_comp; } 
+      $serie_comprobante =  $data_comp['data']['serie'];
+      $numero_comprobante =  $data_comp['data']['numero'];
+
+      $sql_3 = "INSERT INTO venta_tours( idpersona, fecha_venta, tipo_comprobante, serie_comprobante, numero_comprobante, impuesto, subtotal, igv, total, tipo_gravada, 
+      descripcion, metodo_pago, code_vaucher, pago_con_efe, pago_con_tar, vuelto_pago, user_created) 
+      VALUES ('$idcliente','$fecha_venta','$tipo_comprobante','$serie_comprobante','$numero_comprobante','$impuesto','$subtotal_venta','$igv_venta','$total_venta',
+      '$tipo_gravada','$descripcion','$metodo_pago','$code_vaucher','$pagar_con_ctdo','$pagar_con_tarj','$vuelto_venta', '$this->id_usr_sesion')";
       $idventanew = ejecutarConsulta_retornarID($sql_3); if ($idventanew['status'] == false) { return  $idventanew;}
       $id = $idventanew['data'];
 
       //add registro en nuestra bitacora
-      $sql_bit = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('venta_producto','".$idventanew['data']."','Nueva venta','$this->id_usr_sesion')";
+      $sql_d = "$idcliente, $num_doc, $fecha_venta, $tipo_comprobante, $serie_comprobante, $numero_comprobante, $impuesto, $descripcion,  $subtotal_venta, $tipo_gravada, $igv_venta, $total_venta, $metodo_pago, $code_vaucher, $pagar_con_ctdo, $pagar_con_tarj , $vuelto_venta , $idtours, $unidad_medida, $tipo_tours, $cantidad, $precio_sin_igv, $precio_igv, $precio_con_igv, $precio_compra, $descuento, $subtotal_producto";
+      $sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5, 'venta_tours','$id','$sql_d','$this->id_usr_sesion')";
       $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; } 
 
       //add update table autoincrement_comprobante - numero de comprobante de pago
-      if ($tipo_comprobante == 'Boleta') {
-        $sql_nro = "UPDATE autoincrement_comprobante SET venta_producto_b = venta_producto_b + '1' WHERE idautoincrement_comprobante = '1'";
+      if ($tipo_comprobante == 'NINGUNO') {
+        $sql_nro = "UPDATE sunat_correlacion_comprobante SET numero = numero + '1' WHERE nombre = '$tipo_comprobante'";
         $nro_comprobante = ejecutarConsulta($sql_nro); if ($nro_comprobante['status'] == false) { return  $nro_comprobante;}
-      } else if ($tipo_comprobante == 'Factura'){
-        $sql_nro = "UPDATE autoincrement_comprobante SET venta_producto_f = venta_producto_f + '1' WHERE idautoincrement_comprobante = '1'";
+      } else if ($tipo_comprobante == 'NOTA DE VENTA'){
+        $sql_nro = "UPDATE sunat_correlacion_comprobante SET numero = numero + '1' WHERE nombre = '$tipo_comprobante'";
         $nro_comprobante = ejecutarConsulta($sql_nro); if ($nro_comprobante['status'] == false) { return  $nro_comprobante;}
-      } else if ($tipo_comprobante == 'Nota de venta'){
-        $sql_nro = "UPDATE autoincrement_comprobante SET venta_producto_nv = venta_producto_nv + '1' WHERE idautoincrement_comprobante = '1'";
-        $nro_comprobante = ejecutarConsulta($sql_nro); if ($nro_comprobante['status'] == false) { return  $nro_comprobante;}
-      }       
+      }   
 
       // creamos un pago de compra
-      $insert_pago = "INSERT INTO pago_venta_producto( 	idventa_producto, forma_pago, fecha_pago, monto, descripcion, comprobante, user_created) 
-      VALUES ('$id','EFECTIVO','$fecha_venta','$monto_pago_compra', '', '', '$this->id_usr_sesion')";
+      $total_pago = $pagar_con_ctdo + $pagar_con_tarj;
+      $insert_pago = "INSERT INTO venta_tours_pago(	idventa_tours, forma_pago, fecha_pago, monto, descripcion, comprobante, user_created) 
+      VALUES ('$id','EFECTIVO','$fecha_venta','$total_pago', '', '', '$this->id_usr_sesion')";
       $new_pago = ejecutarConsulta_retornarID($insert_pago); if ($new_pago['status'] == false) { return  $new_pago;}
 
       //add registro en nuestra bitacora
-      $sql_bit = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('pago_venta_producto','".$new_pago['data']."','Agregar pago venta','$this->id_usr_sesion')";
+      $sql_d = "$id, EFECTIVO, $fecha_venta, $total_pago";
+      $sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5, 'venta_tours_pago','".$new_pago['data']."','$sql_d','$this->id_usr_sesion')";
       $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; } 
 
       $i = 0;
@@ -62,20 +69,15 @@ class Venta_tours
 
       if ( !empty($idventanew['data']) ) {
       
-        while ($i < count($idproducto)) {
+        while ($i < count($idtours)) {
 
           $subtotal_producto = (floatval($cantidad[$i]) * floatval($precio_con_igv[$i])) - $descuento[$i];
 
-          $sql_detalle = "INSERT INTO detalle_venta_producto(idventa_producto, idproducto, unidad_medida, categoria, cantidad, precio_sin_igv, igv, 
-          precio_con_igv, precio_compra, descuento, subtotal, user_created) 
-          VALUES ('$id','$idproducto[$i]', '$unidad_medida[$i]',  '$categoria[$i]', '$cantidad[$i]', '$precio_sin_igv[$i]', '$precio_igv[$i]', 
-          '$precio_con_igv[$i]', '$precio_compra[$i]', '$descuento[$i]', 
-          '$subtotal_producto','$this->id_usr_sesion')";
-          $compra_new =  ejecutarConsulta_retornarID($sql_detalle); if ($compra_new['status'] == false) { return  $compra_new;}
-
-          //add update table producto el stock
-          $sql_producto = "UPDATE producto SET stock = stock - '$cantidad[$i]' WHERE idproducto = '$idproducto[$i]'";
-          $producto = ejecutarConsulta($sql_producto); if ($producto['status'] == false) { return  $producto;}
+          $sql_detalle = "INSERT INTO detalle_venta_producto(idventa_tours, idtours, unidad_medida, tipo_tours, cantidad, precio_sin_igv, igv, 
+          precio_con_igv, descuento, subtotal, user_created) 
+          VALUES ('$id','$idtours[$i]', '$unidad_medida[$i]', '$tipo_tours[$i]', '$cantidad[$i]', '$precio_sin_igv[$i]', '$precio_igv[$i]', 
+          '$precio_con_igv[$i]', '$descuento[$i]',  '$subtotal_producto','$this->id_usr_sesion')";
+          $compra_new =  ejecutarConsulta_retornarID($sql_detalle); if ($compra_new['status'] == false) { return  $compra_new;}          
 
           //add registro en nuestra bitacora.
           $sql_bit_d = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('detalle_venta_producto','".$compra_new['data']."','Detalle compra','$this->id_usr_sesion')";
@@ -92,7 +94,7 @@ class Venta_tours
 
       foreach ($venta_existe['data'] as $key => $value) {
         $info_repetida .= '<li class="text-left font-size-13px">
-          <b class="font-size-18px text-danger">'.$value['tipo_comprobante'].': </b> <span class="font-size-18px text-danger">'.$value['serie_comprobante'].'</span><br>
+          <b class="font-size-18px text-danger">'.$value['tipo_comprobante'].': </b> <span class="font-size-18px text-danger">'.$value['serie_comprobante'].'-'.$value['numero_comprobante'].'</span><br>
           <b>Razón Social: </b>'.$value['razon_social'].'<br>
           <b>'.$value['tipo_documento'].': </b>'.$value['numero_documento'].'<br>          
           <b>Fecha: </b>'.format_d_m_a($value['fecha_venta']).'<br>
@@ -108,9 +110,9 @@ class Venta_tours
   }
 
   //Implementamos un método para editar registros
-  public function editar( $idventa_producto, $idcliente, $num_doc, $fecha_venta,  $tipo_comprobante, $serie_comprobante, $val_igv, $descripcion, 
-  $metodo_pago, $fecha_proximo_pago, $monto_pago_compra,
-  $total_venta, $subtotal_compra, $igv_venta,  $idproducto, $unidad_medida, $categoria, $cantidad, $cantidad_old, $precio_sin_igv, $precio_igv,  $precio_con_igv, $descuento, $tipo_gravada) {
+  public function editar( $idventa_tours, $idcliente, $num_doc, $fecha_venta, $tipo_comprobante, $serie_comprobante, $numero_comprobante, $impuesto, $descripcion,
+  $subtotal_venta, $tipo_gravada, $igv_venta, $total_venta, $metodo_pago, $code_vaucher, $pagar_con_ctdo, $pagar_con_tarj , $vuelto_venta ,
+  $idtours, $unidad_medida, $tipo_tours, $cantidad, $precio_sin_igv, $precio_igv, $precio_con_igv,  $descuento, $subtotal_producto) {
 
     if ( !empty($idventa_producto) ) {
       //Eliminamos todos los permisos asignados para volverlos a registrar
@@ -305,7 +307,7 @@ class Venta_tours
   //Implementar un método para listar los registros x proveedor
   public function listar_compra_x_porveedor() {
     // $idproyecto=2;
-    $sql = "SELECT  COUNT(vt.idventa_tours) as cantidad, SUM(vt.total) as total, 
+    $sql = "SELECT vt.idventa_tours, COUNT(vt.idventa_tours) as cantidad, SUM(vt.total) as total,  
     vt.idpersona, p.nombres as razon_social, p.numero_documento, p.celular
 		FROM venta_tours as vt, persona as p 
 		WHERE  vt.idpersona=p.idpersona  AND  vt.estado = '1' AND vt.estado_delete = '1'

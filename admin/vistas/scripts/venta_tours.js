@@ -30,7 +30,7 @@ function init() {
   lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=3", '#idcliente', null);
   lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=3", '#filtro_proveedor', null);
   lista_select2("../ajax/ajax_general.php?op=select2Banco", '#banco', null);
-  // lista_select2("../ajax/ajax_general.php?op=select2UnidaMedida", '#unidad_medida_pro', null);
+  lista_select2("../ajax/ajax_general.php?op=select2Tipo_comprobante", '#tipo_comprobante', null);
   // lista_select2("../ajax/ajax_general.php?op=select2Categoria", '#categoria_producto_pro', null);
 
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
@@ -120,7 +120,7 @@ function limpiar_form_compra() {
 
   $("#idventa_producto").val("");
   $("#idcliente").val("null").trigger("change");
-  $("#tipo_comprobante").val("Ninguno").trigger("change");
+  $("#tipo_comprobante").val("NINGUNO").trigger("change");
 
   $("#metodo_pago").val("").trigger("change");
 
@@ -128,11 +128,11 @@ function limpiar_form_compra() {
   $("#impuesto").val(0);
   $("#descripcion").val("");
   
-  $("#total_venta").val("");  
+  $("#total_venta").val("");     
   $(".total_venta").html("0");
 
-  $(".subtotal_compra").html("S/ 0.00");
-  $("#subtotal_compra").val("");
+  $(".subtotal_venta").html("S/ 0.00");
+  $("#subtotal_venta").val("");
 
   $(".igv_venta").html("S/ 0.00");
   $("#igv_venta").val("");
@@ -220,9 +220,9 @@ function tbla_principal(fecha_1, fecha_2, id_proveedor, comprobante) {
     dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
     buttons: [      
       { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i>', className: "btn bg-gradient-info", action: function ( e, dt, node, config ) { tabla_venta_producto.ajax.reload(null, false); toastr_success('Exito!!', 'Actualizando tabla', 400); } },
-      { extend: 'copyHtml5', exportOptions: { columns: [0,2,3,10,11,4,12,13,6,7,14,9,15], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray", footer: true,  }, 
-      { extend: 'excelHtml5', exportOptions: { columns: [0,2,3,10,11,4,12,13,6,7,14,9,15], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success", footer: true,  }, 
-      { extend: 'pdfHtml5', exportOptions: { columns: [0,2,3,10,11,4,12,13,6,7,14,9,15], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
+      { extend: 'copyHtml5', exportOptions: { columns: [0,2,3,9,10,11,12,5,6,13,8], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray", footer: true,  }, 
+      { extend: 'excelHtml5', exportOptions: { columns: [0,2,3,9,10,11,12,5,6,13,8], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success", footer: true,  }, 
+      { extend: 'pdfHtml5', exportOptions: { columns: [0,2,3,9,10,11,12,5,6,13,8], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
       { extend: "colvis", text: `Columnas`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
     ],
     ajax: {
@@ -236,11 +236,11 @@ function tbla_principal(fecha_1, fecha_2, id_proveedor, comprobante) {
     createdRow: function (row, data, ixdex) {
       //console.log(data);
       if (data[1] != '') { $("td", row).eq(1).addClass('text-nowrap'); }
-      if (data[6] != '') { $("td", row).eq(6).addClass('text-nowrap'); }
-      if (data[9] != '' || data[9] == 0 ) { 
-        $("td", row).eq(9).addClass('text-right');  
-        parseFloat(data[9]) < 0 ? $("td", row).eq(9).addClass('bg-red') : "";
-        parseFloat(data[9]) == 0 ? $("td", row).eq(9).addClass('bg-success') : ""; 
+      if (data[5] != '') { $("td", row).eq(5).addClass('text-nowrap'); }
+      if (data[8] != '' || data[8] == 0 ) { 
+        $("td", row).eq(8).addClass('text-right');  
+        parseFloat(data[8]) < 0 ? $("td", row).eq(8).addClass('bg-red') : "";
+        parseFloat(data[8]) == 0 ? $("td", row).eq(8).addClass('bg-success') : ""; 
       }       
     },
     language: {
@@ -249,24 +249,24 @@ function tbla_principal(fecha_1, fecha_2, id_proveedor, comprobante) {
       sLoadingRecords: '<i class="fas fa-spinner fa-pulse fa-lg"></i> Cargando datos...'
     },
     footerCallback: function( tfoot, data, start, end, display ) {
-      var api1 = this.api(); var total1 = api1.column( 7 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
-      $( api1.column( 7 ).footer() ).html( `<span class="float-left">S/</span> <span class="float-right">${formato_miles(total1)}</span>` ); 
+      var api1 = this.api(); var total1 = api1.column( 6 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
+      $( api1.column( 6 ).footer() ).html( `<span class="float-left">S/</span> <span class="float-right">${formato_miles(total1)}</span>` ); 
       
-      var api2 = this.api(); var total2 = api2.column( 14 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
-      $( api2.column( 8 ).footer() ).html( ` <span class="float-left">S/</span> <span class="float-right">${formato_miles(total2)}</span>` );
-      $( api2.column( 14 ).footer() ).html( ` <span class="float-left">S/</span> <span class="float-right">${formato_miles(total2)}</span>` );
+      var api2 = this.api(); var total2 = api2.column( 13 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
+      $( api2.column( 7 ).footer() ).html( ` <span class="float-left">S/</span> <span class="float-right">${formato_miles(total2)}</span>` );
+      $( api2.column( 13 ).footer() ).html( ` <span class="float-left">S/</span> <span class="float-right">${formato_miles(total2)}</span>` );
 
-      var api3 = this.api(); var total3 = api3.column( 9 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
-      $( api3.column( 9 ).footer() ).html( ` <span class="float-left">S/</span> <span class="float-right">${formato_miles(total3)}</span>` );
+      var api3 = this.api(); var total3 = api3.column( 8).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
+      $( api3.column( 8).footer() ).html( ` <span class="float-left">S/</span> <span class="float-right">${formato_miles(total3)}</span>` );
     },
     bDestroy: true,
     iDisplayLength: 10, //Paginación
     order: [[0, "asc"]], //Ordenar (columna,orden)
     columnDefs: [
       { targets: [2], render: $.fn.dataTable.render.moment('YYYY-MM-DD', 'DD/MM/YYYY'), },
-      { targets: [7], render: function (data, type) { var number = $.fn.dataTable.render.number(',', '.', 2).display(data); if (type === 'display') { let color = 'numero_positivos'; if (data < 0) {color = 'numero_negativos'; } return `<span class="float-left">S/</span> <span class="float-right ${color} "> ${number} </span>`; } return number; }, },      
-      { targets: [9], render: $.fn.dataTable.render.number( ',', '.', 2) },
-      { targets: [10,11,12,13,14,15],  visible: false,  searchable: false,  },
+      { targets: [6], render: function (data, type) { var number = $.fn.dataTable.render.number(',', '.', 2).display(data); if (type === 'display') { let color = 'numero_positivos'; if (data < 0) {color = 'numero_negativos'; } return `<span class="float-left">S/</span> <span class="float-right ${color} "> ${number} </span>`; } return number; }, },      
+      { targets: [8], render: $.fn.dataTable.render.number( ',', '.', 2) },
+      { targets: [9, 10,11,12,13],  visible: false,  searchable: false,  },
     ],
   }).DataTable();
 
@@ -364,7 +364,7 @@ function guardar_y_editar_ventas(e) {
   var formData = new FormData($("#form-ventas")[0]);  
 
   Swal.fire({
-    title: "¿Está seguro que deseas guardar esta compra?",
+    title: "¿Está seguro que deseas guardar esta venta?",
     html: "Verifica que todos lo <b>campos</b>  esten <b>conformes</b>!!",
     icon: "warning",
     showCancelButton: true,
@@ -372,7 +372,7 @@ function guardar_y_editar_ventas(e) {
     cancelButtonColor: "#d33",
     confirmButtonText: "Si, Guardar!",
     preConfirm: (input) => {
-      return fetch("../ajax/venta_tours.php?op=guardaryeditarcompra", {
+      return fetch("../ajax/venta_tours.php?op=guardar_y_editar_venta", {
         method: 'POST', // or 'PUT'
         body: formData, // data can be `string` or {object}!        
       }).then(response => {
@@ -385,7 +385,7 @@ function guardar_y_editar_ventas(e) {
   }).then((result) => {
     if (result.isConfirmed) {
       if (result.value.status == true){        
-        Swal.fire("Correcto!", "Compra guardada correctamente", "success");
+        Swal.fire("Correcto!", "Venta guardada correctamente", "success");
 
         tabla_venta_producto.ajax.reload(null, false);
         tabla_venta_x_proveedor.ajax.reload(null, false);
@@ -1173,7 +1173,11 @@ function actualizar_producto() {
   modificarSubtotales();
 }
 
-init();
+$(document).ready(function() {
+  init(); 
+});
+
+
 
 // .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
 $(function () {
@@ -1199,6 +1203,8 @@ $(function () {
       descripcion:        { minlength: 4 },
       fecha_venta:        { required: true },      
       pagar_con_ctdo:     { required: true, number: true, min:0,  },
+      pagar_con_ctdo:     { required: true },      
+      pagar_con_tarj:     { required: true }, 
     },
     messages: {
       idcliente:          { required: "Campo requerido", },
@@ -1207,6 +1213,8 @@ $(function () {
       descripcion:        { minlength: "Minimo 4 caracteres", },
       fecha_venta:        { required: "Campo requerido", },      
       pagar_con_ctdo:     { required: "Campo requerido", number: 'Ingrese un número', min:'Mínimo 0', },
+      agar_con_ctdo:      { required: "Campo requerido" },      
+      pagar_con_tarj:     { required: "Campo requerido" }, 
       // 'cantidad[]':    { min: "Mínimo 0.01", required: "Campo requerido"},
       'precio_con_igv[]': { min: "Mínimo 0.01", required: "Campo requerido"},
       'descuento[]':      { min: "Mínimo 0.00", required: "Campo requerido"},
