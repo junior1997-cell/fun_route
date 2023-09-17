@@ -28,7 +28,7 @@
             require 'nav.php';
             require 'aside.php';
             if ($_SESSION['escritorio']==1){
-              require 'enmantenimiento.php';
+              // require 'enmantenimiento.php';
               ?>           
               <!--Contenido-->
               <div class="content-wrapper">
@@ -65,12 +65,12 @@
                         <div class="small-box bg-info">
                           <div class="inner">
                             <h3 id="cantidad_box_producto" > <i class="fas fa-spinner fa-pulse "></i> </h3>
-                            <p>Total de Productos</p>
+                            <p>Total Tours </p>
                           </div>
                           <div class="icon">
-                            <i class="fas fa-th"></i>
+                            <i class="nav-icon fas fa-suitcase"></i>
                           </div>
-                          <a href="producto.php" data-toggle="tooltip" data-original-title="Click para visitar" class="small-box-footer">Más info <i class="fas fa-arrow-circle-right"></i></a>
+                          <a href="tours.php" data-toggle="tooltip" data-original-title="Click para visitar" class="small-box-footer">Más info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                       </div>
 
@@ -79,10 +79,10 @@
                         <div class="small-box bg-success">
                           <div class="inner">
                             <h3 id="cantidad_box_agricultor"> <i class="fas fa-spinner fa-pulse "></i>   </h3>
-                            <p>Total de Agricultores</p>
+                            <p>Total Paquetes</p>
                           </div>
-                          <div class="icon"><i class="fas fa-users"></i> </div>
-                          <a href="persona.php" data-toggle="tooltip" data-original-title="Click para visitar" class="small-box-footer">Más info <i class="fas fa-arrow-circle-right"></i></a>
+                          <div class="icon"><i class="nav-icon fas fa-map"></i> </div>
+                          <a href="paquete.php" data-toggle="tooltip" data-original-title="Click para visitar" class="small-box-footer">Más info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                       </div>
 
@@ -91,10 +91,10 @@
                         <div class="small-box bg-warning">
                           <div class="inner">
                             <h3 id="cantidad_box_trabajador"> <i class="fas fa-spinner fa-pulse "></i> </h3>
-                            <p>Total de Trabajadores</p>
+                            <p>Total ventas</p>
                           </div>
-                          <div class="icon"> <i class="fa-solid fa-briefcase"></i> </div>
-                          <a href="persona.php" data-toggle="tooltip" data-original-title="Click para visitar" class="small-box-footer">Más info <i class="fas fa-arrow-circle-right"></i></a>
+                          <div class="icon"> <i class="fa-solid fa-cart-shopping nav-icon"></i> </div>
+                          <a href="#" data-toggle="tooltip" data-original-title="Click para visitar" class="small-box-footer">Más info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                       </div>
 
@@ -103,10 +103,10 @@
                         <div class="small-box bg-danger">
                           <div class="inner">
                             <h3 id="cantidad_box_venta"> <i class="fas fa-spinner fa-pulse "></i> </h3>
-                            <p>Total de Ventas de Productos </p>
+                            <p>Total visitas a la pagina </p>
                           </div>
                           <div class="icon"> <i class="fas fa-shopping-cart"></i> </div>
-                          <a href="venta_producto.php" class="small-box-footer" data-toggle="tooltip" data-original-title="Click para visitar">Más info <i class="fas fa-arrow-circle-right"></i></a>
+                          <a href="#" class="small-box-footer" data-toggle="tooltip" data-original-title="Click para visitar">Más info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                       </div>
 
@@ -135,7 +135,7 @@
                                   <div class="col-md-12">
                                     <div class="d-flex">
                                       <p class="d-flex flex-column">
-                                        <span class="text-bold text-lg">Ventas y Pagos</span> <span>de productos por mes</span>
+                                        <span class="text-bold text-lg">Ventas</span> <span> por mes</span>
                                       </p>
                                       <p class="ml-auto d-flex flex-column text-right">
                                         <span class="text-success cursor-pointer" id="btn-download-chart-linea" data-toggle="tooltip" data-original-title="Descargar gráfico"><i class="fas fa-download fa-xl"></i></span>
@@ -181,7 +181,7 @@
                                   <div class="col-md-12 ">
                                     <div class="d-flex">
                                       <p class="d-flex flex-column">
-                                        <span class="text-bold text-lg">Compras de Café</span> <span>por mes</span>
+                                        <span class="text-bold text-lg">visitas </span> <span>a la Pagina</span>
                                       </p>
                                       <p class="ml-auto d-flex flex-column text-right">
                                         <span class="text-success cursor-pointer" id="btn-download-chart-barra" data-toggle="tooltip" data-original-title="Descargar gráfico"><i class="fas fa-download fa-xl"></i></span>
@@ -257,7 +257,7 @@
         <!-- AdminLTE for demo purposes -->
         <script src="../dist/js/demo.js"></script>
 
-        <!-- <script type="text/javascript" src="scripts/escritorio.js"></script> -->
+        <script type="text/javascript" src="scripts/escritorio.js"></script>
 
         <script>  $(function () { $('[data-toggle="tooltip"]').tooltip(); }); </script>
         

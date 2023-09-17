@@ -22,13 +22,13 @@ function tablero() {
 
   $.post("../ajax/escritorio.php?op=tablero",  function (e, status) {
 
-    e = JSON.parse(e);  //console.log(e);
+    e = JSON.parse(e);  console.log(e);
 
     if (e.status == true) {
-      $("#cantidad_box_producto").html(formato_miles(e.data.cant_producto));
-      $("#cantidad_box_agricultor").html(formato_miles(e.data.cant_agricultor));
-      $("#cantidad_box_trabajador").html(formato_miles(e.data.cant_trabajador));
-      $("#cantidad_box_venta").html(formato_miles(e.data.cant_venta_producto));
+      $("#cantidad_box_producto").html(formato_miles(e.data.total_tours));
+      $("#cantidad_box_agricultor").html(formato_miles(e.data.total_paquete));
+      $("#cantidad_box_trabajador").html(formato_miles(e.data.total_ventas));
+      $("#cantidad_box_venta").html(formato_miles(e.data.total_ventas));
     } else {
       ver_errores(e);
     } 
