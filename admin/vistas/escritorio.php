@@ -100,12 +100,12 @@
 
                       <!-- CANTIDAD DE SERVICIOS -->
                       <div class="col-lg-3 col-6">
-                        <div class="small-box bg-danger">
+                        <div class="small-box bg-secondary" style="background-color: #6c757dd9!important;">
                           <div class="inner">
-                            <h3 id="cantidad_box_venta"> <i class="fas fa-spinner fa-pulse "></i> </h3>
-                            <p>Total visitas a la pagina </p>
+                            <h3 id="cantidad_box_visita"> <i class="fas fa-spinner fa-pulse "></i> </h3>
+                            <p> <strong class="vista"><i class="fas fa-spinner fa-pulse "></i></strong> es una vista de la página web </p>
                           </div>
-                          <div class="icon"> <i class="fas fa-shopping-cart"></i> </div>
+                          <div class="icon"> <i class="fas fa-user-plus"></i> </div>
                           <a href="#" class="small-box-footer" data-toggle="tooltip" data-original-title="Click para visitar">Más info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                       </div>
@@ -133,43 +133,26 @@
                               <div class="col-md-6 pr-3">
                                 <div class="row">
                                   <div class="col-md-12">
-                                    <div class="d-flex">
-                                      <p class="d-flex flex-column">
-                                        <span class="text-bold text-lg">Ventas</span> <span> por mes</span>
-                                      </p>
-                                      <p class="ml-auto d-flex flex-column text-right">
-                                        <span class="text-success cursor-pointer" id="btn-download-chart-linea" data-toggle="tooltip" data-original-title="Descargar gráfico"><i class="fas fa-download fa-xl"></i></span>
-                                        <span class="text-muted">Descarga</span>
-                                      </p>
-                                      
-                                    </div>
-                                    <!-- /.d-flex -->
-                                    <hr>
-                                    <div class="position-relative mb-4">
-                                      <canvas id="visitors-chart" height="350"></canvas>
-                                    </div>
+                                    <div class="card card-primary">
 
-                                    <div class="d-flex flex-row justify-content-end">
-                                      <span class="mr-2" ><i class="fas fa-square" style="color: #28a745;" ></i> Total venta</span>
-                                      <span class="mr-2"><i class="fas fa-square" style="color: #ced4da;"></i> Total pago</span>
-                                    </div>
-                                  </div>
-                                  <!-- linea divisoria -->
-                                  <div class="col-lg-12 borde-arriba-naranja mt-3 mb-3"> </div>
+                                      <div class="card-header">
+                                      <span class="text-bold text-lg">Ventas</span> <span> por mes</span>
+                                      </div>
 
-                                  <div class="col-md-6">
-                                    <p class="text-center"> <strong>Venta Total</strong> </p>
-                                    <div class="progress-group text-center mb-4">
-                                      <h2 class="footer_total_venta" >S/. 0.00</h2>
+                                      <div class="card-body">
+
+                                        <div class="position-relative mb-4">
+                                          <canvas id="visitors-chart" height="350"></canvas>
+                                        </div>
+
+                                        <div class="d-flex flex-row justify-content-end">
+                                          <span class="mr-2" ><i class="fas fa-square" style="color: #28a745;" ></i> Total venta</span>
+                                          <span class="mr-2"><i class="fas fa-square" style="color: #ced4da;"></i> Total pago</span>
+                                        </div>
+
+                                      </div>
+
                                     </div>
-                                    <!-- /.progress-group -->                                    
-                                  </div>                                  
-                                  <div class="col-md-6">
-                                    <p class="text-center"> <strong>Utilidad Total</strong> </p>
-                                    <div class="progress-group text-center">
-                                      <h2 class="footer_total_utilidad" >S/. 0.00</h2>
-                                    </div>
-                                    <!-- /.progress-group -->
                                   </div>
                                 </div>    
                                 <!-- /.row -->                      
@@ -178,46 +161,17 @@
 
                               <div class="col-md-6 pl-3">
                                 <div class="row">
-                                  <div class="col-md-12 ">
-                                    <div class="d-flex">
-                                      <p class="d-flex flex-column">
-                                        <span class="text-bold text-lg">visitas </span> <span>a la Pagina</span>
-                                      </p>
-                                      <p class="ml-auto d-flex flex-column text-right">
-                                        <span class="text-success cursor-pointer" id="btn-download-chart-barra" data-toggle="tooltip" data-original-title="Descargar gráfico"><i class="fas fa-download fa-xl"></i></span>
-                                        <span class="text-muted">Descarga</span>
-                                      </p>
-                                    </div>
-                                    <!-- /.d-flex -->
-                                    <hr>
-                                    <div class="position-relative mb-4">
-                                      <canvas id="sales-chart" height="350"></canvas>
-                                    </div>
+                                  <div class="col-md-12 "> 
+                                    <div class="card card-primary">
+                                    <div class="card-header">
+                                      <!-- <h3 class="card-title">visitas a la página web</h3> -->
+                                      <span class="text-bold text-lg">visitas </span> <span>a la página</span>
 
-                                    <div class="d-flex flex-row justify-content-end">
-                                      <span class="mr-2"><i class="fas fa-square" style="color: #28a745 !important;"></i> Total compra</span>
-                                      <span class="mr-2"><i class="fas fa-square" style="color: #000 !important;"></i> Total pago</span>
-                                      <span class="mr-2"><i class="fas fa-square" style="color: #dc3545 !important;"></i> Kg. pergamino</span>
-                                      <span class="mr-2"><i class="fas fa-square" style="color: #ffc107 !important;"></i> Kg. coco</span>
                                     </div>
-                                  </div>
-                                  <!-- linea divisoria -->
-                                  <div class="col-lg-12 borde-arriba-naranja mt-3 mb-3"> </div>
-
-                                  <div class="col-md-6">
-                                    <p class="text-center"> <strong>Compra Total</strong> </p>
-                                    <div class="progress-group text-center mb-4">
-                                      <h2 class="footer_total_compra" >S/. 0.00</h2>
+                                    <div class="card-body">
+                                      <canvas id="donutChart" style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
                                     </div>
-                                    <!-- /.progress-group -->                                    
-                                  </div>                                  
-                                  <div class="col-md-6">
-                                    <p class="text-center"> <strong>Deuda Total</strong> </p>
-                                    <div class="progress-group text-center">
-                                      <h2 class="footer_total_deuda" >S/. 0.00</h2>
-                                    </div>
-                                    <!-- /.progress-group -->
-                                  </div>
+                                  </div>    
                                 </div>    
                                 <!-- /.row -->                      
                               </div>     
@@ -257,9 +211,12 @@
         <!-- AdminLTE for demo purposes -->
         <script src="../dist/js/demo.js"></script>
 
+
         <script type="text/javascript" src="scripts/escritorio.js"></script>
 
         <script>  $(function () { $('[data-toggle="tooltip"]').tooltip(); }); </script>
+
+
         
       </body>
     </html>

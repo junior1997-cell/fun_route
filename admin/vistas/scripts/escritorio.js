@@ -22,13 +22,16 @@ function tablero() {
 
   $.post("../ajax/escritorio.php?op=tablero",  function (e, status) {
 
-    e = JSON.parse(e);  console.log(e);
+    e = JSON.parse(e); console.log('hola');  console.log(e);
 
     if (e.status == true) {
-      $("#cantidad_box_producto").html(formato_miles(e.data.total_tours));
-      $("#cantidad_box_agricultor").html(formato_miles(e.data.total_paquete));
-      $("#cantidad_box_trabajador").html(formato_miles(e.data.total_ventas));
-      $("#cantidad_box_venta").html(formato_miles(e.data.total_ventas));
+      $("#cantidad_box_producto").html("Tours : "+e.data.total_tours);
+      $("#cantidad_box_agricultor").html("Paquetes : "+e.data.total_paquete);
+      $("#cantidad_box_trabajador").html("S/. "+formato_miles(e.data.total_ventas));
+
+      $("#cantidad_box_visita").html("Vista : "+e.data.visitas_pag.data.nombre_vista+" "+e.data.visitas_pag.data.cantidad);
+      $(".vista").html(e.data.visitas_pag.data.nombre_vista);
+
     } else {
       ver_errores(e);
     } 
@@ -55,6 +58,52 @@ function sumas_totales() {
 }
 
 init();
+
+//=========================CHART PASTEL=======================
+$(function () {
+  $.post("../ajax/escritorio.php?op=vistas_pagina_web",  function (e, status) {
+
+    e = JSON.parse(e); console.log('hola');  console.log(e);
+    var A_labels = [];
+    var A_data = [];
+      if (e.status == true) {
+      
+        e.data.forEach((val, index) => {
+          A_labels.push(val.nombre_vista);
+          A_data.push(val.total);
+        });
+      //-------------
+      //- DONUT CHART -
+      //-------------
+      // Get context with jQuery - using jQuery's .get() method.
+      var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+      var donutData        = {
+      labels: A_labels,
+      datasets: [
+        {
+          data: A_data,
+          backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+        }
+      ]
+      }
+      var donutOptions     = {
+      maintainAspectRatio : false,
+      responsive : true,
+      }
+      //Create pie or douhnut chart
+      // You can switch between pie and douhnut using the method below.
+      new Chart(donutChartCanvas, {
+      type: 'doughnut',
+      data: donutData,
+      options: donutOptions
+      })
+    } else {
+      ver_errores(e);
+    } 
+
+  }).fail( function(e) { ver_errores(e); } );
+})
+
 
 // :::::::::::::::::::::::::::::::::::::  C H A R T   L I N E A  -  S U B C O N T R A T O  ::::::::::::::::::::::::
 $(function () {

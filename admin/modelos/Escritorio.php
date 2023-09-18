@@ -21,11 +21,14 @@ class Escritorio
     $sql2 = "SELECT COUNT(`idpaquete`) total_paquete from paquete where `estado`='1' and `estado_delete`='1';;";
     $sql3 = "SELECT SUM(`total`) as total_ventas_tours FROM `venta_tours` WHERE `estado`='1' AND `estado_delete`='1';";
     $sql4 = "SELECT SUM(`total`) as total_ventas_paquete FROM `venta_paquete` WHERE `estado`='1' AND `estado_delete`='1';";
+    $sql5 = "SELECT nombre_vista, SUM(cantidad) as cantidad FROM visitas_pag GROUP BY nombre_vista HAVING SUM(cantidad) > 1 LIMIT 1;";
 
     $data1 = ejecutarConsultaSimpleFila($sql); if ($data1['status'] == false) { return $data1; }
     $data2 = ejecutarConsultaSimpleFila($sql2); if ($data2['status'] == false) { return $data2; }
     $data3 = ejecutarConsultaSimpleFila($sql3); if ($data3['status'] == false) { return $data3; }
     $data4 = ejecutarConsultaSimpleFila($sql4); if ($data4['status'] == false) { return $data4; }
+    $data5 = ejecutarConsultaSimpleFila($sql5); if ($data4['status'] == false) { return $data5; }
+
     $total_tours = (empty($data3['data']) ? 0 : (empty($data3['data']['total_ventas_tours']) ? 0 : floatval($data3['data']['total_ventas_tours']) ) );
     $total_paquete = (empty($data4['data']) ? 0 : (empty($data4['data']['total_ventas_paquete']) ? 0 : floatval($data4['data']['total_ventas_paquete'])  ) );
     
@@ -35,12 +38,26 @@ class Escritorio
         "total_tours"  => (empty($data1['data']) ? 0 : (empty($data1['data']['total_tours']) ? 0 : floatval($data1['data']['total_tours']) ) ),
         "total_paquete" => (empty($data2['data']) ? 0 : (empty($data2['data']['total_paquete']) ? 0 : floatval($data2['data']['total_paquete']) ) ),
         "total_ventas"=> ($total_tours+$total_paquete),
+        "visitas_pag"=> $data5,
       ],
       "message"=> 'Todo oka'
     ];
     
     return $results;
   }
+  //visitas a la pagina web
+  function vistas_pagina_web(){
+
+    $sql ="SELECT SUM(`cantidad`) AS total, nombre_vista FROM `visitas_pag` GROUP BY `nombre_vista`;";
+    return ejecutarConsultaArray($sql);	
+    //Array
+  }
+
+
+
+
+  
+
 
   public function chart_producto( ) {
 

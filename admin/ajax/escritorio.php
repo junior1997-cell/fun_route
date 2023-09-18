@@ -33,6 +33,12 @@
           echo json_encode($rspta, true);	
         break;
 
+        case 'vistas_pagina_web':
+          $rspta=$escritorio->vistas_pagina_web();
+          //Codificar el resultado utilizando json
+          echo json_encode($rspta, true);	
+        break;
+
         case 'chart_producto':
           $rspta=$escritorio->chart_producto();
           //Codificar el resultado utilizando json
