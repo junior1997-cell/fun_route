@@ -650,13 +650,13 @@ function calcular_vuelto() {
   
   if ($('#pagar_con_ctdo').val() != '' || $('#pagar_con_tarj').val() != '' ) { 
     if ($("#metodo_pago").select2("val") == "MIXTO") {    
-      var vuelto_1 = ( ( contado + mixto ) - total_venta  ); console.log(vuelto_1);
+      var vuelto_1 = redondearExp(( ( contado + mixto ) - total_venta ), 2); console.log(vuelto_1);
       $('.vuelto_venta').html(vuelto_1);
       $('#vuelto_venta').val(vuelto_1);
       vuelto_1 < 0 ? $('.vuelto_venta').addClass('bg-danger').removeClass('bg-success') : $('.vuelto_venta').addClass('bg-success').removeClass('bg-danger') ;
       vuelto_1 < 0 ? $('.falta_o_completo').html('(falta)').addClass('text-danger').removeClass('text-success') : $('.falta_o_completo').html('(completo)').addClass('text-success').removeClass('text-danger') ;
     } else {    
-      var vuelto_2 = contado - total_venta ; console.log(vuelto_2);
+      var vuelto_2 = redondearExp((contado - total_venta), 2) ; console.log(vuelto_2);
       $('.vuelto_venta').html(vuelto_2);
       $('#vuelto_venta').val(vuelto_2);
       vuelto_2 < 0 ? $('.vuelto_venta').addClass('bg-danger').removeClass('bg-success') : $('.vuelto_venta').addClass('bg-success').removeClass('bg-danger') ;

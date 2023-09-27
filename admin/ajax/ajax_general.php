@@ -139,15 +139,16 @@
 
       /* ══════════════════════════════════════ P E R S O N A   P O R   T I P O  ══════════════════════════════════════ */
       case 'select2Persona_por_tipo':     
-        $rspta=$ajax_general->select2_proveedor_cliente($_GET['tipo']);  $cont = 1; $data = "";
-        if ($rspta['status'] == true) {
-          foreach ($rspta['data'] as $key => $value) {              
-            $data .= '<option value="' .  $value['idpersona'] . '" title="'.$value['foto_perfil'].'" ruc_dni="'.$value['numero_documento'].'">' .$cont++.'. '.  $value['nombres'] .' - '.  $value['numero_documento'] . '</option>';      
+        $rspta=$ajax_general->select2Persona_por_tipo($_GET['tipo']);  $cont = 1; $data = ""; $tipo_per = '';
+        if ($rspta['status'] == true) {          
+          foreach ($rspta['data'] as $key => $value) {     
+            if ( $_GET['tipo'] == 'todos') {  $tipo_per = ' - ' . $value['tipo_persona'];  }         
+            $data .= '<option value="' .  $value['idpersona'] . '" title="'.$value['foto_perfil'].'" ruc_dni="'.$value['numero_documento'].'">' .$cont++.'. '.  $value['nombres'] .' - '.  $value['numero_documento'] . $tipo_per . '</option>';      
           }
           $retorno = array(
             'status' => true, 
             'message' => 'Salió todo ok', 
-            'data' => '<option value="1" ruc_dni="">0. ANÓNIMO - 00000000000</option>' . $data, 
+            'data' => '<option value="1" ruc_dni="">0. CLIENTES VARIOS - 00000000000</option>' . $data, 
           );  
           echo json_encode($retorno, true);
         } else {

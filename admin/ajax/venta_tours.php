@@ -288,7 +288,7 @@ if (!isset($_SESSION["nombre"])) {
           while ($reg = $rspta['data']->fetch_object()) {
             $data[] = [
               "0" => $cont++,
-              "1" => '<button class="btn btn-info btn-sm" onclick="listar_facuras_proveedor(' . $reg->idventa_tours . ')" data-toggle="tooltip" data-original-title="Ver ventas">
+              "1" => '<button class="btn btn-info btn-sm" onclick="listar_facuras_proveedor(' . $reg->idpersona . ')" data-toggle="tooltip" data-original-title="Ver ventas">
                 <i class="fa fa-eye"></i>
               </button>'. $toltip ,
               "2" => $reg->razon_social,
@@ -324,7 +324,7 @@ if (!isset($_SESSION["nombre"])) {
               "1" => '<center><button class="btn btn-info btn-sm" onclick="ver_detalle_ventas(' . $reg->idventa_tours . ')" data-toggle="tooltip" data-original-title="Ver detalle venta">Ver detalle <i class="fa fa-eye"></i></button></center>' . $toltip,
               "2" => $reg->fecha_venta,
               "3" => $reg->tipo_comprobante,
-              "4" => $reg->serie_comprobante,
+              "4" => $reg->serie_comprobante .'-'. $reg->numero_comprobante,
               "5" => number_format($reg->total, 2, '.', ','),
               "6" => '<textarea cols="30" rows="1" class="textarea_datatable" readonly >'.$reg->descripcion.'</textarea>'
             ];
@@ -394,8 +394,8 @@ if (!isset($_SESSION["nombre"])) {
             $doc = (empty($reg->comprobante) ? '<button class="btn btn-sm btn-outline-info" data-toggle="tooltip" data-original-title="Vacio" ><i class="fa-regular fa-file-pdf fa-2x"></i></button>' : '<a href="#" class="btn btn-sm btn-info" data-toggle="tooltip" data-original-title="Ver documento" onclick="ver_documento_pago(\''.$reg->comprobante. '\', \'' . removeSpecialChar($reg->cliente) . ' - ' .date("d/m/Y", strtotime($reg->fecha_pago)).'\')"><i class="fa-regular fa-file-pdf fa-2x"></i></a>');
             $data[] = [
               "0" => $cont++,
-              "1" => ' <button class="btn btn-sm btn-warning" id="btn_monto_pagado_' . $reg->idpago_venta_producto . '" monto_pagado="'.$reg->monto.'" onclick="mostrar_editar_pago(' . $reg->idpago_venta_producto . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
-              ' <button class="btn btn-sm btn-danger" onclick="eliminar_pago_venta(' . $reg->idpago_venta_producto .', \''.encodeCadenaHtml( number_format($reg->monto, 2, '.',',')).' - '.date("d/m/Y", strtotime($reg->fecha_pago)).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>',
+              "1" => ' <button class="btn btn-sm btn-warning" id="btn_monto_pagado_' . $reg->idventa_tours_pago . '" monto_pagado="'.$reg->monto.'" onclick="mostrar_editar_pago(' . $reg->idventa_tours_pago . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
+              ' <button class="btn btn-sm btn-danger" onclick="eliminar_pago_venta(' . $reg->idventa_tours_pago .', \''.encodeCadenaHtml( number_format($reg->monto, 2, '.',',')).' - '.date("d/m/Y", strtotime($reg->fecha_pago)).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>',
               "2" => $reg->fecha_pago,
               "3" => $reg->forma_pago,
               "4" => $reg->monto,

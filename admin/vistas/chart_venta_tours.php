@@ -13,13 +13,12 @@
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Graficos venta | Admin Fun Route</title>
+        <title>Reporte venta tours | Admin Fun Route</title>
 
-        <?php $title = "Graficos venta"; require 'head.php'; ?>
+        <?php $title = "Reporte venta tours"; require 'head.php'; ?>
 
       </head>
-      <!--
-      `body` tag options:
+      <!--  `body` tag options:
 
         Apply one or more of the following classes to to the body tag
         to get the desired effect
@@ -32,12 +31,12 @@
           <?php
             require 'nav.php';
             require 'aside.php';
-            if ($_SESSION['venta_abono']==1){
-              //require 'enmantenimiento.php';
+            if ($_SESSION['reporte']==1){
+              require 'endesarrollo.php';
               ?>
 
               <!-- Content Wrapper. Contains page content -->
-              <div class="content-wrapper">
+              <div class="content-wrapper" style=" display: none;">
                 <!-- Content Header (Page header) -->
                 <div class="content-header">
                   <div class="container-fluid">
@@ -479,7 +478,7 @@
         <!-- html2canvas -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
         
-        <script type="text/javascript" src="scripts/chart_venta_producto.js"></script>         
+        <script type="text/javascript" src="scripts/chart_venta_tours.js"></script>         
 
         <script> $(function () { $('[data-toggle="tooltip"]').tooltip(); }); </script>
         

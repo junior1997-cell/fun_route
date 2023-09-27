@@ -9,7 +9,7 @@
     echo json_encode($retorno);  //Validamos el acceso solo a los usuarios logueados al sistema.
   } else {
 
-    if ($_SESSION['venta_abono'] == 1) {
+    if ($_SESSION['reporte'] == 1) {
       
       require_once "../modelos/Chart_venta_producto.php";
 

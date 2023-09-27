@@ -24,9 +24,7 @@
 
         $sql="INSERT INTO persona(idtipo_persona, idbancos, nombres, tipo_documento, numero_documento, celular, direccion, correo, cuenta_bancaria, cci, titular_cuenta, fecha_nacimiento,idcargo_trabajador,sueldo_mensual,sueldo_diario,edad, foto_perfil,user_created) 
         VALUES ('$id_tipo_persona','$banco','$nombre','$tipo_documento','$num_documento','$telefono','$direccion','$email','$cta_bancaria','$cci','$titular_cuenta','$nacimiento','$cargo_trabajador','$sueldo_mensual','$sueldo_diario','$edad','$imagen1', '$this->id_usr_sesion')";
-        $new_persona = ejecutarConsulta_retornarID($sql);
-
-        if ($new_persona['status'] == false) { return $new_persona;}
+        $new_persona = ejecutarConsulta_retornarID($sql);  if ($new_persona['status'] == false) { return $new_persona;}
 
         //add registro en nuestra bitacora ', '
         $sql_d = $id_tipo_persona.', '.$tipo_documento.', '.$num_documento.', '.$nombre.', '.$email.', '.$telefono.', '.$banco.', '.$cta_bancaria.', '.$cci.', '.
@@ -69,8 +67,7 @@
       if ($persona['status'] == false) { return  $persona;}
 
       //add registro en nuestra bitacora.', '.
-      $sql_d = $idpersona.', '.$id_tipo_persona.', '.$tipo_documento.', '.$num_documento.', '.$nombre.', '.$email.', '.$telefono.', '.$banco.', '.$cta_bancaria.', '.$cci.', '.$titular_cuenta.', '.$direccion.', '.$nacimiento.', '.$cargo_trabajador.', '.$sueldo_mensual.', '.$sueldo_diario.', '.$edad.', '. $imagen1;
-
+      $sql_d = "$idpersona, $id_tipo_persona, $tipo_documento, $num_documento, $nombre, $email, $telefono, $banco, $cta_bancaria, $cci, $titular_cuenta, $direccion, $nacimiento, $cargo_trabajador, $sueldo_mensual, $sueldo_diario, $edad, $imagen1";
       $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (6,'persona','$idpersona','$sql_d','$this->id_usr_sesion')";
       $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
       
@@ -81,13 +78,10 @@
 
     public function desactivar($idpersona) {
       $sql="UPDATE persona SET estado='0',user_trash= '$this->id_usr_sesion' WHERE idpersona='$idpersona'";
-      $desactivar =  ejecutarConsulta($sql);
-
-      if ( $desactivar['status'] == false) {return $desactivar; }  
+      $desactivar =  ejecutarConsulta($sql); if ( $desactivar['status'] == false) {return $desactivar; }  
 
       //add registro en nuestra bitacora
       $sql_d = $idpersona;
-
       $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (2,'persona','$idpersona','$sql_d','$this->id_usr_sesion')";
       $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
 
@@ -96,16 +90,12 @@
 
     public function eliminar($idpersona) {
       $sql="UPDATE persona SET estado_delete='0',user_delete= '$this->id_usr_sesion' WHERE idpersona='$idpersona'";
-      $eliminar =  ejecutarConsulta($sql);
-      
-      if ( $eliminar['status'] == false) {return $eliminar; }  
+      $eliminar =  ejecutarConsulta($sql);  if ( $eliminar['status'] == false) {return $eliminar; }  
 
       //add registro en nuestra bitacora.', '.
       $sql_d = $idpersona;
-
       $sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (4,'persona','$idpersona','$sql_d','$this->id_usr_sesion')";
-      $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
-            
+      $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }             
 
       return $eliminar;
     }
@@ -113,7 +103,6 @@
     public function mostrar($idpersona) {
       $sql="SELECT * FROM persona WHERE idpersona='$idpersona'";
       return ejecutarConsultaSimpleFila($sql);
-
     }
 
     public function verdatos($idpersona) {
@@ -123,31 +112,24 @@
       FROM persona as t, cargo_persona as ct, bancos as b 
       WHERE t.idcargo_persona= ct.idcargo_persona AND t.idbancos=b.idbancos  AND t.idpersona='$idpersona' ";
       return ejecutarConsultaSimpleFila($sql);
-
     }
 
     public function tbla_principal($tipo_persona) {
       $filtro="";
 
       if ($tipo_persona=='todos') { $filtro = "AND p.idtipo_persona>1"; }else{ $filtro = "AND p.idtipo_persona='$tipo_persona' "; }
-
       $sql="SELECT p.idpersona, p.idtipo_persona, p.idbancos, p.nombres, p.tipo_documento, p.numero_documento, p.celular, p.direccion, p.correo,p.estado, 
       p.cuenta_bancaria, p.cci, p.titular_cuenta, p.foto_perfil, b.nombre as banco, tp.nombre as tipo_persona, ct.nombre as cargo
       FROM persona as p, bancos as b, tipo_persona as tp, cargo_trabajador as ct 
       WHERE p.idtipo_persona=tp.idtipo_persona  AND p.idbancos=b.idbancos AND p.idcargo_trabajador = ct.idcargo_trabajador 
       $filtro AND p.estado ='1' AND p.estado_delete='1';";
-
-
       $persona = ejecutarConsultaArray($sql); if ($persona['status'] == false) { return  $persona;}
       
       return $persona;
-
     }
 
     public function obtenerImg($idpersona) {
-
       $sql = "SELECT foto_perfil FROM persona WHERE idpersona='$idpersona'";
-
       return ejecutarConsultaSimpleFila($sql);
     }
 

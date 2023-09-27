@@ -14,9 +14,9 @@
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title> Ventas Tours | Admin Fun Route </title>
+        <title> Ventas Paquete | Admin Fun Route </title>
 
-        <?php $title = "Ventas Tours"; require 'head.php'; ?>
+        <?php $title = "Ventas Paquete"; require 'head.php'; ?>
 
         <!-- CSS  switch persona -->
         <link rel="stylesheet" href="../dist/css/switch_persona.css" />
@@ -30,10 +30,10 @@
           require 'nav.php';
           require 'aside.php';
           if ($_SESSION['venta_tours']==1){
-            //require 'enmantenimiento.php';
+            require 'endesarrollo.php';
             ?>
             <!--Contenido-->
-            <div class="content-wrapper">
+            <div class="content-wrapper" style="display: none;">
               <!-- Content Header (Page header) -->
               <div class="content-header">
                 <div class="container-fluid">
@@ -997,8 +997,8 @@
         <script src="../plugins/jszip/dist/jszip-utils.js"></script>
         <script src="../plugins/FileSaver/dist/FileSaver.js"></script>
         
-        <script type="text/javascript" src="scripts/venta_tours.js"></script>         
-        <script type="text/javascript" src="scripts/js_venta_tours.js"></script>         
+        <script type="text/javascript" src="scripts/venta_paquete.js"></script>         
+        <!-- <script type="text/javascript" src="scripts/js_venta_tours.js"></script>          -->
 
         <script> $(function () { $('[data-toggle="tooltip"]').tooltip(); }); </script>
         

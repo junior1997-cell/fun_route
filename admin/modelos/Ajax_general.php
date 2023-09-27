@@ -95,9 +95,13 @@
 
     /* ══════════════════════════════════════ P R O V E E D O R -- C L I E N T E S  ══════════════════════════════════════ */
 
-    public function select2_proveedor_cliente($tipo) {
-      $sql = "SELECT idpersona, nombres, tipo_documento, numero_documento, foto_perfil FROM persona 
-      WHERE idtipo_persona ='$tipo' AND estado='1' AND estado_delete ='1'";
+    public function select2Persona_por_tipo($tipo) {
+      $filtro = "";
+      if ($tipo != 'todos') { $filtro = "p.idtipo_persona ='$tipo' AND";  }
+      
+      $sql = "SELECT p.idpersona, p.nombres, p.tipo_documento, p.numero_documento, p.foto_perfil, tper.nombre as tipo_persona 
+      FROM persona as p, tipo_persona as tper
+      WHERE tper.idtipo_persona = p.idtipo_persona AND $filtro p.estado='1' AND p.estado_delete ='1' AND p.idpersona > 1";
 
       return ejecutarConsulta($sql);
       // var_dump($return);die();

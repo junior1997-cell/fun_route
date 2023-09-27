@@ -5,7 +5,7 @@ function init() {
 
   // $("#bloc_PagosTrabajador").addClass("menu-open");
 
-  $("#mPapelera").addClass("active");
+  $("#mPapelera").addClass("active bg-primary");
 
   // $("#lPagosAdministrador").addClass("active");
 

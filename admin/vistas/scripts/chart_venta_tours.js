@@ -5,15 +5,9 @@ var color_char_pie = ['text-danger','text-success','text-warning','text-info','t
 //Función que se ejecuta al inicio
 function init() {
 
-  $("#bloc_LogisticaAdquisiciones").addClass("menu-open");
-
-  $("#bloc_Ventas").addClass("menu-open bg-color-191f24");
-
-  $("#mLogisticaAdquisiciones").addClass("active");
-
-  $("#mVentas").addClass("active bg-green");
-
-  $("#lChartVentaProducto").addClass("active");
+  $("#bloc_Reporte").addClass("menu-open bg-color-191f24");
+  $("#mReporte").addClass("active bg-green");
+  $("#lReporteVentaTours").addClass("active");
 
   box_content_reporte();
   //chart_linea_barra(localStorage.getItem("nube_idproyecto"));

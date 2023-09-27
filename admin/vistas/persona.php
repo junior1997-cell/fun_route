@@ -72,9 +72,9 @@
                                     <!-- TABLA - RESUMEN -->
                                     <div class="tab-pane fade show active" id="tabs-for-activo-fijo" role="tabpanel" aria-labelledby="tabs-for-activo-fijo-tab">
                                       <div class="row">
-                                        <div class="col-12 mb-2 class_btn">
+                                        <div class="col-12 mb-2 div-agregar-persona" style="display: none;">
                                           <h3 class="card-title">
-                                            <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-persona" onclick="limpiar_form_persona();"><i class="fas fa-user-plus"></i> Agregar</button>                           
+                                            <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-persona" onclick="limpiar_form_persona();" ><i class="fas fa-user-plus"></i> Agregar</button>                           
                                           </h3> 
                                         </div>                                        
                                         <div class="col-12">
@@ -240,13 +240,13 @@
                                   <label for="edad">Edad</label>
                                   <p class="edad" style="border: 1px solid #ced4da; border-radius: 4px; padding: 5px;">0 años.</p>
                                 </div>
-                              </div>
+                              </div> 
 
                               <!-- banco -->
                               <div class="col-12 col-sm-12 col-md-6 col-lg-4">
                                 <div class="form-group">
                                   <label for="banco">Banco</label>
-                                  <select name="banco" id="banco" class="form-control select2 banco" style="width: 100%;" onchange="formato_banco();">
+                                  <select name="banco" id="banco" class="form-control select2 banco" style="width: 100%;" onchange="formato_banco(); ver_incono_banco();">
                                     <!-- Aqui listamos los bancos -->
                                   </select>
                                 </div>

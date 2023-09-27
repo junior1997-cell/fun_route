@@ -18,7 +18,7 @@ function init() {
   $("#guardar_registro").on("click", function (e) {  $("#submit-form-persona").submit(); });  
 
   // ══════════════════════════════════════ INITIALIZE SELECT2 ══════════════════════════════════════
-  $("#banco").select2({templateResult: formatState, theme: "bootstrap4", placeholder: "Selecione banco", allowClear: true, });
+  $("#banco").select2({templateResult: templateBanco, theme: "bootstrap4", placeholder: "Selecione banco", allowClear: true, });
   $("#tipo_documento").select2({theme:"bootstrap4", placeholder: "Selec. tipo Doc.", allowClear: true, });
   $("#cargo_trabajador").select2({theme:"bootstrap4", placeholder: "Selecione cargo", allowClear: true, });
 
@@ -30,7 +30,7 @@ function init() {
 
 init();
 
-function formatState (state) {
+function templateBanco (state) {
   //console.log(state);
   if (!state.id) { return state.text; }
   var baseUrl = state.title != '' ? `../dist/docs/banco/logo/${state.title}`: '../dist/docs/banco/logo/logo-sin-banco.svg'; 
@@ -38,6 +38,14 @@ function formatState (state) {
   var $state = $(`<span><img src="${baseUrl}" class="img-circle mr-2 w-25px" ${onerror} />${state.text}</span>`);
   return $state;
 };
+
+function ver_incono_banco() {
+  if ($("#banco").val() == null || $("#banco").val() == '' ) {  } else {
+    // var icon = $('#banco').select2('data')[0].element.attributes.icono.value; console.log(icon);
+    var icon = $('#banco').select2('data')[0].title; var onerror = `onerror="this.src='../dist/docs/banco/logo/logo-sin-banco.svg';"`;
+    $("#select2-banco-container").prepend(`<img class="img-circle mr-1 w-25px" src="../dist/docs/banco/logo/${icon}" ${onerror} alt="logo-banco">`);
+  }
+}
 
 // abrimos el navegador de archivos
 $("#foto1_i").click(function() { $('#foto1').trigger('click'); });
@@ -170,39 +178,32 @@ function show_hide_btn_add(tipo_persona) {
 
   if (tipo_persona=="todos") {
     $("#id_tipo_persona").val("");
-    $(".class_btn").hide();
-    
+    $(".div-agregar-persona").hide();    
   }else{
 
     $("#id_tipo_persona").val(tipo_persona);
-    $(".class_btn").show();
+    $(".div-agregar-persona").show();
 
     if (tipo_persona=="2") {
-      $("#sueldo_mensual").val("0.00");
-      $(".campos_trabajador").hide();
-
-      $(".btn_add").html(`<i class="fas fa-plus"></i> Agregar Productor`);
+      $(".campos_trabajador").show();
+      $(".btn_add").html(`<i class="fas fa-plus"></i> Agregar Trabajador`);
       //remove class
       $(".classswichs").removeClass("hidden");
-      $(".classdirecc").removeClass("col-lg-12").addClass("col-lg-9");
-
+      $(".classdirecc").removeClass("col-lg-12").addClass("col-lg-9"); 
     }else if (tipo_persona=="3") {
       $("#sueldo_mensual").val("0.00");
       $(".campos_trabajador").hide();
-
+      $(".btn_add").html(`<i class="fas fa-plus"></i> Agregar Cliente`);
+      //remove class
+      $(".classswichs").removeClass("hidden");
+      $(".classdirecc").removeClass("col-lg-12").addClass("col-lg-9");
+    }else if (tipo_persona=="4") {
+      $("#sueldo_mensual").val("0.00");
+      $(".campos_trabajador").hide();
       $(".btn_add").html(`<i class="fas fa-plus"></i> Agregar Proveedor`);
       //add class
       $(".classswichs").addClass("hidden");
       $(".classdirecc").removeClass("col-lg-9").addClass("col-lg-12");
-
-    }else if (tipo_persona=="4") {
-      $(".campos_trabajador").show();
-
-      $(".btn_add").html(`<i class="fas fa-plus"></i> Agregar Trabajador`);
-      //remove class
-      $(".classswichs").removeClass("hidden");
-      $(".classdirecc").removeClass("col-lg-12").addClass("col-lg-9");
-      
     }    
   }
 }

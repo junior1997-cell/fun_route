@@ -162,7 +162,7 @@ if (!isset($_SESSION["nombre"])) {
                               <div class="card card-primary card-outline">
                                 <div class="card-header">
                                   <h3 class="card-title">
-                                    <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-tipo" onclick="limpiar_tipo();"><i class="fas fa-plus-circle"></i> Agregar</button>
+                                    <!-- <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-tipo" onclick="limpiar_tipo();"><i class="fas fa-plus-circle"></i> Agregar</button> -->
                                     Admnistrar Tipo* .
                                   </h3>
                                 </div>

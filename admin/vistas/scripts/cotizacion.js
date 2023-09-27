@@ -20,7 +20,7 @@ function init() {
 
   $("#bloc_ContableFinanciero").addClass("menu-open");
   $("#mContableFinanciero").addClass("active");
-  $("#lVentaTours").addClass("active");
+  $("#lCotizacion").addClass("active");
 
   $("#idproyecto").val(localStorage.getItem("nube_idproyecto"));
 

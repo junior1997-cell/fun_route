@@ -278,7 +278,7 @@
             <?php if ($_SESSION['cotizacion']==1) {  ?>
               <!-- RESUMEN DE GASTOS -->
               <li class="nav-item ">
-                <a href="pago_trabajador.php" class="nav-link pl-2" id="lCotizacion">
+                <a href="cotizacion.php" class="nav-link pl-2" id="lCotizacion">
                   <i class="fa-solid fa-money-check-dollar nav-icon"></i>
                   <p>Cotizaciones</p>
                 </a>
@@ -308,8 +308,8 @@
         </li>
 
         <!-- REPORTES -->   
-        <li class="nav-item " id="bloc_ContableFinanciero">
-          <a href="#" class="nav-link bg-color-2c2c2c" id="mContableFinanciero" style="padding-left: 7px;">
+        <li class="nav-item " id="bloc_Reporte">
+          <a href="#" class="nav-link bg-color-2c2c2c" id="mReporte" style="padding-left: 7px;">
             <i class="nav-icon far fa-circle"></i>
             <p class="font-size-14px">REPORTES<i class="fas fa-angle-left right"></i></p>
           </a>
@@ -317,7 +317,7 @@
 
             <?php if ($_SESSION['reporte']==1) {  ?>
               <li class="nav-item ">
-                <a href="otro_ingreso.php" class="nav-link pl-2" id="lOtroIngreso">             
+                <a href="chart_venta_paquete.php" class="nav-link pl-2" id="lReporteVentaPaquete">             
                   <i class="nav-icon fa-solid fa-chart-line"></i>
                   <p>Ventas de paquetes</p>
                 </a>
@@ -326,7 +326,7 @@
 
             <?php if ($_SESSION['reporte']==1) {  ?>
               <li class="nav-item ">
-                <a href="otro_ingreso.php" class="nav-link pl-2" id="lOtroIngreso">             
+                <a href="chart_venta_tours.php" class="nav-link pl-2" id="lReporteVentaTours">             
                   <i class="nav-icon fa-solid fa-chart-line"></i>
                   <p>Ventas de tours</p>
                 </a>
