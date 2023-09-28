@@ -277,8 +277,10 @@ header .nav-bar{
 .home .text-content1{
   position: absolute;
   top: 30%;
+  left: 35%;
+  right: 35%;
   color: var(--white-color);
-  margin: 0 510px;
+  // margin: 0 510px;
   transition: 0.3s ease;
   // background: #22b3c1;
 }
