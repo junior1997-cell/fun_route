@@ -81,7 +81,7 @@ header, nav, section, article, aside, hgroup {
 html, body {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-  background-color: #fff;
+  background-color: #048be6;
   font-size: 16px;
   -ms-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
@@ -90,6 +90,8 @@ html, body {
 }
 
 .espacio { padding-right: 0.5em;}
+
+
 
 /*a {
 	color: #802629;
@@ -785,7 +787,118 @@ About Page Style
 VIJAE A MEDIDA
 --------------------------------------------- 
 */
+.head_title_viaje {
+  text-align: center;
+  margin: 40px 0;
+}
 
+.head_title_viaje h3 {
+  font-size: 2em;
+  font-weight: 800;
+}
+
+.text_viaj {
+  margin: 0 40px;
+}
+
+.parrafos {
+  max-width: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px);
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.text_viaj .title_text{
+  font-size: 1.8em;
+  line-height: 2em;
+}
+
+.text_viaj .parraf_1 {
+  padding-bottom: 1em;
+}
+
+.text_viaj a .cta {
+  position: relative;
+  margin: auto;
+  padding: 12px 18px;
+  transition: all 0.2s ease;
+  border: none;
+  background: none;
+}
+
+.text_viaj a .cta:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  border-radius: 50px;
+  background: #b1dae7;
+  width: 45px;
+  height: 45px;
+  transition: all 0.3s ease;
+}
+
+.text_viaj a .cta span {
+  position: relative;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #234567;
+}
+
+.text_viaj a .cta svg {
+  position: relative;
+  top: 0;
+  margin-left: 10px;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: #234567;
+  stroke-width: 2;
+  transform: translateX(-5px);
+  transition: all 0.3s ease;
+}
+
+.text_viaj a .cta:hover:before {
+  width: 100%;
+  background: #b1dae7;
+}
+ 
+.text_viaj a .cta:hover svg {
+  transform: translateX(0);
+}
+ 
+.text_viaj a .cta:active {
+  transform: scale(0.95);
+}
+
+.fl_viaj {
+  display: flex;
+  justify-content: center;
+  margin: 30px 40px 60px;
+}
+
+.video_viaj {
+  position: relative;
+  margin: 0 auto;
+  width: 500px;
+}
+
+.video_viaj video {
+  max-width: 100%;
+  border-radius: 15px;
+}
+
+/* .video_viaj {
+  height: 20em;
+  background: url(../images/gallery/cascadasdePishurayacu.jpg), url(../images/splash2.jpg);
+  background-size: cover;
+  background-position: center center;
+  background-blend-mode: screen;
+} */
 
 /** TOURS **/
 
