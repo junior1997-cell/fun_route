@@ -7,24 +7,42 @@
   font-family: "Montserrat", sans-serif;
 }*/
 
+.banner_ini img {
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+  background-size: cover;
+}
+
 viaj_med {
   background: #585c68;
 } 
 
 .wrapper_viaj {
-  max-width: 900px;
+  max-width: 74%;
   min-height: 100vh;
-  margin: 20px auto 12em;
+  margin: 20px auto 2em;
   border-radius: 20px;
   background: #ffffff;
-  box-shadow:  20px 20px 60px #d9d9d9,
-              -20px -20px 60px #ffffff;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+}
+
+.viaj_mg {
+  margin: 0  0 20px 0;
 }
 
 .wrapper_viaj .head {
   text-align: center;
-  margin: 70px 0 20px 0;
-  padding: 30px 0 10px;
+  /* margin: 70px 0 20px 0; */
+  padding: 20px 0 0;
+}
+
+.center_txt {
+  text-align: center;
+  /* margin: 70px 0 20px 0; */
+  padding: 25px 35px 0;
+  font-size: 2em;
+  font-weight: 800;
 }
 
 .wrapper_viaj .head h3 {
@@ -32,14 +50,138 @@ viaj_med {
   font-weight: 800;
 }
 
-.wrapper_viaj .container {
+/* .wrapper_viaj .wrapper {
+  display: grid;
+  gap: 1rem;
+  grid-auto-rows: 12rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem),1fr));
+} */
+
+/* .wrapper_viaj .container img {
+  width: 100%;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  cursor: pointer;
+  z-index: 1;
+  border-top-left-radius: 15px;
+} */
+
+.container {
+  width: 300px;
+  height: 230px;
+  background-color: #fff;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.08);
+  border-radius: 15px;
+  cursor: pointer;
+  position: relative;
+  border: 2px solid #5a5a5ad7;
+  margin: 30px auto;
+}
+
+.activado {
+ background-color: #158fb4;
+ color: #fff;
+}
+
+
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  /* border: 1px solid black; */
+  position: relative;
+  width: 100%;
+  height: 10px;
+  cursor: pointer;
+  display: none;
+}
+
+/* input[type="checkbox"]:after {
+  position: absolute;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  content: "\f111";
+  font-size: 18px;
+  color: #478bfb;
+  right: 10px;
+  top: -3px;
+} */
+
+input[type="checkbox"]:checked:after{
+  font-weight: 900;
+  content: "\f058";
+  color: #478bfb;
+}
+
+.container img {
+  width: 95%;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: -15px;
+  bottom: 0;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.image {
+  object-fit: contain;
+}
+
+.container p {
+  position: absolute;
+  font-weight: 500;
+  text-align: center;
+  left: 0;
+  right: 0;
+  top: 90%;
+  bottom: 0;
+}
+
+.otros_lugares_visitar {
+  margin: 5px 35px 20px;
+}
+
+.cuestion1 {
+  margin: 5px 35px 20px;
+  font-weight: 600;
+  line-height: 2em;
+}
+
+.cuestion1_1 {
+  margin: 5px 35px 20px;
+  max-height: 130px;
+  max-width: 90%;
+}
+
+/** Cuestión 2 **/
+
+.wrapper_viaj2 {
+  max-width: 74%;
+  min-height: 100vh;
+  margin: 20px auto 12em;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+}
+
+.cuestion2 {
+  padding: 15px 35px 10px;
+  font-weight: 600;
+  line-height: 2em;
+}
+
+/* .wrapper_viaj2 .container {
   display: grid;
   gap: 3rem;
   grid-auto-rows: 12rem;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem),1fr));
-}
+} */
 
-.wrapper_viaj .container .option_item {
+.wrapper_viaj2 .container .option_item {
   display: block;
   position: relative;
   width: 245px;
@@ -49,7 +191,7 @@ viaj_med {
   border-radius: 5px;
 }
 
-.wrapper_viaj .container .option_item .checkbox {
+.wrapper_viaj2 .container .option_item .checkbox {
   position: absolute;
   top: 0;
   left: 0;
