@@ -110,7 +110,7 @@
         <!-- COLUM 1 -->
         <div class="col viaj_mg">
           <div class="">
-            <div class="container contenedor_1">
+            <div class="container1 contenedor_1">
               <input type="checkbox" id="dessert-1" onchange="clas_select(1)">
               <label for="dessert-1">
                   <img src="assets/images/tour2.jpg" alt="">
@@ -119,7 +119,7 @@
             </div>
           </div>
           <div class="">
-            <div class="container contenedor_2">
+            <div class="container1 contenedor_2">
               <input type="checkbox" id="dessert-2" onchange="clas_select(2)">
               <label for="dessert-2">
                   <img src="assets/images/tour4.jpg" class="img1">
@@ -132,7 +132,7 @@
         <!-- COLUM 2 -->
         <div class="col viaj_mg">
           <div class="">
-            <div class="container contenedor_3">
+            <div class="container1 contenedor_3">
               <input type="checkbox" id="dessert-3" onchange="clas_select(3)">
               <label for="dessert-3">
                   <img src="assets/images/tour1.jpg" alt="">
@@ -141,7 +141,7 @@
             </div>
           </div>
           <div class="">
-            <div class="container contenedor_4">
+            <div class="container1 contenedor_4">
               <input type="checkbox" id="dessert-4" onchange="clas_select(4)">
               <label for="dessert-4">
                   <img src="assets/images/tour5.jpg" class="img1">
@@ -154,7 +154,7 @@
         <!-- COLUM 3 -->
         <div class="col viaj_mg">
           <div class="">
-            <div class="container contenedor_5">
+            <div class="container1 contenedor_5">
               <input type="checkbox" id="dessert-5" onchange="clas_select(5)">
               <label for="dessert-5">
                   <img src="assets/images/tour3.1.jpg" alt="">
@@ -163,7 +163,7 @@
             </div>
           </div>
           <div class="">
-            <div class="container contenedor_2">
+            <div class="container1 contenedor_2">
               <input type="checkbox" id="dessert-2" onchange="clas_select(2)">
               <label for="dessert-2">
                   <img src="assets/images/tour6.jfif" class="img1">
@@ -176,7 +176,7 @@
         <h3 class="center_txt">CATARATAS SAN MARTIN, TARAPOTO</h3>
         <div class="col viaj_mg">
           <div class="">
-            <div class="container contenedor_1">
+            <div class="container1 contenedor_1">
               <input type="checkbox" id="dessert-1" onchange="clas_select(1)">
               <label for="dessert-1">
                   <img src="assets/images/tour2.jpg" alt="">
@@ -185,7 +185,7 @@
             </div>
           </div>
           <div class="">
-            <div class="container contenedor_3">
+            <div class="container1 contenedor_3">
               <input type="checkbox" id="dessert-3" onchange="clas_select(3)">
               <label for="dessert-3">
                   <img src="assets/images/tour1.jpg" alt="">
@@ -198,7 +198,7 @@
         <!-- COLUM 2 -->
         <div class="col viaj_mg">
           <div class="">
-            <div class="container contenedor_3">
+            <div class="container1 contenedor_3">
               <input type="checkbox" id="dessert-3" onchange="clas_select(3)">
               <label for="dessert-3">
                   <img src="assets/images/tour1.jpg" alt="">
@@ -211,7 +211,7 @@
         <!-- COLUM 3 -->
         <div class="col viaj_mg">
           <div class="">
-            <div class="container contenedor_5">
+            <div class="container1 contenedor_5">
               <input type="checkbox" id="dessert-5" onchange="clas_select(5)">
               <label for="dessert-5">
                   <img src="assets/images/tour3.1.jpg" alt="">
@@ -221,116 +221,228 @@
           </div>
         </div>
 
-        <h5 class="cuestion1">* Haganos saber aqui si desea visitar otros lugares no mencionados anteriormente.... </h5>
+        <h5 class="cuestion1"><i class="fa-solid fa-forward"></i> Haganos saber aqui si desea visitar otros lugares no mencionados anteriormente.... </h5>
         <textarea class="cuestion1_1" name="otros_lugares" id="" cols="30" rows="10"></textarea>
       </div>
     </div>
 
     
     <div class="wrapper_viaj2">
-      <div class="row">
-        <h5 class="cuestion2">* ¿Con quién viajaría?</h5>
-        <div class="col opt1">
-          <label class="option_item">
-            <input type="checkbox" class="checkbox">
-            <div class="option_inner facebook">
-              <div class="tickmark"></div>
-              <div class="icon"><i class="fa-solid fa-users"></i></div>
-              <div class="name">Familia</div>
-            </div>
-          </label>
-        </div>
-        <div class="col opt1">
-          <label class="option_item">
-            <input type="checkbox" class="checkbox" checked>
-            <div class="option_inner twitter">
-              <div class="tickmark"></div>
-              <div class="icon"><i class="fa-solid fa-user-group"></i></div>
-              <div class="name">Pareja</div>
-            </div>
-          </label>
-        </div>
-        <div class="col opt1">
-          <label class="option_item">
-            <input type="checkbox" class="checkbox">
-            <div class="option_inner instagram">
-              <div class="tickmark"></div>
-              <div class="icon"><i class="fa-solid fa-user"></i></div>
-              <div class="name">Solo</div>
-            </div>
-          </label>
-        </div>
-        <div class="col opt1">
-          <label class="option_item">
-            <input type="checkbox" class="checkbox" checked>
-            <div class="option_inner linkedin">
-              <div class="tickmark"></div>
-              <div class="icon"><i class="fa-solid fa-users-line"></i></div>
-              <div class="name">Otro Grupo</div>
-            </div>
-          </label>
+      <div class="">
+        <div class="row">
+          <h5 class="cuestion2"><i class="fa-solid fa-forward"></i> ¿Con quién viajaría?</h5>
+          <div class="col">
+            <label class="option_item">
+              <input type="checkbox" id="optionF-1" onchange="clas_selector(1)">
+              <div class="option_inner selection_1">
+                <div class="tickmark"></div>
+                <div class="icon"><i class="fa-solid fa-users"></i></div>
+                <div class="name">Familia</div>
+              </div>
+            </label>
+          </div>
+          <div class="col">
+            <label class="option_item">
+              <input type="checkbox" id="optionF-2" onchange="clas_select(2)">
+              <div class="option_inner selection_2">
+                <div class="tickmark"></div>
+                <div class="icon"><i class="fa-solid fa-user-group"></i></div>
+                <div class="name">Pareja</div>
+              </div>
+            </label>
+          </div>
+          <div class="col">
+            <label class="option_item selection_3">
+              <input type="checkbox" id="optionF" onchange="clas_selector()">
+              <div class="option_inner instagram">
+                <div class="tickmark"></div>
+                <div class="icon"><i class="fa-solid fa-user"></i></div>
+                <div class="name">Solo</div>
+              </div>
+            </label>
+          </div>
+          <div class="col">
+            <label class="option_item selection_4">
+              <input type="checkbox" id="optionF" onchange="clas_selector()">
+              <div class="option_inner linkedin">
+                <div class="tickmark"></div>
+                <div class="icon"><i class="fa-solid fa-users-line"></i></div>
+                <div class="name">Otro Grupo</div>
+              </div>
+            </label>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="wrapper_viaj3">
-      <div class="row">
-        <h5 class="cuestion2">* Este es un gran viaje para:</h5>
-        <div class="col opt1">
-          <label class="option_item">
-            <input type="checkbox" class="checkbox">
-            <div class="option_inner facebook">
-              <div class="tickmark"></div>
-              <!-- <div class="icon"><i class="fa-solid fa-users"></i></div> -->
-              <div class="name">Cumpleaños</div>
-            </div>
-          </label>
-          <label class="option_item">
-            <input type="checkbox" class="checkbox">
-            <div class="option_inner facebook">
-              <div class="tickmark"></div>
-              <!-- <div class="icon"><i class="fa-solid fa-users"></i></div> -->
-              <div class="name">Regalo de Jubilación</div>
-            </div>
-          </label>
+      <div class="">
+        <div class="row">
+          <h5 class="cuestion2"><i class="fa-solid fa-forward"></i> Este es un gran viaje para:</h5>
+          <div class="col opt1">
+            <label class="option_item">
+              <input type="checkbox" class="checkbox">
+              <div class="option_inner facebook">
+                <div class="tickmark"></div>
+                <!-- <div class="icon"><i class="fa-solid fa-users"></i></div> -->
+                <div class="name">Cumpleaños</div>
+              </div>
+            </label>
+            <label class="option_item">
+              <input type="checkbox" class="checkbox">
+              <div class="option_inner facebook">
+                <div class="tickmark"></div>
+                <!-- <div class="icon"><i class="fa-solid fa-users"></i></div> -->
+                <div class="name">Regalo de Jubilación</div>
+              </div>
+            </label>
+          </div>
+          <div class="col opt1">
+            <label class="option_item">
+              <input type="checkbox" class="checkbox" >
+              <div class="option_inner twitter">
+                <div class="tickmark"></div>
+                <!-- <div class="icon"><i class="fa-solid fa-user-group"></i></div> -->
+                <div class="name">Viaje de lista de deseos</div>
+              </div>
+            </label>
+            <label class="option_item">
+              <input type="checkbox" class="checkbox" >
+              <div class="option_inner twitter">
+                <div class="tickmark"></div>
+                <!-- <div class="icon"><i class="fa-solid fa-user-group"></i></div> -->
+                <div class="name">Visitar a un familiar/amigo</div>
+              </div>
+            </label>
+          </div>
+          <div class="col opt1">
+            <label class="option_item">
+              <input type="checkbox" class="checkbox">
+              <div class="option_inner instagram">
+                <div class="tickmark"></div>
+                <!-- <div class="icon"><i class="fa-solid fa-user"></i></div> -->
+                <div class="name">Disfrutando de la Jubilación</div>
+              </div>
+            </label>
+            <label class="option_item">
+              <input type="checkbox" class="checkbox">
+              <div class="option_inner linkedin">
+                <div class="tickmark"></div>
+                <!-- <div class="icon"><i class="fa-solid fa-users-line"></i></div> -->
+                <div class="name">Vacaciones anuales</div>
+              </div>
+            </label>
+          </div>
         </div>
-        <div class="col opt1">
-          <label class="option_item">
-            <input type="checkbox" class="checkbox" checked>
-            <div class="option_inner twitter">
-              <div class="tickmark"></div>
-              <!-- <div class="icon"><i class="fa-solid fa-user-group"></i></div> -->
-              <div class="name">Viaje de lista de deseos</div>
+      </div>
+    </div>
+
+    <div class="wrapper_viaj4">
+      <div class="">
+        <div class="row">
+          <h5 class="cuestion2"><i class="fa-solid fa-forward"></i> Su presupuesto de viaje</h5>
+          <div class="col opt1">
+            <div class="option_item">
+              <input type="checkbox" class="checkbox">
+              <div class="option_inner facebook">
+                <div class="tickmark"></div>
+                <!-- <div class="icon"><i class="fa-solid fa-users"></i></div> -->
+                <div class="name">Menos de 200 soles</div>
+              </div>
             </div>
-          </label>
-          <label class="option_item">
-            <input type="checkbox" class="checkbox" checked>
-            <div class="option_inner twitter">
-              <div class="tickmark"></div>
-              <!-- <div class="icon"><i class="fa-solid fa-user-group"></i></div> -->
-              <div class="name">Visitar a un familiar/amigo</div>
+            <div class="option_item">
+              <input type="checkbox" class="checkbox">
+              <div class="option_inner facebook">
+                <div class="tickmark"></div>
+                <!-- <div class="icon"><i class="fa-solid fa-users"></i></div> -->
+                <div class="name">300 - 350 soles</div>
+              </div>
             </div>
-          </label>
+          </div>
+          <div class="col opt1">
+            <div class="option_item">
+              <input type="checkbox" class="checkbox" checked>
+              <div class="option_inner twitter">
+                <div class="tickmark"></div>
+                <!-- <div class="icon"><i class="fa-solid fa-user-group"></i></div> -->
+                <div class="name">200 - 250 soles</div>
+              </div>
+            </div>
+            <div class="option_item">
+              <input type="checkbox" class="checkbox" checked>
+              <div class="option_inner twitter">
+                <div class="tickmark"></div>
+                <!-- <div class="icon"><i class="fa-solid fa-user-group"></i></div> -->
+                <div class="name">350 soles a más</div>
+              </div>
+            </div>
+          </div>
+          <div class="col opt1">
+            <div class="option_item">
+              <input type="checkbox" class="checkbox">
+              <div class="option_inner instagram">
+                <div class="tickmark"></div>
+                <!-- <div class="icon"><i class="fa-solid fa-user"></i></div> -->
+                <div class="name">250 - 300 soles</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col opt1">
-          <label class="option_item">
-            <input type="checkbox" class="checkbox">
-            <div class="option_inner instagram">
-              <div class="tickmark"></div>
-              <!-- <div class="icon"><i class="fa-solid fa-user"></i></div> -->
-              <div class="name">disfrutando de la Jubilación</div>
-            </div>
-          </label>
+      </div>
+    </div>
+
+    <div class="wrapper_viaj5">
+      <div class="">
+        <div class="row">
+          <h5 class="cuestion2"><i class="fa-solid fa-forward"></i> ¿Qué tipo de hotel prefiere?</h5>
+          <div class="col">
+            <label class="option_item">
+              <input type="checkbox" id="optionF-1" onchange="clas_selector(1)">
+              <div class="option_inner selection_1">
+                <div class="tickmark"></div>
+                <div class="icon"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                <div class="name">5 estrellas</div>
+              </div>
+            </label>
+          </div>
+          <div class="col">
+            <label class="option_item">
+              <input type="checkbox" id="optionF-2" onchange="clas_select(2)">
+              <div class="option_inner selection_2">
+                <div class="tickmark"></div>
+                <div class="icon"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                <div class="name">4 estrellas</div>
+              </div>
+            </label>
+          </div>
+          <div class="col">
+            <label class="option_item selection_3">
+              <input type="checkbox" id="optionF" onchange="clas_selector()">
+              <div class="option_inner instagram">
+                <div class="tickmark"></div>
+                <div class="icon"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                <div class="name">3 estrellas</div>
+              </div>
+            </label>
+          </div>
+          <div class="col">
+            <label class="option_item selection_4">
+              <input type="checkbox" id="optionF" onchange="clas_selector()">
+              <div class="option_inner linkedin">
+                <div class="tickmark"></div>
+                <div class="icon"><i class="fa-solid fa-laptop"></i></div>
+                <div class="name">Autoreserva</div>
+              </div>
+            </label>
+          </div>
         </div>
-        <div class="col opt1">
-          <label class="option_item">
-            <input type="checkbox" class="checkbox" checked>
-            <div class="option_inner linkedin">
-              <div class="tickmark"></div>
-              <!-- <div class="icon"><i class="fa-solid fa-users-line"></i></div> -->
-              <div class="name">Vacaciones anuales</div>
-            </div>
-          </label>
+      </div>
+    </div>
+
+    <div class="wrapper_viaj6">
+      <div class="">
+        <div class="row">
+          <h5 class="cuestion2"><i class="fa-solid fa-forward"></i> ¿Qué tipo de hotel prefiere?</h5>
         </div>
       </div>
     </div>

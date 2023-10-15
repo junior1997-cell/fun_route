@@ -6,3 +6,11 @@ function clas_select(id) {
         $(`.contenedor_${id}`).removeClass('activado')
     }
 }
+
+function clas_selector(id) {
+    if ($(`#optionF-${id}`).is(':checked')) {
+        $(`.selection_${id}`).addClass('active2')
+    }else {
+        $(`.selection_${id}`).removeClass('active2')
+    }
+}
