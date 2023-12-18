@@ -70,6 +70,15 @@ viaj_med {
   border-top-left-radius: 15px;
 } */
 
+.viaj_med .wrapper_viaj .select_hover:hover {
+  position: relative;
+  background: #0077b5;
+  /* background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px); */
+  /* width: 100%; */
+  z-index: 9999;
+}
+
 .container1 {
   width: 300px;
   height: 230px;
