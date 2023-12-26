@@ -45,16 +45,17 @@
           foreach ( $rspta as $key => $value) {            
             $info = '\''.$value['nombre_tabla'].'\', \''.$value['nombre_id_tabla'].'\', \''.$value['id_tabla'].'\'';
             
-            $description = '';
+            $nombre_arc = '';
 
-            // Check if the description is an image URL
-            $imgSize = @getimagesize($value['descripcion']);
+            // Check if the nombre_arc is an image URL
+            $imgSize = @getimagesize($value['nombre_archivo']);
             if ($imgSize !== false) {
                 // If it's an image, create an img tag
-                $description = '<img src="' . $value['descripcion'] . '" width="100px" height="auto" alt="Image">';
+                $nombre_arc = '<img src="' . $value['nombre_archivo'] . '" width="100px" height="auto" alt="Image">';
             } else {
                 // If it's not an image, display the text
-                $description = '<textarea class="textarea_datatable" readonly="" style="height: 45px;">' . $value['descripcion'] . '</textarea>';
+                $nombre_arc = '<div class="bg-color-242244245 " style="overflow: auto; resize: vertical; height: 45px;" >'. $value['nombre_archivo'] .'</div>';
+                
             }
 
             $data[]=array(
@@ -62,8 +63,8 @@
               "1"=>'<button class="btn btn-success btn-sm" onclick="recuperar('.$info.')" data-toggle="tooltip" data-original-title="Recuperar"><i class="fas fa-redo-alt"></i></button>'.
               ' <button class="btn btn-danger btn-sm" onclick="eliminar_permanente('.$info.')" data-toggle="tooltip" data-original-title="Eliminar Permanente"><i class="far fa-trash-alt"></i></button>', 
               "2"=>'<span class="text-bold">'. $value['modulo'] .'</span>',  
-              "3"=>'<div class="bg-color-242244245 " style="overflow: auto; resize: vertical; height: 45px;" >'. $value['nombre_archivo'] .'</div>',  
-              "4"=> $description,
+              "3"=>$nombre_arc,  
+              "4"=> '<textarea class="textarea_datatable" readonly="" style="height: 45px;">' . $value['descripcion'] . '</textarea>',
               "5"=> nombre_dia_semana( date("Y-m-d", strtotime($value['created_at'])) ) .', <br>'. date("d/m/Y", strtotime($value['created_at'])) .' - '. date("g:i a", strtotime($value['created_at'])) ,
               "6"=> nombre_dia_semana( date("Y-m-d", strtotime($value['updated_at'])) ) .', <br>'. date("d/m/Y", strtotime($value['updated_at'])) .' - '. date("g:i a", strtotime($value['updated_at'])).$toltip
             );

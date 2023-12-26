@@ -430,14 +430,13 @@ class Papelera
 
     if (!empty($galeria_hotel['data'])) {
       foreach ($galeria_hotel['data'] as $key => $value20) {
-        $img = '../dist/docs/hotel/galeria/'.$value20['imagen'];
         $data[] = array(
           'nombre_tabla'    => 'galeria_hotel',
           'nombre_id_tabla' => 'idgaleria_hotel',
           'modulo'          => 'GALERÍA HOTEL',
           'id_tabla'        => $value20['idgaleria_hotel'],
-          'nombre_archivo'  => "Hotel: ".$value20['hoteles'],
-          'descripcion'     => $img,
+          'nombre_archivo'  => '../dist/docs/hotel/galeria/'.$value20['imagen'],
+          'descripcion'     => "Título: ".$value20['descripcion']."\n"."Hotel: ".$value20['hoteles'],
           'created_at'      => $value20['created_at'],
           'updated_at'      => $value20['updated_at'],
         );
@@ -453,16 +452,13 @@ class Papelera
 
     if (!empty($galeria_paquete['data'])) {
       foreach ($galeria_paquete['data'] as $key => $value21) {
-
-        $img = '../dist/docs/paquete/galeria/'.$value21['imagen']; 
-
         $data[] = array(
           'nombre_tabla'    => 'galeria_paquete',
           'nombre_id_tabla' => 'idgaleria_paquete',
           'modulo'          => 'GALERÍA PAQUETE',
           'id_tabla'        => $value21['idgaleria_paquete'],
-          'nombre_archivo'  => "Paquete: ".$value21['paquete'],
-          'descripcion'     => $img,
+          'nombre_archivo'  => '../dist/docs/paquete/galeria/'.$value21['imagen'],
+          'descripcion'     => "Título: ".$value21['descripcion']."\n"."Paquete: ".$value21['paquete'],
           'created_at'      => $value21['created_at'],
           'updated_at'      => $value21['updated_at'],
         );
@@ -484,8 +480,8 @@ class Papelera
           'nombre_id_tabla' => 'idgaleria_tours',
           'modulo'          => 'GALERÍA TOURS',
           'id_tabla'        => $value22['idgaleria_tours'],
-          'nombre_archivo'  => "Tours: ".$value22['tours'],
-          'descripcion'     => $img3,
+          'nombre_archivo'  => '../dist/docs/tours/galeria/'.$value22['imagen'],
+          'descripcion'     => "Título: ".$value22['descripcion']."\n"."Tours: ".$value22['tours'],
           'created_at'      => $value22['created_at'],
           'updated_at'      => $value22['updated_at'],
         );
