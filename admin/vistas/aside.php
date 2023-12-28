@@ -196,22 +196,12 @@
             <?php  }  ?>  
             
             <?php if ($_SESSION['paquete_medida']==1) {  ?>   
-              <!-- COMPRAS -->      
-              <li class="nav-item  b-radio-3px" id="bloc_ComprasGrano">
-                <a href="#" class="nav-link pl-2" id="mlPaquetesMedida">
-                <i class="nav-icon fa-solid  fas fa-passport"></i>
-                  <p>A Medida <i class="fas fa-angle-left right"></i> <span class="badge badge-info right">1</span></p>
+              <!-- PAQUETE A MEDIDA -->      
+              <li class="nav-item ">
+                <a href="paquete_a_medida.php" class="nav-link pl-2" id="lPaqueteMedida">
+                  <i class="nav-icon fa-solid fas fa-passport"></i>
+                  <p>Paquetes a medida</p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <!-- Compras del proyecto -->
-                  <li class="nav-item ">
-                    <a href="compra_cafe.php" class="nav-link" id="lComprasGrano">
-                      <i class="nav-icon fas fa-cart-plus"></i> 
-                      <p>Destinos</p>
-                    </a>
-                  </li>       
-
-                </ul>
               </li>
             <?php  }  ?>
             
@@ -229,8 +219,8 @@
             <?php if ($_SESSION['pedido']==1) {  ?>
               <li class="nav-item ">
                 <a href="pedido.php" class="nav-link pl-2" id="lPedido_paquete">
-                <i class="nav-icon  fas fa-dollar-sign"></i>
-                  <p>Pedido </p>
+                  <i class="nav-icon  fas fa-dollar-sign"></i>
+                  <p>Pedidos </p>
                 </a>
               </li>
             <?php  }  ?>     

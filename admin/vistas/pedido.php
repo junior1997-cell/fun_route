@@ -43,7 +43,7 @@ if (!isset($_SESSION["nombre"])) {
             <div class="container-fluid">
               <div class="row mb-2">
                 <div class="col-sm-6">
-                  <h1>Pedido</h1>
+                  <h1><i class="nav-icon  fas fa-dollar-sign"></i> Pedidos</h1>
                 </div>
                 <div class="col-sm-6">
                   <ol class="breadcrumb float-sm-right">
@@ -61,88 +61,103 @@ if (!isset($_SESSION["nombre"])) {
             <div class="container-fluid">
               <div class="row">
                 <div class="col-12">
-                  <div class="card card-primary card-outline">
-                    <div class="card-header">                      
-                      <h3 class="float-left mb-0"> Pedidos Tours. </h3>
+                  <div class="card card-primary card-outline card-outline-tabs">
+                    <div class="card-header p-0 border-bottom-0">                      
+                      <ul class="nav nav-tabs" id="custom-content-detalle-tab" role="tablist">
+                        <!-- PEDIDO A TOURS -->
+                        <li class="nav-item">
+                          <a class="nav-link active" id="custom-content-detalle-pedido_tours-tab" data-toggle="pill" href="#custom-content-detalle-pedido_tours" role="tab" aria-controls="custom-content-detalle-pedido_tours" aria-selected="true">PEDIDO TOURS</a>
+                        </li>
+                        <!-- PEDIDO PAQUETE -->
+                        <li class="nav-item">
+                          <a class="nav-link" id="custom-content-detalle-pedido_tours-tab" data-toggle="pill" href="#custom-content-detalle-pedido_tours" role="tab" aria-controls="custom-content-detalle-pedido_tours" aria-selected="false">PEDIDO PAQUETE</a>
+                        </li>
+                        <!-- PEDIDO A MEDIDA -->
+                        <li class="nav-item">
+                          <a class="nav-link" id="custom-content-detalle-pedido_a_medida-tab" data-toggle="pill" href="#custom-content-detalle-pedido_a_medida" role="tab" aria-controls="custom-content-detalle-pedido_a_medida" aria-selected="false">PEDIDO A MEDIDA</a>
+                        </li>
+                      </ul>
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body">
+                    <div class="card-body"> 
+                      
+                      <div class="tab-content" id="custom-content-detalle-tabContent">
+                        <div class="tab-pane fade show active pedido_tours" id="custom-content-detalle-pedido_tours" role="tabpanel" aria-labelledby="custom-content-detalle-pedido_tours-tab">
+                          <!-- PEDIDO TOURS --> 
+                          <table id="tabla-pedido-tours" class="table table-bordered table-striped display" style="width: 100% !important;">
+                            <thead>
+                              <tr>
+                                <th class="text-center">#</th>
+                                <th class="">Acciones</th>
+                                <th class="">Fecha </th>
+                                <th class="">Tours </th>
+                                <th class="">Cliente </th>                              
+                                <th class="">Telefono </th>
+                                <th class="" >Descripción</th>
+                                <th class="">Estado </th>
+                              </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                              <tr>
+                                <th class="text-center">#</th>
+                                <th class="">Acciones</th>
+                                <th class="">Fecha </th>
+                                <th class="">Tours </th>
+                                <th class="">Cliente </th>                              
+                                <th class="">Telefono </th>
+                                <th class="" >Descripción</th>
+                                <th class="">Estado </th>
+                              </tr>
+                            </tfoot>
+                          </table>
+                        </div>
+                        <!-- /.tab-panel -->
 
-                      <div id="mostrar-tabla">
-                        <table id="tabla-pedido-tours" class="table table-bordered table-striped display" style="width: 100% !important;">
-                          <thead>
-                            <tr>
-                              <th class="text-center">#</th>
-                              <th class="">Acciones</th>
-                              <th class="">Fecha </th>
-                              <th class="">Tours </th>
-                              <th class="">Cliente </th>                              
-                              <th class="">Telefono </th>
-                              <th class="" >Descripción</th>
-                              <th class="">Estado </th>
-                            </tr>
-                          </thead>
-                          <tbody></tbody>
-                          <tfoot>
-                            <tr>
-                              <th class="text-center">#</th>
-                              <th class="">Acciones</th>
-                              <th class="">Fecha </th>
-                              <th class="">Tours </th>
-                              <th class="">Cliente </th>                              
-                              <th class="">Telefono </th>
-                              <th class="" >Descripción</th>
-                              <th class="">Estado </th>
-                            </tr>
-                          </tfoot>
-                        </table>
-                      </div>
+                        <div class="tab-pane fade pedido_tours" id="custom-content-detalle-pedido_tours" role="tabpanel" aria-labelledby="custom-content-detalle-pedido_tours-tab">
+                          <!-- PEDIDO PAQUETE -->                            
+                          <table id="tabla-pedido-paquete" class="table table-bordered table-striped display" style="width: 100% !important;">
+                            <thead>
+                              <tr>
+                                <th class="text-center">#</th>
+                                <th class="">Acciones</th>
+                                <th class="">Fecha </th>
+                                <th class="">Paquete </th>
+                                <th class="">Cliente </th>                              
+                                <th class="">Telefono </th>
+                                <th class="" >Descripción</th>
+                                <th class="">Estado </th>
+                              </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                              <tr>
+                                <th class="text-center">#</th>
+                                <th class="">Acciones</th>
+                                <th class="">Fecha </th>
+                                <th class="">Paquete </th>
+                                <th class="">Pedido </th>                              
+                                <th class="">Telefono </th>
+                                <th class="" >Descripción</th>
+                                <th class="">Estado </th>
+                              </tr>
+                            </tfoot>
+                          </table>
+                        </div>
+                        <!-- /.tab-panel --> 
+
+                        <div class="tab-pane fade pedido_a_medida" id="custom-content-detalle-pedido_a_medida" role="tabpanel" aria-labelledby="custom-content-detalle-pedido_a_medida-tab">
+                          <!-- PEDIDO A MEDIDA -->
+                          <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
+                        </div>
+                        <!-- /.tab-panel -->                        
+                      </div>                     
 
                     </div>
                     <!-- /.card-body -->
                   </div>
                   <!-- /.card -->
-                  <div class="card card-primary card-outline">
-                    <div class="card-header">                      
-                      <h3 class="float-left mb-0"> Pedidos Paquete. </h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-
-                      <div id="mostrar-tabla">
-                        <table id="tabla-pedido-paquete" class="table table-bordered table-striped display" style="width: 100% !important;">
-                          <thead>
-                            <tr>
-                              <th class="text-center">#</th>
-                              <th class="">Acciones</th>
-                              <th class="">Fecha </th>
-                              <th class="">Paquete </th>
-                              <th class="">Cliente </th>                              
-                              <th class="">Telefono </th>
-                              <th class="" >Descripción</th>
-                              <th class="">Estado </th>
-                            </tr>
-                          </thead>
-                          <tbody></tbody>
-                          <tfoot>
-                            <tr>
-                              <th class="text-center">#</th>
-                              <th class="">Acciones</th>
-                              <th class="">Fecha </th>
-                              <th class="">Paquete </th>
-                              <th class="">Pedido </th>                              
-                              <th class="">Telefono </th>
-                              <th class="" >Descripción</th>
-                              <th class="">Estado </th>
-                            </tr>
-                          </tfoot>
-                        </table>
-                      </div>
-
-                    </div>
-                    <!-- /.card-body -->
-                  </div>
-                  <!-- /.card -->
+                  
                 </div>
                 <!-- /.col -->
               </div>
