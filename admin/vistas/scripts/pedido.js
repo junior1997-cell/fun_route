@@ -1,5 +1,6 @@
 var tabla_pedido_tours;
 var tabla_pedido_paquete;
+var tabla_pedido_a_medida;
 
 //Función que se ejecuta al inicio
 function init() {
@@ -10,6 +11,7 @@ function init() {
 
   tbla_principal_tours();
   tbla_principal_paquete();
+  tbla_principal_a_medida();
 
   // ══════════════════════════════════════ S E L E C T 2 ══════════════════════════════════════
   // lista_select2("../ajax/ajax_general.php?op=select2Paquete", "#idpaquete", null);
@@ -593,6 +595,135 @@ function eliminar_pedido_paquete(idpedido, nombre) {
     false,
     false
   );
+}
+
+
+
+
+// ::::::::::::::::::::::::::::::::::::::::: PEDIDO PAQUETE A MEDIDA :::::::::::::::::::::::::::
+
+//Función Listar
+function tbla_principal_a_medida() {
+  tabla_pedido_a_medida = $("#tabla-pedido-a-medida").dataTable({
+    responsive: true,
+    lengthMenu: [[-1, 5, 10, 25, 75, 100, 200], ["Todos", 5, 10, 25, 75, 100, 200], ], //mostramos el menú de registros a revisar
+    aProcessing: true, //Activamos el procesamiento del datatables
+    aServerSide: true, //Paginación y filtrado realizados por el servidor
+    dom: "<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
+    buttons: [      
+      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i>', className: "btn bg-gradient-info", action: function ( e, dt, node, config ) { tabla_pedido_a_medida.ajax.reload(null, false); toastr_success('Exito!!', 'Actualizando tabla', 400); } },
+      { extend: 'copyHtml5', exportOptions: { columns: [0,1,2,3], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray", footer: true,  }, 
+      { extend: 'excelHtml5', exportOptions: { columns: [0,1,2,3], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success", footer: true,  }, 
+      { extend: 'pdfHtml5', exportOptions: { columns: [0,1,2,3], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
+      { extend: "colvis", text: `Columnas`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
+    ],
+    ajax: {
+      url: "../ajax/pedido.php?op=tbla_principal_a_medida",
+      type: "get",
+      dataType: "json",
+      error: function (e) {
+        console.log(e.responseText);
+      },
+    },
+    createdRow: function (row, data, ixdex) {
+      // columna: #
+      if (data[0] != "") {  $("td", row).eq(0).addClass("text-center"); }
+      // columna: acciones
+      if (data[1] != "") { $("td", row).eq(1).addClass("text-nowrap");  }
+      // columna: estado
+      if (data[7] != "") {  $("td", row).eq(7).addClass("text-nowrap");  }
+    },
+    language: {
+      lengthMenu: "Mostrar: _MENU_ registros",
+      buttons: {
+        copyTitle: "Tabla Copiada",
+        copySuccess: { _: "%d líneas copiadas", 1: "1 línea copiada" },
+      },
+      sLoadingRecords:
+        '<i class="fas fa-spinner fa-pulse fa-lg"></i> Cargando datos...',
+    },
+    footerCallback: function (tfoot, data, start, end, display) {
+      },
+    bDestroy: true,
+    iDisplayLength: 10, //Paginación
+    order: [[0, "asc"]], //Ordenar (columna,orden)
+    columnDefs: [
+    ],
+  }).DataTable();
+}
+//Función Mostrar Tods los Datos
+function mostrar_paquete_a_medida(idpaquete_a_medida) {
+  //variables del array
+  $(".titulo_pedido").html(`Pedido: <i class="fas fa-spinner fa-pulse fa-lg"></i> `);
+  $("#modal-ver-paquete-a-medida").modal("show");
+
+  $.post("../ajax/pedido.php?op=mostrar_detalle_paquete_a_medida", { 'idpaquete_a_medida': idpaquete_a_medida }, function (e, status) {
+    e = JSON.parse(e);   console.log(e);  
+    if (e.status == true) {
+      $(".titulo_pedido").html(`Pedido de: ${e.data.paquete_a_medida.p_nombre}`);
+
+      $('.datos1_html').html(`<div class="table-responsive p-0">
+        <table class="table table-hover table-bordered  mt-4">          
+          <tbody>
+            <tr>
+              <th>Nombre</th>
+              <td>${e.data.paquete_a_medida.p_nombre}</td>
+            </tr>
+            <tr>
+              <th>Telefono</th>
+              <td><a href="tel:+51${e.data.paquete_a_medida.p_celular}">${e.data.paquete_a_medida.p_celular}</a></td>
+            </tr>
+            <tr>
+              <th>Correo</th>
+              <td><a href="mailto:${e.data.paquete_a_medida.p_correo}">${e.data.paquete_a_medida.p_correo}</a></td>
+            </tr>
+            <tr>
+              <th>Descripción</th>
+              <td>${e.data.paquete_a_medida.p_descripcion}</td>
+            </tr>           
+          </tbody>
+        </table>
+      </div>`);
+
+      $('.home2_html').html(`<div class="table-responsive p-0">
+        <table class="table table-hover table-bordered  mt-4">          
+          <tbody>
+            <tr>
+              <th>TOURS</th>
+              <td>${e.data.paquete_a_medida.tours}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>`);
+
+      $('.otros3_html').html(`<div class="table-responsive p-0">
+        <table class="table table-hover table-bordered  mt-4">          
+          <tbody>
+            <tr>
+              <th>Motivo de Viaje</th>
+              <td>${e.data.paquete_a_medida.ocacion_viaje}</td>
+            </tr>
+            <tr>
+              <th>Tipo de Hotel</th>
+              <td>${e.data.paquete_a_medida.tipo_hotel}</td>
+            </tr>
+            <tr>
+              <th>Presupuesto</th>
+              <td>${e.data.paquete_a_medida.presupuesto}</td>
+            </tr>
+            <tr>
+              <th>Tipo de Viaje</th>
+              <td>${e.data.paquete_a_medida.tipo_viaje}</td>
+            </tr>            
+          </tbody>
+        </table>
+      </div>`);
+      
+      tabla_pedido_a_medida.ajax.reload(null, false);
+    } else {
+      ver_errores(e);
+    } 
+  }).fail(function (e) { ver_errores(e); });
 }
 
 

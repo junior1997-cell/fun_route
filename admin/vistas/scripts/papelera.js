@@ -97,7 +97,7 @@ function recuperar(nombre_tabla, nombre_id_tabla, id_tabla) {
     cancelButtonColor: "#6c757d",    
     confirmButtonText: `Si, Recuperar!`,
     showLoaderOnConfirm: true,
-    preConfirm: (input) => {       
+    preConfirm:(input) => {       
       return fetch(`../ajax/papelera.php?op=recuperar&nombre_tabla=${nombre_tabla}&nombre_id_tabla=${nombre_id_tabla}&id_tabla=${id_tabla}`).then(response => {
         //console.log(response);
         if (!response.ok) { throw new Error(response.statusText) }

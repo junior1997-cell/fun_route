@@ -215,6 +215,50 @@
 		
 		  return $eliminar;
     } 
+
+
+
+    // ::::::::::::::::::::::::::::::::::::::::::: P A Q U E T E :::::::::::::::::::::::::::::::::::::::::::
+
+    public function tbla_principal_a_medida()  {
+      $sql="SELECT idpaquete_a_medida, tipo_viaje, ocacion_viaje, presupuesto, tipo_hotel, p_nombre, p_celular, p_correo, p_descripcion, estado_visto, estado_vendido, estado, estado_delete, created_at
+      FROM paquete_a_medida 
+      WHERE estado=1 AND estado_delete=1 ;";
+      return ejecutarConsultaArray($sql);		
+    }
+
+    public function mostrar_paquete_medida($idpaquete_a_medida)  {
+
+      $sql = "SELECT lc.idlugar_a_conocer, lc.idpaquete_a_medida, pm.p_nombre, pm.tipo_viaje, pm.ocacion_viaje, pm.presupuesto,
+                     pm.tipo_hotel, pm.p_celular, pm.p_correo, pm.p_descripcion, t.nombre as tours
+              FROM lugar_a_conocer as lc, paquete_a_medida as pm, tours as t
+              WHERE lc.idlugar_a_conocer = '$idpaquete_a_medida'
+              AND pm.idpaquete_a_medida = lc.idpaquete_a_medida
+              AND t.idtours = lc.idtours
+              AND pm.estado = 1
+              AND t.estado = 1;";
+    $datospaquete_a_medida = ejecutarConsultaSimpleFila($sql); if ( $datospaquete_a_medida['status'] == false) {return $datospaquete_a_medida; }
+
+    // Mostramos el pedido
+    $sql_1="SELECT * FROM paquete_a_medida  WHERE idpaquete_a_medida='$idpaquete_a_medida';";
+    $paquete_medida = ejecutarConsultaSimpleFila($sql_1); if ($paquete_medida['status'] == false) { return  $paquete_medida;}
+
+    $paquete_a_medida = [
+      'idlugar_a_conocer'   => $datospaquete_a_medida['data']['idlugar_a_conocer'],
+      'idpaquete_a_medida'  => $datospaquete_a_medida['data']['idpaquete_a_medida'],
+      'p_nombre'            => $datospaquete_a_medida['data']['p_nombre'],
+      'tipo_viaje'          => $datospaquete_a_medida['data']['tipo_viaje'],
+      'ocacion_viaje'       => $datospaquete_a_medida['data']['ocacion_viaje'],
+      'presupuesto'         => $datospaquete_a_medida['data']['presupuesto'],
+      'tipo_hotel'          => $datospaquete_a_medida['data']['tipo_hotel'],
+      'p_celular'           => $datospaquete_a_medida['data']['p_celular'],
+      'p_correo'            => $datospaquete_a_medida['data']['p_correo'],
+      'p_descripcion'       => $datospaquete_a_medida['data']['p_descripcion'],
+      'tours'               => $datospaquete_a_medida['data']['tours'],
+    ];
+
+      return $retorno=['status'=>true, 'message'=>'todo oka ps', 'data'=> ['paquete_a_medida'=>$paquete_a_medida,'pedido'=> $paquete_medida['data'] ] ];
+    } 
   
   }
 

@@ -30,6 +30,9 @@
       $correo	  	      = isset($_POST["correo"])? limpiarCadena($_POST["correo"]):"";
       $telefono	  	    = isset($_POST["telefono"])? limpiarCadena($_POST["telefono"]):"";
       $descripcion			= isset($_POST["descripcionpedido"])? limpiarCadena($_POST["descripcionpedido"]):"";
+      
+      $idpaquete_a_medida			= isset($_POST["idpaquete_a_medida"])? limpiarCadena($_POST["idpaquete_a_medida"]):"";
+      $p_nombre			= isset($_POST["p_nombre"])? limpiarCadena($_POST["p_nombre"]):"";
 
       switch ($_GET["op"]) {       
 
@@ -177,6 +180,56 @@
           $rspta=$pedido->eliminar_paquete($_GET["id_tabla"]);
           echo json_encode($rspta, true);
         break;
+
+        
+
+
+
+
+        // ::::::::::::::::::::::::::::::::::::::::: PEDIDO PAQUETE A MEDIDA :::::::::::::::::::::::::::
+
+        case 'tbla_principal_a_medida':          
+
+          $rspta=$pedido->tbla_principal_a_medida();
+          
+          //Vamos a declarar un array
+          $data= Array(); $cont=1;
+
+          if ($rspta['status'] == true) {
+
+            foreach ($rspta['data'] as $key => $value) {        
+              $estadovisto = ($value['estado_visto']==1 ? '<span class="text-center badge badge-success">Visto</span>' : '<span class="text-center badge badge-danger">No Visto</span>' );// true:false
+              $estadovendido = ($value['estado_vendido']==1 ? '<span class="text-center badge badge-success">Vendido</span>' : '<span class="text-center badge badge-danger">No Vendido</span>' );// true:false
+              
+              $data[]=array(
+                "0"=>$cont++,
+                "1"=>' <button class="btn btn-info btn-sm" onclick="mostrar_paquete_a_medida('.$value['idpaquete_a_medida'].')" data-toggle="tooltip" data-original-title="Ver"><i class="fa fa-eye"></i></button>',
+                "2"=> nombre_dia_semana( date("Y-m-d", strtotime($value['created_at'])) ) .', <br>'. date("d/m/Y", strtotime($value['created_at'])) .' - '. date("g:i a", strtotime($value['created_at'])),
+                "3"=>'<span class="username"><strong><p class="text-primary m-b-02rem" >'. $value['p_nombre'] .'</p></strong></span>',
+                "4"=>$value['p_celular'],
+                "5"=>'<textarea cols="30" rows="2" class="textarea_datatable" readonly="">' . $value['p_descripcion'] . '</textarea>',
+                "6"=> $estadovisto .' '. $estadovendido . $toltip,
+
+              );
+            }
+            $results = array(
+              "sEcho"=>1, //Información para el datatables
+              "iTotalRecords"=>count($data), //enviamos el total registros al datatable
+              "iTotalDisplayRecords"=>1, //enviamos el total registros a visualizar
+              "data"=>$data);
+            echo json_encode($results, true);
+
+          } else {
+            echo $rspta['code_error'] .' - '. $rspta['message'] .' '. $rspta['data'];
+          }
+        break;
+
+        case 'mostrar_detalle_paquete_a_medida':
+          $rspta=$pedido->mostrar_paquete_medida($_POST["idpaquete_a_medida"]);
+          //Codificar el resultado utilizando json
+          echo json_encode($rspta, true);
+        break;  
+
 
         default: 
           $rspta = ['status'=>'error_code', 'message'=>'Te has confundido en escribir en el <b>swich.</b>', 'data'=>[]]; echo json_encode($rspta, true); 

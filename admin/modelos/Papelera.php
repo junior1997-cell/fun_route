@@ -660,6 +660,27 @@ class Papelera
       }
     }
 
+    //sql para mostrar los datos de PAQUETE_A_MEDIDA
+    $sql31 = "SELECT idpaquete_a_medida, ocacion_viaje, p_nombre, p_descripcion, presupuesto, created_at, updated_at
+    FROM paquete_a_medida 
+    WHERE estado='0' AND estado_delete=1;";
+    $paquete_a_medida = ejecutarConsultaArray($sql31); if ($paquete_a_medida['status'] == false) { return $paquete_a_medida; }
+
+    if (!empty($paquete_a_medida['data'])) {
+      foreach ($paquete_a_medida['data'] as $key => $value31) {
+        $data[] = array(
+          'nombre_tabla'    => 'paquete_a_medida',
+          'nombre_id_tabla' => 'idpaquete_a_medida',
+          'modulo'          => 'PEDIDOS',
+          'id_tabla'        => $value31['idpaquete_a_medida'],
+          'nombre_archivo'  => 'Viaje a Medida',
+          'descripcion'     => "Cliente: ".$value31['p_nombre']."\n"."Viaje: ".$value31['ocacion_viaje']."\n"."Motivo: ".$value31['p_descripcion'],
+          'created_at'      => $value31['created_at'],
+          'updated_at'      => $value31['updated_at'],
+        );
+      }
+    }
+
 
 
 
@@ -682,7 +703,8 @@ class Papelera
 		if ($recuperar['status'] == false) {  return $recuperar; }
 		
 		//add registro en nuestra bitacora
-		$sql_bit = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('$nombre_tabla','".$id_tabla."','Factura recuperada desde papelera','$this->id_usr_sesion')";
+    $sql_d ="Archivo recuperado desde papelera";
+		$sql_bit = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (1,'$nombre_tabla','$id_tabla','$sql_d','$this->id_usr_sesion')";
 		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }   
 		
 		return $recuperar;
@@ -696,7 +718,8 @@ class Papelera
 		if ( $eliminar['status'] == false) {return $eliminar; }  
 		
 		//add registro en nuestra bitacora
-		$sql = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('$nombre_tabla','$id_tabla','Factura eliminada desde papelera','$this->id_usr_sesion')";
+    $sql_d ="Archivo eliminado desde papelera";
+		$sql = "INSERT INTO bitacora_bd(idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (4,'$nombre_tabla','$id_tabla','$sql_d', '$this->id_usr_sesion')";
 		$bitacora = ejecutarConsulta($sql); if ( $bitacora['status'] == false) {return $bitacora; }  
 		
 		return $eliminar;

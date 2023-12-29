@@ -74,7 +74,7 @@ if (!isset($_SESSION["nombre"])) {
                         </li>
                         <!-- PEDIDO A MEDIDA -->
                         <li class="nav-item">
-                          <a class="nav-link" id="custom-content-detalle-pedido_a_medida-tab" data-toggle="pill" href="#custom-content-detalle-pedido_a_medida" role="tab" aria-controls="custom-content-detalle-pedido_a_medida" aria-selected="false">PEDIDO A MEDIDA</a>
+                          <a class="nav-link" id="custom-content-detalle-pedido-a-medida-tab" data-toggle="pill" href="#custom-content-detalle-pedido-a-medida" role="tab" aria-controls="custom-content-detalle-pedido_a_medida" aria-selected="false">PEDIDO A MEDIDA</a>
                         </li>
                       </ul>
                     </div>
@@ -146,9 +146,33 @@ if (!isset($_SESSION["nombre"])) {
                         </div>
                         <!-- /.tab-panel --> 
 
-                        <div class="tab-pane fade pedido_a_medida" id="custom-content-detalle-pedido_a_medida" role="tabpanel" aria-labelledby="custom-content-detalle-pedido_a_medida-tab">
+                        <div class="tab-pane fade pedido_a_medida" id="custom-content-detalle-pedido-a-medida" role="tabpanel" aria-labelledby="custom-content-detalle-pedido_a_medida-tab">
                           <!-- PEDIDO A MEDIDA -->
-                          <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
+                          <table id="tabla-pedido-a-medida" class="table table-bordered table-striped display" style="width: 100% !important;">
+                            <thead>
+                              <tr>
+                                <th class="text-center">#</th>
+                                <th class="">Acciones</th>
+                                <th class="">Fecha </th>
+                                <th class="">Cliente </th>                              
+                                <th class="">Telefono </th>
+                                <th class="" >Descripción</th>
+                                <th class="">Estado </th>
+                              </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                              <tr>
+                              <th class="text-center">#</th>
+                                <th class="">Acciones</th>
+                                <th class="">Fecha </th>
+                                <th class="">Cliente </th>                              
+                                <th class="">Telefono </th>
+                                <th class="" >Descripción</th>
+                                <th class="">Estado </th>
+                              </tr>
+                            </tfoot>
+                          </table>
                         </div>
                         <!-- /.tab-panel -->                        
                       </div>                     
@@ -258,6 +282,68 @@ if (!isset($_SESSION["nombre"])) {
                             <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
                           </div>
                           <!-- /.tab-panel -->
+                        </div> 
+                      </div>
+                    </div>                                                                
+                    
+                  </div>
+                  <div class="modal-footer justify-content-between btn_footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- MODAL - VER PAQUETE A MEDIDA -->
+            <div class="modal fade" id="modal-ver-paquete-a-medida">
+              <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title titulo_pedido">Paquete a Medida</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span class="text-danger" aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+
+                  <div class="modal-body">
+                    <div class="card card-info card-tabs">
+                      <div class="card-header p-0 pt-1">
+                        <ul class="nav nav-tabs" id="custom-content-detalle-tab" role="tablist">
+                          <!-- DATOS TUORS -->
+                          <li class="nav-item">
+                            <a class="nav-link active" id="custom-content-detalle-datos1_html-tab" data-toggle="pill" href="#custom-content-detalle-datos1_html" role="tab" aria-controls="custom-content-detalle-datos1_html" aria-selected="true">DATOS PERSONALES</a>
+                          </li>
+                          <!-- DATOS TUORS -->
+                          <li class="nav-item">
+                            <a class="nav-link" id="custom-content-detalle-home2_html-tab" data-toggle="pill" href="#custom-content-detalle-home2_html" role="tab" aria-controls="custom-content-detalle-home2_html" aria-selected="true">TOURS</a>
+                          </li>
+                          <!-- OTROS -->
+                          <li class="nav-item">
+                            <a class="nav-link" id="custom-content-detalle-otros3_html-tab" data-toggle="pill" href="#custom-content-detalle-otros3_html" role="tab" aria-controls="custom-content-detalle-otros3_html" aria-selected="false">OTROS</a>
+                          </li>
+                          
+                        </ul>
+                      </div> 
+                      <div class="card-body">
+                        <div class="tab-content" id="custom-content-detalle-tabContent">
+                          <div class="tab-pane fade show active datos1_html" id="custom-content-detalle-datos1_html" role="tabpanel" aria-labelledby="custom-content-detalle-datos1_html-tab">
+                            <!-- DATOS PRINCIPALES --> 
+                            <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
+                          </div>
+                          <!-- /.tab-panel -->
+
+                          <div class="tab-pane fade show home2_html" id="custom-content-detalle-home2_html" role="tabpanel" aria-labelledby="custom-content-detalle-home2_html-tab">
+                            <!-- DATOS PRINCIPALES --> 
+                            <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
+                          </div>
+                          <!-- /.tab-panel -->
+
+                          <div class="tab-pane fade otros3_html" id="custom-content-detalle-otros3_html" role="tabpanel" aria-labelledby="custom-content-detalle-otros3_html-tab">
+                            <!-- OTROS -->                            
+                            <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
+                          </div>
+                          <!-- /.tab-panel --> 
                         </div> 
                       </div>
                     </div>                                                                
