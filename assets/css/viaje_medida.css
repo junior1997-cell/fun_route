@@ -91,6 +91,10 @@ viaj_med {
   margin: 30px auto;
 }
 
+.patito {
+  color:  #ffc700;
+}
+
 .activado {
  background-color: #158fb4;
  color: #fff;
@@ -503,4 +507,109 @@ input[type="checkbox"]:checked:after{
   border-radius: 20px;
   background: #ffffff;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+}
+
+/*!======================FORMULARIO DE CONTACTO==============================!*/
+.formulario_contac {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  display: grid;
+  place-items: center;
+}
+
+.formulario_contac .contactForm {
+  position: relative;
+  display: grid;
+  /* grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); */
+  gap: 30px;
+  padding: 0 10px;
+  width: 90%;
+  height: 100%;
+  /*background: #9cdafa;
+  box-shadow: 1px 9px 20px -5px rgba(0, 0, 0, 0.59);*/
+  border-radius: 30px;
+}
+
+.formulario_contac .contactForm .form {
+  position: relative;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: column;
+  width: 85%;
+  margin-left: 5px;
+}
+
+.formulario_contac .contactForm .form form {
+  width: 100%;
+}
+
+/* Titulo y Descripción*/
+.formulario_contac .contactForm .form .texto h2 {
+  color: #1766a3;
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.formulario_contac .contactForm .form .texto p {
+  color: #0b426c;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/*Cajas de Texto*/
+.formulario_contac .contactForm .form form .inputBox {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+/*Etiquetas e imputs */
+.formulario_contac .contactForm .form form .inputBox label {
+  color: #1766a3;
+  font-weight: 700;
+}
+
+.formulario_contac .contactForm .form form .inputBox input[type="text"],
+.formulario_contac .contactForm .form form .inputBox input[type="email"],
+.formulario_contac .contactForm .form form .inputBox input[type="tel"],
+.formulario_contac .contactForm .form form .inputBox textarea {
+ border: none;
+ background: #cbebfb;
+ padding: 10px;
+ border-radius: 15px;
+ color: #1766a3;
+ resize: none;
+}
+
+.formulario_contac .contactForm .form form .inputBox input[type="text"]:focus,
+.formulario_contac .contactForm .form form .inputBox input[type="email"]:focus,
+.formulario_contac .contactForm .form form .inputBox textarea:focus {
+  outline: 2px solid #1766a3;
+}
+
+.formulario_contac .contactForm .form form input[type="submit"]  {
+  background: #1766a3;
+  display: inline-block;
+  text-align: center;
+  width: 250px;
+  padding: 10px;
+  border-radius: 15px;
+  color: #fff;
+  letter-spacing: 1px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 1px 9px 20px -5px rgba(0, 0, 0, 0.59);
+  transition: 0.3s;
+
+}
+
+/* Botones */
+.wrapper_viaj6 .option_inner {
+  max-width: 100%;
+  border: 2px solid #1766a3;
+  padding: 10px;
+  border-radius: 15px;
+  background: #CBEBFB;
 }
