@@ -1,16 +1,16 @@
 
-function clas_select(id) {
-    if ($(`#dessert-${id}`).is(':checked')) {
-        $(`.contenedor_${id}`).addClass('activado')
-    }else {
-        $(`.contenedor_${id}`).removeClass('activado')
-    }
+function input_check(input, id) { console.log( `Tours-${id}: ${$(input).is(':checked')}`);
+  if ($(input).is(':checked')) {
+    $(`.tours-${id}`).addClass('bg-color-408c98 text-white')
+  } else {
+    $(`.tours-${id}`).removeClass('bg-color-408c98 text-white')
+  }
+
+  
+  
 }
 
-function clas_selector(id) {
-    if ($(`#optionF-${id}`).is(':checked')) {
-        $(`.selection_${id}`).addClass('active2')
-    }else {
-        $(`.selection_${id}`).removeClass('active2')
-    }
+function input_radio(input_all, input_id) {
+  $(input_all).removeClass('bg-color-408c98 text-white');
+  $(input_id).addClass('bg-color-408c98 text-white');  
 }
