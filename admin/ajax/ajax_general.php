@@ -16,6 +16,8 @@
     require_once "../modelos/Ajax_general.php";
     require_once "../modelos/Tours.php";
     require_once "../modelos/Venta_tours.php";
+    require_once "../modelos/Venta_paquete.php";
+    require_once "../modelos/Paquete.php";
     
     
     $ajax_general   = new Ajax_general($_SESSION['idusuario']);
@@ -279,6 +281,52 @@
                 '<img class="profile-user-img img-responsive img-circle cursor-pointer" src="' . $img_url . '" alt="user image" onerror="' . $imagen_error . '" onclick="ver_img_producto(\'' . $img_url . '\', \''.encodeCadenaHtml($reg->nombre).'\');">'.
                 '<span class="username"><p class="mb-0" >' . $reg->nombre . '</p></span>
                 <span class="description"><b>Dcto: </b>' . floatval($reg->porcentaje_descuento) . '%<b> | Tipo: </b>' . $reg->tipo_tours . '</span>'.
+              '</div>',              
+              "3" => $reg->costo ,
+              "4" => '<textarea class="form-control textarea_datatable" cols="30" rows="1">' . $reg->descripcion . '</textarea>'. $toltip,
+            ];
+          }
+  
+          $results = [
+            "sEcho" => 1, //Información para el datatables
+            "iTotalRecords" => count($datas), //enviamos el total registros al datatable
+            "iTotalDisplayRecords" => count($datas), //enviamos el total registros a visualizar
+            "aaData" => $datas,
+          ];
+          echo json_encode($results, true);
+        } else {
+          echo $rspta['code_error'] .' - '. $rspta['message'] .' '. $rspta['data'];
+        }
+    
+      break;
+
+      /* ══════════════════════════════════════ P R O D U C T O - P A Q U E T E ══════════════════════════════════════ */
+      case 'mostrar_producto_paquete':
+        $rspta=$ajax_general->mostrar_producto_paquete($_POST["idpaquete"]);
+        //Codificar el resultado utilizando json
+        echo json_encode($rspta, true);
+      break;
+
+      case 'tblaProductoPaquete':
+          
+        $rspta = $ajax_general->tblaProductoPaquete(); 
+
+        $datas = []; $imagen_error = "this.src='../dist/docs/paquete/perfil/paquete-sin-foto.jpg'";
+
+        if ($rspta['status'] == true) {
+
+          while ($reg = $rspta['data']->fetch_object()) {
+
+            $img_url = empty($reg->imagen) ? '../dist/docs/paquete/perfil/paquete-sin-foto.jpg' :'../dist/docs/paquete/perfil/' . $reg->imagen ;           
+
+            $datas[] = [
+              "0" => '<button class="btn btn-warning mr-1 px-1 py-1" onclick="agregarDetalleComprobante(' . $reg->idpaquete . ', false)" data-toggle="tooltip" data-original-title="Agregar continuo"><span class="fa fa-plus"></span></button>
+              <button class="btn btn-success px-1 py-1" onclick="agregarDetalleComprobante(' . $reg->idpaquete . ', true)" data-toggle="tooltip" data-original-title="Agregar individual"><i class="fa-solid fa-list-ol"></i></button>',
+              "1" => zero_fill($reg->idpaquete, 5) ,
+              "2" => '<div class="user-block w-250px">'.
+                '<img class="profile-user-img img-responsive img-circle cursor-pointer" src="' . $img_url . '" alt="user image" onerror="' . $imagen_error . '" onclick="ver_img_producto(\'' . $img_url . '\', \''.encodeCadenaHtml($reg->nombre).'\');">'.
+                '<span class="username"><p class="mb-0" >' . $reg->nombre . '</p></span>
+                <span class="description"><b>Dcto: </b>' . floatval($reg->porcentaje_descuento) . '%<b> | Estado: </b>' ."disponible".'</span>'.
               '</div>',              
               "3" => $reg->costo ,
               "4" => '<textarea class="form-control textarea_datatable" cols="30" rows="1">' . $reg->descripcion . '</textarea>'. $toltip,

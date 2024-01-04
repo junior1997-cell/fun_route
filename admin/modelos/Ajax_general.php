@@ -170,6 +170,23 @@
       return ejecutarConsulta($sql);
     }
 
+    /* ══════════════════════════════════════ P R O D U C T O   P A Q U E T E ══════════════════════════════════════ */
+    //funcion para mostrar registros de prosuctos
+    public function mostrar_producto_paquete($idpaquete) {
+      $sql = "SELECT idpaquete, nombre, descripcion, imagen, incluye, no_incluye, recomendaciones, alojamiento, 
+      mapa, costo, estado_descuento, porcentaje_descuento, monto_descuento
+      FROM paquete 
+      WHERE estado='1' and estado_delete='1' AND idpaquete = '$idpaquete';";
+      return ejecutarConsultaSimpleFila($sql);
+    }
+    //funcion para mostrar registros de prosuctos
+    public function tblaProductoPaquete() {
+      $sql = "SELECT idpaquete, alojamiento, nombre,  descripcion,  imagen,  costo,  estado_descuento,  mapa, porcentaje_descuento
+      FROM paquete 
+      WHERE  estado='1' and  estado_delete='1';";
+      return ejecutarConsulta($sql);
+    }
+
     /* ══════════════════════════════════════ S E R V i C I O S  M A Q U I N A RI A ════════════════════════════ */
     public function select2TipoComprobante() {
       $sql = "SELECT idsunat_correlacion_comprobante as id, nombre FROM sunat_correlacion_comprobante WHERE estado ='1' AND estado_delete = '1' AND idsunat_correlacion_comprobante > 1";

@@ -8,12 +8,12 @@ var tabla_detalle_compra_x_proveedor;
 
 var tablamateriales;
 
-var tabla_pago_venta;
+var tabla_venta_paquete_pago;
 
 var array_doc = [];
 var host = window.location.host == 'localhost'? `http://localhost/fun_route/admin/dist/docs/compra_insumo/comprobante_compra/` : `${window.location.origin}/dist/docs/compra_insumo/comprobante_compra/` ;
 
-var array_data_venta = [];
+var array_data_venta_paquete = [];
 
 //Función que se ejecuta al inicio
 function init() {
@@ -35,11 +35,11 @@ function init() {
 
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
 
-  $("#guardar_registro_ventas").on("click", function (e) {  $("#submit-form-ventas").submit(); });
+  $("#guardar_registro_ventas").on("click", function (e) {  $("#submit-form-ventas-paquete").submit(); });
 
   $("#guardar_registro_proveedor").on("click", function (e) { $("#submit-form-proveedor").submit(); });
 
-  $("#guardar_registro_pago_venta").on("click", function (e) {  $("#submit-form-pago-venta").submit(); });
+  $("#guardar_registro_venta_paquete_pago").on("click", function (e) {  $("#submit-form-pago-venta").submit(); });
 
   $("#guardar_registro_comprobante_compra").on("click", function (e) {  $("#submit-form-comprobante-compra").submit();  });  
 
@@ -166,10 +166,10 @@ function table_show_hide(flag) {
     $("#btn-pagar").hide();
     $("#guardar_registro_ventas").hide();  
     
-    $("#div-tabla-venta").show();
-    $("#div-tabla-factura-por-proveedor").hide();
-    $("#div-form-agregar-ventas").hide();  
-    $("#div-tabla-pago-ventas").hide();
+    $("#div-tabla-venta-paquete").show();
+    $("#div-tabla-factura-por-proveedor-paquete").hide();
+    $("#div-form-agregar-ventas-paquete").hide();  
+    $("#div-tabla-pago-ventas-paquete").hide();
 
     limpiar_form_compra();
     limpiar_form_proveedor();
@@ -181,11 +181,11 @@ function table_show_hide(flag) {
     $("#btn-pagar").hide();
     $("#guardar_registro_ventas").hide();  
     
-    $("#div-tabla-venta").hide();
-    $("#div-tabla-factura-por-proveedor").hide();
-    $("#div-form-agregar-ventas").show();  
-    $("#div-tabla-pago-ventas").hide();  
-    array_data_venta = [];   
+    $("#div-tabla-venta-paquete").hide();
+    $("#div-tabla-factura-por-proveedor-paquete").hide();
+    $("#div-form-agregar-ventas-paquete").show();  
+    $("#div-tabla-pago-ventas-paquete").hide();  
+    array_data_venta_paquete = [];   
   
   // tabla facturas por proveedor
   } else if ( flag == 3 ) {
@@ -195,10 +195,10 @@ function table_show_hide(flag) {
     $("#btn-pagar").hide();
     $("#guardar_registro_ventas").hide();  
     
-    $("#div-tabla-venta").hide();
-    $("#div-tabla-factura-por-proveedor").show();
-    $("#div-form-agregar-ventas").hide();  
-    $("#div-tabla-pago-ventas").hide();
+    $("#div-tabla-venta-paquete").hide();
+    $("#div-tabla-factura-por-proveedor-paquete").show();
+    $("#div-form-agregar-ventas-paquete").hide();  
+    $("#div-tabla-pago-ventas-paquete").hide();
   // tabla pagos
   } else if ( flag == 4 ) {
     $("#btn-regresar").show();
@@ -206,17 +206,17 @@ function table_show_hide(flag) {
     $("#btn-pagar").show();
     $("#guardar_registro_ventas").hide();  
     
-    $("#div-tabla-venta").hide();
-    $("#div-tabla-factura-por-proveedor").hide();
-    $("#div-form-agregar-ventas").hide();  
-    $("#div-tabla-pago-ventas").show();    
+    $("#div-tabla-venta-paquete").hide();
+    $("#div-tabla-factura-por-proveedor-paquete").hide();
+    $("#div-form-agregar-ventas-paquete").hide();  
+    $("#div-tabla-pago-ventas-paquete").show();    
   }
 }
 
 //TABLA - ventas
 function tbla_principal(fecha_1, fecha_2, id_proveedor, comprobante) {
   //console.log(idproyecto);
-  tabla_venta_producto = $("#tabla-venta").dataTable({
+  tabla_venta_producto = $("#tabla-venta-paquete").dataTable({
     responsive: true, 
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]], //mostramos el menú de registros a revisar
     aProcessing: true, //Activamos el procesamiento del datatables
@@ -230,7 +230,7 @@ function tbla_principal(fecha_1, fecha_2, id_proveedor, comprobante) {
       { extend: "colvis", text: `Columnas`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
     ],
     ajax: {
-      url: `../ajax/venta_tours.php?op=tbla_principal&fecha_1=${fecha_1}&fecha_2=${fecha_2}&id_proveedor=${id_proveedor}&comprobante=${comprobante}`,
+      url: `../ajax/venta_paquete.php?op=tbla_principal&fecha_1=${fecha_1}&fecha_2=${fecha_2}&id_proveedor=${id_proveedor}&comprobante=${comprobante}`,
       type: "get",
       dataType: "json",
       error: function (e) {
@@ -291,7 +291,7 @@ function tbla_principal(fecha_1, fecha_2, id_proveedor, comprobante) {
       { extend: "colvis", text: `Columnas`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
     ],
     ajax: {
-      url: "../ajax/venta_tours.php?op=listar_compra_x_porveedor",
+      url: "../ajax/venta_paquete.php?op=listar_compra_x_porveedor",
       type: "get",
       dataType: "json",
       error: function (e) {
@@ -344,7 +344,7 @@ function listar_facuras_proveedor(idcliente) {
       { extend: "colvis", text: `Columnas`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
     ],
     ajax: {
-      url: "../ajax/venta_tours.php?op=tabla_detalle_compra_x_porveedor&idcliente=" + idcliente,
+      url: "../ajax/venta_paquete.php?op=tabla_detalle_compra_x_porveedor&idcliente=" + idcliente,
       type: "get",
       dataType: "json",
       error: function (e) {
@@ -365,7 +365,7 @@ function listar_facuras_proveedor(idcliente) {
 //Función para guardar o editar - ventas
 function guardar_y_editar_ventas(e) {
   // e.preventDefault(); //No se activará la acción predeterminada del evento
-  var formData = new FormData($("#form-ventas")[0]);  
+  var formData = new FormData($("#form-ventas-paquete")[0]);  
 
   Swal.fire({
     title: "¿Está seguro que deseas guardar esta venta?",
@@ -376,7 +376,7 @@ function guardar_y_editar_ventas(e) {
     cancelButtonColor: "#d33",
     confirmButtonText: "Si, Guardar!",
     preConfirm: (input) => {
-      return fetch("../ajax/venta_tours.php?op=guardar_y_editar_venta", {
+      return fetch("../ajax/venta_paquete.php?op=guardar_y_editar_venta", {
         method: 'POST', // or 'PUT'
         body: formData, // data can be `string` or {object}!        
       }).then(response => {
@@ -410,8 +410,8 @@ function eliminar_venta(idventa_producto, nombre) {
   $(".tooltip").removeClass("show").addClass("hidde");
 
   crud_eliminar_papelera(
-    "../ajax/venta_tours.php?op=papelera_venta",
-    "../ajax/venta_tours.php?op=eliminar_venta", 
+    "../ajax/venta_paquete.php?op=papelera_venta",
+    "../ajax/venta_paquete.php?op=eliminar_venta", 
     idventa_producto, 
     "!Elija una opción¡", 
     `<b class="text-danger">${nombre}</b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
@@ -445,7 +445,7 @@ function doc1_eliminar() {
 
 function limpiar_form_pago_compra() {  
 
-  $("#idpago_venta_producto_pv").val(""); 
+  $("#idventa_paquete_pago_producto_pv").val(""); 
   $("#forma_pago_pv").val("null").trigger("change"); 
   $("#fecha_pago_pv").val(""); 
   $("#monto_pv").val(""); 
@@ -463,28 +463,28 @@ function limpiar_form_pago_compra() {
   $(".error.invalid-feedback").remove();
 }
 
-function tbla_pago_venta( idventa_tours, total_compra, total_pago, cliente) {
+function tbla_venta_paquete_pago( idventa_paquete, total_compra, total_pago, cliente) {
 
   table_show_hide(4);
-  $("#idventa_producto_pv").val(idventa_tours);
+  $("#idventa_producto_pv").val(idventa_paquete);
   $("#total_de_venta").html(formato_miles(total_compra));
   $(".h1-nombre-cliente").html(` - <b>${cliente}</b>` );
 
-  tabla_pago_venta = $("#tabla-pagos-ventas").dataTable({
+  tabla_venta_paquete_pago = $("#tabla-pagos-ventas").dataTable({
     responsive: true, 
     lengthMenu: [[ -1, 5, 10, 25, 75, 100, 200,], ["Todos", 5, 10, 25, 75, 100, 200, ]], //mostramos el menú de registros a revisar
     aProcessing: true, //Activamos el procesamiento del datatables
     aServerSide: true, //Paginación y filtrado realizados por el servidor
     dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
     buttons: [      
-      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i>', className: "btn bg-gradient-info", action: function ( e, dt, node, config ) { tabla_pago_venta.ajax.reload(null, false); toastr_success('Exito!!', 'Actualizando tabla', 400); } },
+      { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i>', className: "btn bg-gradient-info", action: function ( e, dt, node, config ) { tabla_venta_paquete_pago.ajax.reload(null, false); toastr_success('Exito!!', 'Actualizando tabla', 400); } },
       { extend: 'copyHtml5', exportOptions: { columns: [0,2,3,4,5], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray", footer: true,  }, 
       { extend: 'excelHtml5', exportOptions: { columns: [0,2,3,4,5], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success", footer: true,  }, 
       { extend: 'pdfHtml5', exportOptions: { columns: [0,2,3,4,5], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
       { extend: "colvis", text: `Columnas`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
     ],
     ajax: {
-      url: `../ajax/venta_tours.php?op=tabla_pago_venta&idventa_tours=${idventa_tours}`,
+      url: `../ajax/venta_paquete.php?op=tabla_venta_paquete_pago&idventa_paquete=${idventa_paquete}`,
       type: "get",
       dataType: "json",
       error: function (e) {
@@ -519,19 +519,19 @@ function tbla_pago_venta( idventa_tours, total_compra, total_pago, cliente) {
 }
 
 //Función para eliminar registros
-function eliminar_pago_venta(idpago_venta_producto, nombre) {
+function eliminar_venta_paquete_pago(idventa_paquete_pago_producto, nombre) {
 
   $(".tooltip").removeClass("show").addClass("hidde");
 
   crud_eliminar_papelera(
-    "../ajax/venta_tours.php?op=papelera_pago_venta",
-    "../ajax/venta_tours.php?op=eliminar_pago_venta", 
-    idpago_venta_producto, 
+    "../ajax/venta_paquete.php?op=papelera_venta_paquete_pago",
+    "../ajax/venta_paquete.php?op=eliminar_venta_paquete_pago", 
+    idventa_paquete_pago_producto, 
     "!Elija una opción¡", 
     `<b class="text-danger"><del>${nombre}</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
     function(){ sw_success('♻️ Papelera! ♻️', "Tu compra ha sido reciclado." ) }, 
     function(){ sw_success('Eliminado!', 'Tu compra ha sido Eliminado.' ) }, 
-    function(){ $("#total_depositos").html('0.00'); tabla_pago_venta.ajax.reload(null, false); },
+    function(){ $("#total_depositos").html('0.00'); tabla_venta_paquete_pago.ajax.reload(null, false); },
     function(){ tabla_venta_x_proveedor.ajax.reload(null, false); tabla_venta_producto.ajax.reload(null, false); },
     false, 
     false,
@@ -543,13 +543,13 @@ function calcular_deuda() {
   var monto_actual = $('#monto_pv').val() == '' || $('#monto_pv').val() == null ? 0 : quitar_formato_miles($('#monto_pv').val());
   var monto_pagados = $('#total_depositos').text() == '' || $('#total_depositos').text() == null ? 0 : quitar_formato_miles($('#total_depositos').text());
   var monto_de_compra = $('#total_de_venta').text() == '' || $('#total_de_venta').text() == null ? 0 : quitar_formato_miles($('#total_de_venta').text());
-  var idpago_venta_producto_pv = $('#idpago_venta_producto_pv').val();
+  var idventa_paquete_pago_producto_pv = $('#idventa_paquete_pago_producto_pv').val();
 
   var monto_deuda = 0;
-  if (idpago_venta_producto_pv == ''  || idpago_venta_producto_pv == null) {
+  if (idventa_paquete_pago_producto_pv == ''  || idventa_paquete_pago_producto_pv == null) {
     monto_deuda = parseFloat(monto_de_compra) - parseFloat(monto_pagados) - parseFloat(monto_actual);
   } else {
-    var btn_monto_pagados = $(`#btn_monto_pagado_${idpago_venta_producto_pv}`).attr("monto_pagado");
+    var btn_monto_pagados = $(`#btn_monto_pagado_${idventa_paquete_pago_producto_pv}`).attr("monto_pagado");
     monto_deuda = parseFloat(monto_de_compra) - (parseFloat(monto_pagados) - parseFloat(btn_monto_pagados)) - parseFloat(monto_actual) ;
   }  
 
@@ -565,12 +565,12 @@ function calcular_deuda() {
 }
 
 //guardar cliente
-function guardar_y_editar_pago_venta(e) {
+function guardar_y_editar_venta_paquete_pago(e) {
   // e.preventDefault(); //No se activará la acción predeterminada del evento
   var formData = new FormData($("#form-pago-venta")[0]);
 
   $.ajax({
-    url: "../ajax/venta_tours.php?op=guardar_y_editar_pago_venta",
+    url: "../ajax/venta_paquete.php?op=guardar_y_editar_venta_paquete_pago",
     type: "POST",
     data: formData,
     contentType: false,
@@ -579,7 +579,7 @@ function guardar_y_editar_pago_venta(e) {
       e = JSON.parse(e);
       try {
         if (e.status == true) {          
-          if (tabla_pago_venta) { tabla_pago_venta.ajax.reload(null, false); } 
+          if (tabla_venta_paquete_pago) { tabla_venta_paquete_pago.ajax.reload(null, false); } 
           if (tabla_venta_x_proveedor) { tabla_venta_x_proveedor.ajax.reload(null, false); }     
           if (tabla_venta_producto) { tabla_venta_producto.ajax.reload(null, false); } 
                 
@@ -592,7 +592,7 @@ function guardar_y_editar_pago_venta(e) {
         }
       } catch (err) { console.log('Error: ', err.message); toastr_error("Error temporal!!",'Puede intentalo mas tarde, o comuniquese con:<br> <i><a href="tel:+51921305769" >921-305-769</a></i> ─ <i><a href="tel:+51921487276" >921-487-276</a></i>', 700); }       
       
-      $("#guardar_registro_pago_venta").html('Guardar Cambios').removeClass('disabled');
+      $("#guardar_registro_venta_paquete_pago").html('Guardar Cambios').removeClass('disabled');
     },
     xhr: function () {
       var xhr = new window.XMLHttpRequest();
@@ -600,26 +600,26 @@ function guardar_y_editar_pago_venta(e) {
         if (evt.lengthComputable) {
           var percentComplete = (evt.loaded / evt.total)*100;
           /*console.log(percentComplete + '%');*/
-          $("#barra_progress_pago_venta").css({"width": percentComplete+'%'});
-          $("#barra_progress_pago_venta").text(percentComplete.toFixed(2)+" %");
+          $("#barra_progress_venta_paquete_pago").css({"width": percentComplete+'%'});
+          $("#barra_progress_venta_paquete_pago").text(percentComplete.toFixed(2)+" %");
         }
       }, false);
       return xhr;
     },
     beforeSend: function () {
-      $("#guardar_registro_pago_venta").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
-      $("#barra_progress_pago_venta").css({ width: "0%",  });
-      $("#barra_progress_pago_venta").text("0%").addClass('progress-bar-striped progress-bar-animated');
+      $("#guardar_registro_venta_paquete_pago").html('<i class="fas fa-spinner fa-pulse fa-lg"></i>').addClass('disabled');
+      $("#barra_progress_venta_paquete_pago").css({ width: "0%",  });
+      $("#barra_progress_venta_paquete_pago").text("0%").addClass('progress-bar-striped progress-bar-animated');
     },
     complete: function () {
-      $("#barra_progress_pago_venta").css({ width: "0%", });
-      $("#barra_progress_pago_venta").text("0%").removeClass('progress-bar-striped progress-bar-animated');
+      $("#barra_progress_venta_paquete_pago").css({ width: "0%", });
+      $("#barra_progress_venta_paquete_pago").text("0%").removeClass('progress-bar-striped progress-bar-animated');
     },
     error: function (jqXhr) { ver_errores(jqXhr); },
   });
 }
 
-function mostrar_editar_pago(idpago_venta) {
+function mostrar_editar_pago(idventa_paquete_pago) {
   $(".tooltip").remove();
   $("#cargando-7-fomulario").hide();
   $("#cargando-8-fomulario").show();
@@ -628,13 +628,13 @@ function mostrar_editar_pago(idpago_venta) {
 
   $("#modal-agregar-pago-venta").modal("show")
 
-  $.post("../ajax/venta_tours.php?op=mostrar_editar_pago", { 'idpago_venta': idpago_venta }, function (e, status) {
+  $.post("../ajax/venta_paquete.php?op=mostrar_editar_pago", { 'idventa_paquete_pago': idventa_paquete_pago }, function (e, status) {
 
     e = JSON.parse(e);  console.log(e);  
 
     if (e.status == true) {
 
-      $("#idpago_venta_producto_pv").val(e.data.idpago_venta_producto);
+      $("#idventa_paquete_pago_producto_pv").val(e.data.idventa_paquete_pago_producto);
       $("#idventa_producto_pv").val(e.data.idventa_producto); 
       $("#forma_pago_pv").val(e.data.forma_pago).trigger("change");
       $("#fecha_pago_pv").val(e.data.fecha_pago); 
@@ -674,7 +674,7 @@ function download_no_multimple(id_compra, cont, nombre_doc) {
   $(`.descarga_compra_${id_compra}`).html('<i class="fas fa-spinner fa-pulse"></i>');
   //console.log(id_compra, nombre_doc);
   var cant_download_ok = 0; var cant_download_error = 0;
-  $.post("../ajax/venta_tours.php?op=ver_comprobante_compra", { 'id_compra': id_compra }, function (e, textStatus, jqXHR) {
+  $.post("../ajax/venta_paquete.php?op=ver_comprobante_compra", { 'id_compra': id_compra }, function (e, textStatus, jqXHR) {
     e = JSON.parse(e); console.log(e);
     if (e.status == true) {
       e.data.forEach((val, index) => {
@@ -705,7 +705,7 @@ function add_remove_comprobante(id_compra, doc, factura_name) {
   $('.cargando_check').removeClass('hidden');
 
   if ($(`#check_descarga_${id_compra}`).is(':checked')) {
-    $.post("../ajax/venta_tours.php?op=ver_comprobante_compra", { 'id_compra': id_compra }, function (e, textStatus, jqXHR) {
+    $.post("../ajax/venta_paquete.php?op=ver_comprobante_compra", { 'id_compra': id_compra }, function (e, textStatus, jqXHR) {
       e = JSON.parse(e); console.log(e);
       if (e.status == true) {
         var cont_docs_ok = 0; var cont_docs_error = 0;
@@ -742,7 +742,7 @@ function add_remove_comprobante(id_compra, doc, factura_name) {
     }).fail( function(e) { ver_errores(e); } );
     
   } else {
-    $.post("../ajax/venta_tours.php?op=ver_comprobante_compra", { 'id_compra': id_compra }, function (e, textStatus, jqXHR) {
+    $.post("../ajax/venta_paquete.php?op=ver_comprobante_compra", { 'id_compra': id_compra }, function (e, textStatus, jqXHR) {
       e = JSON.parse(e); console.log(e);
       if (e.status == true) {
         var cont_doc = 0;
@@ -863,7 +863,7 @@ function guardar_proveedor(e) {
   var formData = new FormData($("#form-proveedor")[0]);
 
   $.ajax({
-    url: "../ajax/venta_tours.php?op=guardar_proveedor",
+    url: "../ajax/venta_paquete.php?op=guardar_proveedor",
     type: "POST",
     data: formData,
     contentType: false,
@@ -921,7 +921,7 @@ function mostrar_para_editar_proveedor() {
   $('#modal-agregar-proveedor').modal('show');
   $(".tooltip").remove();
 
-  $.post("../ajax/venta_tours.php?op=mostrar_editar_proveedor", { 'idpersona': $('#idcliente').select2("val") }, function (e, status) {
+  $.post("../ajax/venta_paquete.php?op=mostrar_editar_proveedor", { 'idpersona': $('#idcliente').select2("val") }, function (e, status) {
 
     e = JSON.parse(e);  console.log(e);
 
@@ -1018,7 +1018,7 @@ function listarmateriales() {
       { text: '<i class="fa-solid fa-arrows-rotate"></i>', action: function ( e, dt, node, config ) { tablamateriales.ajax.reload(); toastr_success('Exito!!', 'Actualizando tabla', 400); } }
     ],
     ajax: {
-      url: "../ajax/ajax_general.php?op=tblaProductoTours",
+      url: "../ajax/ajax_general.php?op=tblaProductoPaquete",
       type: "get",
       dataType: "json",
       error: function (e) {
@@ -1053,7 +1053,7 @@ function mostrar_productos(idproducto, cont) {
 
   $("#modal-agregar-productos").modal("show");
 
-  $.post("../ajax/venta_tours.php?op=mostrar_productos", { 'idproducto_pro': idproducto }, function (e, status) {
+  $.post("../ajax/venta_paquete.php?op=mostrar_productos", { 'idproducto_pro': idproducto }, function (e, status) {
     
     e = JSON.parse(e); console.log(e);    
 
@@ -1090,7 +1090,7 @@ function guardar_y_editar_productos(e) {
   var formData = new FormData($("#form-producto")[0]);
 
   $.ajax({
-    url: "../ajax/venta_tours.php?op=guardar_y_editar_productos",
+    url: "../ajax/venta_paquete.php?op=guardar_y_editar_productos",
     type: "POST",
     data: formData,
     contentType: false,
@@ -1163,7 +1163,7 @@ $(function () {
   
   $('#forma_pago_pago').on('change', function() { $(this).trigger('blur'); });;
 
-  $("#form-ventas").validate({
+  $("#form-ventas-paquete").validate({
     ignore: '.select2-input, .select2-focusser',
     rules: {
       idcliente:          { required: true },
@@ -1320,7 +1320,7 @@ $(function () {
     },
 
     submitHandler: function (e) {
-      guardar_y_editar_pago_venta(e);
+      guardar_y_editar_venta_paquete_pago(e);
     },
   });
 

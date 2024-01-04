@@ -29,17 +29,17 @@
           <?php
           require 'nav.php';
           require 'aside.php';
-          if ($_SESSION['venta_tours']==1){
-            require 'endesarrollo.php';
+          if ($_SESSION['venta_paquete']==1){
+            //require 'endesarrollo.php';
             ?>
             <!--Contenido-->
-            <div class="content-wrapper" style="display: none;">
+            <div class="content-wrapper">
               <!-- Content Header (Page header) -->
               <div class="content-header">
                 <div class="container-fluid">
                   <div class="row mb-2">
                     <div class="col-sm-6">
-                      <h1 class="m-0"><i class="nav-icon fas fa-cart-plus"></i> Ventas de tours <span class="h1-nombre-cliente">- aumenta tus ingresos</span>  </h1>
+                      <h1 class="m-0"><i class="nav-icon fas fa-cart-plus"></i> Ventas de Paquetes <span class="h1-nombre-cliente">- aumenta tus ingresos</span>  </h1>
                     </div>
                     <!-- /.col -->
                     <div class="col-sm-6">
@@ -81,7 +81,7 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                           <!-- TABLA - ventas -->
-                          <div id="div-tabla-venta">
+                          <div id="div-tabla-venta-paquete">
                             <h5><b>Lista de ingresos</b></h5>
                             <!-- filtros -->
                             <div class="filtros-inputs row mb-4">
@@ -138,7 +138,7 @@
                             </div>
                             <!-- /.filtro -->
                             
-                            <table id="tabla-venta" class="table table-bordered table-striped display" style="width: 100% !important;">
+                            <table id="tabla-venta-paquete" class="table table-bordered table-striped display" style="width: 100% !important;">
                               <thead>
                                 <tr>
                                   <th colspan="16" class="cargando text-center bg-danger"><i class="fas fa-spinner fa-pulse fa-sm"></i> Buscando... </th>
@@ -209,10 +209,10 @@
                                 </tr>
                               </tfoot>
                             </table>
-                          </div>
+                          </div> 
 
                           <!-- TABLA - ventas por cliente -->
-                          <div id="div-tabla-factura-por-proveedor" style="display: none;">
+                          <div id="div-tabla-factura-por-proveedor-paquete" style="display: none;">
                             <h5><b>Lista de ventas Por Facturas</b></h5>
                             <table id="detalles-tabla-compra-prov" class="table table-bordered table-striped display" style="width: 100% !important;">
                               <thead>
@@ -242,14 +242,14 @@
                           </div>
 
                           <!-- FORM - AGREGAR VENTA-->
-                          <div id="div-form-agregar-ventas" style="display: none;">
+                          <div id="div-form-agregar-ventas-paquete" style="display: none;">
                             <div class="modal-body p-0px mb-2">
                               <!-- form start -->
-                              <form id="form-ventas" name="form-ventas" method="POST">
+                              <form id="form-ventas-paquete" name="form-ventas-paquete" method="POST">
                                  
                                 <div class="row" id="cargando-1-fomulario">
                                   <!-- id compra_producto  -->
-                                  <input type="hidden" name="idventa_tours" id="idventa_tours" />
+                                  <input type="hidden" name="idventa_paquete" id="idventa_paquete" />
                                   <input type="hidden" name="num_doc" id="num_doc" /> 
 
                                   <!-- no se usa -->
@@ -450,7 +450,7 @@
                                   </div>
                                 </div>                                 
                                  
-                                <button type="submit" style="display: none;" id="submit-form-ventas">Submit</button>
+                                <button type="submit" style="display: none;" id="submit-form-ventas-paquete">Submit</button>
                               </form>
                             </div>
 
@@ -461,7 +461,7 @@
                           </div>
 
                           <!-- TABLA - PAGOS VENTAS -->
-                          <div id="div-tabla-pago-ventas" style="display: none;">                            
+                          <div id="div-tabla-pago-ventas-paquete" style="display: none;">                            
                             
                             <div class="text-center">
                               <h4>Total a pagar: <b id="total_de_venta"></b></h4>
@@ -736,7 +736,7 @@
                             <div class="card-body">
                               <div class="row" id="cargando-3-fomulario">
                                 <!-- idpago_compra_grano -->
-                                <input type="hidden" name="idpago_venta_producto_pv" id="idpago_venta_producto_pv" />
+                                <input type="hidden" name="idventa_paquete_pago_producto_pv" id="idventa_paquete_pago_producto_pv" />
                                 <input type="hidden" name="idventa_producto_pv" id="idventa_producto_pv" />
 
                                 <!-- Fecha 1 onchange="calculando_cantidad(); restrigir_fecha_ant();" onkeyup="calculando_cantidad(); -->
@@ -804,8 +804,8 @@
 
                                 <!-- barprogress -->
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px;">
-                                  <div class="progress" id="barra_progress_pago_venta_div">
-                                    <div id="barra_progress_pago_venta" class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%;">
+                                  <div class="progress" id="barra_progress_venta_paquete_pago_div">
+                                    <div id="barra_progress_venta_paquete_pago" class="progress-bar" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 0%;">
                                       0%
                                     </div>
                                   </div>
@@ -825,8 +825,8 @@
                           </form>
                         </div>
                         <div class="modal-footer justify-content-between">
-                          <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="limpiar_form_pago_venta();">Close</button>
-                          <button type="submit" class="btn btn-success" id="guardar_registro_pago_venta">Guardar Cambios</button>
+                          <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="limpiar_form_venta_paquete_pago();">Close</button>
+                          <button type="submit" class="btn btn-success" id="guardar_registro_venta_paquete_pago">Guardar Cambios</button>
                         </div>
                       </div>
                     </div>
@@ -998,7 +998,7 @@
         <script src="../plugins/FileSaver/dist/FileSaver.js"></script>
         
         <script type="text/javascript" src="scripts/venta_paquete.js"></script>         
-        <!-- <script type="text/javascript" src="scripts/js_venta_tours.js"></script>          -->
+        <script type="text/javascript" src="scripts/js_venta_paquete.js"></script>
 
         <script> $(function () { $('[data-toggle="tooltip"]').tooltip(); }); </script>
         
