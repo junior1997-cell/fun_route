@@ -102,8 +102,8 @@
     // ::::::::::::::::::::::::::::::::::::::::::: P A Q U E T E :::::::::::::::::::::::::::::::::::::::::::
 
     public function tbla_principal_paquete()  {
-      $sql="SELECT pd.idpedido_paquete, pd.idpaquete, pd.nombre, pd.correo, pd.telefono, pd.descripcion as descripcionpedido, pd.estado_visto, pd.estado_vendido, pd.created_at,  
-      p.nombre as paquete, p.cant_dias,p.cant_noches, p.descripcion , p.imagen as imgpaquete 
+      $sql="SELECT pd.idpedido_paquete, pd.idpaquete, pd.nombre, pd.correo, pd.telefono, pd.descripcion as descripcionpedido, pd.estado_visto, pd.estado_vendido, 
+      pd.created_at, p.nombre as paquete, p.cant_dias,p.cant_noches, p.descripcion , p.imagen as imgpaquete 
       FROM pedido_paquete AS pd, paquete AS p
       WHERE pd.idpaquete = p.idpaquete AND pd.estado=1 AND pd.estado_delete=1 ;";
       return ejecutarConsultaArray($sql);		
@@ -218,46 +218,36 @@
 
 
 
-    // ::::::::::::::::::::::::::::::::::::::::::: P A Q U E T E :::::::::::::::::::::::::::::::::::::::::::
+    // ::::::::::::::::::::::::::::::::::::::::::: P A Q U E T E   A   M E D I D A  :::::::::::::::::::::::::::::::::::::::::::
 
     public function tbla_principal_a_medida()  {
-      $sql="SELECT idpaquete_a_medida, tipo_viaje, ocacion_viaje, presupuesto, tipo_hotel, p_nombre, p_celular, p_correo, p_descripcion, estado_visto, estado_vendido, estado, estado_delete, created_at
+      $sql="SELECT idpaquete_a_medida, tipo_viaje, ocacion_viaje, presupuesto, tipo_hotel, p_nombre, p_celular, p_correo, p_descripcion, estado_visto, estado_vendido, 
+      estado, estado_delete, created_at
       FROM paquete_a_medida 
-      WHERE estado=1 AND estado_delete=1 ;";
+      WHERE estado=1 AND estado_delete=1 ORDER BY idpaquete_a_medida DESC ;";
       return ejecutarConsultaArray($sql);		
     }
 
-    public function mostrar_paquete_medida($idpaquete_a_medida)  {
+    public function mostrar_paquete_medida($id)  {     
 
-      $sql = "SELECT lc.idlugar_a_conocer, lc.idpaquete_a_medida, pm.p_nombre, pm.tipo_viaje, pm.ocacion_viaje, pm.presupuesto,
-                     pm.tipo_hotel, pm.p_celular, pm.p_correo, pm.p_descripcion, t.nombre as tours
-              FROM lugar_a_conocer as lc, paquete_a_medida as pm, tours as t
-              WHERE lc.idlugar_a_conocer = '$idpaquete_a_medida'
-              AND pm.idpaquete_a_medida = lc.idpaquete_a_medida
-              AND t.idtours = lc.idtours
-              AND pm.estado = 1
-              AND t.estado = 1;";
-    $datospaquete_a_medida = ejecutarConsultaSimpleFila($sql); if ( $datospaquete_a_medida['status'] == false) {return $datospaquete_a_medida; }
+      // Mostramos el pedido
+      $sql_1="SELECT * FROM paquete_a_medida  WHERE idpaquete_a_medida='$id';";
+      $paquete_medida = ejecutarConsultaSimpleFila($sql_1); if ($paquete_medida['status'] == false) { return  $paquete_medida;}
 
-    // Mostramos el pedido
-    $sql_1="SELECT * FROM paquete_a_medida  WHERE idpaquete_a_medida='$idpaquete_a_medida';";
-    $paquete_medida = ejecutarConsultaSimpleFila($sql_1); if ($paquete_medida['status'] == false) { return  $paquete_medida;}
+      $sql = "SELECT t.nombre as nombre_tours, t.descripcion, t.imagen, t.actividad, t.incluye, t.no_incluye, t.recomendaciones, 
+      t.duracion, t.alojamiento, t.resumen_actividad, t.resumen_comida, t.mapa, t.costo, t.estado_descuento, 
+      t.porcentaje_descuento, t.monto_descuento
+      FROM lugar_a_conocer as lc
+      INNER JOIN paquete_a_medida as pm ON pm.idpaquete_a_medida = lc.idpaquete_a_medida
+      INNER JOIN tours as t ON t.idtours = lc.idtours
+      WHERE lc.idpaquete_a_medida = '$id' ;";
+      $detalle = ejecutarConsultaArray($sql); if ( $detalle['status'] == false) {return $detalle; }  
+      
+      // Ejecutamos el visto
+      $sql_2="UPDATE paquete_a_medida SET estado_visto='1', user_updated= '$this->id_usr_sesion' WHERE idpaquete_a_medida='$id';";
+      $visto = ejecutarConsulta($sql_2); if ($visto['status'] == false) { return  $visto;}
 
-    $paquete_a_medida = [
-      'idlugar_a_conocer'   => $datospaquete_a_medida['data']['idlugar_a_conocer'],
-      'idpaquete_a_medida'  => $datospaquete_a_medida['data']['idpaquete_a_medida'],
-      'p_nombre'            => $datospaquete_a_medida['data']['p_nombre'],
-      'tipo_viaje'          => $datospaquete_a_medida['data']['tipo_viaje'],
-      'ocacion_viaje'       => $datospaquete_a_medida['data']['ocacion_viaje'],
-      'presupuesto'         => $datospaquete_a_medida['data']['presupuesto'],
-      'tipo_hotel'          => $datospaquete_a_medida['data']['tipo_hotel'],
-      'p_celular'           => $datospaquete_a_medida['data']['p_celular'],
-      'p_correo'            => $datospaquete_a_medida['data']['p_correo'],
-      'p_descripcion'       => $datospaquete_a_medida['data']['p_descripcion'],
-      'tours'               => $datospaquete_a_medida['data']['tours'],
-    ];
-
-      return $retorno=['status'=>true, 'message'=>'todo oka ps', 'data'=> ['paquete_a_medida'=>$paquete_a_medida,'pedido'=> $paquete_medida['data'] ] ];
+      return $retorno=['status'=>true, 'message'=>'todo oka ps', 'data'=> ['paquete_a_medida'=>$paquete_medida['data'], 'tours'=> $detalle['data'] ] ];
     } 
   
   }

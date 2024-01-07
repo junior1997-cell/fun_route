@@ -93,12 +93,12 @@
               var pedido_html = '';
               e.data.pedido.forEach((val, key) => {
                 pedido_html += ` <div class="dropdown-divider"></div>
-                <a href="pedido.php" class="dropdown-item">
+                <a href="pedido.php#${val.tipo}" class="dropdown-item">
                   <div class="w-250px recorte-text"><span class="float-right text-muted text-sm">${moment(val.created_at).fromNow(true)}</span>
                   <i class="fas fa-envelope mr-2"></i> ${val.nombre}</div>
                 </a>`;
               });
-              var div_html = `<span class="dropdown-item dropdown-header">${e.data.cant} Pedidos</span> ${pedido_html} <div class="dropdown-divider"></div> <a href="pedido.php" class="dropdown-item dropdown-footer">Ver todo</a>`;
+              var div_html = `<span class="dropdown-item dropdown-header">${e.data.cant} Pedidos</span> ${pedido_html} <div class="dropdown-divider"></div> <a href="pedido.php#Todos" class="dropdown-item dropdown-footer">Ver todo</a>`;
               $(".notificacion_body_pedido_html").html(div_html);
             }
 

@@ -586,6 +586,16 @@
 
 /*  ══════════════════════════════════════════ - H E I G H T   S I Z E - ══════════════════════════════════════════ */
 
+.h-1px{ height: 1px !important; }
+.h-2px{ height: 2px !important; }
+.h-3px{ height: 3px !important; }
+.h-4px{ height: 4px !important; }
+.h-4px{ height: 4px !important; }
+.h-5px{ height: 5px !important; }
+.h-6px{ height: 6px !important; }
+.h-7px{ height: 7px !important; }
+.h-8px{ height: 8px !important; }
+.h-9px{ height: 9px !important; }
 .h-10px{ height: 10px !important; }
 .h-15px{ height: 15px !important; }
 .h-20px{ height: 20px !important; }

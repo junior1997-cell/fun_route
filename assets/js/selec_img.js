@@ -4,10 +4,7 @@ function input_check(input, id) { console.log( `Tours-${id}: ${$(input).is(':che
     $(`.tours-${id}`).addClass('bg-color-408c98 text-white')
   } else {
     $(`.tours-${id}`).removeClass('bg-color-408c98 text-white')
-  }
-
-  
-  
+  }  
 }
 
 function input_radio(input_all, input_id) {

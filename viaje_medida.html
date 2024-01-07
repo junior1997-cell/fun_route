@@ -36,6 +36,9 @@
     <link rel="stylesheet" href="assets/css/paquetes.css">
     <link rel="stylesheet" href="assets/css/viaje_med.css">
     <link rel="stylesheet" href="assets/css/viaje_medida.css"> 
+
+    <!-- Toastr -->
+    <link rel="stylesheet" href="admin/plugins/toastr/toastr.min.css">
     
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
@@ -91,373 +94,363 @@
     </div>  
   </header>
  
-  <!-- ***** Main Banner Area Start ***** -->
+  <!-- ***** Main Banner Area Start ***** --> 
   <section>
     <div class="col banner_ini">
       <img src="assets/images/iniViaje_medida.png" alt="">
     </div>
   </section>
   <section class="content">
-    <div class="container-md">
-      
-      <div class="card mt-5">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="m-3 text-center">
-              <h4 class="font-weight-bold">ARMA TU VIAJE, Selecciona los lugares que quieres conocer</h4>
-            </div>            
-          </div>        
-          <!-- /.col -->   
+    <form name="form-viaje-a-medida" id="form-viaje-a-medida" method="post">
 
-          <div class="col-lg-3">
-            <div class="m-3 text-center">
-              <div class="tours-all tours-1 border border-success rounded p-2">
-                <label for="tours-1" class="12">
-                  <input type="radio" name="idtours" id="tours-1" onchange="clas_select(this, 1)">              
-                  <img src="assets/images/tour4.jpg" class="img-fluid rounded-3">
-                  <P>SANTA ELENA</P>
-                </label>
-              </div>                
-            </div>                     
-          </div>     
-          <div class="col-lg-3">
-            <div class="m-3 text-center">
-              <div class="tours-all tours-2 border border-success rounded p-2">
-                <label for="tours-2">
-                  <input type="radio" name="idtours" id="tours-2" onchange="clas_select(this, 2)">              
-                  <img src="assets/images/tour4.jpg" class="img-fluid rounded-3">
-                  <P>SANTA ELENA</P>
-                </label>
-              </div>                
-            </div>                     
-          </div>     
-          <div class="col-lg-3">
-            <div class="m-3 text-center">
-              <div class="tours-all tours-3 border border-success rounded p-2">
-                <label for="tours-3">
-                  <input type="radio" name="idtours" id="tours-3" onchange="clas_select(this, 3)">              
-                  <img src="assets/images/tour4.jpg" class="img-fluid rounded-3">
-                  <P>SANTA ELENA</P>
-                </label>
-              </div>                
-            </div>                     
-          </div>          
-          <!-- /.col -->   
-
-          <div class="col-lg-12">
-            <div class="m-3">
-              <h5 class="cuestion1"><i class="fa-solid fa-forward"></i> Haganos saber aqui si desea visitar otros lugares no mencionados anteriormente.... </h5>
-              <div class="form-group">
-                <textarea class="form-control" name="otros_lugares" id="" rows="3"></textarea>
-              </div>   
-            </div>                    
-          </div>
-          <!-- /.col -->   
-        </div>
-        <!-- /.row -->   
-      </div>
-      <!-- /.card -->       
-    </div>
-    <!-- /.container-md -->   
     
-    <div class="container-md">
-      <div class="card mt-5">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="m-3">
-              <h5 class="cuestion2"><i class="fa-solid fa-forward"></i> ¿Con quién viajaría?</h5>
-            </div>
+      <!-- :::::::::::::: L I S T A   D E   T O U R S :::::::::::::: -->
+      <div class="container-md">      
+        <div class="card mt-5">
+          <div class="row html-tours-lista">            
+            <div class="text-center mt-4" ><div class="spinner"></div> <div>Cargando datos...</div></div> 
           </div>
-          
-          <div class="col-lg-3">
-            <div class="m-3 text-center">
-              <div class="tipoviaje-all tipoviaje-1 border border-success rounded p-2">
-                <label class="cursor-pointer" for="tipoviaje-1">
-                  <input type="radio" name="tipoviaje" id="tipoviaje-1" onchange="input_radio('.tipoviaje-all', '.tipoviaje-1' )">                  
-                  <div class="icon"><i class="fa-solid fa-users fa-2x"></i></div>
-                  <div class="name">Familia</div>                  
-                </label>
-              </div>              
-            </div>            
-          </div>
-
-          <div class="col-lg-3">
-            <div class="m-3 text-center">
-              <div class="tipoviaje-all tipoviaje-2 border border-success rounded p-2">
-                <label class="cursor-pointer" for="tipoviaje-2">
-                  <input type="radio" name="tipoviaje" id="tipoviaje-2" onchange="input_radio('.tipoviaje-all', '.tipoviaje-2')">                  
-                  <div class="icon"><i class="fa-solid fa-user-group fa-2x"></i></div>
-                  <div class="name">Pareja</div>              
-                </label>
-              </div>              
-            </div>            
-          </div>
-
-          <div class="col-lg-3">
-            <div class="m-3 text-center">
-              <div class="tipoviaje-all tipoviaje-3 border border-success rounded p-2">
-                <label class="cursor-pointer" for="tipoviaje-3">
-                  <input type="radio" name="tipoviaje" id="tipoviaje-3" onchange="input_radio('.tipoviaje-all', '.tipoviaje-3')">                  
-                  <div class="icon"><i class="fa-solid fa-user fa-2x"></i></div>
-                  <div class="name">Solo</div>              
-                </label>
-              </div>              
-            </div>            
-          </div>         
-
-          <div class="col-lg-3">
-            <div class="m-3 text-center">
-              <div class="tipoviaje-all tipoviaje-4 border border-success rounded p-2">
-                <label class="cursor-pointer" for="tipoviaje-4">
-                  <input type="radio" name="tipoviaje" id="tipoviaje-4" onchange="input_radio('.tipoviaje-all', '.tipoviaje-4')">                  
-                  <div class="icon"><i class="fas fa-user-plus fa-2x"></i></div>
-                  <div class="name">Otro Grupo</div>                  
-                </label>
-              </div>              
-            </div>            
-          </div>
-
+          <!-- /.row -->   
         </div>
+        <!-- /.card -->       
       </div>
-      <!-- /.card -->      
-    </div>
-    <!-- /.container-md -->   
+      <!-- /.container-md -->   
+      
+      <!-- :::::::::::::: C O N   Q U I E N   V I A J A :::::::::::::: -->
+      <div class="container-md">
+        <div class="card mt-5">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="m-3">
+                <h5 class="cuestion2"><i class="fa-solid fa-forward"></i> ¿Con quién viajaría?</h5>
+              </div>
+            </div>
 
-    <div class="container-md wrapper_viaj3">
-      <div class="card mt-5">
-        <div class="row">
-          <div class="col-lg-12">
-            <h5 class="cuestion2"><i class="fa-solid fa-forward"></i> Este es un gran viaje para:</h5>
-          </div>
-          
-          <div class="col-lg-3">
-            <label class="option_item">
-              <input type="radio" name="motivoviaje" id="" class="checkbox">
-              <div class="option_inner facebook">
-                <div class="tickmark"></div>
-                <!-- <div class="icon"><i class="fa-solid fa-users"></i></div> -->
-                <div class="name">Cumpleaños</div>
+            <div class="col-lg-3">
+              <div class="m-3 text-center form-group">
+                <input type="radio" name="tipoviaje" id="tipoviaje-1" class="checkbox" style="display: none;" value="Familia">              
+                <label for="tipoviaje-1" class="teal_color_check border border-success rounded p-2 w-100 cursor-pointer">
+                  <div class="h-1px" ><img class="ver_pin" src="assets/images/svg/Push_pin_icon.svg" width="30px" alt="" > </div>  
+                  <div class="mt-2"><i class="fa-solid fa-users fa-2x"></i> <br> <span>Familia</span> </div>
+                </label>              
               </div>
-            </label>
-          </div>
-          <div class="col-lg-3">
-            <label class="option_item">
-              <input type="radio" name="motivoviaje" id="" class="checkbox">
-              <div class="option_inner facebook">
-                <div class="tickmark"></div>
-                <!-- <div class="icon"><i class="fa-solid fa-users"></i></div> -->
-                <div class="name">Regalo de Jubilación</div>
-              </div>
-            </label>
-          </div>
+            </div>
 
-          <div class="col-lg-3 opt1">
-            <label class="option_item">
-              <input type="radio" name="motivoviaje" id="" class="checkbox" >
-              <div class="option_inner twitter">
-                <div class="tickmark"></div>
-                <!-- <div class="icon"><i class="fa-solid fa-user-group"></i></div> -->
-                <div class="name">Viaje de lista de deseos</div>
+            <div class="col-lg-3">
+              <div class="m-3 text-center form-group">
+                <input type="radio" name="tipoviaje" id="tipoviaje-2" class="checkbox" style="display: none;" value="Pareja">              
+                <label for="tipoviaje-2" class="teal_color_check border border-success rounded p-2 w-100 cursor-pointer">
+                  <div class="h-1px"><img class="ver_pin" src="assets/images/svg/Push_pin_icon.svg" width="30px" alt="" > </div> 
+                  <div class="mt-2"><i class="fas fa-restroom fa-2x"></i> <br> <span>Pareja</span> </div>
+                </label>              
               </div>
-            </label>
-          </div>
+            </div>    
+            
+            <div class="col-lg-3">
+              <div class="m-3 text-center form-group">
+                <input type="radio" name="tipoviaje" id="tipoviaje-3" class="checkbox" style="display: none;" value="Solo">              
+                <label for="tipoviaje-3" class="teal_color_check border border-success rounded p-2 w-100 cursor-pointer">
+                  <div class="h-1px"><img class="ver_pin" src="assets/images/svg/Push_pin_icon.svg" width="30px" alt="" > </div>
+                  <div class="mt-2"><i class="fas fa-user-tie fa-2x"></i> <br> <span>Solo</span> </div>
+                </label>              
+              </div>
+            </div>   
 
-          <div class="col-lg-3 ">
-            <label class="option_item">
-              <input type="radio" name="motivoviaje" id="" class="checkbox" >
-              <div class="option_inner twitter">
-                <div class="tickmark"></div>
-                <!-- <div class="icon"><i class="fa-solid fa-user-group"></i></div> -->
-                <div class="name">Visitar a un familiar/amigo</div>
+            <div class="col-lg-3">
+              <div class="m-3 text-center form-group">
+                <input type="radio" name="tipoviaje" id="tipoviaje-4" class="checkbox" style="display: none;" value="Otro Grupo">              
+                <label for="tipoviaje-4" class="teal_color_check border border-success rounded p-2 w-100 cursor-pointer">
+                  <div class="h-1px"><img class="ver_pin" src="assets/images/svg/Push_pin_icon.svg" width="30px" alt="" > </div>
+                  <div class="mt-2"><i class="fas fa-user-plus fa-2x"></i> <br> <span>Otro Grupo</span> </div>
+                </label>              
               </div>
-            </label>
-          </div>
+            </div>          
 
-          <div class="col-lg-3 ">
-            <label class="option_item">
-              <input type="radio" name="motivoviaje" id="" class="checkbox">
-              <div class="option_inner instagram">
-                <div class="tickmark"></div>
-                <!-- <div class="icon"><i class="fa-solid fa-user"></i></div> -->
-                <div class="name">Disfrutando de la Jubilación</div>
-              </div>
-            </label>
           </div>
-          
-          <div class="col-lg-3 ">
-            <label class="option_item">
-              <input type="radio" name="motivoviaje" id="" class="checkbox">
-              <div class="option_inner linkedin">
-                <div class="tickmark"></div>
-                <!-- <div class="icon"><i class="fa-solid fa-users-line"></i></div> -->
-                <div class="name">Vacaciones anuales</div>
-              </div>
-            </label>
-          </div>
-
         </div>
+        <!-- /.card -->      
       </div>
-    </div>
+      <!-- /.container-md -->   
 
-    <div class="wrapper_viaj4">
-      <div class="">
-        <div class="row">
-          <h5 class="cuestion2"><i class="fa-solid fa-forward"></i> Su presupuesto de viaje</h5>
-          <div class="col opt1">
-            <div class="option_item">
-              <input type="checkbox" class="checkbox">
-              <div class="option_inner facebook">
-                <div class="tickmark"></div>
-                <!-- <div class="icon"><i class="fa-solid fa-users"></i></div> -->
-                <div class="name">Menos de 200 soles</div>
-              </div>
+      <!-- :::::::::::::: T I P O   D E   V I A J E :::::::::::::: -->
+      <div class="container-md wrapper_viaj3">
+        <div class="card mt-5">
+          <div class="row">
+            <div class="col-lg-12">
+              <h5 class="cuestion2"><i class="fa-solid fa-forward"></i> Este es un gran viaje para:</h5>
             </div>
-            <div class="option_item">
-              <input type="checkbox" class="checkbox">
-              <div class="option_inner facebook">
-                <div class="tickmark"></div>
-                <!-- <div class="icon"><i class="fa-solid fa-users"></i></div> -->
-                <div class="name">300 - 350 soles</div>
-              </div>
+            
+            <div class="col-lg-3 m-auto form-group text-center">
+              <label class="option_item">
+                <input type="radio" name="ocacion_viaje" id="" class="checkbox" value="Cumpleaños">
+                <div class="option_inner facebook">
+                  <div class="tickmark"> </div>
+                  <!-- <div class="icon"><i class="fa-solid fa-users"></i></div> -->
+                  <div class="name my-3">Cumpleaños</div>
+                </div>
+              </label>
             </div>
-          </div>
-          <div class="col opt1">
-            <div class="option_item">
-              <input type="checkbox" class="checkbox" checked>
-              <div class="option_inner twitter">
-                <div class="tickmark"></div>
-                <!-- <div class="icon"><i class="fa-solid fa-user-group"></i></div> -->
-                <div class="name">200 - 250 soles</div>
-              </div>
+            <div class="col-lg-3 m-auto form-group text-center">
+              <label class="option_item">
+                <input type="radio" name="ocacion_viaje" id="" class="checkbox" value="Regalo de Jubilación">
+                <div class="option_inner facebook">
+                  <div class="tickmark"></div>
+                  <!-- <div class="icon"><i class="fa-solid fa-users"></i></div> -->
+                  <div class="name my-3">Regalo de Jubilación</div>
+                </div>
+              </label>
             </div>
-            <div class="option_item">
-              <input type="checkbox" class="checkbox" checked>
-              <div class="option_inner twitter">
-                <div class="tickmark"></div>
-                <!-- <div class="icon"><i class="fa-solid fa-user-group"></i></div> -->
-                <div class="name">350 soles a más</div>
-              </div>
+
+            <div class="col-lg-3 m-auto form-group text-center">
+              <label class="option_item">
+                <input type="radio" name="ocacion_viaje" id="" class="checkbox" value="Viaje de lista de deseos" >
+                <div class="option_inner twitter">
+                  <div class="tickmark"></div>
+                  <!-- <div class="icon"><i class="fa-solid fa-user-group"></i></div> -->
+                  <div class="name my-3">Viaje de lista de deseos</div>
+                </div>
+              </label>
             </div>
-          </div>
-          <div class="col opt1">
-            <div class="option_item">
-              <input type="checkbox" class="checkbox">
-              <div class="option_inner instagram">
-                <div class="tickmark"></div>
-                <!-- <div class="icon"><i class="fa-solid fa-user"></i></div> -->
-                <div class="name">250 - 300 soles</div>
-              </div>
+
+            <div class="col-lg-3 m-auto form-group text-center">
+              <label class="option_item">
+                <input type="radio" name="ocacion_viaje" id="" class="checkbox" value="Visitar a un familiar/amigo">
+                <div class="option_inner twitter">
+                  <div class="tickmark"></div>
+                  <!-- <div class="icon"><i class="fa-solid fa-user-group"></i></div> -->
+                  <div class="name my-3">Visitar a un familiar/amigo</div>
+                </div>
+              </label>
             </div>
+
+            <div class="col-lg-3 m-auto form-group text-center">
+              <label class="option_item">
+                <input type="radio" name="ocacion_viaje" id="" class="checkbox" value="Disfrutando de la Jubilación<">
+                <div class="option_inner instagram">
+                  <div class="tickmark"></div>
+                  <!-- <div class="icon"><i class="fa-solid fa-user"></i></div> -->
+                  <div class="name my-3">Disfrutando de la Jubilación</div>
+                </div>
+              </label>
+            </div>
+            
+            <div class="col-lg-3 m-auto form-group text-center">
+              <label class="option_item">
+                <input type="radio" name="ocacion_viaje" id="" class="checkbox" value="Vacaciones anuales">
+                <div class="option_inner linkedin">
+                  <div class="tickmark"></div>
+                  <!-- <div class="icon"><i class="fa-solid fa-users-line"></i></div> -->
+                  <div class="name my-3">Vacaciones anuales</div>
+                </div>
+              </label>
+            </div>
+
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="wrapper_viaj5">
-      <div class="">
-        <div class="row">
-          <h5 class="cuestion2"><i class="fa-solid fa-forward"></i> ¿Qué tipo de hotel prefiere?</h5>
-          <div class="col">
-            <label class="option_item">
-              <input type="checkbox" id="optionF-1" onchange="clas_selector(1)">
-              <div class="option_inner selection_1">
-                <div class="tickmark"></div>
-                <div class="icon"><i class="fa-solid fa-star patito"></i><i class="fa-solid fa-star patito"></i><i class="fa-solid fa-star patito"></i><i class="fa-solid fa-star patito"></i><i class="fa-solid fa-star patito"></i></div>
-                <div class="name">5 estrellas</div>
+      <!-- :::::::::::::: P R E S U P U E S T O   V I A J E :::::::::::::: -->
+      <div class="container-md">
+        <div class="card mt-5">
+          <div class="row">
+
+            <div class="col-lg-12">
+              <h5 class="cuestion2"><i class="fa-solid fa-forward"></i> Su presupuesto de viaje</h5>
+            </div>
+
+            <div class="col-lg-3">
+              <div class="m-3 text-center form-group">
+                <input type="radio" name="presupuesto" id="presupuesto-1" class="checkbox" style="display: none;" value="Menos de 200 soles">
+                <label for="presupuesto-1" class="teal_color_check border border-success rounded p-2 w-100 cursor-pointer">                
+                  <div class="my-3"> <div class="name">Menos de 200 soles</div> </div>
+                </label>              
               </div>
-            </label>
-          </div>
-          <div class="col">
-            <label class="option_item">
-              <input type="checkbox" id="optionF-2" onchange="clas_select(2)">
-              <div class="option_inner selection_2">
-                <div class="tickmark"></div>
-                <div class="icon"><i class="fa-solid fa-star patito"></i><i class="fa-solid fa-star patito"></i><i class="fa-solid fa-star patito"></i><i class="fa-solid fa-star patito"></i></div>
-                <div class="name">4 estrellas</div>
+            </div>
+            
+            <div class="col-lg-3">
+              <div class="m-3 text-center form-group">
+                <input type="radio" name="presupuesto" id="presupuesto-2" class="checkbox" style="display: none;" value="300 - 450 soles">
+                <label for="presupuesto-2" class="teal_color_check border border-success rounded p-2 w-100 cursor-pointer">                
+                  <div class="my-3"> <div class="name">300 - 450 soles</div> </div>
+                </label>              
               </div>
-            </label>
-          </div>
-          <div class="col">
-            <label class="option_item selection_3">
-              <input type="checkbox" id="optionF" onchange="clas_selector()">
-              <div class="option_inner instagram">
-                <div class="tickmark"></div>
-                <div class="icon"><i class="fa-solid fa-star patito"></i><i class="fa-solid fa-star patito"></i><i class="fa-solid fa-star patito"></i></div>
-                <div class="name">3 estrellas</div>
+            </div>
+
+            <div class="col-lg-3">
+              <div class="m-3 text-center form-group">
+                <input type="radio" name="presupuesto" id="presupuesto-3" class="checkbox" style="display: none;" value="450 - 700 soles">
+                <label for="presupuesto-3" class="teal_color_check border border-success rounded p-2 w-100 cursor-pointer">                
+                  <div class="my-3"> <div class="name">450 - 700 soles</div> </div>
+                </label>              
               </div>
-            </label>
-          </div>
-          <div class="col">
-            <label class="option_item selection_4">
-              <input type="checkbox" id="optionF" onchange="clas_selector()">
-              <div class="option_inner linkedin">
-                <div class="tickmark"></div>
-                <div class="icon"><i class="fa-solid fa-laptop"></i></div>
-                <div class="name">Autoreserva</div>
+            </div>            
+
+            <div class="col-lg-3 m-auto">
+              <div class="m-3 text-center form-group">
+                <input type="radio" name="presupuesto" id="presupuesto-5" class="checkbox" style="display: none;" value="700 - 950 soles">
+                <label for="presupuesto-5" class="teal_color_check border border-success rounded p-2 w-100 cursor-pointer">                
+                  <div class="my-3"> <div class="name">700 - 950 soles</div> </div>
+                </label>              
               </div>
-            </label>
+            </div>    
+            
+            <div class="col-lg-3 m-auto">
+              <div class="m-3 text-center form-group">
+                <input type="radio" name="presupuesto" id="presupuesto-4" class="checkbox" style="display: none;" value="950 soles a más">
+                <label for="presupuesto-4" class="teal_color_check border border-success rounded p-2 w-100 cursor-pointer">                
+                  <div class="my-3"> <div class="name">950 soles a más</div> </div>
+                </label>              
+              </div>
+            </div>
+            
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="wrapper_viaj6">
-      <div class="">
-        <div class="row">
-          <h5 class="cuestion2"><i class="fa-solid fa-forward"></i> Sus detalles de contacto</h5>
-          <p style="padding: 0px 35px 0px;">Solo utilizaremos su número de teléfono y otros datos de acuerdo con la normativa de protección de datos. (el GDPR).</p>
-          <section class="formulario_contac">
-            <div class="contactForm">
-              <div class="form">
-                <form action="">
-                  <div class="inputBox">
-                    <label for="">Tu Nombre</label>
-                    <input type="text" placeholder="* Nombre...">
+      <!-- :::::::::::::: H O T E L E S :::::::::::::: -->
+      <div class="container-md ">
+        <div class="card mt-5">
+          <div class="row">
+
+            <div class="col-lg-12">
+              <div class="m-2"><h5 class="cuestion2"><i class="fa-solid fa-forward"></i> ¿Qué tipo de hotel prefiere?</h5></div>
+            </div>
+            
+
+            <div class="col-lg-3">
+              <div class="m-3 text-center form-group">
+                <input type="radio" name="hotel" id="hotel-1" class="checkbox" style="display: none;" value="5 estrellas">              
+                <label for="hotel-1" class="teal_color_check border border-success rounded px-5 w-100 cursor-pointer">
+                  <div class="h-1px"><img class="ver_pin" src="assets/images/svg/Push_pin_icon.svg" width="30px" alt="" > </div> 
+                  <div class="mt-2 p-2">
+                    <div class="icon"><i class="fa-solid fa-star patito fa-2x"></i><i class="fa-solid fa-star patito fa-2x"></i><i class="fa-solid fa-star patito fa-2x"></i><i class="fa-solid fa-star patito fa-2x"></i><i class="fa-solid fa-star patito fa-2x"></i></div>
+                    <div class="name">5 estrellas</div>
                   </div>
-                  <div class="inputBox">
-                    <label for="">Tu Email</label>
-                    <input type="email" placeholder="* Email...">
-                  </div>
-                  <h6>Por favor, <b style="color: red; padding-right: 5px;">verifique</b>su correo electrónico ya que nos pondremos en contacto con usted por correo electrónico.</h6>
-                  <!-- <div class="inputBox">
-                    <label for="">Tu Mensaje</label>
-                    <textarea name="" id="" cols="30" rows="5" placeholder="Mensaje..."></textarea>
-                  </div> -->
-                  <div class="inputBox">
-                    <label for="">Tu Número telefónico</label>
-                    <input type="email" placeholder="* Número de telefono...">
-                  </div>
-                  <h6>Prefiero ser contactado a través de:</h6>
-                  <div class="row" style="padding-bottom: 15px;">
-                    <div class="col">
-                      <label class="option_item">
-                        <input type="checkbox" id="optionF-1" onchange="clas_selector(1)">
-                        <div class="option_inner selection_1">
-                          <div class="tickmark"></div>
-                          <!-- <div class="icon"><i class="fa-solid fa-users"></i></div> -->
-                          <div class="name">Whatsapp</div>
-                        </div>
-                      </label>
+                </label>              
+              </div>
+            </div>  
+
+            <div class="col-lg-3">
+              <div class="m-3 text-center form-group">
+                <input type="radio" name="hotel" id="hotel-2" class="checkbox" style="display: none;" value="4 estrellas">              
+                <label for="hotel-2" class="teal_color_check border border-success rounded px-5 w-100 cursor-pointer">
+                  <div class="h-1px"><img class="ver_pin" src="assets/images/svg/Push_pin_icon.svg" width="30px" alt="" > </div> 
+                  <div class="mt-2 p-2">
+                    <div class="icon">
+                      <i class="fa-solid fa-star patito fa-2x"></i>
+                      <i class="fa-solid fa-star patito fa-2x"></i>
+                      <i class="fa-solid fa-star patito fa-2x"></i>
+                      <i class="fa-solid fa-star patito fa-2x"></i>
+                      <i class="far fa-star patito fa-2x"></i>
                     </div>
-                    <div class="col">
-                      <label class="option_item">
-                        <input type="checkbox" id="optionF-2" onchange="clas_select(2)">
-                        <div class="option_inner selection_2">
-                          <div class="tickmark"></div>
-                          <!-- <div class="icon"><i class="fa-solid fa-user-group"></i></div> -->
-                          <div class="name">Llamada telofónica</div>
-                        </div>
-                      </label>
-                    </div>
+                    <div class="name">4 estrellas</div>
                   </div>
-                  <input type="submit" value="Enviar Mensaje">
-                </form>
+                </label>              
               </div>
-            </div>
-          </section>
+            </div> 
+
+            <div class="col-lg-3">
+              <div class="m-3 text-center form-group">
+                <input type="radio" name="hotel" id="hotel-3" class="checkbox" style="display: none;" value="3 estrellas">              
+                <label for="hotel-3" class="teal_color_check border border-success rounded px-5 w-100 cursor-pointer">
+                  <div class="h-1px"><img class="ver_pin" src="assets/images/svg/Push_pin_icon.svg" width="30px" alt="" > </div> 
+                  <div class="mt-2 p-2">
+                    <div class="icon">
+                      <i class="fa-solid fa-star patito fa-2x"></i>
+                      <i class="fa-solid fa-star patito fa-2x"></i>
+                      <i class="fa-solid fa-star patito fa-2x"></i>
+                      <i class="far fa-star patito fa-2x"></i>
+                      <i class="far fa-star patito fa-2x"></i>
+                    </div>                  
+                    <div class="name">3 estrellas</div>
+                  </div>
+                </label>              
+              </div>
+            </div> 
+
+            <div class="col-lg-3">
+              <div class="m-3 text-center form-group">
+                <input type="radio" name="hotel" id="hotel-4" class="checkbox" style="display: none;" value="Autoreserva">              
+                <label for="hotel-4" class="teal_color_check border border-success rounded px-5 w-100 cursor-pointer">
+                  <div class="h-1px"><img class="ver_pin" src="assets/images/svg/Push_pin_icon.svg" width="30px" alt="" > </div> 
+                  <div class="mt-2 p-2">
+                    <div class="icon"><i class="fa-solid fa-laptop fa-2x"></i></div> 
+                    <br>
+                    <div class="name">Autoreserva</div>
+                  </div>
+                </label>              
+              </div>
+            </div> 
+            
+          </div>
         </div>
       </div>
-    </div>
+
+      <!-- :::::::::::::: F O R M U L A R I O   P E R S O N A :::::::::::::: -->
+      <div class="container-md ">
+        <div class="card mt-5 p-4 m-b-5rem">
+          <div class="row m-b-5rem">
+
+            <div class="col-lg-12">
+              <div class="m-2">
+                <h5 ><i class="fa-solid fa-forward"></i> Sus detalles de contacto</h5>
+                <p >Solo utilizaremos su número de teléfono y otros datos de acuerdo con la normativa de protección de datos. (el GDPR).</p>
+              </div>
+            </div>
+            
+            <div class="col-lg-6">
+              <div class="m-2 form-group">
+                <label for="nombreyapellidos"><b>Tu Nombre</b> </label>
+                <input type="text" class="form-control" name="nombre_y_apellidos" id="nombreyapellidos" placeholder="* Nombre...">
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div class="m-2 form-group">
+                <label for="correo_persona"><b>Tu Email</b> </label>
+                <input type="email" class="form-control" name="correo_persona" id="correo_persona"  placeholder="* Email...">
+                <small>Utilizaremos <b class="text-danger">este correo</b>  para contactactarnos con usted.</small>    
+              </div>                   
+            </div>
+
+            <div class="col-lg-6">
+              <div class="m-2 form-group">
+                <label for="numero_celular"><b>Tu Número telefónico</b> </label> <br>
+                <input type="number" class="form-control" name="numero_celular" id="numero_celular" placeholder="* Número de telefono...">
+                <small>Utilizaremos <b class="text-danger">este numero</b>  para contactactarnos con usted.</small>    
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div class="m-2 form-group">
+                <span for="numero_celular"><b>Prefiero ser contactado a través de:</b> </span> <br>
+                <input type="radio" class="btn-check" name="p_tipo_contacto" id="llamada" autocomplete="off" value="Llamada">
+                <label class="btn btn-outline-info" for="llamada"><i class="fas fa-phone-volume"></i> Llamada</label>
+
+                <input type="radio" class="btn-check" name="p_tipo_contacto" id="whatsapp" autocomplete="off" value="Whatsapp">
+                <label class="btn btn-outline-success" for="whatsapp"><i class="fab fa-whatsapp"></i> Whatsapp</label>
+              </div>
+            </div>
+
+            <div class="col-lg-12">
+              <div class="m-2 form-group">
+                <label for="p_descripcion"><b>Descripcion adicional</b> </label> <br>
+                <textarea class="form-control" name="p_descripcion" id="p_descripcion" rows="2"  placeholder="* Descripcion..."></textarea>                
+              </div>
+            </div>
+
+            <div class="col-lg-12 mt-3">
+              <div class="m-2 text-center">             
+                <button type="submit" class="btn-enviar-mensaje">Enviar cotizacion</button>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+    </form>
+
   </section>
   
   
@@ -557,6 +550,7 @@
   <!-- jquery-validation -->
   <script src="admin/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="admin/plugins/jquery-validation/additional-methods.min.js"></script>
+  <script src="admin/plugins/jquery-validation/localization/messages_es_PE.js"></script>
 
   <!-- Select2 -->
   <script src="admin/plugins/select2/js/select2.full.min.js"></script>
@@ -568,10 +562,8 @@
   <script src="admin/dist/js/funcion_general.js"></script> 
   <script src="admin/dist/js/funcion_crud.js"></script>
   
-  <!-- <script src="assets/js/viaje_medida.js"></script> -->
   <script src="admin/vistas/scripts/contador.js"></script> 
 
-  <script src="assets/js/selec_img.js"></script>
   <script src="scripts/viaje_a_medida.js"></script>
 
   </body>

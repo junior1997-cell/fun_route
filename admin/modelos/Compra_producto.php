@@ -36,33 +36,33 @@ class Compra_producto
       $sql_bit = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('compra_producto','".$idventanew['data']."','Nueva compra','$this->id_usr_sesion')";
       $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; } 
 
-      $num_elementos = 0;
+      $ii = 0;
       $compra_new = "";
 
       if ( !empty($idventanew['data']) ) {
       
-        while ($num_elementos < count($idproducto)) {
+        while ($ii < count($idproducto)) {
 
           $id = $idventanew['data'];
-          $subtotal_producto = (floatval($cantidad[$num_elementos]) * floatval($precio_con_igv[$num_elementos])) - $descuento[$num_elementos];
+          $subtotal_producto = (floatval($cantidad[$ii]) * floatval($precio_con_igv[$ii])) - $descuento[$ii];
 
           $sql_detalle = "INSERT INTO detalle_compra_producto(idcompra_producto, idproducto, unidad_medida, categoria, cantidad, precio_sin_igv, igv, 
           precio_con_igv,precio_venta, descuento, subtotal, user_created) 
-          VALUES ('$id','$idproducto[$num_elementos]', '$unidad_medida[$num_elementos]',  '$categoria[$num_elementos]', '$cantidad[$num_elementos]', 
-          '$precio_sin_igv[$num_elementos]', '$precio_igv[$num_elementos]', '$precio_con_igv[$num_elementos]','$precio_venta[$num_elementos]', '$descuento[$num_elementos]', 
+          VALUES ('$id','$idproducto[$ii]', '$unidad_medida[$ii]',  '$categoria[$ii]', '$cantidad[$ii]', 
+          '$precio_sin_igv[$ii]', '$precio_igv[$ii]', '$precio_con_igv[$ii]','$precio_venta[$ii]', '$descuento[$ii]', 
           '$subtotal_producto','$this->id_usr_sesion')";
 
           $compra_new =  ejecutarConsulta_retornarID($sql_detalle); if ($compra_new['status'] == false) { return  $compra_new;}
 
           //add update table producto el stock
-          $sql_producto = "UPDATE producto SET stock = stock + '$cantidad[$num_elementos]', precio_unitario='$precio_venta[$num_elementos]', precio_compra_actual='$precio_con_igv[$num_elementos]' WHERE idproducto = '$idproducto[$num_elementos]'";
+          $sql_producto = "UPDATE producto SET stock = stock + '$cantidad[$ii]', precio_unitario='$precio_venta[$ii]', precio_compra_actual='$precio_con_igv[$ii]' WHERE idproducto = '$idproducto[$ii]'";
           $producto = ejecutarConsulta($sql_producto); if ($producto['status'] == false) { return  $producto;}
 
           //add registro en nuestra bitacora.
           $sql_bit_d = "INSERT INTO bitacora_bd( nombre_tabla, id_tabla, accion, id_user) VALUES ('detalle_compra_producto','".$compra_new['data']."','Detalle compra','$this->id_usr_sesion')";
           $bitacora = ejecutarConsulta($sql_bit_d); if ( $bitacora['status'] == false) {return $bitacora; } 
 
-          $num_elementos = $num_elementos + 1;
+          $ii = $ii + 1;
         }
       }
       return $compra_new;

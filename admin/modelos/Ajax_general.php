@@ -222,19 +222,23 @@
     public function notificacion_pedido() {
       $data = [];
       $sql_1 = "SELECT * FROM pedido_tours WHERE estado_visto = '0' AND estado = '1' AND estado_delete = '1' ORDER BY idpedido_tours ASC LIMIT 3";
-      $tours = ejecutarConsultaArray($sql_1); if ( $tours['status'] == false) {return $tours; }  
+      $data1 = ejecutarConsultaArray($sql_1); if ( $data1['status'] == false) {return $data1; }  
 
       $sql_2 = "SELECT * FROM pedido_paquete WHERE estado_visto = '0' AND estado = '1' AND estado_delete = '1' ORDER BY idpedido_paquete ASC LIMIT 3";
-      $paquete = ejecutarConsultaArray($sql_2); if ( $paquete['status'] == false) {return $paquete; }  
+      $data2 = ejecutarConsultaArray($sql_2); if ( $data2['status'] == false) {return $data2; }  
 
-      foreach ($tours['data'] as $key => $val) {  $data[] = [ 'nombre'  =>$val['nombre'], 'created_at'  =>$val['created_at'],  ];  }
-      foreach ($paquete['data'] as $key => $val) {  $data[] = [ 'nombre'  =>$val['nombre'], 'created_at'  =>$val['created_at'], ];  }
+      $sql_3 = "SELECT * FROM paquete_a_medida WHERE estado_visto = '0' AND estado = '1' AND estado_delete = '1' ORDER BY idpaquete_a_medida ASC LIMIT 3";
+      $data3 = ejecutarConsultaArray($sql_3); if ( $data3['status'] == false) {return $data3; }  
+
+      foreach ($data1['data'] as $key => $val) {  $data[] = [ 'nombre'  =>$val['nombre'], 'tipo'  =>"Pedido-Tours", 'created_at'  =>$val['created_at'],  ];  }
+      foreach ($data2['data'] as $key => $val) {  $data[] = [ 'nombre'  =>$val['nombre'], 'tipo'  =>"Pedido-Paquete", 'created_at'  =>$val['created_at'], ];  }
+      foreach ($data3['data'] as $key => $val) {  $data[] = [ 'nombre'  =>$val['p_nombre'], 'tipo'  =>"Pedido-Paquete-a-medida", 'created_at'  =>$val['created_at'], ];  }
 
       return $retorno=[
         'status'=>true, 
         'message'=>'todo oka ps', 
         'data'=> [
-          'cant'=>count($tours['data']) + count($paquete['data']),
+          'cant'=>count($data1['data']) + count($data2['data']) + count($data3['data']),
           'pedido'=> $data 
         ] 
       ];

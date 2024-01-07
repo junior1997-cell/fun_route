@@ -651,6 +651,7 @@ function tbla_principal_a_medida() {
     ],
   }).DataTable();
 }
+
 //Función Mostrar Tods los Datos
 function mostrar_paquete_a_medida(idpaquete_a_medida) {
   //variables del array
@@ -684,17 +685,19 @@ function mostrar_paquete_a_medida(idpaquete_a_medida) {
           </tbody>
         </table>
       </div>`);
-
-      $('.home2_html').html(`<div class="table-responsive p-0">
-        <table class="table table-hover table-bordered  mt-4">          
-          <tbody>
-            <tr>
-              <th>TOURS</th>
-              <td>${e.data.paquete_a_medida.tours}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>`);
+      
+      $('.home2_html').html('');
+      e.data.tours.forEach((val, key) => {
+        $('.home2_html').append(`<div class="table-responsive p-0">
+          <table class="table table-hover table-bordered  mt-4">    
+            <thead> <tr> <th class="text-center" colspan="2" >${val.nombre_tours}</th> </tr> </thead>      
+            <tbody>
+              <tr> <th>IMAGEN</th>  <td><img src="../dist/docs/tours/perfil/${val.imagen}"  width="100px" height="auto" onerror="this.src='../dist/docs/tours/perfil/tours-sin-foto.jpg'"></td> </tr>
+              <tr> <th>RESUMEN</th>  <td>${val.resumen_actividad}</td> </tr>              
+            </tbody>
+          </table>
+        </div>`);
+      });      
 
       $('.otros3_html').html(`<div class="table-responsive p-0">
         <table class="table table-hover table-bordered  mt-4">          

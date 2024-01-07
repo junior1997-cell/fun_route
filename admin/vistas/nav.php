@@ -55,12 +55,12 @@
       <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right notificacion_body_pedido_html">
         <span class="dropdown-item dropdown-header">No hay pedidos</span>
         <div class="dropdown-divider"></div>
-        <a href="pedido.php" class="dropdown-item">
+        <a href="#" class="dropdown-item">
           <i class="fas fa-spinner fa-pulse mr-2"></i> cargando datos...
           <span class="float-right text-muted text-sm">0 mins</span>
         </a>        
         <div class="dropdown-divider"></div>
-        <a href="pedido.php" class="dropdown-item dropdown-footer">Ver todo</a>
+        <a href="#" class="dropdown-item dropdown-footer">Ver todo</a>
       </div>
       <!-- sonido de alerta -->
       <audio id="notificacion_audio" src="../dist/audio/SD_ALERT_35.mp3" preload="auto"></audio>

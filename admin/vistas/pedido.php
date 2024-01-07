@@ -63,26 +63,26 @@ if (!isset($_SESSION["nombre"])) {
                 <div class="col-12">
                   <div class="card card-primary card-outline card-outline-tabs">
                     <div class="card-header p-0 border-bottom-0">                      
-                      <ul class="nav nav-tabs" id="custom-content-detalle-tab" role="tablist">
+                      <ul class="nav nav-tabs" id="nav-tab" role="tablist">
                         <!-- PEDIDO A TOURS -->
                         <li class="nav-item">
-                          <a class="nav-link active" id="custom-content-detalle-pedido_tours-tab" data-toggle="pill" href="#custom-content-detalle-pedido_tours" role="tab" aria-controls="custom-content-detalle-pedido_tours" aria-selected="true">PEDIDO TOURS</a>
+                          <a class="nav-link active" id="nav-pedido_tours-tab" data-toggle="pill" href="#nav-pedido_tours" role="tab" aria-controls="nav-pedido_tours" aria-selected="true">PEDIDO TOURS</a>
                         </li>
                         <!-- PEDIDO PAQUETE -->
                         <li class="nav-item">
-                          <a class="nav-link" id="custom-content-detalle-pedido_tours-tab" data-toggle="pill" href="#custom-content-detalle-pedido_tours" role="tab" aria-controls="custom-content-detalle-pedido_tours" aria-selected="false">PEDIDO PAQUETE</a>
+                          <a class="nav-link" id="nav-pedido_paquete-tab" data-toggle="pill" href="#nav-pedido_paquete" role="tab" aria-controls="nav-pedido_paquete" aria-selected="false">PEDIDO PAQUETE</a>
                         </li>
                         <!-- PEDIDO A MEDIDA -->
                         <li class="nav-item">
-                          <a class="nav-link" id="custom-content-detalle-pedido-a-medida-tab" data-toggle="pill" href="#custom-content-detalle-pedido-a-medida" role="tab" aria-controls="custom-content-detalle-pedido_a_medida" aria-selected="false">PEDIDO A MEDIDA</a>
+                          <a class="nav-link" id="nav-pedido-a-medida-tab" data-toggle="pill" href="#nav-pedido-a-medida" role="tab" aria-controls="nav-pedido_a_medida" aria-selected="false">PEDIDO A MEDIDA</a>
                         </li>
                       </ul>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body"> 
                       
-                      <div class="tab-content" id="custom-content-detalle-tabContent">
-                        <div class="tab-pane fade show active pedido_tours" id="custom-content-detalle-pedido_tours" role="tabpanel" aria-labelledby="custom-content-detalle-pedido_tours-tab">
+                      <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active pedido_tours" id="nav-pedido_tours" role="tabpanel" aria-labelledby="nav-pedido_tours-tab">
                           <!-- PEDIDO TOURS --> 
                           <table id="tabla-pedido-tours" class="table table-bordered table-striped display" style="width: 100% !important;">
                             <thead>
@@ -114,7 +114,7 @@ if (!isset($_SESSION["nombre"])) {
                         </div>
                         <!-- /.tab-panel -->
 
-                        <div class="tab-pane fade pedido_tours" id="custom-content-detalle-pedido_tours" role="tabpanel" aria-labelledby="custom-content-detalle-pedido_tours-tab">
+                        <div class="tab-pane fade pedido_paquete" id="nav-pedido_paquete" role="tabpanel" aria-labelledby="nav-pedido_paquete-tab">
                           <!-- PEDIDO PAQUETE -->                            
                           <table id="tabla-pedido-paquete" class="table table-bordered table-striped display" style="width: 100% !important;">
                             <thead>
@@ -146,7 +146,7 @@ if (!isset($_SESSION["nombre"])) {
                         </div>
                         <!-- /.tab-panel --> 
 
-                        <div class="tab-pane fade pedido_a_medida" id="custom-content-detalle-pedido-a-medida" role="tabpanel" aria-labelledby="custom-content-detalle-pedido_a_medida-tab">
+                        <div class="tab-pane fade pedido_a_medida" id="nav-pedido-a-medida" role="tabpanel" aria-labelledby="nav-pedido_a_medida-tab">
                           <!-- PEDIDO A MEDIDA -->
                           <table id="tabla-pedido-a-medida" class="table table-bordered table-striped display" style="width: 100% !important;">
                             <thead>
