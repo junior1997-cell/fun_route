@@ -426,6 +426,107 @@ function eliminar_venta(idventa_producto, nombre) {
 
 }
 
+// :::::::::::::::::::::::::: S E C C I O N  D E T A L L E   V E N T A    T O U R S    ::::::::::::::::::::::::::
+function ver_detalle_ventas_tours(idventa_tours) {
+  //variables del array
+  $("#modal-ver-ventas-tours").modal("show");
+  $('.titulo_detalle_tours').html(`Detalle - Venta Tours`);
+
+  $.post("../ajax/venta_tours.php?op=mostrar_detalle_ventas_tours", { 'idventa_tours': idventa_tours }, function (e, status) {
+    e = JSON.parse(e);   console.log(e);  
+    if (e.status == true) {
+
+      $('.datos1_html').html(`<div class="table-responsive p-0">
+        <table class="table table-hover table-bordered  mt-4">          
+          <tbody>
+            <tr>
+              <th>Nombre</th>
+              <td>${e.data.venta.nombres}</td>
+            </tr>
+            
+            <tr>
+              <th>Telefono</th>
+              <td>${e.data.venta.celular !== null ? e.data.venta.celular : '-------'}</td>
+            </tr>    
+            <tr>
+              <th>Descripción</th>
+              <td>${e.data.venta.descripcion}</td>
+            </tr>    
+            <tr>
+              <th>Fecha</th>
+              <td>${e.data.venta.fecha_venta}</td>
+            </tr>  
+            <tr>
+              <th>Tipo de Comprobante</th>
+              <td>${e.data.venta.tipo_comprobante}</td>
+            </tr>
+            <tr>
+              <th>N° de Comprobante</th>
+              <td>${e.data.venta.serie_comprobante}</td>
+            </tr>     
+          </tbody>
+        </table>
+      </div>`);
+
+      $('.home2_html').html(`<div class="table-responsive p-0">
+        <table class="table table-hover table-bordered  mt-4">  
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>precio Unitario</th>
+              <th>catidad</th>
+            </tr>
+          </thead>        
+          <tbody>
+          </tbody>
+        </table>
+      </div>`);
+
+      $('.otros3_html').html(`<div class="table-responsive p-0">
+        <table class="table table-hover table-bordered  mt-4">          
+          <tbody>
+            <tr>
+              <th>Método de Pago</th>
+              <td>${e.data.venta.metodo_pago}</td>
+            </tr>
+            <tr>
+              <th>N° vaucher</th>
+              <td>${e.data.venta.code_vaucher !== null ? e.data.venta.code_vaucher : '-------'}</td>
+            </tr>
+            <tr>
+            <tr>
+              <th>IGV</th>
+              <td>${e.data.venta.igv}</td>
+            </tr>
+            <tr>
+              <th>Total</th>
+              <td>${e.data.venta.subtotal}</td>
+            </tr>            
+          </tbody>
+        </table>
+      </div>`); 
+
+      $('.home2_html tbody').empty();
+      $cont = 1; // Limpiar el tbody antes de agregar nuevos datos
+      $.each(e.data.detalles, function(index, detalle) {
+        var fila = `<tr>
+                      <td>${$cont++}</td>
+                      <td>${detalle.nombre}</td>
+                      <td>${detalle.precio_con_igv}</td>
+                      <td>${detalle.cantidad}</td>
+                    </tr>`;
+        $('.home2_html tbody').append(fila);
+      });
+
+      $(".jq_image_zoom").zoom({ on: "grab" });      
+      tabla_venta_producto.ajax.reload(null, false);
+    } else {
+      ver_errores(e);
+    } 
+  }).fail(function (e) { ver_errores(e); });
+}
+
 
 // :::::::::::::::::::::::::: S E C C I O N   P A G O   V E N T A  ::::::::::::::::::::::::::
 
@@ -445,7 +546,7 @@ function doc1_eliminar() {
 
 function limpiar_form_pago_compra() {  
 
-  $("#idpago_venta_producto_pv").val(""); 
+  $("#idventa_tours_pago_pv").val(""); 
   $("#forma_pago_pv").val("null").trigger("change"); 
   $("#fecha_pago_pv").val(""); 
   $("#monto_pv").val(""); 
@@ -519,14 +620,14 @@ function tbla_pago_venta( idventa_tours, total_compra, total_pago, cliente) {
 }
 
 //Función para eliminar registros
-function eliminar_pago_venta(idpago_venta_producto, nombre) {
+function elim_pago_venta(idventa_tours_pago, nombre) {
 
   $(".tooltip").removeClass("show").addClass("hidde");
 
   crud_eliminar_papelera(
     "../ajax/venta_tours.php?op=papelera_pago_venta",
     "../ajax/venta_tours.php?op=eliminar_pago_venta", 
-    idpago_venta_producto, 
+    idventa_tours_pago, 
     "!Elija una opción¡", 
     `<b class="text-danger"><del>${nombre}</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
     function(){ sw_success('♻️ Papelera! ♻️', "Tu compra ha sido reciclado." ) }, 
@@ -543,13 +644,13 @@ function calcular_deuda() {
   var monto_actual = $('#monto_pv').val() == '' || $('#monto_pv').val() == null ? 0 : quitar_formato_miles($('#monto_pv').val());
   var monto_pagados = $('#total_depositos').text() == '' || $('#total_depositos').text() == null ? 0 : quitar_formato_miles($('#total_depositos').text());
   var monto_de_compra = $('#total_de_venta').text() == '' || $('#total_de_venta').text() == null ? 0 : quitar_formato_miles($('#total_de_venta').text());
-  var idpago_venta_producto_pv = $('#idpago_venta_producto_pv').val();
+  var idventa_tours_pago_pv = $('#idventa_tours_pago_pv').val();
 
   var monto_deuda = 0;
-  if (idpago_venta_producto_pv == ''  || idpago_venta_producto_pv == null) {
+  if (idventa_tours_pago_pv == ''  || idventa_tours_pago_pv == null) {
     monto_deuda = parseFloat(monto_de_compra) - parseFloat(monto_pagados) - parseFloat(monto_actual);
   } else {
-    var btn_monto_pagados = $(`#btn_monto_pagado_${idpago_venta_producto_pv}`).attr("monto_pagado");
+    var btn_monto_pagados = $(`#btn_monto_pagado_${idventa_tours_pago_pv}`).attr("monto_pagado");
     monto_deuda = parseFloat(monto_de_compra) - (parseFloat(monto_pagados) - parseFloat(btn_monto_pagados)) - parseFloat(monto_actual) ;
   }  
 
@@ -634,7 +735,7 @@ function mostrar_editar_pago(idpago_venta) {
 
     if (e.status == true) {
 
-      $("#idpago_venta_producto_pv").val(e.data.idpago_venta_producto);
+      $("#idventa_tours_pago_pv").val(e.data.idventa_tours_pago);
       $("#idventa_producto_pv").val(e.data.idventa_producto); 
       $("#forma_pago_pv").val(e.data.forma_pago).trigger("change");
       $("#fecha_pago_pv").val(e.data.fecha_pago); 

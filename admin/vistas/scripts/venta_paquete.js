@@ -118,7 +118,7 @@ function templatePersona (state) {
 function limpiar_form_compra() {
   $(".tooltip").removeClass("show").addClass("hidde");
 
-  $("#idventa_producto").val("");
+  $("#idventa_paquete").val("");
   $("#idcliente").val("null").trigger("change");
   $("#tipo_comprobante").val("NINGUNO").trigger("change");  
 
@@ -212,6 +212,9 @@ function table_show_hide(flag) {
     $("#div-tabla-pago-ventas-paquete").show();    
   }
 }
+
+
+// :::::::::::::::::::::::::: S E C C I O N   V E N T A  P A Q U E T E ::::::::::::::::::::::::::
 
 //TABLA - ventas
 function tbla_principal(fecha_1, fecha_2, id_proveedor, comprobante) {
@@ -405,14 +408,14 @@ function guardar_y_editar_ventas(e) {
 }
 
 //Función para eliminar registros
-function eliminar_venta(idventa_producto, nombre) {
+function eliminar_venta(idventa_paquete, nombre) {
 
   $(".tooltip").removeClass("show").addClass("hidde");
 
   crud_eliminar_papelera(
     "../ajax/venta_paquete.php?op=papelera_venta",
     "../ajax/venta_paquete.php?op=eliminar_venta", 
-    idventa_producto, 
+    idventa_paquete, 
     "!Elija una opción¡", 
     `<b class="text-danger">${nombre}</b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
     function(){ sw_success('♻️ Papelera! ♻️', "Tu compra ha sido reciclado." ) }, 
@@ -426,6 +429,108 @@ function eliminar_venta(idventa_producto, nombre) {
 
 }
 
+
+// :::::::::::::::::::::::::: S E C C I O N  D E T A L L E   V E N T A  P A Q U E T E ::::::::::::::::::::::::::
+function ver_detalle_ventas_paquete(idventa_paquete) {
+  //variables del array
+  $("#modal-ver-ventas-paquete").modal("show");
+  $('.titulo_detalle_paquete').html(`Detalle - Venta Paquete`);
+
+  $.post("../ajax/venta_paquete.php?op=mostrar_detalle_ventas_paquete", { 'idventa_paquete': idventa_paquete }, function (e, status) {
+    e = JSON.parse(e);   console.log(e);  
+    if (e.status == true) {
+
+      $('.datos1_html').html(`<div class="table-responsive p-0">
+        <table class="table table-hover table-bordered  mt-4">          
+          <tbody>
+            <tr>
+              <th>Nombre</th>
+              <td>${e.data.venta.nombres}</td>
+            </tr>
+            
+            <tr>
+              <th>Telefono</th>
+              <td>${e.data.venta.celular !== null ? e.data.venta.celular : '-------'}</td>
+            </tr>    
+            <tr>
+              <th>Descripción</th>
+              <td>${e.data.venta.descripcion}</td>
+            </tr>    
+            <tr>
+              <th>Fecha</th>
+              <td>${e.data.venta.fecha_venta}</td>
+            </tr>  
+            <tr>
+              <th>Tipo de Comprobante</th>
+              <td>${e.data.venta.tipo_comprobante}</td>
+            </tr>
+            <tr>
+              <th>N° de Comprobante</th>
+              <td>${e.data.venta.serie_comprobante}</td>
+            </tr>     
+          </tbody>
+        </table>
+      </div>`);
+
+      $('.home2_html').html(`<div class="table-responsive p-0">
+        <table class="table table-hover table-bordered  mt-4">  
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>precio Unitario</th>
+              <th>catidad</th>
+            </tr>
+          </thead>        
+          <tbody>
+          </tbody>
+        </table>
+      </div>`);
+
+      $('.otros3_html').html(`<div class="table-responsive p-0">
+        <table class="table table-hover table-bordered  mt-4">          
+          <tbody>
+            <tr>
+              <th>Método de Pago</th>
+              <td>${e.data.venta.metodo_pago}</td>
+            </tr>
+            <tr>
+              <th>N° vaucher</th>
+              <td>${e.data.venta.code_vaucher !== null ? e.data.venta.code_vaucher : '-------'}</td>
+            </tr>
+            <tr>
+            <tr>
+              <th>IGV</th>
+              <td>${e.data.venta.igv}</td>
+            </tr>
+            <tr>
+              <th>Total</th>
+              <td>${e.data.venta.subtotal}</td>
+            </tr>            
+          </tbody>
+        </table>
+      </div>`); 
+
+      $('.home2_html tbody').empty();
+      $cont = 1; // Limpiar el tbody antes de agregar nuevos datos
+      $.each(e.data.detalles, function(index, detalle) {
+        var fila = `<tr>
+                      <td>${$cont++}</td>
+                      <td>${detalle.nombre}</td>
+                      <td>${detalle.precio_con_igv}</td>
+                      <td>${detalle.cantidad}</td>
+                    </tr>`;
+        $('.home2_html tbody').append(fila);
+      });
+
+      $(".jq_image_zoom").zoom({ on: "grab" });      
+      tabla_venta_producto.ajax.reload(null, false);
+    } else {
+      ver_errores(e);
+    } 
+  }).fail(function (e) { ver_errores(e); });
+
+}
 
 // :::::::::::::::::::::::::: S E C C I O N   P A G O   V E N T A  ::::::::::::::::::::::::::
 
@@ -445,7 +550,7 @@ function doc1_eliminar() {
 
 function limpiar_form_pago_compra() {  
 
-  $("#idventa_paquete_pago_producto_pv").val(""); 
+  $("#idventa_paquete_pago_pv").val(""); 
   $("#forma_pago_pv").val("null").trigger("change"); 
   $("#fecha_pago_pv").val(""); 
   $("#monto_pv").val(""); 
@@ -466,7 +571,7 @@ function limpiar_form_pago_compra() {
 function tbla_venta_paquete_pago( idventa_paquete, total_compra, total_pago, cliente) {
 
   table_show_hide(4);
-  $("#idventa_producto_pv").val(idventa_paquete);
+  $("#idventa_paquete_pv").val(idventa_paquete);
   $("#total_de_venta").html(formato_miles(total_compra));
   $(".h1-nombre-cliente").html(` - <b>${cliente}</b>` );
 
@@ -519,14 +624,14 @@ function tbla_venta_paquete_pago( idventa_paquete, total_compra, total_pago, cli
 }
 
 //Función para eliminar registros
-function eliminar_venta_paquete_pago(idventa_paquete_pago_producto, nombre) {
+function elim_venta_paquete_pago(idventa_paquete_pago, nombre) {
 
   $(".tooltip").removeClass("show").addClass("hidde");
 
   crud_eliminar_papelera(
     "../ajax/venta_paquete.php?op=papelera_venta_paquete_pago",
     "../ajax/venta_paquete.php?op=eliminar_venta_paquete_pago", 
-    idventa_paquete_pago_producto, 
+    idventa_paquete_pago, 
     "!Elija una opción¡", 
     `<b class="text-danger"><del>${nombre}</del></b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
     function(){ sw_success('♻️ Papelera! ♻️', "Tu compra ha sido reciclado." ) }, 
@@ -543,13 +648,13 @@ function calcular_deuda() {
   var monto_actual = $('#monto_pv').val() == '' || $('#monto_pv').val() == null ? 0 : quitar_formato_miles($('#monto_pv').val());
   var monto_pagados = $('#total_depositos').text() == '' || $('#total_depositos').text() == null ? 0 : quitar_formato_miles($('#total_depositos').text());
   var monto_de_compra = $('#total_de_venta').text() == '' || $('#total_de_venta').text() == null ? 0 : quitar_formato_miles($('#total_de_venta').text());
-  var idventa_paquete_pago_producto_pv = $('#idventa_paquete_pago_producto_pv').val();
+  var idventa_paquete_pago_pv = $('#idventa_paquete_pago_pv').val();
 
   var monto_deuda = 0;
-  if (idventa_paquete_pago_producto_pv == ''  || idventa_paquete_pago_producto_pv == null) {
+  if (idventa_paquete_pago_pv == ''  || idventa_paquete_pago_pv == null) {
     monto_deuda = parseFloat(monto_de_compra) - parseFloat(monto_pagados) - parseFloat(monto_actual);
   } else {
-    var btn_monto_pagados = $(`#btn_monto_pagado_${idventa_paquete_pago_producto_pv}`).attr("monto_pagado");
+    var btn_monto_pagados = $(`#btn_monto_pagado_${idventa_paquete_pago_pv}`).attr("monto_pagado");
     monto_deuda = parseFloat(monto_de_compra) - (parseFloat(monto_pagados) - parseFloat(btn_monto_pagados)) - parseFloat(monto_actual) ;
   }  
 
@@ -634,8 +739,8 @@ function mostrar_editar_pago(idventa_paquete_pago) {
 
     if (e.status == true) {
 
-      $("#idventa_paquete_pago_producto_pv").val(e.data.idventa_paquete_pago_producto);
-      $("#idventa_producto_pv").val(e.data.idventa_producto); 
+      $("#idventa_paquete_pago_pv").val(e.data.idventa_paquete_pago);
+      $("#idventa_paquete_pv").val(e.data.idventa_paquete); 
       $("#forma_pago_pv").val(e.data.forma_pago).trigger("change");
       $("#fecha_pago_pv").val(e.data.fecha_pago); 
       $("#monto_pv").val(e.data.monto).trigger("change");

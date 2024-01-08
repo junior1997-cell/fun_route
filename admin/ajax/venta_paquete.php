@@ -47,7 +47,7 @@ if (!isset($_SESSION["nombre"])) {
     $vuelto_venta     = isset($_POST["vuelto_venta"]) ? limpiarCadena($_POST["vuelto_venta"]) : "";
     
     // :::::::::::::::::::::::::::::::::::: D A T O S   P A G O   V E N T A ::::::::::::::::::::::::::::::::::::::
-    $idventa_paquete_pago_producto_pv  = isset($_POST["idventa_paquete_pago_producto_pv"]) ? limpiarCadena($_POST["idventa_paquete_pago_producto_pv"]) : "";
+    $idventa_paquete_pago_pv  = isset($_POST["idventa_paquete_pago_pv"]) ? limpiarCadena($_POST["idventa_paquete_pago_pv"]) : "";
     $idventa_paquete_pv       = isset($_POST["idventa_paquete_pv"]) ? limpiarCadena($_POST["idventa_paquete_pv"]) : "";  
     $forma_pago_pv             = isset($_POST["forma_pago_pv"]) ? limpiarCadena($_POST["forma_pago_pv"]) : "";
     $fecha_pago_pv             = isset($_POST["fecha_pago_pv"]) ? limpiarCadena($_POST["fecha_pago_pv"]) : "";
@@ -241,7 +241,7 @@ if (!isset($_SESSION["nombre"])) {
 
             $data[] = [
               "0" => $cont,
-              "1" => '<button class="btn btn-info btn-sm" onclick="ver_detalle_ventas(' . $reg['idventa_paquete'] . ')" data-toggle="tooltip" data-original-title="Ver detalle compra"><i class="fa fa-eye"></i></button>' .
+              "1" => '<button class="btn btn-info btn-sm" onclick="ver_detalle_ventas_paquete(' . $reg['idventa_paquete'] . ')" data-toggle="tooltip" data-original-title="Ver detalle compra"><i class="fa fa-eye"></i></button>' .
                 ' <button class="btn bg-purple btn-sm" onclick="copiar_venta(' . $reg['idventa_paquete'] . ')" data-toggle="tooltip" data-original-title="copiar"><i class="fa-regular fa-copy"></i></button>' . 
                 '<!-- <button class="btn btn-warning btn-sm" onclick="mostrar_venta(' . $reg['idventa_paquete'] . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button> -->' . 
                 ' <button class="btn btn-danger  btn-sm" onclick="eliminar_venta(' . $reg['idventa_paquete'] .', \''.encodeCadenaHtml('<del><b>' . $reg['tipo_comprobante'] .  '</b> '.(empty($reg['serie_comprobante']) ?  "" :  '- '.$reg['serie_comprobante']).'</del> <del>'.$reg['cliente'].'</del>'). '\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>',
@@ -350,6 +350,18 @@ if (!isset($_SESSION["nombre"])) {
     
       break;   
       
+      // :::::::::::::::::::::::::: S E C C I O N   V E N T A   D E T A L L E    P A Q U E T E  ::::::::::::::::::::::::::     
+      case 'mostrar_detalle_ventas_paquete':
+      
+        $rspta = $venta_producto->mostrar_detalle_venta($idventa_paquete);
+        //Codificar el resultado utilizando json
+        echo json_encode($rspta,true);
+    
+      break;
+
+
+
+
       // :::::::::::::::::::::::::: S E C C I O N   P A G O  ::::::::::::::::::::::::::     
       case 'guardar_y_editar_venta_paquete_pago':
     
@@ -371,13 +383,13 @@ if (!isset($_SESSION["nombre"])) {
 
           // validamos si existe LA IMG para eliminarlo
           if ($flat_doc1 == true) {
-            $doc_pago = $venta_producto->obtener_doc_pago_compra($idventa_paquete_pago_producto_pv);
+            $doc_pago = $venta_producto->obtener_doc_pago_compra($idventa_paquete_pago_pv);
             $doc_pago_antiguo = $doc_pago['data']['comprobante'];
             if ( !empty($doc_pago_antiguo) ) { unlink("../dist/docs/venta_producto/comprobante_pago/" . $doc_pago_antiguo);  }
           }            
 
           // editamos un persona existente
-          $rspta=$venta_producto->editar_pago_compra( $idventa_paquete_pago_producto_pv, $idventa_paquete_pv, $forma_pago_pv, $fecha_pago_pv, quitar_formato_miles($monto_pv), $descripcion_pv, $comprobante_pago );          
+          $rspta=$venta_producto->editar_pago_compra( $idventa_paquete_pago_pv, $idventa_paquete_pv, $forma_pago_pv, $fecha_pago_pv, quitar_formato_miles($monto_pv), $descripcion_pv, $comprobante_pago );          
           echo json_encode($rspta, true);
         }
     
@@ -395,7 +407,7 @@ if (!isset($_SESSION["nombre"])) {
             $data[] = [
               "0" => $cont++,
               "1" => ' <button class="btn btn-sm btn-warning" id="btn_monto_pagado_' . $reg->idventa_paquete_pago . '" monto_pagado="'.$reg->monto.'" onclick="mostrar_editar_pago(' . $reg->idventa_paquete_pago . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
-              ' <button class="btn btn-sm btn-danger" onclick="eliminar_venta_paquete_pago(' . $reg->idventa_paquete_pago .', \''.encodeCadenaHtml( number_format($reg->monto, 2, '.',',')).' - '.date("d/m/Y", strtotime($reg->fecha_pago)).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>',
+              ' <button class="btn btn-sm btn-danger" onclick="elim_venta_paquete_pago(' . $reg->idventa_paquete_pago .', \''.encodeCadenaHtml( number_format($reg->monto, 2, '.',',')).' - '.date("d/m/Y", strtotime($reg->fecha_pago)).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>',
               "2" => $reg->fecha_pago,
               "3" => $reg->forma_pago,
               "4" => $reg->monto,

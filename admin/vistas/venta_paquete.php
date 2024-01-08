@@ -736,8 +736,8 @@
                             <div class="card-body">
                               <div class="row" id="cargando-3-fomulario">
                                 <!-- idpago_compra_grano -->
-                                <input type="hidden" name="idventa_paquete_pago_producto_pv" id="idventa_paquete_pago_producto_pv" />
-                                <input type="hidden" name="idventa_producto_pv" id="idventa_producto_pv" />
+                                <input type="hidden" name="idventa_paquete_pago_pv" id="idventa_paquete_pago_pv" />
+                                <input type="hidden" name="idventa_paquete_pv" id="idventa_paquete_pv" />
 
                                 <!-- Fecha 1 onchange="calculando_cantidad(); restrigir_fecha_ant();" onkeyup="calculando_cantidad(); -->
                                 <div class="col-lg-6">
@@ -833,20 +833,57 @@
                   </div>
 
                   <!-- MODAL - DETALLE VENTA - charge-5 -->
-                  <div class="modal fade" id="modal-ver-ventas">
-                    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+                  <div class="modal fade" id="modal-ver-ventas-paquete">
+                    <div class="modal-dialog modal-dialog-scrollable modal-lg">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h4 class="modal-title">Detalle Compra</h4>
+                          <h4 class="modal-title titulo_detalle_paquete">Detalle Compra</h4>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span class="text-danger" aria-hidden="true">&times;</span>
                           </button>
                         </div>
 
                         <div class="modal-body">
-                          <div class="row detalle_de_compra" id="cargando-5-fomulario">                            
-                            <!--detalle de la compra-->
-                          </div>
+                          <div class="card card-info card-tabs">
+                            <div class="card-header p-0 pt-1">
+                              <ul class="nav nav-tabs" id="custom-content-detalle-tab" role="tablist">
+                                <!-- DATOS VENTA -->
+                                <li class="nav-item">
+                                  <a class="nav-link active" id="custom-content-detalle-datos1_html-tab" data-toggle="pill" href="#custom-content-detalle-datos1_html" role="tab" aria-controls="custom-content-detalle-datos1_html" aria-selected="true">VENTA</a>
+                                </li>
+                                <!-- DATOS PAQUETES -->
+                                <li class="nav-item">
+                                  <a class="nav-link" id="custom-content-detalle-home2_html-tab" data-toggle="pill" href="#custom-content-detalle-home2_html" role="tab" aria-controls="custom-content-detalle-home2_html" aria-selected="true">PAQUETES</a>
+                                </li>
+                                <!-- DATOS PRECIO -->
+                                <li class="nav-item">
+                                  <a class="nav-link" id="custom-content-detalle-otros3_html-tab" data-toggle="pill" href="#custom-content-detalle-otros3_html" role="tab" aria-controls="custom-content-detalle-otros3_html" aria-selected="false">PAGO</a>
+                                </li>
+                                
+                              </ul>
+                            </div> 
+                            <div class="card-body">
+                              <div class="tab-content" id="custom-content-detalle-tabContent">
+                                <div class="tab-pane fade show active datos1_html" id="custom-content-detalle-datos1_html" role="tabpanel" aria-labelledby="custom-content-detalle-datos1_html-tab">
+                                  <!-- DATOS PRINCIPALES --> 
+                                  <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
+                                </div>
+                                <!-- /.tab-panel -->
+
+                                <div class="tab-pane fade show home2_html" id="custom-content-detalle-home2_html" role="tabpanel" aria-labelledby="custom-content-detalle-home2_html-tab">
+                                  <!-- DATOS PAQUETES -->
+                                  <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
+                                </div>
+                                <!-- /.tab-panel -->
+
+                                <div class="tab-pane fade otros3_html" id="custom-content-detalle-otros3_html" role="tabpanel" aria-labelledby="custom-content-detalle-otros3_html-tab">
+                                  <!-- DATOS PRECIO -->                          
+                                  <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
+                                </div>
+                                <!-- /.tab-panel --> 
+                              </div> 
+                            </div>
+                          </div> 
 
                           <div class="row" id="cargando-6-fomulario" style="display: none;">
                             <div class="col-lg-12 text-center">

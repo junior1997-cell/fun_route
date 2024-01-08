@@ -348,6 +348,35 @@ class Venta_tours
 
   }
 
+  // :::::::::::::::::::::::::: S E C C I O N   V E N T A    T O U R S    D E T A L L E    ::::::::::::::::::::::::::     
+  public function mostrar_detalle_venta($idventa_tours) {
+    $sql = "SELECT dvt.idventa_tours, dvt.unidad_medida, dvt.precio_sin_igv, vt.subtotal,
+    dvt.idtours, t.nombre, dvt.cantidad, dvt.precio_con_igv
+    FROM venta_tours_detalle as dvt, venta_tours as vt, tours as t
+    WHERE dvt.idventa_tours=vt.idventa_tours 
+    AND dvt.idventa_tours='$idventa_tours'
+    AND dvt.idtours = t.idtours;";
+    $detalles = ejecutarConsultaArray($sql); if ( $detalles['status'] == false) {return $detalles; }
+
+    $sql_2="SELECT vt.idventa_tours, p.nombres, p.celular, vt.tipo_comprobante, vt.serie_comprobante, vt.descripcion,
+    vt.fecha_venta, vt.metodo_pago, vt.code_vaucher, vt.igv, vt.subtotal
+    FROM venta_tours as vt, persona as p 
+    WHERE vt.idventa_tours='$idventa_tours'
+    AND vt.idpersona=p.idpersona;";
+    $venta = ejecutarConsultaSimpleFila($sql_2); if ($venta['status'] == false) { return  $venta;}
+
+    foreach ($detalles['data'] as $key => $value) {
+      $detalles_1[] =[
+        'idtours'           => $value['idtours'],
+        'nombre'            => $value['nombre'],
+        'cantidad'          => $value['cantidad'],
+        'precio_con_igv'    => $value['precio_con_igv'],
+
+      ];
+    }
+    return $retorno=['status'=>true, 'message'=>'consulta ok', 'data'=>['detalles'=>$detalles_1, 'venta'=>$venta['data']]];
+  }
+
   // ::::::::::::::::::::::::::::::::::::::::: S E C C I O N   P A G O S ::::::::::::::::::::::::::::::::::::::::: 
 
   public function crear_pago_compra($idventa_tours, $forma_pago, $fecha_pago, $monto, $descripcion, $comprobante_pago)  {
@@ -385,24 +414,24 @@ class Venta_tours
   }
 
   //Implementamos un método para desactivar categorías
-  public function papelera_pago_venta($idpago_venta_tours) {
-    $sql = "UPDATE venta_tours_pago SET estado='0', user_trash= '$this->id_usr_sesion' WHERE idventa_tours_pago='$idpago_venta_tours'";
+  public function papelera_pago_venta($idventa_tours_pago) {
+    $sql = "UPDATE venta_tours_pago SET estado='0', user_trash= '$this->id_usr_sesion' WHERE idventa_tours_pago='$idventa_tours_pago'";
 		$desactivar= ejecutarConsulta($sql); if ($desactivar['status'] == false) {  return $desactivar; }
 		
 		//add registro en nuestra bitacora
-		$sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES ('venta_tours_pago','$idpago_venta_tours','Se envio a papelera.','$this->id_usr_sesion')";
+		$sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (2,'venta_tours_pago','$idventa_tours_pago','Se envio a papelera.','$this->id_usr_sesion')";
 		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }   
 		
 		return $desactivar;
   }
 
   //Implementamos un método para activar categorías
-  public function eliminar_pago_venta($idpago_venta_tours) {
-    $sql = "UPDATE pago_venta_tours SET estado_delete='0',user_delete= '$this->id_usr_sesion' WHERE idpago_venta_tours='$idpago_venta_tours'";
+  public function eliminar_pago_venta($idventa_tours_pago) {
+    $sql = "UPDATE venta_tours_pago SET estado_delete='0',user_delete= '$this->id_usr_sesion' WHERE idventa_tours_pago='$idventa_tours_pago'";
 		$eliminar =  ejecutarConsulta($sql);if ( $eliminar['status'] == false) {return $eliminar; }  
 		
 		//add registro en nuestra bitacora
-		$sql = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES ('pago_venta_tours','$idpago_venta_tours','Se Eliminado este registro.','$this->id_usr_sesion')";
+		$sql = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (4,'pago_venta_tours','$idventa_tours_pago','Se Eliminado este registro.','$this->id_usr_sesion')";
 		$bitacora = ejecutarConsulta($sql); if ( $bitacora['status'] == false) {return $bitacora; }  
 		
 		return $eliminar;
