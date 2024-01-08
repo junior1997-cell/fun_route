@@ -190,11 +190,11 @@ if (!isset($_SESSION["nombre"])) {
             <!-- /.container-fluid -->            
 
             <!-- MODAL - VER IMG-->
-            <div class="modal fade bg-color-02020280" id="modal-ver-imagen-paquete">
+            <div class="modal fade bg-color-02020280" id="modal-ver-imagen">
               <div class="modal-dialog modal-dialog-centered modal-md">
                 <div class="modal-content bg-color-0202022e shadow-none border-0">
                   <div class="modal-header">
-                    <h4 class="modal-title text-white nombre-paquete"></h4>
+                    <h4 class="modal-title text-white nombre-imagen-peril"></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span class="text-white cursor-pointer" aria-hidden="true">&times;</span>
                     </button>
@@ -294,7 +294,6 @@ if (!isset($_SESSION["nombre"])) {
               </div>
             </div>
 
-
             <!-- MODAL - VER PAQUETE A MEDIDA -->
             <div class="modal fade" id="modal-ver-paquete-a-medida">
               <div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -351,6 +350,163 @@ if (!isset($_SESSION["nombre"])) {
                   </div>
                   <div class="modal-footer justify-content-between btn_footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- MODAL - VENDER -->
+            <div class="modal fade" id="modal-vender-pedido">
+              <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Vender Pedido</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span class="text-white cursor-pointer" aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="" method="post">
+                      <div class="row">
+
+                        <!-- Tipo de Empresa -->
+                        <div class="col-lg-9">
+                          <div class="form-group">
+                            <label for="idcliente">
+                              <span class="badge badge-info cursor-pointer" data-toggle="tooltip" data-original-title="Recargar trabajador" onclick="reload_trabajador();"><i class="fa-solid fa-rotate-right"></i></span> 
+                              <span class="badge badge-info cursor-pointer" data-toggle="tooltip" data-original-title="Recargar proveedor" onclick="reload_proveedor();"><i class="fa-solid fa-rotate-right"></i></span>
+                              <span class="badge badge-warning cursor-pointer" data-toggle="tooltip" data-original-title="Recargar cliente" onclick="reload_cliente();"><i class="fa-solid fa-rotate-right"></i></span>
+                              Cliente <span class="tipo_persona_venta"></span> <sup class="text-danger">(único*)</sup>
+                            </label>
+                            <select id="idcliente" name="idcliente" class="form-control select2" data-live-search="true" required title="Seleccione cliente" onchange="extrae_ruc('#idcliente', '#num_doc');"> </select>
+                          </div>
+                        </div>                        
+
+                        <!-- fecha -->
+                        <div class="col-lg-3" >
+                          <div class="form-group">
+                            <label for="fecha_venta">Fecha <sup class="text-danger">*</sup></label>
+                            <input type="date" name="fecha_venta" id="fecha_venta" class="form-control" placeholder="Fecha" />
+                          </div>
+                        </div>
+
+                        <!-- Tipo de comprobante -->
+                        <div class="col-lg-4" id="content-tipo-comprobante">
+                          <div class="form-group">
+                            <label for="tipo_comprobante">Tipo Comprobante <sup class="text-danger">(único*)</sup></label>
+                            <select name="tipo_comprobante" id="tipo_comprobante" class="form-control select2"  onchange="autoincrement_comprobante(this);" placeholder="Seleccionar ">
+                              <option value="NINGUNO">Ninguno</option>
+                              <!-- <option value="Boleta">Boleta</option>
+                              <option value="Factura">Factura</option> -->
+                              <!-- <option value="Nota de venta">Nota de venta</option> -->
+                            </select>
+                          </div>
+                        </div> 
+
+                        <!-- serie_comprobante-->
+                        <div class="col-lg-4" id="content-serie-comprobante">
+                          <div class="form-group">
+                            <label for="serie_comprobante">Serie y numero <sup class="text-danger cargando_serie_numero">(único*)</sup></label>
+                            <div class="input-group">  
+                              <input type="text" name="serie_comprobante" id="serie_comprobante" class="form-control" placeholder="N° de Comprobante" readonly />
+                              <span class="btn btn-default" style="border-radius: 0px;">-</span>       
+                              <input type="text" name="numero_comprobante" id="numero_comprobante" class="form-control" placeholder="N° de Comprobante" readonly />                                                                                
+                            </div>
+                          </div>
+                        </div>                                  
+
+                        <!-- IGV-->
+                        <div class="col-lg-1" style="display: none;">
+                          <div class="form-group">
+                            <label for="impuesto">IGV <sup class="text-danger">*</sup></label>
+                            <input type="text" name="impuesto" id="impuesto" class="form-control" value="0" onkeyup="modificarSubtotales();" />
+                          </div>
+                        </div>
+
+                        <!-- Descripcion-->
+                        <div class="col-lg-4" id="content-descripcion">
+                          <div class="form-group">
+                            <label for="descripcion">Observacion </label> <br />
+                            <textarea name="descripcion" id="descripcion" class="form-control" rows="1"></textarea>
+                          </div>
+                        </div>  
+
+                        <!-- metodo de pago -->
+                        <div class="col-lg-3">
+                          <div class="form-group">
+                            <label for="metodo_pago">Método de pago <sup class="text-danger">*</sup></label>
+                            <select id="metodo_pago" name="metodo_pago" class="form-control select2" data-live-search="true" required title="Seleccione metodo" onchange="capturar_pago_compra();"> 
+                              <option title="fas fa-hammer" value="CONTADO">CONTADO</option>
+                              <option title="fas fa-gas-pump" value="CREDITO">CREDITO</option>
+                              <option title="fas fa-gas-pump" value="TARJETA">TARJETA</option>
+                              <option title="fas fa-gas-pump" value="TRANSFERENCIA">TRANSFERENCIA</option>
+                              <option title="fas fa-gas-pump" value="MIXTO">MIXTO</option>                                       
+                              <option title="fas fa-gas-pump" value="YAPE">YAPE</option>
+                              <option title="fas fa-gas-pump" value="PLIN">PLIN</option>
+                              <option title="fas fa-gas-pump" value="CULQI">CULQI</option>                                                      
+                              <option title="fas fa-gas-pump" value="LUKITA">LUKITA</option>                                                      
+                              <option title="fas fa-gas-pump" value="TUNKI">TUNKI</option>
+                            </select>
+                          </div> 
+                        </div>                                  
+
+                        <!-- Pago a realizar -->
+                        <div class="col-sm-6 col-lg-3" id="content-code-baucher">
+                          <div class="form-group">
+                            <label for="code_vaucher">Código de Baucher <span class="span-pago-compra"></span> </label>
+                            <input type="text" name="code_vaucher" id="code_vaucher" class="form-control" onClick="this.select();" placeholder="Codigo de baucher" />
+                          </div>
+                        </div> 
+
+                        <!-- Descripcion -->
+                        <div class="col-lg-12 pl-0">
+                          <div class="px-3 pb-2">
+                            <div class="text-primary bg-white" style="position: absolute; top: -6px; z-index: 1000 !important;"> 
+                              <b class="mx-1" >PAGO DE VENTA</b>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-12" >
+                          <div class="px-3 py-3 b-radio-5px" style="box-shadow: 0 0 1px rgb(0 0 0), 0 1px 3px rgb(0 0 0 / 60%);">
+                            <div class="row">                          
+                              <div class="col-4 col-sm-4 col-lg-4" id="content-pagar-ctdo" >
+                                <div class="form-group">
+                                  <label for="pagar_con">Pagar Ctdo. </label>
+                                  <input type="text" name="pagar_con_ctdo" id="pagar_con_ctdo" class="form-control" onClick="this.select();" onchange="calcular_vuelto();" onkeyup="calcular_vuelto();" placeholder="Pagar con" />
+                                </div>
+                              </div>
+                              <div class="col-4 col-sm-4 col-lg-4" id="content-pagar-tarj" style="display: none;">
+                                <div class="form-group">
+                                  <label for="pagar_con">Pagar Tarj. </label>
+                                  <input type="text" name="pagar_con_tarj" id="pagar_con_tarj" class="form-control" onClick="this.select();" onchange="calcular_vuelto();" onkeyup="calcular_vuelto();" placeholder="Pagar con" />
+                                </div>
+                              </div>
+                              <div class="col-4 col-sm-4 col-lg-4" id="content-vuelto">
+                                <div class="form-group">
+                                  <label >Vuelto <small class="falta_o_completo"></small> </label>
+                                  <span class="form-control-mejorado vuelto_venta font-weight-bold" >0.00</span>   
+                                  <input type="hidden" name="vuelto_venta" id="vuelto_venta">                                             
+                                </div>
+                              </div>
+                              <div class="col-12">
+                                <button type="button" class="btn btn-primary btn-sm pago_rapido" onclick="pago_rapido(this)" >0</button>
+                                <button type="button" class="btn btn-info btn-sm" onclick="pago_rapido(this)" >10</button>
+                                <button type="button" class="btn btn-info btn-sm" onclick="pago_rapido(this)" >20</button>
+                                <button type="button" class="btn btn-info btn-sm" onclick="pago_rapido(this)" >50</button>
+                                <button type="button" class="btn btn-info btn-sm" onclick="pago_rapido(this)" >100</button>
+                                <button type="button" class="btn btn-info btn-sm" onclick="pago_rapido(this)" >200</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>       
+                        
+                      </div>
+                    </form>
+                  </div>
+                  <!-- /.modal-body -->
+                  <div class="modal-footer justify-content-between btn_footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="">Guardar</button>
                   </div>
                 </div>
               </div>

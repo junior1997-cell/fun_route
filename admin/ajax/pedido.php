@@ -20,7 +20,7 @@
       $pedido = new Pedido($_SESSION['idusuario']);
 
       date_default_timezone_set('America/Lima'); $date_now = date("d_m_Y__h_i_s_A");
-      $imagen_error = "this.src='../dist/svg/user_default.svg'";
+      $imagen_error = "this.src='../dist/svg/404-v2.svg'";
       $toltip = '<script> $(function () { $(\'[data-toggle="tooltip"]\').tooltip(); }); </script>';
       $scheme_host =  ($_SERVER['HTTP_HOST'] == 'localhost' ? $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/fun_route/admin/' :  $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'].'/admin/');
       
@@ -74,18 +74,18 @@
 
             foreach ($rspta['data'] as $key => $value) {        
 
-              $imagen = (empty($value['imgtours']) ? '../dist/svg/user_default.svg' : '../dist/docs/tours/perfil/'.$value['imgtours']) ;
+              $imagen = (empty($value['imgtours']) ? '../dist/docs/tours/perfil/sin-foto.jpg' : '../dist/docs/tours/perfil/'.$value['imgtours']) ;
               $estadovisto = ($value['estado_visto']==1 ? '<span class="text-center badge badge-success">Visto</span>' : '<span class="text-center badge badge-danger">No Visto</span>' );// true:false
               $estadovendido = ($value['estado_vendido']==1 ? '<span class="text-center badge badge-success">Vendido</span>' : '<span class="text-center badge badge-danger">No Vendido</span>' );// true:false
               
               $data[]=array(
                 "0"=>$cont++,
                 "1"=>' <button class="btn btn-info btn-sm" onclick="mostrar_pedido_tours(' . $value['idtours'] .', '.$value['idpedido_tours']. ')" data-toggle="tooltip" data-original-title="Ver"><i class="fa fa-eye"></i></button>' .
-                ($value['estado_vendido'] == 0 ? ' <button class="btn btn-success  btn-sm" onclick="vendido_tours(' . $value['idpedido_tours'] .', \''.encodeCadenaHtml($value['tours']).'\')" data-toggle="tooltip" data-original-title="Vender"><i class="fa-solid fa-cart-shopping"></i></button>' : ' <button class="btn btn-success  btn-sm" onclick="remover_vendido_tours(' . $value['idpedido_tours'] .', \''.encodeCadenaHtml($value['tours']).'\')" data-toggle="tooltip" data-original-title="Remover vendido"><i class="fa-solid fa-cart-arrow-down"></i></button>').
+                ($value['estado_vendido'] == 0 ? ' <button class="btn btn-success  btn-sm" onclick="vender_pedido(' . $value['idpedido_tours'] .', \''.encodeCadenaHtml($value['tours']).'\')" data-toggle="tooltip" data-original-title="Vender"><i class="fa-solid fa-cart-shopping"></i></button>' : '').
                 ' <button class="btn btn-danger  btn-sm" onclick="eliminar_pedido_tours(' . $value['idpedido_tours'] .', \''.encodeCadenaHtml($value['nombre']).'\')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>' ,
                 "2"=> nombre_dia_semana( date("Y-m-d", strtotime($value['created_at'])) ) .', <br>'. date("d/m/Y", strtotime($value['created_at'])) .' - '. date("g:i a", strtotime($value['created_at'])),
                 "3"=>'<div class="user-block">
-                  <img class="profile-user-img img-responsive img-circle cursor-pointer" src="'. $imagen .'" alt="User Image" onerror="'.$imagen_error.'" onclick="ver_img_perfil(\'' . $imagen . '\', \''.encodeCadenaHtml($value['nombre']).'\');" data-toggle="tooltip" data-original-title="Ver foto">
+                  <img class="profile-user-img img-responsive img-circle cursor-pointer" src="'. $imagen .'" alt="User Image" onerror="'.$imagen_error.'" onclick="ver_img_perfil(\'' . $imagen . '\', \''.encodeCadenaHtml($value['tours']).'\');" data-toggle="tooltip" data-original-title="Ver foto">
                   <span class="username"><p class="text-primary m-b-02rem" >'. $value['tours'] .'</p></span>
                   <span class="description"><b>Duración: </b>'. $value['duracion']  .'</span>
                 </div>',
@@ -121,18 +121,18 @@
 
             foreach ($rspta['data'] as $key => $value) {        
 
-              $imagen = (empty($value['imgpaquete']) ? '../dist/svg/user_default.svg' : '../dist/docs/paquete/perfil/'.$value['imgpaquete']) ;
+              $imagen = (empty($value['imgpaquete']) ? '../dist/docs/paquete/perfil/sin-foto.jpg' : '../dist/docs/paquete/perfil/'.$value['imgpaquete']) ;
               $estadovisto = ($value['estado_visto']==1 ? '<span class="text-center badge badge-success">Visto</span>' : '<span class="text-center badge badge-danger">No Visto</span>' );// true:false
               $estadovendido = ($value['estado_vendido']==1 ? '<span class="text-center badge badge-success">Vendido</span>' : '<span class="text-center badge badge-danger">No Vendido</span>' );// true:false
               
               $data[]=array(
                 "0"=>$cont++,
                 "1"=>' <button class="btn btn-info btn-sm" onclick="mostrar_pedido_paquete(' . $value['idpaquete'] .', '.$value['idpedido_paquete']. ')" data-toggle="tooltip" data-original-title="Ver"><i class="fa fa-eye"></i></button>' .
-                ($value['estado_vendido'] == 0 ? ' <button class="btn btn-success  btn-sm" onclick="vendido_paquete(' . $value['idpedido_paquete'] .', \''.encodeCadenaHtml($value['paquete']).'\')" data-toggle="tooltip" data-original-title="Vender"><i class="fa-solid fa-cart-shopping"></i></button>' : ' <button class="btn btn-success  btn-sm" onclick="remover_vendido_paquete(' . $value['idpedido_paquete'] .', \''.encodeCadenaHtml($value['paquete']).'\')" data-toggle="tooltip" data-original-title="Remover vendido"><i class="fa-solid fa-cart-arrow-down"></i></button>').
+                ($value['estado_vendido'] == 0 ? ' <button class="btn btn-success  btn-sm" onclick="vender_pedido(' . $value['idpedido_paquete'] .', \''.encodeCadenaHtml($value['paquete']).'\')" data-toggle="tooltip" data-original-title="Vender"><i class="fa-solid fa-cart-shopping"></i></button>' : '').
                 ' <button class="btn btn-danger  btn-sm" onclick="eliminar_pedido_paquete(' . $value['idpedido_paquete'] .', \''.encodeCadenaHtml($value['nombre']).'\')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>',
                 "2"=> nombre_dia_semana( date("Y-m-d", strtotime($value['created_at'])) ) .', <br>'. date("d/m/Y", strtotime($value['created_at'])) .' - '. date("g:i a", strtotime($value['created_at'])),
                 "3"=>'<div class="user-block">
-                  <img class="profile-user-img img-responsive img-circle cursor-pointer" src="'. $imagen .'" alt="User Image" onerror="'.$imagen_error.'" onclick="ver_img_perfil(\'' . $imagen . '\', \''.encodeCadenaHtml($value['nombre']).'\');" data-toggle="tooltip" data-original-title="Ver foto">
+                  <img class="profile-user-img img-responsive img-circle cursor-pointer" src="'. $imagen .'" alt="User Image" onerror="'.$imagen_error.'" onclick="ver_img_perfil(\'' . $imagen . '\', \''.encodeCadenaHtml($value['paquete']).'\');" data-toggle="tooltip" data-original-title="Ver foto">
                   <span class="username"><p class="text-primary m-b-02rem" >'. $value['paquete'] .'</p></span>
                   <span class="description"><b>Duración: </b>'. $value['cant_dias'] .' días - '.$value['cant_dias'] .' noches</span>
                 </div>',
@@ -203,7 +203,7 @@
               
               $data[]=array(
                 "0"=>$cont++,
-                "1"=>' <button class="btn btn-info btn-sm" onclick="mostrar_paquete_a_medida('.$value['idpaquete_a_medida'].')" data-toggle="tooltip" data-original-title="Ver"><i class="fa fa-eye"></i></button>',
+                "1"=>'<button class="btn btn-info btn-sm" onclick="mostrar_paquete_a_medida('.$value['idpaquete_a_medida'].')" data-toggle="tooltip" data-original-title="Ver"><i class="fa fa-eye"></i></button>',
                 "2"=> nombre_dia_semana( date("Y-m-d", strtotime($value['created_at'])) ) .', <br>'. date("d/m/Y", strtotime($value['created_at'])) .' - '. date("g:i a", strtotime($value['created_at'])),
                 "3"=>'<span class="username"><strong><p class="text-primary m-b-02rem" >'. $value['p_nombre'] .'</p></strong></span>',
                 "4"=>$value['p_celular'],

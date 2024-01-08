@@ -14,16 +14,27 @@ function init() {
   tbla_principal_a_medida();
 
   // ══════════════════════════════════════ S E L E C T 2 ══════════════════════════════════════
-  // lista_select2("../ajax/ajax_general.php?op=select2Paquete", "#idpaquete", null);
+  lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=3", '#idcliente', null);
+  lista_select2("../ajax/ajax_general.php?op=select2Tipo_comprobante", '#tipo_comprobante', null);
 
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
   $("#guardar_registro-pedido").on("click", function (e) { $("#submit-form-pedido").submit(); });
 
-  // ══════════════════════════════════════ INITIALIZE SELECT2 - OTRO INGRESO  ══════════════════════════════════════
-  $("#idpaquete").select2({ theme: "bootstrap4", placeholder: "Selecione paquete", allowClear: true, });
+  // ══════════════════════════════════════ INITIALIZE SELECT2 - OTRO INGRESO  ══════════════════════════════════════  
+  $("#idcliente").select2({templateResult: templatePersona, theme: "bootstrap4", placeholder: "Selecione cliente", allowClear: true, });
+  $("#tipo_comprobante").select2({ theme: "bootstrap4", placeholder: "Selecione Comprobante", allowClear: true, });
 
   // Formato para telefono
   $("[data-mask]").inputmask();
+}
+
+function templatePersona (state) {
+  //console.log(state);
+  if (!state.id) { return state.text; }
+  var baseUrl = state.title != '' ? `../dist/docs/persona/perfil/${state.title}`: '../dist/svg/user_default.svg'; 
+  var onerror = `onerror="this.src='../dist/svg/user_default.svg';"`;
+  var $state = $(`<span><img src="${baseUrl}" class="img-circle mr-2 w-25px" ${onerror} />${state.text}</span>`);
+  return $state;
 }
 
 //Función limpiar
@@ -685,7 +696,7 @@ function mostrar_paquete_a_medida(idpaquete_a_medida) {
           </tbody>
         </table>
       </div>`);
-      
+
       $('.home2_html').html('');
       e.data.tours.forEach((val, key) => {
         $('.home2_html').append(`<div class="table-responsive p-0">
@@ -787,16 +798,44 @@ $(function () {
   });
 });
 
+// .....::::::::::::::::::::::::::::::::::::: VENDER PEDIDO  :::::::::::::::::::::::::::::::::::::::..
+
+function vender_pedido(id) {
+  $("#modal-vender-pedido").modal("show");
+}
+
+function autoincrement_comprobante(data) {
+  var comprobante = $(data).select2('val');  
+  
+  $('#cargando_serie_numero').html(`(<i class="fas fa-spinner fa-pulse fa-lg"></i>)`);
+  if (comprobante == null || comprobante == '' ) {
+    $('#serie_comprobante').val(""); $('#numero_comprobante').val("");
+    $('#cargando_serie_numero').html(`(único*)`);
+  } else {
+    
+    $.post(`../ajax/ajax_general.php?op=autoincrement_comprobante`, {'nombre_c': comprobante }, function (e, textStatus, jqXHR) {
+      e = JSON.parse(e); //console.log(e);
+      if ( e.status == true) {
+        $('#serie_comprobante').val(e.data.serie);
+        $('#numero_comprobante').val(e.data.numero);
+        $('#cargando_serie_numero').html(`(único*)`);
+      } else {
+        ver_errores(e);
+      }       
+    }).fail( function(e) { ver_errores(e); } );
+  }
+}
+
 // .....::::::::::::::::::::::::::::::::::::: F U N C I O N E S    A L T E R N A S  :::::::::::::::::::::::::::::::::::::::..
 
 init();
 // ver imagen grande de la persona
 function ver_img_perfil(file, nombre) {
-  $(".nombre-paquete").html(nombre);
-  $(".tooltip").removeClass("show").addClass("hidde");
-  $("#modal-ver-imagen-paquet").modal("show");
+  $(".nombre-imagen-peril").html(nombre);    
   $("#imagen-paquete").html(
     `<span class="jq_image_zoom"><img class="img-thumbnail" src="${file}" onerror="this.src='../dist/svg/404-v2.svg';" alt="Perfil" width="100%"></span>`
   );
+  $("#modal-ver-imagen").modal("show");
   $(".jq_image_zoom").zoom({ on: "grab" });
+  $(".tooltip").remove();
 }
