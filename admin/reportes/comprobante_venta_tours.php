@@ -720,14 +720,21 @@
           <div class="container bg-white p-4">
             <!-- title row -->
             <div class="row">
-            <div class="col-12" style="display: flex; align-items: center;">
-              <div style="flex: 1;">
-                <img src="../dist/svg/ico_head.svg" alt="Fun Route" style="width: 8em; height: 8em;">
-              </div>
-              <div style="flex: 6; margin-left: 3px;">
-                <h2 class="page-header">FUN ROUTE S.A.C.</h2>
-                <p>RUC 201010109</p>
-                <p>DIRECCIÓN Tarapoto, Perú</p>
+              <div class="col-12" style="display: flex; align-items: center;">
+                <div style="flex: 1;">
+                  <img src="../dist/svg/ico_head.svg" alt="Fun Route" style="width: 8em; height: 8em;">
+                </div>
+                <div style="flex: 6; margin-left: 3px;">
+                  <h2 class="page-header">FUN ROUTE S.A.C.</h2>
+                  <p>RUC 201010109</p>
+                  <p>DIRECCIÓN Tarapoto, Perú</p>
+                </div>
+                <div class="col-sm-4 invoice-col text-center border">                
+                  <address class="m-1">
+                    <strong><?php echo $rspta['data']['venta']['tipo_comprobante']; ?> Electronica</strong><br>
+                    <?php echo $rspta['data']['venta']['tipo_documento'] . ': '. $rspta['data']['venta']['numero_documento']; ?><br>
+                    <?php echo $rspta['data']['venta']['serie_comprobante']; ?><br>                  
+                  </address>
               </div>
             </div>
               <!-- /.col -->
@@ -741,13 +748,7 @@
                 </address>
               </div>
               <!-- /.col -->
-              <div class="col-sm-4 invoice-col text-center border">                
-                <address class="m-1">
-                  <strong><?php echo $rspta['data']['venta']['tipo_comprobante']; ?> Electronica</strong><br>
-                  <?php echo $rspta['data']['venta']['tipo_documento'] . ': '. $rspta['data']['venta']['numero_documento']; ?><br>
-                  <?php echo $rspta['data']['venta']['serie_comprobante']; ?><br>                  
-                </address>
-              </div>
+              
               <div class="col-12"><hr></div>
               
               <!-- /.col -->
