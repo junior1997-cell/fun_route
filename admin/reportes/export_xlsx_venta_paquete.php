@@ -1,5 +1,5 @@
 <?php 
-  require '../vendor/autoload.php'; 
+  require '../../vendor/autoload.php'; 
   use PhpOffice\PhpSpreadsheet\Spreadsheet;  
   use PhpOffice\PhpSpreadsheet\IOFactory;
   use PhpOffice\PhpSpreadsheet\Style\Border;
@@ -54,14 +54,14 @@
   $hojaActiva->mergeCells('I3:K3'); #Glosa
   $hojaActiva->mergeCells('B4:C4'); #Material  
 
-  $hojaActiva->setCellValue('B1', 'Proveedor:');
-  $hojaActiva->setCellValue('B2', 'RUC:');
+  $hojaActiva->setCellValue('B1', 'Cliente:');
+  $hojaActiva->setCellValue('B2', 'DNI:');
   $hojaActiva->setCellValue('B3', 'Fecha:');
   $hojaActiva->setCellValue('H3', 'IGV:');
 
   $hojaActiva->setCellValue('A4', '#');
-  $hojaActiva->setCellValue('B4', 'Material');
-  $hojaActiva->setCellValue('D4', 'Categoría');
+  $hojaActiva->setCellValue('B4', 'Paquetes');
+  $hojaActiva->setCellValue('D4', 'Tipo');
   $hojaActiva->setCellValue('E4', 'U.M.');
   $hojaActiva->setCellValue('F4', 'Cant.');
   $hojaActiva->setCellValue('G4', 'V/U');
@@ -70,28 +70,28 @@
   $hojaActiva->setCellValue('J4', 'Desct.');
   $hojaActiva->setCellValue('K4', 'Subtotal');
 
-  require_once "../modelos/Venta_producto.php";
-  $venta_producto = new Venta_producto();
+  require_once "../modelos/Venta_paquete.php";
+  $venta_paquetes = new Venta_paquete();
 
-  $rspta      = $venta_producto->ver_compra($_GET['id']);
+  $rspta      = $venta_paquetes->mostrar_detalle_venta($_GET['id']);
   // echo json_encode($rspta, true);
 
   $hojaActiva->setCellValue('C1', $rspta['data']['venta']['nombres']);
   $hojaActiva->setCellValue('C2', $rspta['data']['venta']['numero_documento']);
   $hojaActiva->setCellValue('C3', format_d_m_a( $rspta['data']['venta']['fecha_venta']));
-  $hojaActiva->setCellValue('I3', $rspta['data']['venta']['val_igv']);
+  $hojaActiva->setCellValue('I3', $rspta['data']['venta']['impuesto']);
   $hojaActiva->setCellValue('K1', $rspta['data']['venta']['tipo_comprobante']);
   $hojaActiva->setCellValue('K2', $rspta['data']['venta']['serie_comprobante']);
 
   $fila_1 = 5; 
 
-  foreach ($rspta['data']['detalle'] as $key => $reg) {         
+  foreach ($rspta['data']['detalle_1'] as $key => $reg) {         
     
     $hojaActiva->mergeCells('B'.$fila_1.':C'.$fila_1); #aprellidos y nombres  
     
     $hojaActiva->setCellValue('A'.$fila_1, ($key+1));
     $hojaActiva->setCellValue('B'.$fila_1, decodeCadenaHtml( $reg['nombre']));
-    $hojaActiva->setCellValue('D'.$fila_1, $reg['categoria']);
+    $hojaActiva->setCellValue('D'.$fila_1, $reg['tipo_tours']);
     $hojaActiva->setCellValue('E'.$fila_1, $reg['unidad_medida']);
     $hojaActiva->setCellValue('F'.$fila_1, $reg['cantidad']);
     $hojaActiva->setCellValue('G'.$fila_1, $reg['precio_sin_igv']);
@@ -107,7 +107,7 @@
   }
 
   $hojaActiva->setCellValue('J'.($fila_1), $rspta['data']['venta']['tipo_gravada']);
-  $hojaActiva->setCellValue('J'.($fila_1 + 1), "IGV(".( ( empty($rspta['data']['venta']['val_igv']) ? 0 : floatval($rspta['data']['venta']['val_igv']) )  * 100 )."%)");
+  $hojaActiva->setCellValue('J'.($fila_1 + 1), "IGV(".( ( empty($rspta['data']['venta']['impuesto']) ? 0 : floatval($rspta['data']['venta']['impuesto']) )  * 100 )."%)");
   $hojaActiva->setCellValue('J'.($fila_1 + 2), "TOTAL");
 
   $hojaActiva->setCellValue('K'.($fila_1), number_format($rspta['data']['venta']['subtotal'], 2, '.',',') );
@@ -123,7 +123,7 @@
 
   // redirect output to client browser
   header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-  header('Content-Disposition: attachment;filename="Compra_de_producto.xlsx"');
+  header('Content-Disposition: attachment;filename="Venta_de_Paquete.xlsx"');
   header('Cache-Control: max-age=0');
 
   $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');

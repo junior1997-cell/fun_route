@@ -524,6 +524,8 @@ function ver_detalle_ventas_paquete(idventa_paquete) {
       });
 
       $(".jq_image_zoom").zoom({ on: "grab" });      
+      $("#excel_compra").attr("href",`../reportes/export_xlsx_venta_paquete.php?id=${idventa_paquete}`);      
+      $("#print_pdf_compra").attr("href",`../reportes/comprobante_venta_paquete.php?id=${idventa_paquete}`); 
       tabla_venta_producto.ajax.reload(null, false);
     } else {
       ver_errores(e);

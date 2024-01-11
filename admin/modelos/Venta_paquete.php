@@ -350,8 +350,8 @@ class Venta_paquete
 
       // :::::::::::::::::::::::::: S E C C I O N   V E N T A   P A Q U E T E  D E T A L L E    ::::::::::::::::::::::::::     
       public function mostrar_detalle_venta($idventa_paquete) {
-        $sql = "SELECT dvp.idventa_paquete, dvp.unidad_medida, dvp.precio_sin_igv, vp.subtotal,
-        dvp.idpaquete, p.nombre, dvp.cantidad, dvp.precio_con_igv
+        $sql = "SELECT dvp.idventa_paquete, dvp.unidad_medida, dvp.precio_sin_igv, dvp.subtotal,
+        dvp.idpaquete, p.nombre, dvp.cantidad, dvp.precio_con_igv, dvp.tipo_tours, vp.igv, dvp.descuento
         FROM venta_paquete_detalle as dvp, venta_paquete as vp, paquete as p 
         WHERE dvp.idventa_paquete=vp.idventa_paquete 
         AND dvp.idventa_paquete='$idventa_paquete'
@@ -359,7 +359,8 @@ class Venta_paquete
         $detalles = ejecutarConsultaArray($sql); if ( $detalles['status'] == false) {return $detalles; }
 
         $sql_2="SELECT vp.idventa_paquete, p.nombres, p.celular, vp.tipo_comprobante, vp.serie_comprobante, vp.descripcion,
-        vp.fecha_venta, vp.metodo_pago, vp.code_vaucher, vp.igv, vp.subtotal
+        vp.fecha_venta, vp.metodo_pago, vp.code_vaucher, vp.igv, vp.subtotal, vp.tipo_gravada, vp.impuesto, vp.total, p.tipo_documento,
+        p.numero_documento, p.direccion
         FROM venta_paquete as vp, persona as p 
         WHERE vp.idventa_paquete='$idventa_paquete'
         AND vp.idpersona=p.idpersona;";
@@ -371,10 +372,19 @@ class Venta_paquete
             'nombre'            => $value['nombre'],
             'cantidad'          => $value['cantidad'],
             'precio_con_igv'    => $value['precio_con_igv'],
+            'idventa_paquete'   => $value['idventa_paquete'],           
+            'unidad_medida'     => $value['unidad_medida'],
+            'subtotal'          => $value['subtotal'],
+            'tipo_tours'        => $value['tipo_tours'],
+            'descuento'         => $value['descuento'],
+            'igv'               => $value['igv'],
 
           ];
         }
-        return $retorno=['status'=>true, 'message'=>'consulta ok', 'data'=>['detalles'=>$detalles_1, 'venta'=>$venta['data']]];
+        return $retorno=['status'=>true, 'message'=>'consulta ok', 'data'=>[  'detalles'=>$detalles_1, //MOSTRAR LOS DATOS EN EL MODAL
+                                                                              'venta'=>$venta['data'], //MOSTRAR LOS DATOS EN EL MODAL
+                                                                              'detalle_1'=>$detalles['data'] //MOSTRAR LOS DATOS EN EL EXCEL
+                                                                            ]];
       }
 
 

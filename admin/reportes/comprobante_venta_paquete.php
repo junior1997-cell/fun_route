@@ -1,5 +1,5 @@
 <?php 
-  require '../vendor/autoload.php';
+  require '../../vendor/autoload.php';
   use Luecano\NumeroALetras\NumeroALetras;
 
   if (strlen(session_id()) < 1) {
@@ -10,27 +10,22 @@
     header("Location: ../vistas/login.html"); //Validamos el acceso solo a los usuarios logueados al sistema.
   } else {   
 
-    require_once "../modelos/Compra_activos_fijos.php";
-    require_once "../modelos/Compra_insumos.php";  
+    require_once "../modelos/Venta_paquete.php";
+    $compra_producto = new Venta_paquete();
     
-    $compra_activos_fijos = new Compra_activos_fijos();
-    $compra_insumo = new Compra_insumos();
     $numero_a_letra = new NumeroALetras();
+    $rspta      = $compra_producto->mostrar_detalle_venta($_GET['id']);
 
-    $rspta = ''; $html_producto = ''; $cont = 1; 
+    $html_producto = ''; $cont = 1; 
 
     if (empty($_GET)) {
       header("Location: ../vistas/login.html"); //Validamos el acceso solo a los usuarios logueados al sistema.
-    } else if ($_GET['op'] == 'insumo') {
-      $id = $_GET['id'];
-      $rspta = $compra_insumo->ver_detalle_compra($id);      
-    }
+    } 
 
-    foreach ($rspta['data']['detalle_producto'] as $key => $reg) {
+    foreach ($rspta['data']['detalle_1'] as $key => $reg) {
       $html_producto .= '<tr>
         <td>'.$cont++.'</td>
         <td>'.$reg['nombre'].'</td>
-        <td>'.$reg['abreviacion'].'</td>
         <td>'.$reg['cantidad'].'</td>
         <td>'.number_format($reg['precio_sin_igv'], 2, '.',',').'</td>
         <td>'.number_format($reg['igv'], 2, '.',',').'</td>
@@ -40,7 +35,7 @@
       </tr>';
     }
 
-    $num_total = $numero_a_letra->toMoney( $rspta['data']['total'], 2, 'soles' );  #echo $num_total; die;
+    $num_total = $numero_a_letra->toMoney( $rspta['data']['venta']['total'], 2, 'soles' );  #echo $num_total; die;
     $centimos = (isset($decimales_mun[1])? $decimales_mun[1] : '00' ) . '/100 CÉNTIMOS';
     $con_letra = strtoupper( $num_total .' '. $centimos );  
     
@@ -725,28 +720,32 @@
           <div class="container bg-white p-4">
             <!-- title row -->
             <div class="row">
-              <div class="col-12">
-                <h2 class="page-header">
-                  <i class="fas fa-globe"></i> <?php echo $rspta['data']['razon_social']; ?>
-                  <!-- <small class="float-right">Date: 2/10/2014</small> -->
-                </h2>
+            <div class="col-12" style="display: flex; align-items: center;">
+              <div style="flex: 1;">
+                <img src="../dist/svg/ico_head.svg" alt="Fun Route" style="width: 8em; height: 8em;">
               </div>
+              <div style="flex: 6; margin-left: 3px;">
+                <h2 class="page-header">FUN ROUTE S.A.C.</h2>
+                <p>RUC 201010109</p>
+                <p>DIRECCIÓN Tarapoto, Perú</p>
+              </div>
+            </div>
               <!-- /.col -->
             </div>
             <!-- info row -->
             <div class="row invoice-info">
               <div class="col-sm-8 invoice-col">                
                 <address>
-                  <!-- <strong><?php echo $rspta['data']['razon_social']; ?></strong><br> -->
-                  <?php echo $rspta['data']['direccion']; ?><br>                  
+                  <!-- <strong>SEVENS INGENIEROS S.A.C</strong><br> -->
+                  <?php echo $rspta['data']['venta']['direccion']; ?><br>                  
                 </address>
               </div>
               <!-- /.col -->
               <div class="col-sm-4 invoice-col text-center border">                
                 <address class="m-1">
-                  <strong><?php echo $rspta['data']['tipo_comprobante']; ?> Electronica</strong><br>
-                  <?php echo $rspta['data']['tipo_documento'] . ': '. $rspta['data']['ruc']; ?><br>
-                  <?php echo $rspta['data']['serie_comprobante']; ?><br>                  
+                  <strong><?php echo $rspta['data']['venta']['tipo_comprobante']; ?> Electronica</strong><br>
+                  <?php echo $rspta['data']['venta']['tipo_documento'] . ': '. $rspta['data']['venta']['numero_documento']; ?><br>
+                  <?php echo $rspta['data']['venta']['serie_comprobante']; ?><br>                  
                 </address>
               </div>
               <div class="col-12"><hr></div>
@@ -755,22 +754,22 @@
               <div class="col-sm-12 invoice-col">
                 <table>
                   <tr>
-                    <th>Fecha de Emisión</th><td>: <?php echo  date("d/m/Y", strtotime($rspta['data']['fecha_compra'])); ?></td>
+                    <th>Fecha de Emisión</th><td>: <?php echo  date("d/m/Y", strtotime($rspta['data']['venta']['fecha_venta'])); ?></td>
                   </tr>
                   <tr>
-                    <th>Señor(es)</th><td>: SEVENS INGENIEROS S.A.C</td>
+                    <th>Señor(es)</th><td>: <?php echo $rspta['data']['venta']['nombres']; ?></td>
                   </tr>
                   <tr>
-                    <th>RUC</th><td>: 20606456892</td>
+                    <th>DNI</th><td>: <?php echo $rspta['data']['venta']['numero_documento']; ?></td>
                   </tr>
                   <tr>
-                    <th>Dirección del Cliente</th><td>: PJ. YUNGAY 151 P.J. SANTA ROSA LAMBAYEQUE-CHICLAYOCHICLAYO </td>
+                    <th>Dirección del Cliente</th><td>: <?php echo $rspta['data']['venta']['direccion']; ?></td>
                   </tr>
                   <tr>
                     <th>Tipo de Moneda</th><td>: Soles</td>
                   </tr>
                   <tr>
-                    <th>Observación</th><td>: <?php echo $rspta['data']['descripcion']; ?></td>
+                    <th>Tipo de Pago</th><td>: <?php echo $rspta['data']['venta']['metodo_pago']; ?></td>
                   </tr>
                 </table>
                 
@@ -787,7 +786,6 @@
                   <tr>
                     <th>#</th>
                     <th>Producto</th>
-                    <th>Abreviación</th>
                     <th>Cantidad</th>
                     <th>PU</th>
                     <th>IGV</th>
@@ -810,7 +808,7 @@
               <div class="col-8">
               <p class="lead"><?php echo $con_letra; ?></p>
                 <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                Esta es una representación impresa de la factura electrónica, generada en el Sistema de SUNAT. Puede verificarla utilizando su clave SOL
+                Esta es una representación impresa del comprobante no valido para el Sistema de SUNAT. Gracias por su compra, vuelva pronto.
                 </p>
                 
                 <img src="../dist/img/credit/visa.png" alt="Visa">
@@ -828,15 +826,15 @@
                   <table class="table">
                     <tr>
                       <th style="width:50%">Subtotal:</th>
-                      <td class="text-right"><?php echo number_format( $rspta['data']['subtotal'], 2, '.',','); ?></td>
+                      <td class="text-right"><?php echo number_format( $rspta['data']['venta']['subtotal'], 2, '.',','); ?></td>
                     </tr>
                     <tr>
-                      <th>IGV (<?php echo ( ( empty($rspta['data']['val_igv']) ? 0 : floatval($rspta['data']['val_igv']) )  * 100 ) ; ?>%)</th>
-                      <td class="text-right"><?php echo number_format( $rspta['data']['igv'], 2, '.',','); ?></td>
+                      <th>IGV (<?php echo ( ( empty($rspta['data']['venta']['impuesto']) ? 0 : floatval($rspta['data']['venta']['impuesto']) )  * 100 ) ; ?>%)</th>
+                      <td class="text-right"><?php echo number_format( $rspta['data']['venta']['igv'], 2, '.',','); ?></td>
                     </tr>
                     <tr>
                       <th>TOTAL:</th>
-                      <td class="text-right"><?php echo number_format( $rspta['data']['total'], 2, '.',','); ?></td>
+                      <td class="text-right"><?php echo number_format( $rspta['data']['venta']['total'], 2, '.',','); ?></td>
                     </tr>                    
                   </table>
                 </div>

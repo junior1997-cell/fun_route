@@ -350,8 +350,8 @@ class Venta_tours
 
   // :::::::::::::::::::::::::: S E C C I O N   V E N T A    T O U R S    D E T A L L E    ::::::::::::::::::::::::::     
   public function mostrar_detalle_venta($idventa_tours) {
-    $sql = "SELECT dvt.idventa_tours, dvt.unidad_medida, dvt.precio_sin_igv, vt.subtotal,
-    dvt.idtours, t.nombre, dvt.cantidad, dvt.precio_con_igv
+    $sql = "SELECT dvt.idventa_tours, dvt.unidad_medida, dvt.precio_sin_igv, dvt.subtotal, dvt.tipo_tours,
+    dvt.idtours, t.nombre, dvt.cantidad, dvt.precio_con_igv, dvt.descuento, vt.igv
     FROM venta_tours_detalle as dvt, venta_tours as vt, tours as t
     WHERE dvt.idventa_tours=vt.idventa_tours 
     AND dvt.idventa_tours='$idventa_tours'
@@ -359,7 +359,8 @@ class Venta_tours
     $detalles = ejecutarConsultaArray($sql); if ( $detalles['status'] == false) {return $detalles; }
 
     $sql_2="SELECT vt.idventa_tours, p.nombres, p.celular, vt.tipo_comprobante, vt.serie_comprobante, vt.descripcion,
-    vt.fecha_venta, vt.metodo_pago, vt.code_vaucher, vt.igv, vt.subtotal
+    vt.fecha_venta, vt.metodo_pago, vt.code_vaucher, vt.igv, vt.subtotal, vt.tipo_gravada, vt.impuesto, vt.total, p.tipo_documento,
+    p.numero_documento, p.direccion
     FROM venta_tours as vt, persona as p 
     WHERE vt.idventa_tours='$idventa_tours'
     AND vt.idpersona=p.idpersona;";
@@ -371,10 +372,19 @@ class Venta_tours
         'nombre'            => $value['nombre'],
         'cantidad'          => $value['cantidad'],
         'precio_con_igv'    => $value['precio_con_igv'],
+        'idventa_tours'     => $value['idventa_tours'],
+        'unidad_medida'     => $value['unidad_medida'],
+        'subtotal'          => $value['subtotal'],
+        'tipo_tours'        => $value['tipo_tours'],
+        'descuento'         => $value['descuento'],
+        'igv'               => $value['igv'],
 
       ];
     }
-    return $retorno=['status'=>true, 'message'=>'consulta ok', 'data'=>['detalles'=>$detalles_1, 'venta'=>$venta['data']]];
+    return $retorno=['status'=>true, 'message'=>'consulta ok', 'data'=>[  'detalles'=>$detalles_1, //MOSTRAR LOS DATOS EN EL MODAL
+                                                                          'venta'=>$venta['data'], //MOSTRAR LOS DATOS EN EL MODAL
+                                                                          'detalle_1'=>$detalles['data'] //MOSTRAR LOS DATOS EN EL EXCEL
+                                                                        ]];
   }
 
   // ::::::::::::::::::::::::::::::::::::::::: S E C C I O N   P A G O S ::::::::::::::::::::::::::::::::::::::::: 

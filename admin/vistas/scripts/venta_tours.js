@@ -520,7 +520,10 @@ function ver_detalle_ventas_tours(idventa_tours) {
       });
 
       $(".jq_image_zoom").zoom({ on: "grab" });      
+      $("#excel_compra").attr("href",`../reportes/export_xlsx_venta_tours.php?id=${idventa_tours}`);      
+      $("#print_pdf_compra").attr("href",`../reportes/comprobante_venta_tours.php?id=${idventa_tours}`);      
       tabla_venta_producto.ajax.reload(null, false);
+      
     } else {
       ver_errores(e);
     } 
