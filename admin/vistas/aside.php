@@ -267,12 +267,14 @@
 
             <?php if ($_SESSION['cotizacion']==1) {  ?>
               <!-- RESUMEN DE GASTOS -->
+              <!--
               <li class="nav-item ">
                 <a href="cotizacion.php" class="nav-link pl-2" id="lCotizacion">
                   <i class="fa-solid fa-money-check-dollar nav-icon"></i>
                   <p>Cotizaciones</p>
                 </a>
               </li>
+              -->
             <?php  }  ?>
 
             <?php if ($_SESSION['pago_trabajador']==1) {  ?>
@@ -298,6 +300,7 @@
         </li>
 
         <!-- REPORTES -->   
+        <!--
         <li class="nav-item " id="bloc_Reporte">
           <a href="#" class="nav-link bg-color-2c2c2c" id="mReporte" style="padding-left: 7px;">
             <i class="nav-icon far fa-circle"></i>
@@ -325,6 +328,7 @@
             
           </ul>
         </li>
+        -->   
 
       </ul>      
     </nav>
