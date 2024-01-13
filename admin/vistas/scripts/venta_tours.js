@@ -54,7 +54,7 @@ function init() {
   $("#tipo_comprobante").select2({ theme: "bootstrap4", placeholder: "Selecione Comprobante", allowClear: true, });
 
   // ══════════════════════════════════════ INITIALIZE SELECT2 - PAGO VENTAS ══════════════════════════════════════
-  $("#forma_pago_pv").select2({ theme: "bootstrap4", placeholder: "Selecione", allowClear: true, });
+  $("#forma_pago").select2({ theme: "bootstrap4", placeholder: "Selecione", allowClear: true, });
 
   // ══════════════════════════════════════ INITIALIZE SELECT2 - AGRICULTOR ══════════════════════════════════════
   $("#banco").select2({templateResult: templateBanco, theme: "bootstrap4", placeholder: "Selecione un banco", allowClear: true, });
@@ -67,7 +67,7 @@ function init() {
   $("#metodo_pago").select2({ theme: "bootstrap4", placeholder: "Selecione método", allowClear: true, });
 
   no_select_tomorrow("#fecha_venta");
-  no_select_tomorrow("#fecha_pago_pv");
+  no_select_tomorrow("#fecha_pago");
   no_select_over_18('#nacimiento_per');
 
   // ══════════════════════════════════════ INITIALIZE SELECT2 - P R O D U C T O ══════════════════════════════════════
@@ -83,7 +83,7 @@ function init() {
   $('#precio_igv_p').number( true, 2 );
   $('#precio_total_p').number( true, 2 );
 
-  $('#monto_pv').number( true, 2 );
+  $('#monto').number( true, 2 );
 
   // Formato para telefono
   $("[data-mask]").inputmask();
@@ -118,7 +118,7 @@ function templatePersona (state) {
 function limpiar_form_compra() {
   $(".tooltip").removeClass("show").addClass("hidde");
 
-  $("#idventa_producto").val("");
+  $("#idventa_tours").val("");
   $("#idcliente").val("null").trigger("change");
   $("#tipo_comprobante").val("NINGUNO").trigger("change");  
 
@@ -405,14 +405,14 @@ function guardar_y_editar_ventas(e) {
 }
 
 //Función para eliminar registros
-function eliminar_venta(idventa_producto, nombre) {
+function eliminar_venta(idventa_tours, nombre) {
 
   $(".tooltip").removeClass("show").addClass("hidde");
 
   crud_eliminar_papelera(
     "../ajax/venta_tours.php?op=papelera_venta",
     "../ajax/venta_tours.php?op=eliminar_venta", 
-    idventa_producto, 
+    idventa_tours, 
     "!Elija una opción¡", 
     `<b class="text-danger">${nombre}</b> <br> En <b>papelera</b> encontrará este registro! <br> Al <b>eliminar</b> no tendrá acceso a recuperar este registro!`, 
     function(){ sw_success('♻️ Papelera! ♻️', "Tu compra ha sido reciclado." ) }, 
@@ -549,11 +549,11 @@ function doc1_eliminar() {
 
 function limpiar_form_pago_compra() {  
 
-  $("#idventa_tours_pago_pv").val(""); 
-  $("#forma_pago_pv").val("null").trigger("change"); 
-  $("#fecha_pago_pv").val(""); 
-  $("#monto_pv").val(""); 
-  $("#descripcion_pv").val(""); 
+  $("#idventa_tours_pago").val(""); 
+  $("#forma_pago").val("null").trigger("change"); 
+  $("#fecha_pago").val(""); 
+  $("#monto").val(""); 
+  $("#descripcion").val(""); 
   $(".deuda-actual").val("0.00"); 
 
   $("#doc_old_1").val("");
@@ -570,7 +570,7 @@ function limpiar_form_pago_compra() {
 function tbla_pago_venta( idventa_tours, total_compra, total_pago, cliente) {
 
   table_show_hide(4);
-  $("#idventa_producto_pv").val(idventa_tours);
+  $("#idventa_tours").val(idventa_tours);
   $("#total_de_venta").html(formato_miles(total_compra));
   $(".h1-nombre-cliente").html(` - <b>${cliente}</b>` );
 
@@ -644,16 +644,16 @@ function elim_pago_venta(idventa_tours_pago, nombre) {
 }
 
 function calcular_deuda() {
-  var monto_actual = $('#monto_pv').val() == '' || $('#monto_pv').val() == null ? 0 : quitar_formato_miles($('#monto_pv').val());
+  var monto_actual = $('#monto').val() == '' || $('#monto').val() == null ? 0 : quitar_formato_miles($('#monto').val());
   var monto_pagados = $('#total_depositos').text() == '' || $('#total_depositos').text() == null ? 0 : quitar_formato_miles($('#total_depositos').text());
   var monto_de_compra = $('#total_de_venta').text() == '' || $('#total_de_venta').text() == null ? 0 : quitar_formato_miles($('#total_de_venta').text());
-  var idventa_tours_pago_pv = $('#idventa_tours_pago_pv').val();
+  var idventa_tours_pago = $('#idventa_tours_pago').val();
 
   var monto_deuda = 0;
-  if (idventa_tours_pago_pv == ''  || idventa_tours_pago_pv == null) {
+  if (idventa_tours_pago == ''  || idventa_tours_pago == null) {
     monto_deuda = parseFloat(monto_de_compra) - parseFloat(monto_pagados) - parseFloat(monto_actual);
   } else {
-    var btn_monto_pagados = $(`#btn_monto_pagado_${idventa_tours_pago_pv}`).attr("monto_pagado");
+    var btn_monto_pagados = $(`#btn_monto_pagado_${idventa_tours_pago}`).attr("monto_pagado");
     monto_deuda = parseFloat(monto_de_compra) - (parseFloat(monto_pagados) - parseFloat(btn_monto_pagados)) - parseFloat(monto_actual) ;
   }  
 
@@ -669,7 +669,7 @@ function calcular_deuda() {
 }
 
 //guardar cliente
-function guardar_y_editar_pago_venta(e) {
+function guardar_y_editar_pago_venta(e) { 
   // e.preventDefault(); //No se activará la acción predeterminada del evento
   var formData = new FormData($("#form-pago-venta")[0]);
 
@@ -685,7 +685,7 @@ function guardar_y_editar_pago_venta(e) {
         if (e.status == true) {          
           if (tabla_pago_venta) { tabla_pago_venta.ajax.reload(null, false); } 
           if (tabla_venta_x_proveedor) { tabla_venta_x_proveedor.ajax.reload(null, false); }     
-          if (tabla_venta_producto) { tabla_venta_producto.ajax.reload(null, false); } 
+          if (tabla_venta_producto) { tabla_venta_producto.ajax.reload(null, false); }     
                 
           
           Swal.fire("Correcto!", "Pago guardado correctamente.", "success");          
@@ -723,7 +723,7 @@ function guardar_y_editar_pago_venta(e) {
   });
 }
 
-function mostrar_editar_pago(idpago_venta) {
+function mostrar_editar_pago(idventa_tours_pago) {
   $(".tooltip").remove();
   $("#cargando-7-fomulario").hide();
   $("#cargando-8-fomulario").show();
@@ -732,18 +732,18 @@ function mostrar_editar_pago(idpago_venta) {
 
   $("#modal-agregar-pago-venta").modal("show")
 
-  $.post("../ajax/venta_tours.php?op=mostrar_editar_pago", { 'idpago_venta': idpago_venta }, function (e, status) {
+  $.post("../ajax/venta_tours.php?op=mostrar_editar_pago", { 'idventa_tours_pago': idventa_tours_pago }, function (e, status) {
 
     e = JSON.parse(e);  console.log(e);  
 
     if (e.status == true) {
 
-      $("#idventa_tours_pago_pv").val(e.data.idventa_tours_pago);
-      $("#idventa_producto_pv").val(e.data.idventa_producto); 
-      $("#forma_pago_pv").val(e.data.forma_pago).trigger("change");
-      $("#fecha_pago_pv").val(e.data.fecha_pago); 
-      $("#monto_pv").val(e.data.monto).trigger("change");
-      $("#descripcion_pv").val(e.data.descripcion); 
+      $("#idventa_tours_pago").val(e.data.idventa_tours_pago);
+      $("#idventa_tours").val(e.data.idventa_tours); 
+      $("#forma_pago").val(e.data.forma_pago).trigger("change");
+      $("#fecha_pago").val(e.data.fecha_pago); 
+      $("#monto").val(e.data.monto).trigger("change");
+      $("#descripcion").val(e.data.descripcion); 
 
       if (e.data.comprobante == "" || e.data.comprobante == null  ) {
         $("#doc1_ver").html('<img src="../dist/svg/doc_uploads.svg" alt="" width="50%" >');
@@ -753,7 +753,7 @@ function mostrar_editar_pago(idpago_venta) {
         $("#doc_old_1").val(e.data.comprobante);
         $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Baucher.${extrae_extencion(e.data.comprobante)}</i></div></div>`);
         // cargamos la imagen adecuada par el archivo
-        $("#doc1_ver").html(doc_view_extencion(e.data.comprobante,'admin/dist/docs/venta_producto/comprobante_pago/', '100%', '210' ));            
+        $("#doc1_ver").html(doc_view_extencion(e.data.comprobante,'admin/dist/docs/venta_tours/comprobante/', '100%', '210' ));            
       }
 
       $("#cargando-7-fomulario").show();
@@ -768,7 +768,7 @@ function mostrar_editar_pago(idpago_venta) {
 function ver_documento_pago(doc, name_download) {
   $('.tile-modal-comprobante').html(name_download);
   $('#modal-ver-comprobante-pago').modal('show');
-  $('.div-view-comprobante-pago').html(doc_view_download_expand(doc, 'dist/docs/venta_producto/comprobante_pago',name_download,'100%', '410'));
+  $('.div-view-comprobante-pago').html(doc_view_download_expand(doc, 'dist/docs/venta_tours/comprobante',name_download,'100%', '410'));
   $('.jq_image_zoom').zoom({ on:'grab' });
 }
 
@@ -1265,7 +1265,7 @@ $(function () {
   $('#unidad_medida_pro').on('change', function() { $(this).trigger('blur'); });
   $('#categoria_producto_pro').on('change', function() { $(this).trigger('blur'); });
   
-  $('#forma_pago_pago').on('change', function() { $(this).trigger('blur'); });;
+  $('#forma_pago').on('change', function() { $(this).trigger('blur'); });;
 
   $("#form-ventas").validate({
     ignore: '.select2-input, .select2-focusser',
@@ -1396,16 +1396,16 @@ $(function () {
 
   $("#form-pago-venta").validate({
     rules: {
-      forma_pago_pv: { required: true },
-      fecha_pago_pv: { required: true, },
-      monto_pv:      { required: true, },
-      descripcion_pv:{ minlength: 4, maxlength: 200 },
+      forma_pago: { required: true },
+      fecha_pago: { required: true, },
+      monto:      { required: true, },
+      descripcion:{ minlength: 4, maxlength: 200 },
     },
     messages: {
-      forma_pago_pv: { required: "Campo requerido.", },
-      fecha_pago_pv: { required: "Campo requerido.", },
-      monto_pv:      { required: "Campo requerido.", },
-      descripcion_pv:{ minlength: "MÍNIMO 4 caracteres.", maxlength: "MÁXIMO 200 caracteres.", },
+      forma_pago: { required: "Campo requerido.", },
+      fecha_pago: { required: "Campo requerido.", },
+      monto:      { required: "Campo requerido.", },
+      descripcion:{ minlength: "MÍNIMO 4 caracteres.", maxlength: "MÁXIMO 200 caracteres.", },
     },
 
     errorElement: "span",
@@ -1438,7 +1438,7 @@ $(function () {
   $('#unidad_medida_pro').rules('add', { required: true, messages: {  required: "Campo requerido" } });
   $('#categoria_producto_pro').rules('add', { required: true, messages: {  required: "Campo requerido" } });
 
-  $('#forma_pago_pago').rules('add', { required: true, messages: {  required: "Campo requerido" } });
+  $('#forma_pago').rules('add', { required: true, messages: {  required: "Campo requerido" } });
 
 });
 

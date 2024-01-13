@@ -114,19 +114,19 @@ class Venta_tours
   $subtotal_venta, $tipo_gravada, $igv_venta, $total_venta, $metodo_pago, $code_vaucher, $pagar_con_ctdo, $pagar_con_tarj , $vuelto_venta ,
   $idtours, $unidad_medida, $tipo_tours, $cantidad, $precio_sin_igv, $precio_igv, $precio_con_igv,  $descuento, $subtotal_producto, $val_igv, $subtotal_compra, $categoria, $cantidad_old) {
 
-    if ( !empty($idventa_producto) ) {
+    if ( !empty($idventa_tours) ) {
       //Eliminamos todos los permisos asignados para volverlos a registrar
-      $sqldel = "DELETE FROM detalle_venta_producto WHERE idventa_producto='$idventa_producto';";
+      $sqldel = "DELETE FROM detalle_venta_producto WHERE idventa_tours='$idventa_tours';";
       $delete_compra = ejecutarConsulta($sqldel);  if ($delete_compra['status'] == false) { return $delete_compra; }
 
       $sql = "UPDATE venta_producto SET idpersona='$idcliente',fecha_venta='$fecha_venta',tipo_comprobante='$tipo_comprobante',
       serie_comprobante='$serie_comprobante',val_igv='$val_igv',subtotal='$subtotal_compra',igv='$igv_venta',
       total='$total_venta',tipo_gravada='$tipo_gravada',descripcion='$descripcion', user_updated = '$this->id_usr_sesion'
-      WHERE idventa_producto = '$idventa_producto'";
+      WHERE idventa_tours = '$idventa_tours'";
       $update_compra = ejecutarConsulta($sql); if ($update_compra['status'] == false) { return $update_compra; }
 
       //add registro en nuestra bitacora
-      $sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES ('venta_producto','$idventa_producto','Editar compra','$this->id_usr_sesion')";
+      $sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES ('venta_producto','$idventa_tours','Editar compra','$this->id_usr_sesion')";
       $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }
 
       $i = 0; $detalle_compra = "";
@@ -135,9 +135,9 @@ class Venta_tours
 
         $subtotal_producto = (floatval($cantidad[$i]) * floatval($precio_con_igv[$i])) - $descuento[$i];
 
-        $sql_detalle = "INSERT INTO detalle_venta_producto(idventa_producto, idproducto, unidad_medida, categoria, cantidad, precio_sin_igv, igv, 
+        $sql_detalle = "INSERT INTO detalle_venta_producto(idventa_tours, idproducto, unidad_medida, categoria, cantidad, precio_sin_igv, igv, 
         precio_con_igv, descuento, subtotal, user_created) 
-        VALUES ('$idventa_producto','$idventa_tours[$i]', '$unidad_medida[$i]',  '$categoria[$i]', '$cantidad[$i]', 
+        VALUES ('$idventa_tours','$idventa_tours[$i]', '$unidad_medida[$i]',  '$categoria[$i]', '$cantidad[$i]', 
         '$precio_sin_igv[$i]', '$precio_igv[$i]', '$precio_con_igv[$i]', '$descuento[$i]', 
         '$subtotal_producto','$this->id_usr_sesion')";
         $detalle_compra =  ejecutarConsulta_retornarID($sql_detalle); if ($detalle_compra['status'] == false) { return  $detalle_compra;}
@@ -159,20 +159,20 @@ class Venta_tours
     }
   }
 
-  public function mostrar_venta_para_editar($idventa_producto) {
+  public function mostrar_venta_para_editar($idventa_tours) {
 
-    $sql = "SELECT  vp.idventa_producto,vp.fecha_venta, vp.idpersona, vp.tipo_comprobante, vp.serie_comprobante, vp.val_igv, vp.subtotal, vp.igv, vp.total, vp.tipo_gravada, 
+    $sql = "SELECT  vp.idventa_tours,vp.fecha_venta, vp.idpersona, vp.tipo_comprobante, vp.serie_comprobante, vp.val_igv, vp.subtotal, vp.igv, vp.total, vp.tipo_gravada, 
     vp.descripcion, vp.metodo_pago, vp.fecha_proximo_pago,
     p.nombres, p.tipo_documento, p.numero_documento, p.celular, p.correo, p.direccion,p.correo
     FROM venta_producto as vp, persona as p 
-    WHERE vp.idpersona = p.idpersona AND vp.idventa_producto ='$idventa_producto';";
+    WHERE vp.idpersona = p.idpersona AND vp.idventa_tours ='$idventa_tours';";
 
     $venta =  ejecutarConsultaSimpleFila($sql); if ($venta['status'] == false) {return $venta; }
 
     $sql = "SELECT dvp.idproducto, dvp.unidad_medida, dvp.categoria, dvp.cantidad, dvp.precio_sin_igv, dvp.igv, dvp.precio_con_igv, p.precio_compra_actual as precio_compra,
     dvp.descuento, dvp.subtotal, p.nombre, p.imagen, cp.nombre as categoria, um.abreviatura
     FROM detalle_venta_producto as dvp, producto as p, categoria_producto as cp, unidad_medida as um
-    WHERE dvp.idproducto =p.idproducto AND p.idcategoria_producto = cp.idcategoria_producto AND p.idunidad_medida = um.idunidad_medida AND dvp.idventa_producto ='$idventa_producto';";
+    WHERE dvp.idproducto =p.idproducto AND p.idcategoria_producto = cp.idcategoria_producto AND p.idunidad_medida = um.idunidad_medida AND dvp.idventa_tours ='$idventa_tours';";
 
     $detalle = ejecutarConsultaArray($sql);    if ($detalle['status'] == false) {return $detalle; }
 
@@ -235,8 +235,8 @@ class Venta_tours
   }
 
   //Implementar un método para mostrar los datos de un registro a modificar
-  public function mostrar($idventa_producto) {
-    $sql = "SELECT * FROM venta_producto WHERE idventa_producto='$idventa_producto'";
+  public function mostrar($idventa_tours) {
+    $sql = "SELECT * FROM venta_producto WHERE idventa_tours='$idventa_tours'";
     return ejecutarConsultaSimpleFila($sql);
   }
 
@@ -326,21 +326,21 @@ class Venta_tours
   }
 
   //mostrar detalles uno a uno de la factura
-  public function ver_compra($idventa_producto) {
+  public function ver_compra($idventa_tours) {
 
     $sql = "SELECT cp.fecha_venta, cp.tipo_comprobante, cp.serie_comprobante, cp.val_igv, cp.subtotal, cp.igv, cp.total, cp.tipo_gravada, 
     cp.descripcion, 
     p.nombres, p.tipo_documento, p.numero_documento, p.celular, p.correo, p.direccion 
     FROM venta_producto as cp, persona as p 
-    WHERE cp.idpersona = p.idpersona AND cp.idventa_producto ='$idventa_producto';";
+    WHERE cp.idpersona = p.idpersona AND cp.idventa_tours ='$idventa_tours';";
     $compra=  ejecutarConsultaSimpleFila($sql); if ($compra['status'] == false) {return $compra; }
 
-    $sql = "SELECT dvp.iddetalle_venta_producto, dvp.idventa_producto, dvp.idproducto, dvp.unidad_medida, dvp.categoria, dvp.cantidad, 
+    $sql = "SELECT dvp.iddetalle_venta_producto, dvp.idventa_tours, dvp.idproducto, dvp.unidad_medida, dvp.categoria, dvp.cantidad, 
     dvp.precio_sin_igv, dvp.igv, dvp.precio_con_igv, dvp.descuento, dvp.subtotal, dvp.estado,
     p.nombre, p.marca, p.contenido_neto, p.imagen, ct.nombre as categoria, um.abreviatura
     FROM detalle_venta_producto as dvp, producto AS p, categoria_producto as ct, unidad_medida as um
     WHERE dvp.idproducto = p.idproducto AND p.idcategoria_producto = ct.idcategoria_producto AND p.idunidad_medida = um.idunidad_medida
-    AND dvp.idventa_producto = '$idventa_producto';";
+    AND dvp.idventa_tours = '$idventa_tours';";
 
     $detalle = ejecutarConsultaArray($sql);    if ($detalle['status'] == false) {return $detalle; }
 
@@ -389,9 +389,10 @@ class Venta_tours
 
   // ::::::::::::::::::::::::::::::::::::::::: S E C C I O N   P A G O S ::::::::::::::::::::::::::::::::::::::::: 
 
-  public function crear_pago_compra($idventa_tours, $forma_pago, $fecha_pago, $monto, $descripcion, $comprobante_pago)  {
+  public function crear_pago_compra($idventa_tours, $forma_pago, $fecha_pago, $monto, $descripcion, $comprobante)  {
+    //var_dump($idventa_tours, $forma_pago, $fecha_pago, $monto, $descripcion, $comprobante); die();
     $sql_1 = "INSERT INTO venta_tours_pago(idventa_tours, forma_pago, fecha_pago, monto, descripcion, comprobante)
-    VALUES ('$idventa_tours', '$forma_pago', '$fecha_pago', '$monto', '$descripcion', '$comprobante_pago')";
+    VALUES ('$idventa_tours', '$forma_pago', '$fecha_pago', '$monto', '$descripcion', '$comprobante')";
     $crear_pago = ejecutarConsulta_retornarID($sql_1); if ( $crear_pago['status'] == false) {return $crear_pago; } 
 
     //add registro en nuestra bitacora
@@ -401,14 +402,14 @@ class Venta_tours
 		return $crear_pago;
   }
 
-  public function editar_pago_compra($idpago_venta, $idventa_producto, $forma_pago, $fecha_pago, $monto, $descripcion, $comprobante_pago)  {
-    $sql_1 = "UPDATE venta_tours_pago SET idventa_tours='$idventa_producto',forma_pago='$forma_pago',
-    fecha_pago='$fecha_pago',  monto='$monto', comprobante='$comprobante_pago', descripcion='$descripcion'
+  public function editar_pago_compra($idpago_venta, $idventa_tours, $forma_pago, $fecha_pago, $monto, $descripcion, $comprobante)  {
+    $sql_1 = "UPDATE venta_tours_pago SET idventa_tours='$idventa_tours',forma_pago='$forma_pago',
+    fecha_pago='$fecha_pago',  monto='$monto', comprobante='$comprobante', descripcion='$descripcion'
     WHERE idventa_tours_pago='$idpago_venta'; ";
     $editar_pago = ejecutarConsulta($sql_1); if ( $editar_pago['status'] == false) {return $editar_pago; } 
 
     //add registro en nuestra bitacora
-		$sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (1,'venta_tours_pago','".$idventa_producto."','Se edito este registro','$this->id_usr_sesion')";
+		$sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (1,'venta_tours_pago','".$idventa_tours."','Se edito este registro','$this->id_usr_sesion')";
 		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }   
 		
 		return $editar_pago;

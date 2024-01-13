@@ -47,12 +47,12 @@ if (!isset($_SESSION["nombre"])) {
     $vuelto_venta     = isset($_POST["vuelto_venta"]) ? limpiarCadena($_POST["vuelto_venta"]) : "";
     
     // :::::::::::::::::::::::::::::::::::: D A T O S   P A G O   V E N T A ::::::::::::::::::::::::::::::::::::::
-    $idventa_tours_pago_pv  = isset($_POST["idventa_tours_pago_pv"]) ? limpiarCadena($_POST["idventa_tours_pago_pv"]) : "";
-    $idventa_tours_pv       = isset($_POST["idventa_tours_pv"]) ? limpiarCadena($_POST["idventa_tours_pv"]) : "";  
-    $forma_pago_pv             = isset($_POST["forma_pago_pv"]) ? limpiarCadena($_POST["forma_pago_pv"]) : "";
-    $fecha_pago_pv             = isset($_POST["fecha_pago_pv"]) ? limpiarCadena($_POST["fecha_pago_pv"]) : "";
-    $monto_pv                  = isset($_POST["monto_pv"]) ? limpiarCadena($_POST["monto_pv"]) : "";  
-    $descripcion_pv            = isset($_POST["descripcion_pv"]) ? limpiarCadena($_POST["descripcion_pv"]) : "";  
+    $idventa_tours_pago  = isset($_POST["idventa_tours_pago"]) ? limpiarCadena($_POST["idventa_tours_pago"]) : "";
+    $idventa_tours       = isset($_POST["idventa_tours"]) ? limpiarCadena($_POST["idventa_tours"]) : "";  
+    $forma_pago             = isset($_POST["forma_pago"]) ? limpiarCadena($_POST["forma_pago"]) : "";
+    $fecha_pago             = isset($_POST["fecha_pago"]) ? limpiarCadena($_POST["fecha_pago"]) : "";
+    $monto                  = isset($_POST["monto"]) ? limpiarCadena($_POST["monto"]) : "";  
+    $descripcion            = isset($_POST["descripcion"]) ? limpiarCadena($_POST["descripcion"]) : "";  
      
     // :::::::::::::::::::::::::::::::::::: D A T O S   C O M P R O B A N T E ::::::::::::::::::::::::::::::::::::::
     $id_compra_proyecto       = isset($_POST["id_compra_proyecto"]) ? limpiarCadena($_POST["id_compra_proyecto"]) : "";
@@ -364,29 +364,29 @@ if (!isset($_SESSION["nombre"])) {
     
         // imgen de perfil
         if (!file_exists($_FILES['doc1']['tmp_name']) || !is_uploaded_file($_FILES['doc1']['tmp_name'])) {
-          $comprobante_pago = $_POST["doc_old_1"]; $flat_doc1 = false;
+          $comprobante = $_POST["doc_old_1"]; $flat_doc1 = false;
         } else {
           $ext1 = explode(".", $_FILES["doc1"]["name"]); $flat_doc1 = true;	
-          $comprobante_pago  = $date_now .'__'. random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext1);
-          move_uploaded_file($_FILES["doc1"]["tmp_name"], "../dist/docs/venta_producto/comprobante_pago/" . $comprobante_pago );          
+          $comprobante  = $date_now .'__'. random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext1);
+          move_uploaded_file($_FILES["doc1"]["tmp_name"], "../dist/docs/venta_tours/comprobante/" . $comprobante );          
         }
 
-        if (empty($idventa_tours_pago_pv)){
+        if (empty($idventa_tours_pago)){
           
-          $rspta=$venta_producto->crear_pago_compra( $idventa_tours_pv, $forma_pago_pv, $fecha_pago_pv, quitar_formato_miles($monto_pv), $descripcion_pv, $comprobante_pago);          
+          $rspta=$venta_producto->crear_pago_compra( $idventa_tours, $forma_pago, $fecha_pago, quitar_formato_miles($monto), $descripcion, $comprobante);          
           echo json_encode($rspta, true);
 
         }else {
 
           // validamos si existe LA IMG para eliminarlo
           if ($flat_doc1 == true) {
-            $doc_pago = $venta_producto->obtener_doc_pago_compra($idventa_tours_pago_pv);
+            $doc_pago = $venta_producto->obtener_doc_pago_compra($idventa_tours_pago);
             $doc_pago_antiguo = $doc_pago['data']['comprobante'];
-            if ( !empty($doc_pago_antiguo) ) { unlink("../dist/docs/venta_producto/comprobante_pago/" . $doc_pago_antiguo);  }
+            if ( !empty($doc_pago_antiguo) ) { unlink("../dist/docs/venta_tours/comprobante/" . $doc_pago_antiguo);  }
           }            
 
           // editamos un persona existente
-          $rspta=$venta_producto->editar_pago_compra( $idventa_tours_pago_pv, $idventa_tours_pv, $forma_pago_pv, $fecha_pago_pv, quitar_formato_miles($monto_pv), $descripcion_pv, $comprobante_pago );          
+          $rspta=$venta_producto->editar_pago_compra( $idventa_tours_pago, $idventa_tours, $forma_pago, $fecha_pago, quitar_formato_miles($monto), $descripcion, $comprobante );          
           echo json_encode($rspta, true);
         }
     
@@ -440,7 +440,7 @@ if (!isset($_SESSION["nombre"])) {
 
       case 'mostrar_editar_pago':
 
-        $rspta = $venta_producto->mostrar_editar_pago($_POST["idpago_venta"]);    
+        $rspta = $venta_producto->mostrar_editar_pago($_POST["idventa_tours_pago"]);    
         echo json_encode($rspta, true);
     
       break;

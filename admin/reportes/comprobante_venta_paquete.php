@@ -729,6 +729,14 @@
                 <p>RUC 201010109</p>
                 <p>DIRECCIÓN Tarapoto, Perú</p>
               </div>
+              <!-- /.col -->
+              <div class="col-sm-4 invoice-col text-center border">                
+                <address class="m-1">
+                  <strong><?php echo $rspta['data']['venta']['tipo_comprobante']; ?> Electronica</strong><br>
+                  <?php echo $rspta['data']['venta']['tipo_documento'] . ': '. $rspta['data']['venta']['numero_documento']; ?><br>
+                  <?php echo $rspta['data']['venta']['serie_comprobante']; ?><br>                  
+                </address>
+              </div>
             </div>
               <!-- /.col -->
             </div>
@@ -740,14 +748,7 @@
                   <?php echo $rspta['data']['venta']['direccion']; ?><br>                  
                 </address>
               </div>
-              <!-- /.col -->
-              <div class="col-sm-4 invoice-col text-center border">                
-                <address class="m-1">
-                  <strong><?php echo $rspta['data']['venta']['tipo_comprobante']; ?> Electronica</strong><br>
-                  <?php echo $rspta['data']['venta']['tipo_documento'] . ': '. $rspta['data']['venta']['numero_documento']; ?><br>
-                  <?php echo $rspta['data']['venta']['serie_comprobante']; ?><br>                  
-                </address>
-              </div>
+              
               <div class="col-12"><hr></div>
               
               <!-- /.col -->

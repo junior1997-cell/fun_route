@@ -736,14 +736,14 @@
                             <div class="card-body">
                               <div class="row" id="cargando-3-fomulario">
                                 <!-- idpago_compra_grano -->
-                                <input type="hidden" name="idventa_tours_pago_pv" id="idventa_tours_pago_pv" />
-                                <input type="hidden" name="idventa_producto_pv" id="idventa_producto_pv" />
+                                <input type="hidden" name="idventa_tours_pago" id="idventa_tours_pago" />
+                                <input type="hidden" name="idventa_tours" id="idventa_tours" />
 
                                 <!-- Fecha 1 onchange="calculando_cantidad(); restrigir_fecha_ant();" onkeyup="calculando_cantidad(); -->
                                 <div class="col-lg-6">
                                   <div class="form-group">
-                                    <label for="forma_pago_pv">Forma Pago <sup class="text-danger">*</sup></label>
-                                    <select name="forma_pago_pv" id="forma_pago_pv" class="form-control select2" style="width: 100%;">
+                                    <label for="forma_pago">Forma Pago <sup class="text-danger">*</sup></label>
+                                    <select name="forma_pago" id="forma_pago" class="form-control select2" style="width: 100%;">
                                       <option value="Transferencia">Transferencia</option>
                                       <option value="Efectivo">Efectivo</option>
                                     </select>
@@ -753,16 +753,16 @@
                                 <!--Fecha-->
                                 <div class="col-lg-6">
                                   <div class="form-group">
-                                    <label for="fecha_pago_pv">Fecha <sup class="text-danger">*</sup></label>
-                                    <input type="date" name="fecha_pago_pv" class="form-control" id="fecha_pago_pv" />
+                                    <label for="fecha_pago">Fecha <sup class="text-danger">*</sup></label>
+                                    <input type="date" name="fecha_pago" class="form-control" id="fecha_pago" />
                                   </div>
                                 </div>
 
                                 <!--Precio Parcial-->
                                 <div class="col-lg-6">
                                   <div class="form-group">
-                                    <label for="monto_pv">Monto total </label>
-                                    <input type="text" class="form-control" name="monto_pv" id="monto_pv" onclick="this.select();" onkeyup="delay(function(){calcular_deuda();}, 100 );" onchange="delay(function(){calcular_deuda();}, 100 );" placeholder="Precio Parcial" />
+                                    <label for="monto">Monto total </label>
+                                    <input type="text" class="form-control" name="monto" id="monto" onclick="this.select();" onkeyup="delay(function(){calcular_deuda();}, 100 );" onchange="delay(function(){calcular_deuda();}, 100 );" placeholder="Precio Parcial" />
                                   </div>
                                 </div>
 
@@ -777,8 +777,8 @@
                                 <!--Descripcion-->
                                 <div class="col-lg-12">
                                   <div class="form-group">
-                                    <label for="descripcion_pv">Descripción <sup class="text-danger">*</sup> </label> <br />
-                                    <textarea name="descripcion_pv" id="descripcion_pv" class="form-control" rows="2"></textarea>
+                                    <label for="descripcion">Descripción <sup class="text-danger">*</sup> </label> <br />
+                                    <textarea name="descripcion" id="descripcion" class="form-control" rows="2"></textarea>
                                   </div>
                                 </div>
                                 <!-- Factura -->
@@ -793,7 +793,7 @@
                                       <input style="display: none;" id="doc1" type="file" name="doc1" accept="application/pdf, image/*" class="docpdf" />
                                     </div>
                                     <div class="col-6 col-md-6 text-center">
-                                      <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'admin/dist/docsventa_producto/comprobante_pago/', '100%'); reload_zoom();"><i class="fas fa-redo"></i> Recargar.</button>
+                                      <button type="button" class="btn btn-info btn-block btn-xs" onclick="re_visualizacion(1, 'admin/dist/docs/venta_tours/comprobante/', '100%'); reload_zoom();"><i class="fas fa-redo"></i> Recargar.</button>
                                     </div>
                                   </div>
                                   <div id="doc1_ver" class="text-center mt-4">
