@@ -876,7 +876,7 @@ function listar_galeria_hotel(idhoteles, nombre) {
           //style="border: 2px solid black;"
           codigoHTML =codigoHTML.concat(`<div class="col-sm-2 pb-2 pt-2" style="border: 2px solid #837f7f;">
           <a href="../dist/docs/hotel/galeria/${element.imagen}?text=1" data-toggle="lightbox" data-title="${element.descripcion}" data-gallery="gallery">
-          <img src="../dist/docs/hotel/galeria/${element.imagen}?text=1" class="img-fluid mb-2" alt="white sample"/>
+          <img src="../dist/docs/hotel/galeria/${element.imagen}?text=1" class="img-fluid mb-2" alt="white sample" onerror="this.src='../dist/docs/hotel/galeria/sin-foto.jpg';" />
           </a>
           <div class="text-center text-white" style="background-color: #1f7387; cursor: pointer; border-radius: 0.25rem;" onclick="eliminar_imagen_hotel(${element.idgaleria_hotel},'${element.descripcion}');">Eliminar
           </div>

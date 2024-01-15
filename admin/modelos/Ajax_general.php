@@ -59,6 +59,13 @@
 
       return $respuestas;    	
 
+    }   
+
+    /* ══════════════════════════════════════ DATOS EMPRESA ══════════════════════════════════════ */
+
+    public function datos_empresa(){
+      $sql = "SELECT * FROM nosotros WHERE idnosotros = '1';";
+      return ejecutarConsultaSimpleFila($sql);
     }    
 
     /* ══════════════════════════════════════ T R A B A J A D O R ══════════════════════════════════════ */
@@ -117,6 +124,17 @@
     public function formato_banco($idbanco){
       $sql="SELECT nombre, formato_cta, formato_cci, formato_detracciones FROM bancos WHERE estado='1' AND idbancos = '$idbanco';";
       return ejecutarConsultaSimpleFila($sql);		
+    }
+
+    /* ══════════════════════════════════════ F I L T R O   X   V E N T A S ══════════════════════════════════════ */
+
+    public function select2_cliente_x_venta_tours() {
+      $sql = "SELECT p.*, t.nombre as tipo_persona
+      FROM persona as p 
+      INNER JOIN venta_tours as vt ON vt.idpersona = p.idpersona
+      INNER JOIN tipo_persona as t ON t.idtipo_persona = p.idtipo_persona
+      WHERE vt.estado = '1' AND vt.estado_delete = '1' AND p.estado = '1' AND p.estado_delete = '1' ORDER BY p.nombres ASC;";
+      return ejecutarConsulta($sql);
     }
 
     /* ══════════════════════════════════════ C O L O R ══════════════════════════════════════ */
@@ -187,15 +205,17 @@
       return ejecutarConsulta($sql);
     }
 
-    /* ══════════════════════════════════════ S E R V i C I O S  M A Q U I N A RI A ════════════════════════════ */
-    public function select2TipoComprobante() {
-      $sql = "SELECT idsunat_correlacion_comprobante as id, nombre FROM sunat_correlacion_comprobante WHERE estado ='1' AND estado_delete = '1' AND idsunat_correlacion_comprobante > 1";
+    /* ══════════════════════════════════════ T I P O    D E   C O M P R O B A N T E S  ════════════════════════════ */
+    public function select2TipoComprobante($tipos) {
+      $sql = "SELECT idsunat_correlacion_comprobante as id, codigo, nombre, abreviatura, serie, numero, un1001
+      FROM sunat_correlacion_comprobante 
+      WHERE estado ='1' AND estado_delete = '1' AND idsunat_correlacion_comprobante > 1 AND codigo IN ($tipos)";
       return ejecutarConsultaArray($sql);
     }    
 
     //Implementamos un método para activar categorías
-    public function autoincrement_comprobante($nombre) {
-      $update_producto = "SELECT * FROM sunat_correlacion_comprobante WHERE nombre = '$nombre'";
+    public function autoincrement_comprobante($codigo) {
+      $update_producto = "SELECT * FROM sunat_correlacion_comprobante WHERE codigo = '$codigo'";
       $val =  ejecutarConsultaSimpleFila($update_producto); if ( $val['status'] == false) {return $val; }   
 
       $idcorrelacion= $val['data']['idsunat_correlacion_comprobante']; 

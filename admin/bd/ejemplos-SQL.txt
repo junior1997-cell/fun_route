@@ -1,0 +1,8 @@
+
+:::::::::::::::::::::::: ACTUALIZAR FECHAS CON SUS NOMBRES DE: DIA Y MES ::::::::::::::
+
+SET lc_time_names = 'es_ES';
+UPDATE visitas_pag as v, visitas_pag  as vp
+SET v.nombre_day= CONCAT(UPPER(LEFT(DAYNAME(vp.fecha),1)),SUBSTR(DAYNAME(vp.fecha),2)), 
+v.nombre_month=CONCAT(UPPER(LEFT(MONTHNAME(vp.fecha),1)),SUBSTR(MONTHNAME(vp.fecha),2)), 
+v.nombre_year=YEAR(vp.fecha) WHERE  v.idvisitas_pag = vp.idvisitas_pag;

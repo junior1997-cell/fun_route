@@ -7,7 +7,7 @@
 
 
   $spreadsheet = new Spreadsheet();
-  $spreadsheet->getProperties()->setCreator("Integra Peru")->setTitle("Compra de Producto");
+  $spreadsheet->getProperties()->setCreator("Fun Route")->setTitle("Venta de tours");
   
   $spreadsheet->setActiveSheetIndex(0);
   $spreadsheet->getActiveSheet()->getStyle('K1:K2')->getAlignment()->setVertical('center');
@@ -57,7 +57,7 @@
   $hojaActiva->setCellValue('B1', 'Cliente:');
   $hojaActiva->setCellValue('B2', 'DNI:');
   $hojaActiva->setCellValue('B3', 'Fecha:');
-  $hojaActiva->setCellValue('H3', 'IGV:');
+  $hojaActiva->setCellValue('H3', 'IMPUESTO:');
 
   $hojaActiva->setCellValue('A4', '#');
   $hojaActiva->setCellValue('B4', 'Tours');
@@ -78,14 +78,14 @@
 
   $hojaActiva->setCellValue('C1', $rspta['data']['venta']['nombres']);
   $hojaActiva->setCellValue('C2', $rspta['data']['venta']['numero_documento']);
-  $hojaActiva->setCellValue('C3', format_d_m_a( $rspta['data']['venta']['fecha_venta']));
+  $hojaActiva->setCellValue('C3',  $rspta['data']['venta']['fecha_venta']);
   $hojaActiva->setCellValue('I3', $rspta['data']['venta']['impuesto']);
   $hojaActiva->setCellValue('K1', $rspta['data']['venta']['tipo_comprobante']);
-  $hojaActiva->setCellValue('K2', $rspta['data']['venta']['serie_comprobante']);
+  $hojaActiva->setCellValue('K2', $rspta['data']['venta']['serie_comprobante'] .'-'. $rspta['data']['venta']['numero_comprobante']);
 
   $fila_1 = 5;
 
-   foreach ($rspta['data']['detalle_1'] as $key => $reg) {         
+  foreach ($rspta['data']['detalles'] as $key => $reg) {         
     
     $hojaActiva->mergeCells('B'.$fila_1.':C'.$fila_1); #aprellidos y nombres  
     
@@ -123,7 +123,7 @@
 
   // redirect output to client browser
   header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-  header('Content-Disposition: attachment;filename="Venta_de_Tours.xlsx"');
+  header('Content-Disposition: attachment;filename="Venta_de_Tours '.$rspta['data']['venta']['serie_comprobante'] .'-'. $rspta['data']['venta']['numero_comprobante'].'.xlsx"');
   header('Cache-Control: max-age=0');
 
   $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');

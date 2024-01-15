@@ -30,19 +30,16 @@ function init() {
   lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=3", '#idcliente', null);
   lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=todos", '#filtro_proveedor', null);
   lista_select2("../ajax/ajax_general.php?op=select2Banco", '#banco', null);
-  lista_select2("../ajax/ajax_general.php?op=select2Tipo_comprobante", '#tipo_comprobante', null);
+  lista_select2("../ajax/ajax_general.php?op=select2Tipo_comprobante&tipos='12'", '#tipo_comprobante', null);
+  lista_select2("../ajax/ajax_general.php?op=select2Tipo_comprobante&tipos='101'", '#tipo_comprobante_p', null);
   // lista_select2("../ajax/ajax_general.php?op=select2Categoria", '#categoria_producto_pro', null);
 
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
 
   $("#guardar_registro_ventas").on("click", function (e) {  $("#submit-form-ventas-paquete").submit(); });
-
   $("#guardar_registro_proveedor").on("click", function (e) { $("#submit-form-proveedor").submit(); });
-
   $("#guardar_registro_venta_paquete_pago").on("click", function (e) {  $("#submit-form-pago-venta").submit(); });
-
   $("#guardar_registro_comprobante_compra").on("click", function (e) {  $("#submit-form-comprobante-compra").submit();  });  
-
   $("#guardar_registro_material").on("click", function (e) {  $("#submit-form-producto").submit(); });  
 
   // ══════════════════════════════════════ INITIALIZE SELECT2 - FILTROS ══════════════════════════════════════
@@ -55,6 +52,7 @@ function init() {
 
   // ══════════════════════════════════════ INITIALIZE SELECT2 - PAGO VENTAS ══════════════════════════════════════
   $("#forma_pago_pv").select2({ theme: "bootstrap4", placeholder: "Selecione", allowClear: true, });
+  $("#tipo_comprobante_p").select2({ theme: "bootstrap4", placeholder: "Selecione", allowClear: true, });
 
   // ══════════════════════════════════════ INITIALIZE SELECT2 - AGRICULTOR ══════════════════════════════════════
   $("#banco").select2({templateResult: templateBanco, theme: "bootstrap4", placeholder: "Selecione un banco", allowClear: true, });
@@ -66,7 +64,6 @@ function init() {
 
   $("#metodo_pago").select2({ theme: "bootstrap4", placeholder: "Selecione método", allowClear: true, });
 
-  no_select_tomorrow("#fecha_venta");
   no_select_tomorrow("#fecha_pago_pv");
   no_select_over_18('#nacimiento_per');
 
@@ -120,7 +117,7 @@ function limpiar_form_compra() {
 
   $("#idventa_paquete").val("");
   $("#idcliente").val("null").trigger("change");
-  $("#tipo_comprobante").val("NINGUNO").trigger("change");  
+  $("#tipo_comprobante").val("12").trigger("change");  
 
   $("#serie_comprobante").val("");
   $("#numero_comprobante").val("");
@@ -437,99 +434,14 @@ function ver_detalle_ventas_paquete(idventa_paquete) {
   $('.titulo_detalle_paquete').html(`Detalle - Venta Paquete`);
 
   $.post("../ajax/venta_paquete.php?op=mostrar_detalle_ventas_paquete", { 'idventa_paquete': idventa_paquete }, function (e, status) {
-    e = JSON.parse(e);   console.log(e);  
-    if (e.status == true) {
-
-      $('.datos1_html').html(`<div class="table-responsive p-0">
-        <table class="table table-hover table-bordered  mt-4">          
-          <tbody>
-            <tr>
-              <th>Nombre</th>
-              <td>${e.data.venta.nombres}</td>
-            </tr>
-            
-            <tr>
-              <th>Telefono</th>
-              <td>${e.data.venta.celular !== null ? e.data.venta.celular : '-------'}</td>
-            </tr>    
-            <tr>
-              <th>Descripción</th>
-              <td>${e.data.venta.descripcion}</td>
-            </tr>    
-            <tr>
-              <th>Fecha</th>
-              <td>${e.data.venta.fecha_venta}</td>
-            </tr>  
-            <tr>
-              <th>Tipo de Comprobante</th>
-              <td>${e.data.venta.tipo_comprobante}</td>
-            </tr>
-            <tr>
-              <th>N° de Comprobante</th>
-              <td>${e.data.venta.serie_comprobante}</td>
-            </tr>     
-          </tbody>
-        </table>
-      </div>`);
-
-      $('.home2_html').html(`<div class="table-responsive p-0">
-        <table class="table table-hover table-bordered  mt-4">  
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Nombre</th>
-              <th>precio Unitario</th>
-              <th>catidad</th>
-            </tr>
-          </thead>        
-          <tbody>
-          </tbody>
-        </table>
-      </div>`);
-
-      $('.otros3_html').html(`<div class="table-responsive p-0">
-        <table class="table table-hover table-bordered  mt-4">          
-          <tbody>
-            <tr>
-              <th>Método de Pago</th>
-              <td>${e.data.venta.metodo_pago}</td>
-            </tr>
-            <tr>
-              <th>N° vaucher</th>
-              <td>${e.data.venta.code_vaucher !== null ? e.data.venta.code_vaucher : '-------'}</td>
-            </tr>
-            <tr>
-            <tr>
-              <th>IGV</th>
-              <td>${e.data.venta.igv}</td>
-            </tr>
-            <tr>
-              <th>Total</th>
-              <td>${e.data.venta.subtotal}</td>
-            </tr>            
-          </tbody>
-        </table>
-      </div>`); 
-
-      $('.home2_html tbody').empty();
-      $cont = 1; // Limpiar el tbody antes de agregar nuevos datos
-      $.each(e.data.detalles, function(index, detalle) {
-        var fila = `<tr>
-                      <td>${$cont++}</td>
-                      <td>${detalle.nombre}</td>
-                      <td>${detalle.precio_con_igv}</td>
-                      <td>${detalle.cantidad}</td>
-                    </tr>`;
-        $('.home2_html tbody').append(fila);
-      });
-
-      $(".jq_image_zoom").zoom({ on: "grab" });      
-      $("#excel_compra").attr("href",`../reportes/export_xlsx_venta_paquete.php?id=${idventa_paquete}`);      
-      $("#print_pdf_compra").attr("href",`../reportes/comprobante_venta_paquete.php?id=${idventa_paquete}`); 
-      tabla_venta_producto.ajax.reload(null, false);
-    } else {
-      ver_errores(e);
-    } 
+    
+    $('#custom-tabContent').html(e);
+    $('#custom-datos1_html-tab').click(); // click para ver el primer - Tab Panel
+    $(".jq_image_zoom").zoom({ on: "grab" });      
+    $("#excel_compra").attr("href",`../reportes/export_xlsx_venta_paquete.php?id=${idventa_paquete}`);      
+    $("#print_pdf_compra").attr("href",`../reportes/comprobante_venta_paquete.php?id=${idventa_paquete}`); 
+    tabla_venta_producto.ajax.reload(null, false);
+    
   }).fail(function (e) { ver_errores(e); });
 
 }
@@ -553,8 +465,8 @@ function doc1_eliminar() {
 function limpiar_form_pago_compra() {  
 
   $("#idventa_paquete_pago_pv").val(""); 
-  $("#forma_pago_pv").val("null").trigger("change"); 
-  $("#fecha_pago_pv").val(""); 
+  $("#tipo_comprobante_p").val("101").trigger("change");  
+  $("#forma_pago_pv").val("null").trigger("change");  
   $("#monto_pv").val(""); 
   $("#descripcion_pv").val(""); 
   $(".deuda-actual").val("0.00"); 
@@ -585,9 +497,9 @@ function tbla_venta_paquete_pago( idventa_paquete, total_compra, total_pago, cli
     dom:"<'row'<'col-md-3'B><'col-md-3 float-left'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>", //Definimos los elementos del control de tabla
     buttons: [      
       { text: '<i class="fa-solid fa-arrows-rotate" data-toggle="tooltip" data-original-title="Recargar"></i>', className: "btn bg-gradient-info", action: function ( e, dt, node, config ) { tabla_venta_paquete_pago.ajax.reload(null, false); toastr_success('Exito!!', 'Actualizando tabla', 400); } },
-      { extend: 'copyHtml5', exportOptions: { columns: [0,2,3,4,5], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray", footer: true,  }, 
-      { extend: 'excelHtml5', exportOptions: { columns: [0,2,3,4,5], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success", footer: true,  }, 
-      { extend: 'pdfHtml5', exportOptions: { columns: [0,2,3,4,5], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
+      { extend: 'copyHtml5', exportOptions: { columns: [0,2,3,4,5,6], }, text: `<i class="fas fa-copy" data-toggle="tooltip" data-original-title="Copiar"></i>`, className: "btn bg-gradient-gray", footer: true,  }, 
+      { extend: 'excelHtml5', exportOptions: { columns: [0,2,3,4,5,6], }, text: `<i class="far fa-file-excel fa-lg" data-toggle="tooltip" data-original-title="Excel"></i>`, className: "btn bg-gradient-success", footer: true,  }, 
+      { extend: 'pdfHtml5', exportOptions: { columns: [0,2,3,4,5,6], }, text: `<i class="far fa-file-pdf fa-lg" data-toggle="tooltip" data-original-title="PDF"></i>`, className: "btn bg-gradient-danger", footer: false, orientation: 'landscape', pageSize: 'LEGAL',  },
       { extend: "colvis", text: `Columnas`, className: "btn bg-gradient-gray", exportOptions: { columns: "th:not(:last-child)", }, },
     ],
     ajax: {
@@ -604,8 +516,8 @@ function tbla_venta_paquete_pago( idventa_paquete, total_compra, total_pago, cli
     },
     footerCallback: function( tfoot, data, start, end, display ) {
       var api = this.api(); 
-      var total = api.column( 4 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
-      $( api.column( 4 ).footer() ).html( ` <span class="float-left">S/</span> <span class="float-right" id="total_depositos">${formato_miles(total)}</span>` );      
+      var total = api.column( 5 ).data().reduce( function ( a, b ) { return  (parseFloat(a) + parseFloat( b)) ; }, 0 )
+      $( api.column( 5 ).footer() ).html( ` <span class="float-left">S/</span> <span class="float-right" id="total_depositos">${formato_miles(total)}</span>` );      
     },
     language: {
       lengthMenu: "Mostrar: _MENU_ registros",
@@ -616,7 +528,7 @@ function tbla_venta_paquete_pago( idventa_paquete, total_compra, total_pago, cli
     iDisplayLength: 10, //Paginación
     order: [[0, "asc"]], //Ordenar (columna,orden)
     columnDefs: [
-      { targets: [4], render: function (data, type) { var number = $.fn.dataTable.render.number(',', '.', 2).display(data); if (type === 'display') { let color = 'numero_positivos'; if (data < 0) {color = 'numero_negativos'; } return `<span class="float-left">S/</span> <span class="float-right ${color} "> ${number} </span>`; } return number; }, },
+      { targets: [5], render: function (data, type) { var number = $.fn.dataTable.render.number(',', '.', 2).display(data); if (type === 'display') { let color = 'numero_positivos'; if (data < 0) {color = 'numero_negativos'; } return `<span class="float-left">S/</span> <span class="float-right ${color} "> ${number} </span>`; } return number; }, },
       //{ targets: [9], render: $.fn.dataTable.render.number( ',', '.', 2) },
       { targets: [2], render: $.fn.dataTable.render.moment('YYYY-MM-DD', 'DD/MM/YYYY'), },
       //{ targets: [10,11,12,13],  visible: false,  searchable: false,  },
@@ -743,8 +655,9 @@ function mostrar_editar_pago(idventa_paquete_pago) {
 
       $("#idventa_paquete_pago_pv").val(e.data.idventa_paquete_pago);
       $("#idventa_paquete_pv").val(e.data.idventa_paquete); 
+      $("#tipo_comprobante_p").val(e.data.tipo_comprobante).trigger("change");
       $("#forma_pago_pv").val(e.data.forma_pago).trigger("change");
-      $("#fecha_pago_pv").val(e.data.fecha_pago); 
+      
       $("#monto_pv").val(e.data.monto).trigger("change");
       $("#descripcion_pv").val(e.data.descripcion); 
 
@@ -985,8 +898,8 @@ function guardar_proveedor(e) {
           $("#modal-agregar-proveedor").modal("hide");
           
           //Cargamos los items al select cliente
-          lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=2", '#idcliente', e.data);
-          lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=2", '#filtro_proveedor', null);
+          lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=3", '#idcliente', e.data);
+          lista_select2("../ajax/ajax_general.php?op=select2_cliente_x_venta_tours", '#filtro_proveedor', null);
         } else {
           ver_errores(e);
         }
@@ -1276,8 +1189,7 @@ $(function () {
       idcliente:          { required: true },
       tipo_comprobante:   { required: true },
       serie_comprobante:  { minlength: 2 },
-      descripcion:        { minlength: 4 },
-      fecha_venta:        { required: true },      
+      descripcion:        { minlength: 4 },          
       pagar_con_ctdo:     { required: true, number: true, min:0,  },
       pagar_con_ctdo:     { required: true },      
       pagar_con_tarj:     { required: true }, 
@@ -1286,8 +1198,7 @@ $(function () {
       idcliente:          { required: "Campo requerido", },
       tipo_comprobante:   { required: "Campo requerido", },
       serie_comprobante:  { minlength: "Minimo 2 caracteres", },
-      descripcion:        { minlength: "Minimo 4 caracteres", },
-      fecha_venta:        { required: "Campo requerido", },      
+      descripcion:        { minlength: "Minimo 4 caracteres", },          
       pagar_con_ctdo:     { required: "Campo requerido", number: 'Ingrese un número', min:'Mínimo 0', },
       agar_con_ctdo:      { required: "Campo requerido" },      
       pagar_con_tarj:     { required: "Campo requerido" }, 
@@ -1521,4 +1432,7 @@ function formato_banco() {
 function reload_trabajador(){ $('.tipo_persona_venta').html(`(trabajador)`); lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=2", '#idcliente', null); }
 function reload_proveedor(){ $('.tipo_persona_venta').html(`(proveedor)`); lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=4", '#idcliente', null); }
 function reload_cliente(){ $('.tipo_persona_venta').html(''); lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=3", '#idcliente', null); }
+function reload_tipo_comprobante(){ lista_select2("../ajax/ajax_general.php?op=select2Tipo_comprobante&tipos='12'", '#tipo_comprobante', null, '.charge_tipo_comprobante'); }
+function reload_tipo_comprobante_p(){ lista_select2("../ajax/ajax_general.php?op=select2Tipo_comprobante&tipos='101'", '#tipo_comprobante_p', null, '.charge_tipo_comprobante_p'); }
+
 

@@ -197,12 +197,12 @@
             
             <?php if ($_SESSION['paquete_medida']==1) {  ?>   
               <!-- PAQUETE A MEDIDA -->      
-              <li class="nav-item ">
+              <!-- <li class="nav-item ">
                 <a href="paquete_a_medida.php" class="nav-link pl-2" id="lPaqueteMedida">
                   <i class="nav-icon fa-solid fas fa-passport"></i>
                   <p>Paquetes a medida</p>
                 </a>
-              </li>
+              </li> -->
             <?php  }  ?>
             
             <?php if ($_SESSION['tours']==1) {  ?>   

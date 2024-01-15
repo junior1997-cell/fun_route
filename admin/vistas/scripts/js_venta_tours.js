@@ -28,7 +28,7 @@ function agregarDetalleComprobante(idtours, individual) {
         e = JSON.parse(e); console.log(e);
         if (e.status == true) {         
 
-          if ($("#tipo_comprobante").select2("val") == "Factura") {
+          if ($("#tipo_comprobante").select2("val") == "01") { // FACTURA
             var subtotal = cantidad * e.data.costo;
           } else {
             var subtotal = cantidad * e.data.costo;
@@ -128,7 +128,7 @@ function evaluar() {
   }
 }
 
-function default_val_igv() { if ($("#tipo_comprobante").select2("val") == "FACTURA") { $("#impuesto").val(0.18); } }
+function default_val_igv() { if ($("#tipo_comprobante").select2("val") == "01") { $("#impuesto").val(0.18); } } // FACTURA
 
 function modificarSubtotales() {  
 
@@ -165,7 +165,7 @@ function modificarSubtotales() {
       });
       calcularTotalesSinIgv();
     }
-  } else if ($("#tipo_comprobante").select2("val") == "NOTA DE VENTA") {      
+  } else if ($("#tipo_comprobante").select2("val") == "12") {      // TICKET 
 
     if (array_data_venta.length === 0) {
       if (val_igv == '' || val_igv <= 0) {
@@ -294,18 +294,6 @@ function calcularTotalesConIgv() {
   total = 0.0;
 }
 
-function ocultar_comprob() {
-  if ($("#tipo_comprobante").select2("val") == "NINGUNO") {
-    $("#content-serie-comprobante").hide();
-    $("#content-numero-comprobante").hide();
-    $("#content-descripcion").removeClass("col-lg-6").addClass("col-lg-9");
-  } else if ($("#tipo_comprobante").select2("val") == "NOTA DE VENTA") {
-    $("#content-serie-comprobante").show();
-    $("#content-numero-comprobante").show();
-    $("#content-descripcion").removeClass("col-lg-9").addClass("col-lg-6");
-  }
-}
-
 function eliminarDetalle(idtours, indice) {
   $("#fila" + indice).remove();
   array_data_venta.forEach(function (car, index, object) { if (car.id_cont === indice) { object.splice(index, 1); } });
@@ -334,20 +322,15 @@ function mostrar_venta(idventa_producto) {
 
     if (e.status == true) {      
       
-      if ( e.data.venta.tipo_comprobante == "NOTA DE VENTA" ) {
-        $(".content-serie-comprobante").show();
+      if ( e.data.venta.tipo_comprobante == "12" ) { // TIKET        
         $(".content-igv").hide();
         $(".content-tipo-comprobante").removeClass("col-lg-4 col-lg-5").addClass("col-lg-5");
         $(".content-descripcion").removeClass("col-lg-9").addClass("col-lg-3");
-      } else if (e.data.venta.tipo_comprobante == "NINGUNO") {
-        $(".content-serie-comprobante").hide();
-        $(".content-serie-comprobante").val("");
+      } else if (e.data.venta.tipo_comprobante == "00") { // OTRO COMPROBANTE        
         $(".content-igv").hide();
         $(".content-tipo-comprobante").removeClass("col-lg-5 col-lg-4").addClass("col-lg-4");
         $(".content-descripcion").removeClass("col-lg-3").addClass("col-lg-9");
-      } else {
-        $(".content-serie-comprobante").show();
-      }
+      } 
 
       $("#idventa_producto").val(e.data.venta.idventa_producto);
       $("#idcliente").val(e.data.venta.idpersona).trigger("change");
@@ -460,20 +443,15 @@ function copiar_venta(idventa_producto) {
 
     if (e.status == true) {
       
-      if ( e.data.venta.tipo_comprobante == "NOTA DE VENTA") {
-        $(".content-serie-comprobante").show();
+      if ( e.data.venta.tipo_comprobante == "12") { // TIKET        
         $(".content-igv").hide();
         $(".content-tipo-comprobante").removeClass("col-lg-4 col-lg-5").addClass("col-lg-5");
         $(".content-descripcion").removeClass("col-lg-9").addClass("col-lg-3");
-      } else if (e.data.venta.tipo_comprobante == "NINGUNO") {
-        $(".content-serie-comprobante").hide();
-        $(".content-serie-comprobante").val("");
+      } else if (e.data.venta.tipo_comprobante == "00") { // OTRO COMPROBANTE        
         $(".content-igv").hide();
         $(".content-tipo-comprobante").removeClass("col-lg-5 col-lg-4").addClass("col-lg-4");
         $(".content-descripcion").removeClass("col-lg-3").addClass("col-lg-9");
-      } else {
-        $(".content-serie-comprobante").show();
-      }
+      } 
 
       // $("#idventa_producto").val(e.data.venta.idventa_producto); // esto no se usa cuando duplicams la factura
       $("#idcliente").val(e.data.venta.idpersona).trigger("change");
@@ -669,4 +647,5 @@ function pago_rapido(val) {
   var pago_monto = $(val).text(); console.log(pago_monto);
   $('#pagar_con_ctdo').val(pago_monto);
   calcular_vuelto();
+  $("#form-ventas").valid();
 }

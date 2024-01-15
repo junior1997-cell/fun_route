@@ -49,10 +49,11 @@ if (!isset($_SESSION["nombre"])) {
     // :::::::::::::::::::::::::::::::::::: D A T O S   P A G O   V E N T A ::::::::::::::::::::::::::::::::::::::
     $idventa_paquete_pago_pv  = isset($_POST["idventa_paquete_pago_pv"]) ? limpiarCadena($_POST["idventa_paquete_pago_pv"]) : "";
     $idventa_paquete_pv       = isset($_POST["idventa_paquete_pv"]) ? limpiarCadena($_POST["idventa_paquete_pv"]) : "";  
-    $forma_pago_pv             = isset($_POST["forma_pago_pv"]) ? limpiarCadena($_POST["forma_pago_pv"]) : "";
-    $fecha_pago_pv             = isset($_POST["fecha_pago_pv"]) ? limpiarCadena($_POST["fecha_pago_pv"]) : "";
-    $monto_pv                  = isset($_POST["monto_pv"]) ? limpiarCadena($_POST["monto_pv"]) : "";  
-    $descripcion_pv            = isset($_POST["descripcion_pv"]) ? limpiarCadena($_POST["descripcion_pv"]) : "";  
+    $tipo_comprobante_p       = isset($_POST["tipo_comprobante_p"]) ? limpiarCadena($_POST["tipo_comprobante_p"]) : "";
+    $forma_pago_pv            = isset($_POST["forma_pago_pv"]) ? limpiarCadena($_POST["forma_pago_pv"]) : "";
+    $fecha_pago_pv            = isset($_POST["fecha_pago_pv"]) ? limpiarCadena($_POST["fecha_pago_pv"]) : "";
+    $monto_pv                 = isset($_POST["monto_pv"]) ? limpiarCadena($_POST["monto_pv"]) : "";  
+    $descripcion_pv           = isset($_POST["descripcion_pv"]) ? limpiarCadena($_POST["descripcion_pv"]) : "";  
      
     // :::::::::::::::::::::::::::::::::::: D A T O S   C O M P R O B A N T E ::::::::::::::::::::::::::::::::::::::
     $id_compra_proyecto       = isset($_POST["id_compra_proyecto"]) ? limpiarCadena($_POST["id_compra_proyecto"]) : "";
@@ -183,7 +184,7 @@ if (!isset($_SESSION["nombre"])) {
 
         if (empty($idventa_paquete)) {
           
-          $rspta = $venta_producto->insertar( $idcliente, $num_doc, $fecha_venta, $tipo_comprobante, $serie_comprobante, $numero_comprobante, $impuesto, $descripcion,
+          $rspta = $venta_producto->insertar( $idcliente, $num_doc, $tipo_comprobante,  $impuesto, $descripcion,
           $subtotal_venta, $tipo_gravada, $igv_venta, $total_venta, $metodo_pago, $code_vaucher, $pagar_con_ctdo, $pagar_con_tarj , $vuelto_venta ,
           $_POST["idpaquete"], $_POST["unidad_medida"], $_POST["cantidad"], $_POST["precio_sin_igv"], $_POST["precio_igv"], $_POST["precio_con_igv"], 
           $_POST["descuento"], $_POST["subtotal_producto"]);
@@ -191,7 +192,7 @@ if (!isset($_SESSION["nombre"])) {
           echo json_encode($rspta, true);
         } else {
 
-          $rspta = $venta_producto->editar( $idventa_paquete, $idcliente, $idproducto, $val_igv, $subtotal_compra, $categoria, $cantidad_old, $num_doc, $fecha_venta, $tipo_comprobante, $serie_comprobante, $numero_comprobante, $impuesto, $descripcion,
+          $rspta = $venta_producto->editar( $idventa_paquete, $idcliente, $idproducto, $val_igv, $subtotal_compra, $categoria, $cantidad_old, $num_doc, $tipo_comprobante,  $impuesto, $descripcion,
           $subtotal_venta, $tipo_gravada, $igv_venta, $total_venta, $metodo_pago, $code_vaucher, $pagar_con_ctdo, $pagar_con_tarj , $vuelto_venta ,
           $_POST["idpaquete"], $_POST["unidad_medida"], $_POST["cantidad"], $_POST["precio_sin_igv"], $_POST["precio_igv"], $_POST["precio_con_igv"], 
           $_POST["descuento"], $_POST["subtotal_producto"]);
@@ -237,13 +238,27 @@ if (!isset($_SESSION["nombre"])) {
               $color_btn = "success"; $nombre = "Ver"; $icon = "eye";
             } else {
               $estado = '<span class="text-center badge badge-success">Error</span>';               
-            }           
+            }   
+            
+            $btn_impresion = ' <div class="btn-group">            
+            <button type="button" class="btn btn-warning btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
+              <span class="sr-onlyyy"> <i class="fa-solid fa-gear"></i></span>
+            </button>
+            <div class="dropdown-menu" role="menu">
+              <a class="dropdown-item" href="../reportes/exTicket_paquete.php?id=' . $reg['idventa_paquete'] . '" target="_blank" ><i class="fa-solid fa-print"></i> Tiket</a>
+              <div class="dropdown-divider my-1"></div>
+              <a class="dropdown-item" href="../reportes/comprobante_paquete.php?id=' . $reg['idventa_paquete'] . '" target="_blank" ><i class="fa-solid fa-print"></i> A4</a>                
+              <div class="dropdown-divider my-1"></div>
+              <a class="dropdown-item" href="../reportes/export_xlsx_venta_paquete.php?id=' . $reg['idventa_paquete'] . '" target="_blank" ><i class="fa-regular fa-file-excel"></i> Excel</a>                
+            </div>
+          </div>';
 
             $data[] = [
               "0" => $cont,
               "1" => '<button class="btn btn-info btn-sm" onclick="ver_detalle_ventas_paquete(' . $reg['idventa_paquete'] . ')" data-toggle="tooltip" data-original-title="Ver detalle compra"><i class="fa fa-eye"></i></button>' .
-                ' <button class="btn bg-purple btn-sm" onclick="copiar_venta(' . $reg['idventa_paquete'] . ')" data-toggle="tooltip" data-original-title="copiar"><i class="fa-regular fa-copy"></i></button>' . 
+                '<!-- <button class="btn bg-purple btn-sm" onclick="copiar_venta(' . $reg['idventa_paquete'] . ')" data-toggle="tooltip" data-original-title="copiar"><i class="fa-regular fa-copy"></i></button> -->' . 
                 '<!-- <button class="btn btn-warning btn-sm" onclick="mostrar_venta(' . $reg['idventa_paquete'] . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button> -->' . 
+                $btn_impresion .
                 ' <button class="btn btn-danger  btn-sm" onclick="eliminar_venta(' . $reg['idventa_paquete'] .', \''.encodeCadenaHtml('<del><b>' . $reg['tipo_comprobante'] .  '</b> '.(empty($reg['serie_comprobante']) ?  "" :  '- '.$reg['serie_comprobante']).'</del> <del>'.$reg['cliente'].'</del>'). '\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>',
                  
               "2" => $reg['fecha_venta'],
@@ -354,8 +369,51 @@ if (!isset($_SESSION["nombre"])) {
       case 'mostrar_detalle_ventas_paquete':
       
         $rspta = $venta_producto->mostrar_detalle_venta($idventa_paquete);
-        //Codificar el resultado utilizando json
-        echo json_encode($rspta,true);
+        echo '<div class="tab-pane fade active show" id="custom-datos1_html" role="tabpanel" aria-labelledby="custom-datos1_html-tab">';
+        echo '<div class="table-responsive p-0">
+          <table class="table table-hover table-bordered  mt-4">          
+            <tbody>
+              <tr> <th>Nombre</th>        <td>'.$rspta['data']['venta']['nombres'].' 
+              <div class="font-size-12px" >Cel: <a href="tel:+51'.$rspta['data']['venta']['celular'].'">'.$rspta['data']['venta']['celular'].'</a></div> 
+              <div class="font-size-12px" >E-mail: <a href="mailto:'.$rspta['data']['venta']['correo'].'">'.$rspta['data']['venta']['correo'].'</a></div> </td> </tr>            
+              <tr> <th>Total venta</th>      <td>'.$rspta['data']['venta']['total'].'</td> </tr>             
+              <tr> <th>Fecha</th>         <td>'.$rspta['data']['venta']['fecha_venta'].'</td> </tr>                
+              <tr> <th>Comprobante</th>   <td>'.$rspta['data']['venta']['tipo_comprobante']. ' | '.$rspta['data']['venta']['serie_comprobante'] .'-'. $rspta['data']['venta']['numero_comprobante'].'</td> </tr>
+              <tr> <th>Observacion</th>   <td>'.$rspta['data']['venta']['descripcion'].'</td> </tr>         
+            </tbody>
+          </table>
+        </div>';
+        echo '</div>'; # div-content
+
+        echo'<div class="tab-pane fade" id="custom-home2_html" role="tabpanel" aria-labelledby="custom-home2_html-tab">';
+        echo '<div class="table-responsive p-0">
+          <table class="table table-hover table-bordered  mt-4">  
+            <thead>
+              <tr> <th>#</th> <th>Nombre</th> <th>Cantidad</th> <th>Precio Unitario</th> <th>Dcto.</th>  <th>Subtotal</th> </tr>
+            </thead>        
+            <tbody>';
+            foreach ($rspta['data']['detalles'] as $key => $val) {
+              echo '<tr> <td>'. $key + 1 .'</td> <td>'.$val['nombre'].'</td> <td>'.$val['cantidad'].'</td> <td>'.$val['precio_con_igv'].'</td> <td>'.$val['descuento'].'</td> <td>'.$val['subtotal'].'</td> </tr>';
+            }
+        echo '</tbody>
+          </table>
+        </div>';
+        echo'</div>';# div-content
+
+        echo'<div class="tab-pane fade" id="custom-otros3_html" role="tabpanel" aria-labelledby="custom-otros3_html-tab">'; 
+        echo '<div class="table-responsive p-0">
+          <table class="table table-hover table-bordered  mt-4">  
+            <thead>
+              <tr> <th>#</th> <th>Fecha</th> <th>Método de Pago</th> <th>Comprobante</th>  <th>Total</th> </tr>
+            </thead>        
+            <tbody>';
+            foreach ($rspta['data']['pagos'] as $key => $val) {
+              echo '<tr> <td>'. $key + 1 .'<td>'.$val['fecha_pago'].'</td> <td>'.$val['forma_pago'].'</td>  <td>'.$val['tipo_comprobante']. ' | '.$val['serie_comprobante'] .'-'. $val['numero_comprobante'].'</td> <td>'.$val['monto'].'</td> </tr>';
+            }
+        echo '</tbody>
+          </table>
+        </div>';   
+        echo '</div>';# div-content      
     
       break;
 
@@ -374,9 +432,9 @@ if (!isset($_SESSION["nombre"])) {
           move_uploaded_file($_FILES["doc1"]["tmp_name"], "../dist/docs/venta_producto/comprobante_pago/" . $comprobante_pago );          
         }
 
-        if (empty($idventa_paquete_pv)){
+        if (empty($idventa_paquete_pago_pv)){
           
-          $rspta=$venta_producto->crear_pago_compra( $idventa_paquete_pv, $forma_pago_pv, $fecha_pago_pv, quitar_formato_miles($monto_pv), $descripcion_pv, $comprobante_pago);          
+          $rspta=$venta_producto->crear_pago_compra( $idventa_paquete_pv, $tipo_comprobante_p, $forma_pago_pv, $fecha_pago_pv, quitar_formato_miles($monto_pv), $descripcion_pv, $comprobante_pago);          
           echo json_encode($rspta, true);
 
         }else {
@@ -410,10 +468,11 @@ if (!isset($_SESSION["nombre"])) {
               ' <button class="btn btn-sm btn-danger" onclick="elim_venta_paquete_pago(' . $reg->idventa_paquete_pago .', \''.encodeCadenaHtml( number_format($reg->monto, 2, '.',',')).' - '.date("d/m/Y", strtotime($reg->fecha_pago)).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>',
               "2" => $reg->fecha_pago,
               "3" => $reg->forma_pago,
-              "4" => $reg->monto,
-              "5" => '<textarea cols="30" rows="1" class="textarea_datatable" readonly >'.$reg->descripcion.'</textarea>',
-              "6" => $doc,
-              "7" => $reg->estado == '1' ? '<span class="badge bg-success">Aceptado</span>' : '<span class="badge bg-danger">Anulado</span>',
+              "4" => '<span class="" ><b>' . $reg->tipo_comprobante . '</b> '.(empty($reg->serie_comprobante) ?  "" : '- '.$reg->serie_comprobante.'-'.$reg->numero_comprobante).'</span>',
+              "5" => $reg->monto,
+              "6" => '<textarea cols="30" rows="1" class="textarea_datatable" readonly >'.$reg->descripcion.'</textarea>',
+              "7" => $doc,
+              "8" => $reg->estado == '1' ? '<span class="badge bg-success">Aceptado</span>' : '<span class="badge bg-danger">Anulado</span>',
             ];
           }
           $results = [

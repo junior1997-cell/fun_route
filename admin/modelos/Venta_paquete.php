@@ -11,58 +11,48 @@ class Venta_paquete
     $this->id_usr_sesion = $id_usr_sesion;
   }
   
-  // ::::::::::::::::::::::::::::::::::::::::: S E C C I O N   C O M P R A  ::::::::::::::::::::::::::::::::::::::::: 
+  // ::::::::::::::::::::::::::::::::::::::::: S E C C I O N   V E N T A  ::::::::::::::::::::::::::::::::::::::::: 
   //Implementamos un método para insertar registros
-  public function insertar( $idcliente, $num_doc, $fecha_venta, $tipo_comprobante, $serie_comprobante, $numero_comprobante, $impuesto, $descripcion,
+  public function insertar( $idcliente, $num_doc, $tipo_comprobante, $impuesto, $descripcion,
   $subtotal_venta, $tipo_gravada, $igv_venta, $total_venta, $metodo_pago, $code_vaucher, $pagar_con_ctdo, $pagar_con_tarj , $vuelto_venta ,
-  $idpaquete, $unidad_medida, $cantidad, $precio_sin_igv, $precio_igv, $precio_con_igv, $descuento, $subtotal_producto) {
+  $idpaquete, $unidad_medida, $cantidad, $precio_sin_igv, $precio_igv, $precio_con_igv, $descuento, $subtotal_producto) {       
 
-    // buscamos al si la FACTURA existe
-    $sql_2 = "SELECT  vp.fecha_venta, vp.tipo_comprobante, vp.serie_comprobante, vp.igv, vp.total, p.numero_documento, 
-    p.tipo_documento, p.nombres as razon_social,  vp.estado, vp.estado_delete, vp.metodo_pago
-    FROM venta_paquete as vp, persona as p 
-    WHERE vp.idpersona = p.idpersona AND vp.tipo_comprobante ='$tipo_comprobante' AND vp.serie_comprobante = '$serie_comprobante' AND vp.numero_comprobante = '$numero_comprobante' AND p.numero_documento='$num_doc'";
-    $venta_existe = ejecutarConsultaArray($sql_2); if ($venta_existe['status'] == false) { return  $venta_existe;}
-
-    if (empty($venta_existe['data']) || $tipo_comprobante == 'Ninguno') {
-
-      // Extraemos la correlacion actual
-      $sql_comp = "SELECT * FROM sunat_correlacion_comprobante WHERE nombre = '$tipo_comprobante'";
-      $data_comp = ejecutarConsultaSimpleFila($sql_comp); if ( $data_comp['status'] == false) {return $data_comp; } 
-      $serie_comprobante =  $data_comp['data']['serie'];
-      $numero_comprobante =  $data_comp['data']['numero'];
-
-      $sql_3 = "INSERT INTO venta_paquete( idpersona, fecha_venta, tipo_comprobante, serie_comprobante, numero_comprobante, impuesto, subtotal, igv, total, tipo_gravada, 
+      $sql_3 = "INSERT INTO venta_paquete( idpersona,  tipo_comprobante, serie_comprobante, numero_comprobante, impuesto, subtotal, igv, total, tipo_gravada, 
       descripcion, metodo_pago, code_vaucher, pago_con_efe, pago_con_tar, vuelto_pago, user_created) 
-      VALUES ('$idcliente','$fecha_venta','$tipo_comprobante','$serie_comprobante','$numero_comprobante','$impuesto','$subtotal_venta','$igv_venta','$total_venta',
+      VALUES ('$idcliente','$tipo_comprobante',
+      (SELECT serie FROM sunat_correlacion_comprobante WHERE codigo = '$tipo_comprobante'),
+      (SELECT numero + 1 FROM sunat_correlacion_comprobante WHERE codigo = '$tipo_comprobante'),
+      '$impuesto','$subtotal_venta','$igv_venta','$total_venta',
       '$tipo_gravada','$descripcion','$metodo_pago','$code_vaucher','$pagar_con_ctdo','$pagar_con_tarj','$vuelto_venta', '$this->id_usr_sesion')";
       $idventanew = ejecutarConsulta_retornarID($sql_3); if ($idventanew['status'] == false) { return  $idventanew;}
       $id = $idventanew['data'];
 
       //add registro en nuestra bitacora
-      $sql_d = "$idcliente, $num_doc, $fecha_venta, $tipo_comprobante, $serie_comprobante, $numero_comprobante, $impuesto, $descripcion,  $subtotal_venta, $tipo_gravada, $igv_venta, $total_venta, $metodo_pago, $code_vaucher, $pagar_con_ctdo, $pagar_con_tarj, $vuelto_venta ";
+      $sql_d = "$idcliente, $num_doc,  $tipo_comprobante, $impuesto, $descripcion,  $subtotal_venta, $tipo_gravada, $igv_venta, $total_venta, $metodo_pago, $code_vaucher, $pagar_con_ctdo, $pagar_con_tarj, $vuelto_venta ";
       $sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5, 'venta_paquete','$id','$sql_d','$this->id_usr_sesion')";
       $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; } 
 
-      //add update table autoincrement_comprobante - numero de comprobante de pago
-      if ($tipo_comprobante == 'NINGUNO') {
-        $sql_nro = "UPDATE sunat_correlacion_comprobante SET numero = numero + '1' WHERE nombre = '$tipo_comprobante'";
-        $nro_comprobante = ejecutarConsulta($sql_nro); if ($nro_comprobante['status'] == false) { return  $nro_comprobante;}
-      } else if ($tipo_comprobante == 'NOTA DE VENTA'){
-        $sql_nro = "UPDATE sunat_correlacion_comprobante SET numero = numero + '1' WHERE nombre = '$tipo_comprobante'";
-        $nro_comprobante = ejecutarConsulta($sql_nro); if ($nro_comprobante['status'] == false) { return  $nro_comprobante;}
-      }   
+      // INCREMENTAMOS EL NUMERO COMPROBANTE
+      $sql_nro = "UPDATE sunat_correlacion_comprobante SET numero = numero + 1 WHERE codigo = '$tipo_comprobante'";
+      $nro_comprobante = ejecutarConsulta($sql_nro); if ($nro_comprobante['status'] == false) { return  $nro_comprobante;}   
 
       // creamos un pago de compra
       $sum_pago = floatval($pagar_con_ctdo) + floatval($pagar_con_tarj)  ;
       $total_pago =  $sum_pago > floatval($total_venta) ? $total_venta : $sum_pago ;
 
-      $insert_pago = "INSERT INTO venta_paquete_pago(	idventa_paquete, forma_pago, fecha_pago, monto, descripcion, comprobante, user_created) 
-      VALUES ('$id','EFECTIVO','$fecha_venta','$total_pago', '', '', '$this->id_usr_sesion')";
+      $insert_pago = "INSERT INTO venta_paquete_pago(	idventa_paquete, forma_pago, tipo_comprobante, serie_comprobante, numero_comprobante, fecha_pago, monto, descripcion, comprobante, user_created) 
+      VALUES ('$id','EFECTIVO', '101',
+      (SELECT serie FROM sunat_correlacion_comprobante WHERE codigo = '101'),
+      (SELECT numero + 1 FROM sunat_correlacion_comprobante WHERE codigo = '101'),
+      CURRENT_TIMESTAMP,'$total_pago', '', '', '$this->id_usr_sesion')";
       $new_pago = ejecutarConsulta_retornarID($insert_pago); if ($new_pago['status'] == false) { return  $new_pago;}
 
+      // INCREMENTAMOS EL NUMERO COMPROBANTE
+      $sql_nro = "UPDATE sunat_correlacion_comprobante SET numero = numero + 1 WHERE codigo = '101'";
+      $nro_comprobante = ejecutarConsulta($sql_nro); if ($nro_comprobante['status'] == false) { return  $nro_comprobante;} 
+
       //add registro en nuestra bitacora
-      $sql_d = "$id, EFECTIVO, $fecha_venta, $total_pago";
+      $sql_d = "$id, EFECTIVO,  $total_pago";
       $sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5, 'venta_paquete_pago','".$new_pago['data']."','$sql_d','$this->id_usr_sesion')";
       $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; } 
 
@@ -88,29 +78,11 @@ class Venta_paquete
       }
       return $detalle_new;
 
-    } else {
-
-      $info_repetida = ''; 
-
-      foreach ($venta_existe['data'] as $key => $value) {
-        $info_repetida .= '<li class="text-left font-size-13px">
-          <b class="font-size-18px text-danger">'.$value['tipo_comprobante'].': </b> <span class="font-size-18px text-danger">'.$value['serie_comprobante'].'-'.$value['numero_comprobante'].'</span><br>
-          <b>Razón Social: </b>'.$value['razon_social'].'<br>
-          <b>'.$value['tipo_documento'].': </b>'.$value['numero_documento'].'<br>          
-          <b>Fecha: </b>'.format_d_m_a($value['fecha_venta']).'<br>
-          <b>Total: </b>'.number_format($value['total'], 2, '.', ',').'<br>
-          <b>Método de pago: </b>'.$value['metodo_pago'].'<br>
-          <b>Papelera: </b>'.( $value['estado']==0 ? '<i class="fas fa-check text-success"></i> SI':'<i class="fas fa-times text-danger"></i> NO') .' <b>|</b> 
-          <b>Eliminado: </b>'. ($value['estado_delete']==0 ? '<i class="fas fa-check text-success"></i> SI':'<i class="fas fa-times text-danger"></i> NO').'<br>
-          <hr class="m-t-2px m-b-2px">
-        </li>'; 
-      }
-      return $sw = array( 'status' => 'duplicado', 'message' => 'duplicado', 'data' => '<ol>'.$info_repetida.'</ol>', 'id_tabla' => '' );      
-    }      
+    
   }
 
   //Implementamos un método para editar registros
-  public function editar( $idventa_paquete, $idcliente, $num_doc, $fecha_venta, $tipo_comprobante, $serie_comprobante, $numero_comprobante, $impuesto, $descripcion,
+  public function editar( $idventa_paquete, $idcliente, $num_doc, $tipo_comprobante, $impuesto, $descripcion,
   $subtotal_venta, $tipo_gravada, $igv_venta, $total_venta, $idproducto, $categoria, $metodo_pago, $code_vaucher, $pagar_con_ctdo, $pagar_con_tarj , $vuelto_venta ,
   $idpaquete, $unidad_medida, $cantidad, $precio_sin_igv, $val_igv, $cantidad_old, $subtotal_compra, $precio_igv, $precio_con_igv,  $descuento, $subtotal_producto) {
 
@@ -258,7 +230,7 @@ class Venta_paquete
 
     $data = Array();    
 
-    $sql = "SELECT vt.idventa_paquete, vt.idpersona, vt.fecha_venta, vt.tipo_comprobante, vt.serie_comprobante, vt.numero_comprobante, vt.impuesto, vt.subtotal, vt.igv, 
+    $sql = "SELECT vt.idventa_paquete, vt.idpersona, DATE_FORMAT(vt.fecha_venta, '%Y-%m-%d') as fecha_venta, vt.tipo_comprobante, vt.serie_comprobante, vt.numero_comprobante, vt.impuesto, vt.subtotal, vt.igv, 
     vt.total, vt.tipo_gravada, vt.descripcion, vt.metodo_pago, vt.code_vaucher, vt.pago_con_efe, vt.pago_con_tar, vt.vuelto_pago, vt.comprobante,
     p.nombres as cliente, p.tipo_documento, p.numero_documento, p.celular, p.direccion, tp.nombre as tipo_persona
     FROM venta_paquete AS vt, persona as p, tipo_persona as tp 
@@ -349,7 +321,17 @@ class Venta_paquete
   }
 
       // :::::::::::::::::::::::::: S E C C I O N   V E N T A   P A Q U E T E  D E T A L L E    ::::::::::::::::::::::::::     
-      public function mostrar_detalle_venta($idventa_paquete) {
+      public function mostrar_detalle_venta($idventa_paquete) {        
+
+        $sql_2="SELECT vp.idventa_paquete, cc.abreviatura as tipo_comprobante, vp.serie_comprobante, vp.numero_comprobante, vp.descripcion,
+        DATE_FORMAT(vp.fecha_venta, '%d/%m/%Y %h:%i %p') as fecha_venta , vp.metodo_pago, vp.code_vaucher, vp.igv, vp.subtotal, vp.tipo_gravada, vp.impuesto, vp.total, p.tipo_documento,
+        p.nombres, p.numero_documento, p.direccion, p.numero_documento, p.direccion, p.celular, p.correo
+        FROM venta_paquete as vp
+        INNER JOIN persona as p ON vp.idpersona=p.idpersona
+        INNER JOIN sunat_correlacion_comprobante as cc ON cc.codigo = vp.tipo_comprobante
+        WHERE vp.idventa_paquete='$idventa_paquete';";
+        $venta = ejecutarConsultaSimpleFila($sql_2); if ($venta['status'] == false) { return  $venta;}
+
         $sql = "SELECT dvp.idventa_paquete, dvp.unidad_medida, dvp.precio_sin_igv, dvp.subtotal,
         dvp.idpaquete, p.nombre, dvp.cantidad, dvp.precio_con_igv, dvp.tipo_tours, vp.igv, dvp.descuento
         FROM venta_paquete_detalle as dvp, venta_paquete as vp, paquete as p 
@@ -358,55 +340,49 @@ class Venta_paquete
         AND dvp.idpaquete = p.idpaquete;";
         $detalles = ejecutarConsultaArray($sql); if ( $detalles['status'] == false) {return $detalles; }
 
-        $sql_2="SELECT vp.idventa_paquete, p.nombres, p.celular, vp.tipo_comprobante, vp.serie_comprobante, vp.descripcion,
-        vp.fecha_venta, vp.metodo_pago, vp.code_vaucher, vp.igv, vp.subtotal, vp.tipo_gravada, vp.impuesto, vp.total, p.tipo_documento,
-        p.numero_documento, p.direccion
-        FROM venta_paquete as vp, persona as p 
-        WHERE vp.idventa_paquete='$idventa_paquete'
-        AND vp.idpersona=p.idpersona;";
-        $venta = ejecutarConsultaSimpleFila($sql_2); if ($venta['status'] == false) { return  $venta;}
+        $sql = "SELECT vtp.forma_pago, DATE_FORMAT(vtp.fecha_pago, '%d/%m/%Y %h:%i %p') as fecha_pago, vtp.tipo_comprobante, vtp.serie_comprobante, vtp.numero_comprobante, vtp.monto, vtp.descripcion, vtp.comprobante, cc.abreviatura as tipo_comprobante 
+        FROM venta_paquete_pago as vtp 
+        INNER JOIN sunat_correlacion_comprobante as cc ON cc.codigo = vtp.tipo_comprobante  
+        WHERE vtp.idventa_paquete = '$idventa_paquete' AND vtp.estado = '1' AND vtp.estado_delete = '1'";
+        $pagos = ejecutarConsultaArray($sql); if ( $detalles['status'] == false) {return $detalles; }
 
-        foreach ($detalles['data'] as $key => $value) {
-          $detalles_1[] =[
-            'idpaquete'         => $value['idpaquete'],
-            'nombre'            => $value['nombre'],
-            'cantidad'          => $value['cantidad'],
-            'precio_con_igv'    => $value['precio_con_igv'],
-            'idventa_paquete'   => $value['idventa_paquete'],           
-            'unidad_medida'     => $value['unidad_medida'],
-            'subtotal'          => $value['subtotal'],
-            'tipo_tours'        => $value['tipo_tours'],
-            'descuento'         => $value['descuento'],
-            'igv'               => $value['igv'],
-
-          ];
-        }
-        return $retorno=['status'=>true, 'message'=>'consulta ok', 'data'=>[  'detalles'=>$detalles_1, //MOSTRAR LOS DATOS EN EL MODAL
-                                                                              'venta'=>$venta['data'], //MOSTRAR LOS DATOS EN EL MODAL
-                                                                              'detalle_1'=>$detalles['data'] //MOSTRAR LOS DATOS EN EL EXCEL
-                                                                            ]];
+        return $retorno=['status'=>true, 'message'=>'consulta ok', 
+          'data'=>[  
+            'venta'   =>$venta['data'], //MOSTRAR LOS DATOS EN EL MODAL
+            'detalles'=>$detalles['data'], //MOSTRAR LOS DATOS EN EL MODAL
+            'pagos'   =>$pagos['data'] //MOSTRAR LOS DATOS EN EL EXCEL
+          ]
+        ];
       }
 
 
 
   // ::::::::::::::::::::::::::::::::::::::::: S E C C I O N   P A G O S ::::::::::::::::::::::::::::::::::::::::: 
 
-  public function crear_pago_compra($idventa_paquete, $forma_pago, $fecha_pago, $monto, $descripcion, $comprobante_pago)  {
-    $sql_1 = "INSERT INTO venta_paquete_pago(idventa_paquete, forma_pago, fecha_pago, monto, descripcion, comprobante)
-    VALUES ('$idventa_paquete', '$forma_pago', '$fecha_pago', '$monto', '$descripcion', '$comprobante_pago')";
+  public function crear_pago_compra($idventa_paquete,  $tipo_comprobante, $forma_pago,$fecha_pago, $monto, $descripcion, $comprobante_pago)  {
+    
+    $sql_1 = "INSERT INTO venta_paquete_pago(idventa_paquete, tipo_comprobante, serie_comprobante, numero_comprobante, forma_pago, fecha_pago, monto, descripcion, comprobante)
+    VALUES ('$idventa_paquete', '$tipo_comprobante', 
+    (SELECT serie FROM sunat_correlacion_comprobante WHERE codigo = '$tipo_comprobante'),
+    (SELECT numero + 1 FROM sunat_correlacion_comprobante WHERE codigo = '$tipo_comprobante'),
+    '$forma_pago', CURRENT_TIMESTAMP, '$monto', '$descripcion', '$comprobante_pago')";
     $crear_pago = ejecutarConsulta_retornarID($sql_1); if ( $crear_pago['status'] == false) {return $crear_pago; } 
 
     //add registro en nuestra bitacora
 		$sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5,'venta_paquete_pago','".$idventa_paquete."','Se creo nuevo registro','$this->id_usr_sesion')";
 		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }   
+
+    // INCREMENTAMOS EL NUMERO COMPROBANTE
+    $sql_nro = "UPDATE sunat_correlacion_comprobante SET numero = numero + 1 WHERE codigo = '$tipo_comprobante'";
+    $nro_comprobante = ejecutarConsulta($sql_nro); if ($nro_comprobante['status'] == false) { return  $nro_comprobante;} 
 		
 		return $crear_pago;
   }
 
-  public function editar_pago_compra($idventa_paquete, $forma_pago, $fecha_pago, $monto, $descripcion, $comprobante_pago)  {
-    $sql_1 = "UPDATE venta_paquete_pago SET idventa_paquete='$idventa_paquete',forma_pago='$forma_pago',
-    fecha_pago='$fecha_pago',  monto='$monto', comprobante='$comprobante_pago', descripcion='$descripcion'
-    WHERE idventa_paquete_pago='$idventa_paquete'; ";
+  public function editar_pago_compra($id, $idventa_paquete, $forma_pago, $fecha_pago, $monto, $descripcion, $comprobante_pago)  {
+    
+    $sql_1 = "UPDATE venta_paquete_pago SET idventa_paquete='$idventa_paquete',forma_pago='$forma_pago', monto='$monto', descripcion='$descripcion'
+    WHERE idventa_paquete_pago='$id'; ";
     $editar_pago = ejecutarConsulta($sql_1); if ( $editar_pago['status'] == false) {return $editar_pago; } 
 
     //add registro en nuestra bitacora
@@ -417,11 +393,13 @@ class Venta_paquete
   }
 
   public function tabla_pago_compras($idcompra_grano)  {
-    $sql_1 = "SELECT pvp.idventa_paquete_pago, pvp.idventa_paquete, pvp.forma_pago, pvp.fecha_pago, pvp.descripcion, 
-    pvp.numero_operacion, pvp.monto, pvp.comprobante, pvp.estado, per.nombres as cliente
-    FROM venta_paquete_pago as pvp, venta_paquete as vp, persona as per
-    WHERE pvp.idventa_paquete = vp.idventa_paquete AND vp.idpersona = per.idpersona AND
-    pvp.idventa_paquete = '$idcompra_grano' AND pvp.estado = '1' AND pvp.estado_delete = '1' ORDER BY pvp.fecha_pago DESC;";
+    $sql_1 = "SELECT pvp.idventa_paquete_pago, pvp.idventa_paquete,  pvp.serie_comprobante, pvp.numero_comprobante, pvp.forma_pago, DATE_FORMAT(pvp.fecha_pago, '%Y-%m-%d') as fecha_pago, pvp.descripcion, 
+    pvp.monto, pvp.comprobante, pvp.estado, per.nombres as cliente, scc.abreviatura as tipo_comprobante
+    FROM venta_paquete_pago as pvp
+    INNER JOIN venta_paquete as vt ON pvp.idventa_paquete = vt.idventa_paquete
+    INNER JOIN persona as per ON vt.idpersona = per.idpersona
+    INNER JOIN sunat_correlacion_comprobante as scc ON scc.codigo = pvp.tipo_comprobante
+    WHERE pvp.idventa_paquete = '$idcompra_grano' AND pvp.estado = '1' AND pvp.estado_delete = '1' ORDER BY pvp.fecha_pago DESC;";
     return ejecutarConsulta($sql_1);
   }
 

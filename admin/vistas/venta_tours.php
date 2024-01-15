@@ -284,18 +284,21 @@
                                   </div>
 
                                   <!-- fecha -->
-                                  <div class="col-lg-3" >
+                                  <!-- <div class="col-lg-3" >
                                     <div class="form-group">
                                       <label for="fecha_venta">Fecha <sup class="text-danger">*</sup></label>
                                       <input type="date" name="fecha_venta" id="fecha_venta" class="form-control" placeholder="Fecha" />
                                     </div>
-                                  </div>
+                                  </div> -->
 
                                   <!-- Tipo de comprobante -->
                                   <div class="col-lg-3" id="content-tipo-comprobante">
                                     <div class="form-group">
-                                      <label for="tipo_comprobante">Tipo Comprobante <sup class="text-danger">(único*)</sup></label>
-                                      <select name="tipo_comprobante" id="tipo_comprobante" class="form-control select2"  onchange="default_val_igv(); modificarSubtotales(); ocultar_comprob(); autoincrement_comprobante(this);" placeholder="Seleccionar ">
+                                      <label for="tipo_comprobante">
+                                        <span class="badge badge-info cursor-pointer" data-toggle="tooltip" data-original-title="Recargar" onclick="reload_tipo_comprobante();"><i class="fa-solid fa-rotate-right"></i></span>
+                                        Tipo Comprobante  <span class="charge_tipo_comprobante"></span> <sup class="text-danger">(único*)</sup>
+                                      </label>
+                                      <select name="tipo_comprobante" id="tipo_comprobante" class="form-control select2"  onchange="default_val_igv(); modificarSubtotales();" placeholder="Seleccionar ">
                                         <option value="NINGUNO">Ninguno</option>
                                         <!-- <option value="Boleta">Boleta</option>
                                         <option value="Factura">Factura</option> -->
@@ -305,7 +308,7 @@
                                   </div> 
 
                                   <!-- serie_comprobante-->
-                                  <div class="col-lg-3" id="content-serie-comprobante">
+                                  <!-- <div class="col-lg-3" id="content-serie-comprobante">
                                     <div class="form-group">
                                       <label for="serie_comprobante">Serie y numero <sup class="text-danger cargando_serie_numero">(único*)</sup></label>
                                       <div class="input-group">  
@@ -314,7 +317,7 @@
                                         <input type="text" name="numero_comprobante" id="numero_comprobante" class="form-control" placeholder="N° de Comprobante" readonly />                                                                                
                                       </div>
                                     </div>
-                                  </div>                                  
+                                  </div>                                   -->
 
                                   <!-- IGV-->
                                   <div class="col-lg-1" style="display: none;">
@@ -323,13 +326,6 @@
                                       <input type="text" name="impuesto" id="impuesto" class="form-control" value="0" onkeyup="modificarSubtotales();" />
                                     </div>
                                   </div>
-                                  <!-- Descripcion-->
-                                  <div class="col-lg-6" id="content-descripcion">
-                                    <div class="form-group">
-                                      <label for="descripcion">Descripción </label> <br />
-                                      <textarea name="descripcion" id="descripcion" class="form-control" rows="1"></textarea>
-                                    </div>
-                                  </div>  
 
                                   <!-- metodo de pago -->
                                   <div class="col-lg-3">
@@ -348,7 +344,15 @@
                                         <option title="fas fa-gas-pump" value="TUNKI">TUNKI</option>
                                       </select>
                                     </div> 
-                                  </div>                                  
+                                  </div>
+
+                                  <!-- Descripcion-->
+                                  <div class="col-lg-6" id="content-descripcion">
+                                    <div class="form-group">
+                                      <label for="descripcion">Observación </label> <br />
+                                      <textarea name="descripcion" id="descripcion" class="form-control" rows="1"></textarea>
+                                    </div>
+                                  </div>                                                                    
 
                                   <!-- Pago a realizar -->
                                   <div class="col-sm-6 col-lg-3" id="content-code-baucher">
@@ -473,6 +477,7 @@
                                   <th>Acciones</th>
                                   <th data-toggle="tooltip" data-original-title="Fecha de pago">Fecha</th>
                                   <th>Forma de pago</th>
+                                  <th>Comprobante</th>
                                   <th>Monto</th>
                                   <th>Descripción</th>
                                   <th data-toggle="tooltip" data-original-title="Comprobante">Doc.</th>
@@ -486,6 +491,7 @@
                                   <th>Acciones</th>
                                   <th data-toggle="tooltip" data-original-title="Fecha de pago">Fecha</th>
                                   <th>Forma de pago</th>
+                                  <th>Comprobante</th>
                                   <th class="text-nowrap px-2"><span>S/</span><span>0.00</span></th>
                                   <th>Descripción</th>
                                   <th data-toggle="tooltip" data-original-title="Comprobante">Doc.</th>
@@ -529,8 +535,8 @@
                                 <!-- tipo persona  -->
                                 <input type="hidden" name="id_tipo_persona_per" id="id_tipo_persona_per" value="3" />
                                 <input type="hidden" name="cargo_trabajador_per" id="cargo_trabajador_per" value="1">
-                                <input type="hidden" name="sueldo_mensual_per" id="sueldo_mensual_per">
-                                <input type="hidden" name="sueldo_diario_per" id="sueldo_diario_per">
+                                <input type="hidden" name="sueldo_mensual_per" id="sueldo_mensual_per" value="0">
+                                <input type="hidden" name="sueldo_diario_per" id="sueldo_diario_per" value="0">
 
                                 <!-- Tipo de documento -->
                                 <div class="col-12 col-sm-6 col-md-6 col-lg-2">
@@ -737,26 +743,30 @@
                               <div class="row" id="cargando-3-fomulario">
                                 <!-- idpago_compra_grano -->
                                 <input type="hidden" name="idventa_tours_pago" id="idventa_tours_pago" />
-                                <input type="hidden" name="idventa_tours" id="idventa_tours" />
+                                <input type="hidden" name="idventa_tours_p" id="idventa_tours_p" />
 
-                                <!-- Fecha 1 onchange="calculando_cantidad(); restrigir_fecha_ant();" onkeyup="calculando_cantidad(); -->
+                                <!--Fecha-->
+                                <div class="col-lg-6" >
+                                  <div class="form-group">
+                                    <label for="tipo_comprobante_p">
+                                    <span class="badge badge-info cursor-pointer" data-toggle="tooltip" data-original-title="Recargar" onclick="reload_tipo_comprobante_p();"><i class="fa-solid fa-rotate-right"></i></span>
+                                      Comprobante  <span class="charge_tipo_comprobante_p"></span> <sup class="text-danger">(*)</sup>
+                                    </label>
+                                    <select name="tipo_comprobante_p" id="tipo_comprobante_p" class="form-control select2"  placeholder="Seleccionar ">                                      
+                                    </select>
+                                  </div>
+                                </div> 
+
+                                <!-- Forma -->
                                 <div class="col-lg-6">
                                   <div class="form-group">
                                     <label for="forma_pago">Forma Pago <sup class="text-danger">*</sup></label>
                                     <select name="forma_pago" id="forma_pago" class="form-control select2" style="width: 100%;">
-                                      <option value="Transferencia">Transferencia</option>
-                                      <option value="Efectivo">Efectivo</option>
+                                      <option value="EFECTIVO">EFECTIVO</option>
+                                      <option value="TRANSFERENCIA">TRANSFERENCIA</option>                                      
                                     </select>
                                   </div>
-                                </div>
-
-                                <!--Fecha-->
-                                <div class="col-lg-6">
-                                  <div class="form-group">
-                                    <label for="fecha_pago">Fecha <sup class="text-danger">*</sup></label>
-                                    <input type="date" name="fecha_pago" class="form-control" id="fecha_pago" />
-                                  </div>
-                                </div>
+                                </div>                                
 
                                 <!--Precio Parcial-->
                                 <div class="col-lg-6">
@@ -846,45 +856,29 @@
                         <div class="modal-body">
                           <div class="card card-info card-tabs">
                             <div class="card-header p-0 pt-1">
-                              <ul class="nav nav-tabs" id="custom-content-detalle-tab" role="tablist">
+                              <ul class="nav nav-tabs" id="custom-tab" role="tablist">
                                 <!-- DATOS VENTA -->
                                 <li class="nav-item">
-                                  <a class="nav-link active" id="custom-content-detalle-datos1_html-tab" data-toggle="pill" href="#custom-content-detalle-datos1_html" role="tab" aria-controls="custom-content-detalle-datos1_html" aria-selected="true">VENTA</a>
+                                  <a class="nav-link active" id="custom-datos1_html-tab" data-toggle="pill" href="#custom-datos1_html" role="tab" aria-controls="custom-datos1_html" aria-selected="true">VENTA</a>
                                 </li>
                                 <!-- DATOS TOURS -->
                                 <li class="nav-item">
-                                  <a class="nav-link" id="custom-content-detalle-home2_html-tab" data-toggle="pill" href="#custom-content-detalle-home2_html" role="tab" aria-controls="custom-content-detalle-home2_html" aria-selected="true">TOURS</a>
+                                  <a class="nav-link" id="custom-home2_html-tab" data-toggle="pill" href="#custom-home2_html" role="tab" aria-controls="custom-home2_html" aria-selected="true">TOURS</a>
                                 </li>
-                                <!-- DATOS PRECIO -->
+                                <!-- DATOS PAGOS -->
                                 <li class="nav-item">
-                                  <a class="nav-link" id="custom-content-detalle-otros3_html-tab" data-toggle="pill" href="#custom-content-detalle-otros3_html" role="tab" aria-controls="custom-content-detalle-otros3_html" aria-selected="false">PAGO</a>
+                                  <a class="nav-link" id="custom-otros3_html-tab" data-toggle="pill" href="#custom-otros3_html" role="tab" aria-controls="custom-otros3_html" aria-selected="false">PAGOS</a>
                                 </li>
                                 
                               </ul>
                             </div> 
                             <div class="card-body">
-                              <div class="tab-content" id="custom-content-detalle-tabContent">
-                                <div class="tab-pane fade show active datos1_html" id="custom-content-detalle-datos1_html" role="tabpanel" aria-labelledby="custom-content-detalle-datos1_html-tab">
-                                  <!-- DATOS PRINCIPALES --> 
-                                  <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
-                                </div>
-                                <!-- /.tab-panel -->
-
-                                <div class="tab-pane fade show home2_html" id="custom-content-detalle-home2_html" role="tabpanel" aria-labelledby="custom-content-detalle-home2_html-tab">
-                                  <!-- DATOS TOURS -->
-                                  <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
-                                </div>
-                                <!-- /.tab-panel -->
-
-                                <div class="tab-pane fade otros3_html" id="custom-content-detalle-otros3_html" role="tabpanel" aria-labelledby="custom-content-detalle-otros3_html-tab">
-                                  <!-- DATOS PRECIO -->                          
-                                  <div class="row"> <div class="col-lg-12 mt-3 text-center"> <i class="fas fa-spinner fa-pulse fa-4x"></i><br> <h4>Cargando...</h4></div> </div>
-                                </div>
+                              <div class="tab-content" id="custom-tabContent">                                
                                 <!-- /.tab-panel --> 
                               </div> 
                             </div>
-                          </div> 
-
+                          </div>                             
+                            
                           <div class="row" id="cargando-6-fomulario" style="display: none;">
                             <div class="col-lg-12 text-center">
                               <i class="fas fa-spinner fa-pulse fa-6x"></i><br />

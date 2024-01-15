@@ -64,7 +64,7 @@
                       <div class="col-lg-3 col-6">
                         <div class="small-box bg-info">
                           <div class="inner">
-                            <h3 id="cantidad_box_producto" > <i class="fas fa-spinner fa-pulse "></i> </h3>
+                            <h3 id="box_total_tours" > <i class="fas fa-spinner fa-pulse "></i> </h3>
                             <p>Total Tours </p>
                           </div>
                           <div class="icon">
@@ -78,7 +78,7 @@
                       <div class="col-lg-3 col-6">
                         <div class="small-box bg-success">
                           <div class="inner">
-                            <h3 id="cantidad_box_agricultor"> <i class="fas fa-spinner fa-pulse "></i>   </h3>
+                            <h3 id="box_total_paquete"> <i class="fas fa-spinner fa-pulse "></i>   </h3>
                             <p>Total Paquetes</p>
                           </div>
                           <div class="icon"><i class="nav-icon fas fa-map"></i> </div>
@@ -90,7 +90,7 @@
                       <div class="col-lg-3 col-6">
                         <div class="small-box bg-warning">
                           <div class="inner">
-                            <h3 id="cantidad_box_trabajador"> <i class="fas fa-spinner fa-pulse "></i> </h3>
+                            <h3 id="box_total_venta"> <i class="fas fa-spinner fa-pulse "></i> </h3>
                             <p>Total ventas</p>
                           </div>
                           <div class="icon"> <i class="fa-solid fa-cart-shopping nav-icon"></i> </div>
@@ -103,7 +103,7 @@
                         <div class="small-box bg-secondary" style="background-color: #6c757dd9!important;">
                           <div class="inner">
                             <h3 id="cantidad_box_visita"> <i class="fas fa-spinner fa-pulse "></i> </h3>
-                            <p> <strong class="vista"><i class="fas fa-spinner fa-pulse "></i></strong> es una vista de la página web </p>
+                            <p> <strong class="vista"><i class="fas fa-spinner fa-pulse "></i></strong> es la mas visitada de tu web </p>
                           </div>
                           <div class="icon"> <i class="fas fa-user-plus"></i> </div>
                           <a href="#" class="small-box-footer" data-toggle="tooltip" data-original-title="Click para visitar">Más info <i class="fas fa-arrow-circle-right"></i></a>
@@ -132,11 +132,14 @@
                             <div class="row mb-3">
                               <!-- :::::::::::::::::::::::::::::::: VISITAS POR DIA :::::::::::::::::::::::::::::::: -->
                               <div class="col-md-4 ">
-                                
-                                <div class="card card-primary">
+                        
+                                <div class="card">
 
-                                  <div class="card-header">
-                                  <span class="text-bold text-lg">Visita</span> <span> por día</span>
+                                  <div class="card-header border-0">
+                                    <div class="d-flex justify-content-between">
+                                      <h3 class="card-title text-bold ">Visitas por dia</h3>
+                                      <a href="javascript:void(0);">View Report</a>
+                                    </div>
                                   </div>
 
                                   <div class="card-body" >
@@ -153,22 +156,25 @@
                                   </div>
                                 </div>                                      
                                 <!-- /.card -->                      
-                              </div>     
+                              </div>      
                               <!-- /.col -->
 
                               <!-- :::::::::::::::::::::::::::::::: VISITAS POR MES :::::::::::::::::::::::::::::::: -->
                               <div class="col-md-4 ">
-                                
-                                <div class="card card-primary">
+                        
+                                <div class="card">
 
-                                  <div class="card-header">
-                                  <span class="text-bold text-lg">Visita</span> <span> por mes</span>
+                                  <div class="card-header border-0">
+                                    <div class="d-flex justify-content-between">
+                                      <h3 class="card-title text-bold">visitas por mes</h3>
+                                      <a href="javascript:void(0);">View Report</a>
+                                    </div>
                                   </div>
 
                                   <div class="card-body" >
 
                                     <div class="position-relative text-center">
-                                      <canvas id="barras-chart-visita-por-mes" height="550" ></canvas>
+                                      <canvas id="barras-chart-visita-por-mes" height="350" ></canvas>
                                     </div>
 
                                     <!-- <div class="d-flex flex-row justify-content-end">
@@ -186,11 +192,13 @@
                               <div class="col-md-4 ">
                                 <div class="row">
                                   <div class="col-md-12 "> 
-                                    <div class="card card-primary">
-                                      <div class="card-header">
-                                        <!-- <h3 class="card-title">visitas a la página web</h3> -->
-                                        <span class="text-bold text-lg">visitas </span> <span> por página </span>
 
+                                    <div class="card">
+                                      <div class="card-header border-0">
+                                        <div class="d-flex justify-content-between">
+                                          <h3 class="card-title text-bold">Visitas por pagina</h3>
+                                          <a href="javascript:void(0);">View Report</a>
+                                        </div>
                                       </div>
                                       <div class="card-body">
                                         <canvas id="donut-chart-visita-por-pagina" style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
@@ -199,7 +207,7 @@
                                   </div>    
                                   <!-- /.row -->                      
                                 </div>
-                              </div>     
+                              </div>       
                               <!-- /.col -->
                               
                               <!-- :::::::::::::::::::::::::::::::: VENTAS TOURS :::::::::::::::::::::::::::::::: -->

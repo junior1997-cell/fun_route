@@ -25,14 +25,14 @@ function tablero() {
 
   $.post("../ajax/escritorio.php?op=tablero",  function (e, status) {
 
-    e = JSON.parse(e);  //console.log(e);
+    e = JSON.parse(e);  console.log(e);
 
     if (e.status == true) {
-      $("#cantidad_box_producto").html("Tours : "+e.data.total_tours);
-      $("#cantidad_box_agricultor").html("Paquetes : "+e.data.total_paquete);
-      $("#cantidad_box_trabajador").html("S/. "+formato_miles(e.data.total_ventas));
+      $("#box_total_tours").html(`${e.data.total_tours}`);
+      $("#box_total_paquete").html(`${e.data.total_paquete}`);
+      $("#box_total_venta").html(`S/. ${formato_miles(e.data.total_venta)}`);
 
-      $("#cantidad_box_visita").html(e.data.visitas_pag.nombre_vista+" "+e.data.visitas_pag.cantidad);
+      $("#cantidad_box_visita").html(`${e.data.visitas_pag.nombre_vista} ${e.data.visitas_pag.cantidad}`);
       $(".vista").html(e.data.visitas_pag.nombre_vista);
 
     } else {
@@ -45,6 +45,18 @@ function tablero() {
 
 init();
 
+var color_label = [
+  {'hex': '#f56954', 'rgba': 'rgba(255, 99, 132, 0.2)', }, 
+  {'hex':'#00a65a', 'rgba': 'rgba(0, 166, 90, 0.2)',}, 
+  {'hex':'#f39c12', 'rgba': 'rgba(243, 156, 18, 0.2)',}, 
+  {'hex':'#00c0ef', 'rgba': 'rgba(0, 192, 239, 0.2)',}, 
+  {'hex':'#3c8dbc', 'rgba': 'rgba(60, 141, 188, 0.2)',}, 
+  {'hex':'#d2d6de', 'rgba': 'rgba(210, 214, 222, 0.2)',},
+  {'hex':'#0002ff', 'rgba': 'rgba(0, 2, 255, 0.2)',},
+  {'hex':'#675a33', 'rgba': 'rgba(103, 90, 51, 0.2)',},
+  {'hex':'#d40000', 'rgba': 'rgba(212, 0, 0, 0.2)',},
+];
+
 //=========================CHART PASTEL=======================
 $(function () {
   $.post("../ajax/escritorio.php?op=vistas_pagina_web",  function (e, status) {
@@ -52,31 +64,25 @@ $(function () {
     e = JSON.parse(e);  console.log(e);
     var A_labels = [];
     var A_data = [];
+    var donutOptions = {  maintainAspectRatio : false,  responsive : true, }
+
     if (e.status == true) {    
       
-      e.data.char_donut.forEach((val, index) => { A_labels.push(val.nombre_vista); A_data.push(val.total);  });
+      e.data.char_donut.forEach((val, index) => { A_labels.push(`${val.nombre_vista} (${val.total})`); A_data.push(val.total);  });
 
       // ::::::::::::::::::::::::::::: CHART RADAR :::::::::::::::::::::::::::::::::::
+      var datasets_radar = [];
+      e.data.chart_radar.forEach((val, key) => {
+        datasets_radar.push({
+          label: `${val.nombre_vista} (${val.total})`,  data: val.dia,  fill: true,
+          backgroundColor: color_label[key]['rgba'],
+          borderColor: color_label[key]['hex'], pointBackgroundColor: color_label[key]['hex'], pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: color_label[key]['hex']
+        });
+      });
       var $radarChartCanvas = $('#radar-chart-visita-por-dia');
       const data = {
-        labels: [ 'Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado' ],
-        datasets: [
-          {
-            label: 'Home',  data: e.data.chart_radar,  fill: true,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: '#f56954', pointBackgroundColor: '#f56954', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#f56954'
-          }, 
-          {
-            label: 'Nosotros', data: [1, 8, 9, 19, 7, 3, 3], fill: true,
-            backgroundColor: 'rgba(0, 166, 90, 0.2)',
-            borderColor: '#00a65a',  pointBackgroundColor: '#00a65a',  pointBorderColor: '#fff',  pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#00a65a'
-          },
-          {
-            label: 'Nosotros', data: [6, 8, 9, 1, 3, 2, 7], fill: true,
-            backgroundColor: 'rgba(0, 166, 90, 0.2)',
-            borderColor: '#f39c12',  pointBackgroundColor: '#f39c12',  pointBorderColor: '#fff',  pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#f39c12'
-          }
-        ]
+        labels: [  'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo',],
+        datasets: datasets_radar          
       };
       new Chart($radarChartCanvas, {
         type: 'radar',
@@ -84,7 +90,7 @@ $(function () {
         options: { elements: { line: { borderWidth: 3 } }, donutOptions  },
       });
 
-      // ::::::::::::::::::::::::::::: Grafico Barras :::::::::::::::::::::::::::::
+      // ::::::::::::::::::::::::::::: CHART BARRAS :::::::::::::::::::::::::::::
 
       var $barras_v_x_m = $('#barras-chart-visita-por-mes')
       // eslint-disable-next-line no-unused-vars
@@ -93,7 +99,7 @@ $(function () {
         data: {
           labels: [ 'ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'],
           datasets: [
-            { backgroundColor: '#28a745', borderColor: '#28a745', data: e.data.chart_barra, label: 'Total visitas' },             
+            { backgroundColor: '#28a745', borderColor: '#28a745', data: e.data.chart_barra.mes, label: `Total visitas (${e.data.chart_barra.total})` },             
           ]
         },
         options: {
@@ -108,10 +114,10 @@ $(function () {
         }
       });
 
-      // ::::::::::::::::::::::::::::: CHART RADAR :::::::::::::::::::::::::::::::::::
+      // ::::::::::::::::::::::::::::: CHART DONA :::::::::::::::::::::::::::::::::::
       var donutChartCanvas = $('#donut-chart-visita-por-pagina').get(0).getContext('2d');
-      var donutData    = { labels: A_labels, datasets: [ { data: A_data, backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],  } ] }
-      var donutOptions = {  maintainAspectRatio : false,  responsive : true, }
+      var donutData    = { labels: A_labels, datasets: [ { data: A_data, backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de', '#0002ff'],  } ] }
+      
       //Create pie or douhnut chart - You can switch between pie and douhnut using the method below.
       new Chart(donutChartCanvas, {
         type: 'doughnut',
@@ -265,6 +271,6 @@ $(function () {
   }       
   
   // Ejecutamos los CHARTS
-  chart_producto();
+  // chart_producto();
   
 })

@@ -109,7 +109,7 @@ class Correlacion_comprobante
 
   //Implementar un método para listar los registros
   public function tbla_principal() {  
-    $sql = "SELECT * FROM sunat_correlacion_comprobante WHERE estado_delete = '1' AND idsunat_correlacion_comprobante > 1;";
+    $sql = "SELECT * FROM sunat_correlacion_comprobante ORDER BY estado DESC ;";
     return ejecutarConsultaArray($sql); 
   }
 

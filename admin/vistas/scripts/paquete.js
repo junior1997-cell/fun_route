@@ -552,7 +552,7 @@ function galeria(idpaquete, nombre) {
           //style="border: 2px solid black;"
           var galeria_html = `<div class="col-sm-2 text-center px-1 py-1 b-radio-5px" style="border: 2px solid #837f7f;" > 
             <a href="../dist/docs/paquete/galeria/${val.imagen}?text=1" data-toggle="lightbox" data-title="${val.descripcion}" data-gallery="gallery">
-              <img src="../dist/docs/paquete/galeria/${val.imagen}?text=1" width="100%" class="img-fluid mb-2 b-radio-t-5px" alt="white sample"/>
+              <img src="../dist/docs/paquete/galeria/${val.imagen}?text=1" width="100%" class="img-fluid mb-2 b-radio-t-5px" alt="white sample" onerror="this.src='../dist/docs/paquete/galeria/sin-foto.jpg';" />
             </a>            
             <button class="btn btn-warning btn-sm" onclick="mostrar_editar_galeria(${val.idgaleria_paquete})">Editar</button> 
             <button class="btn btn-danger btn-sm" onclick="eliminar_img(${val.idgaleria_paquete},'${val.descripcion}');">Eliminar</button> 
