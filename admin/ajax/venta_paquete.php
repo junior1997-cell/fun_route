@@ -429,12 +429,12 @@ if (!isset($_SESSION["nombre"])) {
         } else {
           $ext1 = explode(".", $_FILES["doc1"]["name"]); $flat_doc1 = true;	
           $comprobante_pago  = $date_now .'__'. random_int(0, 20) . round(microtime(true)) . random_int(21, 41) . '.' . end($ext1);
-          move_uploaded_file($_FILES["doc1"]["tmp_name"], "../dist/docs/venta_producto/comprobante_pago/" . $comprobante_pago );          
+          move_uploaded_file($_FILES["doc1"]["tmp_name"], "../dist/docs/venta_paquete/comprobante_pago/" . $comprobante_pago );          
         }
 
         if (empty($idventa_paquete_pago_pv)){
           
-          $rspta=$venta_producto->crear_pago_compra( $idventa_paquete_pv, $tipo_comprobante_p, $forma_pago_pv, $fecha_pago_pv, quitar_formato_miles($monto_pv), $descripcion_pv, $comprobante_pago);          
+          $rspta=$venta_producto->crear_pago_compra( $idventa_paquete_pv, $tipo_comprobante_p, $forma_pago_pv,  quitar_formato_miles($monto_pv), $descripcion_pv, $comprobante_pago);          
           echo json_encode($rspta, true);
 
         }else {
@@ -443,11 +443,11 @@ if (!isset($_SESSION["nombre"])) {
           if ($flat_doc1 == true) {
             $doc_pago = $venta_producto->obtener_doc_pago_compra($idventa_paquete_pago_pv);
             $doc_pago_antiguo = $doc_pago['data']['comprobante'];
-            if ( !empty($doc_pago_antiguo) ) { unlink("../dist/docs/venta_producto/comprobante_pago/" . $doc_pago_antiguo);  }
+            if ( !empty($doc_pago_antiguo) ) { unlink("../dist/docs/venta_paquete/comprobante_pago/" . $doc_pago_antiguo);  }
           }            
 
           // editamos un persona existente
-          $rspta=$venta_producto->editar_pago_compra( $idventa_paquete_pago_pv, $idventa_paquete_pv, $forma_pago_pv, $fecha_pago_pv, quitar_formato_miles($monto_pv), $descripcion_pv, $comprobante_pago );          
+          $rspta=$venta_producto->editar_pago_compra( $idventa_paquete_pago_pv, $idventa_paquete_pv, $forma_pago_pv, quitar_formato_miles($monto_pv), $descripcion_pv, $comprobante_pago );          
           echo json_encode($rspta, true);
         }
     
@@ -464,7 +464,7 @@ if (!isset($_SESSION["nombre"])) {
             $doc = (empty($reg->comprobante) ? '<button class="btn btn-sm btn-outline-info" data-toggle="tooltip" data-original-title="Vacio" ><i class="fa-regular fa-file-pdf fa-2x"></i></button>' : '<a href="#" class="btn btn-sm btn-info" data-toggle="tooltip" data-original-title="Ver documento" onclick="ver_documento_pago(\''.$reg->comprobante. '\', \'' . removeSpecialChar($reg->cliente) . ' - ' .date("d/m/Y", strtotime($reg->fecha_pago)).'\')"><i class="fa-regular fa-file-pdf fa-2x"></i></a>');
             $data[] = [
               "0" => $cont++,
-              "1" => ' <button class="btn btn-sm btn-warning" id="btn_monto_pagado_' . $reg->idventa_paquete_pago . '" monto_pagado="'.$reg->monto.'" onclick="mostrar_editar_pago(' . $reg->idventa_paquete_pago . ')" data-toggle="tooltip" data-original-title="Editar compra"><i class="fas fa-pencil-alt"></i></button>' .
+              "1" => ' <button class="btn btn-sm btn-warning" id="btn_monto_pagado_' . $reg->idventa_paquete_pago . '" monto_pagado="'.$reg->monto.'" onclick="mostrar_editar_pago(' . $reg->idventa_paquete_pago . ')" data-toggle="tooltip" data-original-title="Editar pago"><i class="fas fa-pencil-alt"></i></button>' .
               ' <button class="btn btn-sm btn-danger" onclick="elim_venta_paquete_pago(' . $reg->idventa_paquete_pago .', \''.encodeCadenaHtml( number_format($reg->monto, 2, '.',',')).' - '.date("d/m/Y", strtotime($reg->fecha_pago)).'\')" data-toggle="tooltip" data-original-title="Eliminar o papelera"><i class="fas fa-skull-crossbones"></i> </button>',
               "2" => $reg->fecha_pago,
               "3" => $reg->forma_pago,
@@ -472,7 +472,7 @@ if (!isset($_SESSION["nombre"])) {
               "5" => $reg->monto,
               "6" => '<textarea cols="30" rows="1" class="textarea_datatable" readonly >'.$reg->descripcion.'</textarea>',
               "7" => $doc,
-              "8" => $reg->estado == '1' ? '<span class="badge bg-success">Aceptado</span>' : '<span class="badge bg-danger">Anulado</span>',
+              "8" => ($reg->estado == '1' ? '<span class="badge bg-success">Aceptado</span>' : '<span class="badge bg-danger">Anulado</span>') . $toltip,
             ];
           }
           $results = [

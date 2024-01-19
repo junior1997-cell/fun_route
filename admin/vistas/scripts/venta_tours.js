@@ -677,7 +677,7 @@ function mostrar_editar_pago(idventa_tours_pago) {
 function ver_documento_pago(doc, name_download) {
   $('.tile-modal-comprobante').html(name_download);
   $('#modal-ver-comprobante-pago').modal('show');
-  $('.div-view-comprobante-pago').html(doc_view_download_expand(doc, 'dist/docs/venta_tours/comprobante',name_download,'100%', '410'));
+  $('.div-view-comprobante-pago').html(doc_view_download_expand(doc, 'admin/dist/docs/venta_tours/comprobante',name_download,'100%', '410'));
   $('.jq_image_zoom').zoom({ on:'grab' });
 }
 

@@ -18,12 +18,12 @@ class Venta_tours
   $idtours, $unidad_medida, $tipo_tours, $cantidad, $precio_sin_igv, $precio_igv, $precio_con_igv, $descuento, $subtotal_producto) {
 
     $sql_3 = "INSERT INTO venta_tours( idpersona, tipo_comprobante, serie_comprobante, numero_comprobante, impuesto, subtotal, igv, total, tipo_gravada, 
-    descripcion, metodo_pago, code_vaucher, pago_con_efe, pago_con_tar, vuelto_pago, user_created) 
+    descripcion, metodo_pago, code_vaucher, pago_con_efe, pago_con_tar, vuelto_pago) 
     VALUES ('$idcliente','$tipo_comprobante',
     (SELECT serie FROM sunat_correlacion_comprobante WHERE codigo = '$tipo_comprobante'),
     (SELECT numero + 1 FROM sunat_correlacion_comprobante WHERE codigo = '$tipo_comprobante'),
     '$impuesto','$subtotal_venta','$igv_venta','$total_venta',
-    '$tipo_gravada','$descripcion','$metodo_pago','$code_vaucher','$pagar_con_ctdo','$pagar_con_tarj','$vuelto_venta', '$this->id_usr_sesion')";
+    '$tipo_gravada','$descripcion','$metodo_pago','$code_vaucher','$pagar_con_ctdo','$pagar_con_tarj','$vuelto_venta')";
     $idventanew = ejecutarConsulta_retornarID($sql_3); if ($idventanew['status'] == false) { return  $idventanew;}
     $id = $idventanew['data'];
 
@@ -154,41 +154,23 @@ class Venta_tours
   //Implementamos un método para desactivar categorías
   public function desactivar($idventa_tours) {
     // var_dump($idventa_tours);die();
-    $sql = "UPDATE venta_tours SET estado='0', user_trash= '$this->id_usr_sesion' WHERE idventa_tours='$idventa_tours'";
-		$desactivar= ejecutarConsulta($sql); if ($desactivar['status'] == false) {  return $desactivar; }
+    $sql = "UPDATE venta_tours SET estado='0' WHERE idventa_tours='$idventa_tours'";
+		$desactivar= ejecutarConsulta($sql, 'T'); if ($desactivar['status'] == false) {  return $desactivar; }
 
     //add registro en nuestra bitacora
     $sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (2,'venta_tours','".$idventa_tours."','Se envio a papelera.','$this->id_usr_sesion')";
     $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }   
-
-    // buscamos las cantidades
-    $sql_restaurar = "SELECT idtours, cantidad FROM venta_tours_detalle WHERE idventa_tours = '$idventa_tours';";
-    $restaurar_stok =  ejecutarConsultaArray($sql_restaurar); if ( $restaurar_stok['status'] == false) {return $restaurar_stok; }
-    // actualizamos el stock
-    /*foreach ($restaurar_stok['data'] as $key => $value) {      
-      $update_tours = "UPDATE tours SET stock = stock + '".$value['cantidad']."' WHERE idtours = '".$value['idtours']."';";
-      $tours1 = ejecutarConsulta($update_tours); if ($tours1['status'] == false) { return  $tours1;}
-    }	*/
 
 		return $desactivar;
   }
 
   //Implementamos un método para activar categorías
   public function eliminar($idventa_tours) {
-    $sql = "UPDATE venta_tours SET estado_delete='0',user_delete= '$this->id_usr_sesion' WHERE idventa_tours='$idventa_tours'";
-		$eliminar =  ejecutarConsulta($sql); if ( $eliminar['status'] == false) {return $eliminar; }  
+    $sql = "UPDATE venta_tours SET estado_delete='0' WHERE idventa_tours='$idventa_tours'";
+		$eliminar =  ejecutarConsulta($sql, 'D'); if ( $eliminar['status'] == false) {return $eliminar; }  
 		//add registro en nuestra bitacora
 		$sql = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (4,'venta_tours','$idventa_tours','Se elimino este registro.','$this->id_usr_sesion')";
 		$bitacora = ejecutarConsulta($sql); if ( $bitacora['status'] == false) {return $bitacora; }  
-
-    // buscamos las cantidades
-    $sql_restaurar = "SELECT idtours, cantidad FROM venta_tours_detalle WHERE idventa_tours = '$idventa_tours';";
-    $restaurar_stok =  ejecutarConsultaArray($sql_restaurar); if ( $restaurar_stok['status'] == false) {return $restaurar_stok; }
-    // actualizamos el stock
-    /*foreach ($restaurar_stok['data'] as $key => $value) {      
-      $update_tours = "UPDATE tours SET stock = stock + '".$value['cantidad']."' WHERE idtours = '".$value['idtours']."';";
-      $tours = ejecutarConsulta($update_tours); if ($tours['status'] == false) { return  $tours;}
-    }*/
     		
 		return $eliminar;
   }
@@ -355,7 +337,7 @@ class Venta_tours
 
   // ::::::::::::::::::::::::::::::::::::::::: S E C C I O N   P A G O S ::::::::::::::::::::::::::::::::::::::::: 
 
-  public function crear_pago_compra($idventa_tours, $tipo_comprobante, $forma_pago, $fecha_pago, $monto, $descripcion, $comprobante)  {
+  public function crear_pago_compra($idventa_tours, $tipo_comprobante, $forma_pago,  $monto, $descripcion, $comprobante)  {
     //var_dump($idventa_tours, $forma_pago, $fecha_pago, $monto, $descripcion, $comprobante); die();
     $sql_1 = "INSERT INTO venta_tours_pago(idventa_tours, tipo_comprobante, serie_comprobante, numero_comprobante, forma_pago, fecha_pago, monto, descripcion, comprobante)
     VALUES ('$idventa_tours', '$tipo_comprobante',
@@ -365,8 +347,9 @@ class Venta_tours
     $crear_pago = ejecutarConsulta_retornarID($sql_1); if ( $crear_pago['status'] == false) {return $crear_pago; } 
 
     //add registro en nuestra bitacora
-		$sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (1,'venta_tours_pago','".$idventa_tours."','Se creo nuevo registro','$this->id_usr_sesion')";
-		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }   
+    $sql_d = "$idventa_tours, $tipo_comprobante, $forma_pago,  $monto, $descripcion, $comprobante";
+    $sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5, 'venta_tours_pago','".$crear_pago['data']."','$sql_d','$this->id_usr_sesion')";
+    $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; } 
 
     // INCREMENTAMOS EL NUMERO COMPROBANTE
     $sql_nro = "UPDATE sunat_correlacion_comprobante SET numero = numero + 1 WHERE codigo = '$tipo_comprobante'";
@@ -375,15 +358,15 @@ class Venta_tours
 		return $crear_pago;
   }
 
-  public function editar_pago_compra($idpago_venta, $idventa_tours, $forma_pago, $fecha_pago, $monto, $descripcion, $comprobante)  {
-    $sql_1 = "UPDATE venta_tours_pago SET idventa_tours='$idventa_tours',forma_pago='$forma_pago',
-    fecha_pago='$fecha_pago',  monto='$monto', comprobante='$comprobante', descripcion='$descripcion'
+  public function editar_pago_compra($idpago_venta, $idventa_tours, $forma_pago,  $monto, $descripcion, $comprobante)  {
+    $sql_1 = "UPDATE venta_tours_pago SET idventa_tours='$idventa_tours', forma_pago='$forma_pago', monto='$monto', comprobante='$comprobante', descripcion='$descripcion'
     WHERE idventa_tours_pago='$idpago_venta'; ";
-    $editar_pago = ejecutarConsulta($sql_1); if ( $editar_pago['status'] == false) {return $editar_pago; } 
+    $editar_pago = ejecutarConsulta($sql_1, 'U'); if ( $editar_pago['status'] == false) {return $editar_pago; } 
 
     //add registro en nuestra bitacora
-		$sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (1,'venta_tours_pago','".$idventa_tours."','Se edito este registro','$this->id_usr_sesion')";
-		$bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }   
+    $sql_d = "$idpago_venta, $idventa_tours, $forma_pago,  $monto, $descripcion, $comprobante";
+    $sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (6, 'venta_tours_pago','$idpago_venta','$sql_d','$this->id_usr_sesion')";
+    $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }  
 		
 		return $editar_pago;
   }  
@@ -402,7 +385,7 @@ class Venta_tours
   //Implementamos un método para desactivar categorías
   public function papelera_pago_venta($idventa_tours_pago) {
     $sql = "UPDATE venta_tours_pago SET estado='0', user_trash= '$this->id_usr_sesion' WHERE idventa_tours_pago='$idventa_tours_pago'";
-		$desactivar= ejecutarConsulta($sql); if ($desactivar['status'] == false) {  return $desactivar; }
+		$desactivar= ejecutarConsulta($sql, 'T'); if ($desactivar['status'] == false) {  return $desactivar; }
 		
 		//add registro en nuestra bitacora
 		$sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (2,'venta_tours_pago','$idventa_tours_pago','Se envio a papelera.','$this->id_usr_sesion')";
@@ -414,7 +397,7 @@ class Venta_tours
   //Implementamos un método para activar categorías
   public function eliminar_pago_venta($idventa_tours_pago) {
     $sql = "UPDATE venta_tours_pago SET estado_delete='0',user_delete= '$this->id_usr_sesion' WHERE idventa_tours_pago='$idventa_tours_pago'";
-		$eliminar =  ejecutarConsulta($sql);if ( $eliminar['status'] == false) {return $eliminar; }  
+		$eliminar =  ejecutarConsulta($sql, 'D');if ( $eliminar['status'] == false) {return $eliminar; }  
 		
 		//add registro en nuestra bitacora
 		$sql = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (4,'pago_venta_tours','$idventa_tours_pago','Se Eliminado este registro.','$this->id_usr_sesion')";

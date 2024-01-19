@@ -18,12 +18,12 @@ class Venta_paquete
   $idpaquete, $unidad_medida, $cantidad, $precio_sin_igv, $precio_igv, $precio_con_igv, $descuento, $subtotal_producto) {       
 
       $sql_3 = "INSERT INTO venta_paquete( idpersona,  tipo_comprobante, serie_comprobante, numero_comprobante, impuesto, subtotal, igv, total, tipo_gravada, 
-      descripcion, metodo_pago, code_vaucher, pago_con_efe, pago_con_tar, vuelto_pago, user_created) 
+      descripcion, metodo_pago, code_vaucher, pago_con_efe, pago_con_tar, vuelto_pago) 
       VALUES ('$idcliente','$tipo_comprobante',
       (SELECT serie FROM sunat_correlacion_comprobante WHERE codigo = '$tipo_comprobante'),
       (SELECT numero + 1 FROM sunat_correlacion_comprobante WHERE codigo = '$tipo_comprobante'),
       '$impuesto','$subtotal_venta','$igv_venta','$total_venta',
-      '$tipo_gravada','$descripcion','$metodo_pago','$code_vaucher','$pagar_con_ctdo','$pagar_con_tarj','$vuelto_venta', '$this->id_usr_sesion')";
+      '$tipo_gravada','$descripcion','$metodo_pago','$code_vaucher','$pagar_con_ctdo','$pagar_con_tarj','$vuelto_venta')";
       $idventanew = ejecutarConsulta_retornarID($sql_3); if ($idventanew['status'] == false) { return  $idventanew;}
       $id = $idventanew['data'];
 
@@ -156,20 +156,11 @@ class Venta_paquete
   public function desactivar($idventa_paquete) {
     // var_dump($idventa_paquete);die();
     $sql = "UPDATE venta_paquete SET estado='0', user_trash= '$this->id_usr_sesion' WHERE idventa_paquete='$idventa_paquete'";
-		$desactivar= ejecutarConsulta($sql); if ($desactivar['status'] == false) {  return $desactivar; }
+		$desactivar= ejecutarConsulta($sql, 'T'); if ($desactivar['status'] == false) {  return $desactivar; }
 
     //add registro en nuestra bitacora
     $sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (2,'venta_paquete','".$idventa_paquete."','Se envio a papelera.','$this->id_usr_sesion')";
-    $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }   
-
-    // buscamos las cantidades
-    $sql_restaurar = "SELECT idpaquete, cantidad FROM venta_paquete_detalle WHERE idventa_paquete = '$idventa_paquete';";
-    $restaurar_stok =  ejecutarConsultaArray($sql_restaurar); if ( $restaurar_stok['status'] == false) {return $restaurar_stok; }
-    // actualizamos el stock
-    /*foreach ($restaurar_stok['data'] as $key => $value) {      
-      $update_paquete = "UPDATE paquete SET stock = stock + '".$value['cantidad']."' WHERE idpaquete = '".$value['idpaquete']."';";
-      $paquete = ejecutarConsulta($update_paquete); if ($paquete['status'] == false) { return  $paquete;}
-    }	*/
+    $bitacora = ejecutarConsulta($sql_bit); if ( $bitacora['status'] == false) {return $bitacora; }       
 
 		return $desactivar;
   }
@@ -180,16 +171,7 @@ class Venta_paquete
 		$eliminar =  ejecutarConsulta($sql); if ( $eliminar['status'] == false) {return $eliminar; }  
 		//add registro en nuestra bitacora
 		$sql = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (4,'venta_paquete','$idventa_paquete','Se elimino este registro.','$this->id_usr_sesion')";
-		$bitacora = ejecutarConsulta($sql); if ( $bitacora['status'] == false) {return $bitacora; }  
-
-    // buscamos las cantidades
-    $sql_restaurar = "SELECT idpaquete, cantidad FROM venta_paquete_detalle WHERE idventa_paquete = '$idventa_paquete';";
-    $restaurar_stok =  ejecutarConsultaArray($sql_restaurar); if ( $restaurar_stok['status'] == false) {return $restaurar_stok; }
-    // actualizamos el stock
-    /*foreach ($restaurar_stok['data'] as $key => $value) {      
-      $update_paquete = "UPDATE paquete SET stock = stock + '".$value['cantidad']."' WHERE idpaquete = '".$value['idpaquete']."';";
-      $paquete = ejecutarConsulta($update_paquete); if ($paquete['status'] == false) { return  $paquete;}
-    }*/
+		$bitacora = ejecutarConsulta($sql, 'D'); if ( $bitacora['status'] == false) {return $bitacora; }      
     		
 		return $eliminar;
   }
@@ -230,11 +212,15 @@ class Venta_paquete
 
     $data = Array();    
 
-    $sql = "SELECT vt.idventa_paquete, vt.idpersona, DATE_FORMAT(vt.fecha_venta, '%Y-%m-%d') as fecha_venta, vt.tipo_comprobante, vt.serie_comprobante, vt.numero_comprobante, vt.impuesto, vt.subtotal, vt.igv, 
+    $sql = "SELECT vt.idventa_paquete, vt.idpersona, DATE_FORMAT(vt.fecha_venta, '%Y-%m-%d') as fecha_venta, cc.abreviatura as tipo_comprobante, vt.serie_comprobante, vt.numero_comprobante, vt.impuesto, vt.subtotal, vt.igv, 
     vt.total, vt.tipo_gravada, vt.descripcion, vt.metodo_pago, vt.code_vaucher, vt.pago_con_efe, vt.pago_con_tar, vt.vuelto_pago, vt.comprobante,
     p.nombres as cliente, p.tipo_documento, p.numero_documento, p.celular, p.direccion, tp.nombre as tipo_persona
-    FROM venta_paquete AS vt, persona as p, tipo_persona as tp 
-    WHERE vt.idpersona = p.idpersona AND p.idtipo_persona = tp.idtipo_persona AND vt.estado ='1' AND vt.estado_delete = '1' 
+    FROM venta_paquete AS vt
+    INNER JOIN persona as p ON vt.idpersona = p.idpersona
+    INNER JOIN sunat_correlacion_comprobante as cc ON cc.codigo = vt.tipo_comprobante
+    INNER JOIN tipo_persona as tp ON p.idtipo_persona = tp.idtipo_persona
+
+    WHERE  vt.estado ='1' AND vt.estado_delete = '1' 
     $filtro_proveedor $filtro_comprobante $filtro_fecha ORDER BY vt.fecha_venta DESC;";
     $venta = ejecutarConsultaArray($sql); if ($venta['status'] == false) {return $venta; }
 
@@ -320,53 +306,51 @@ class Venta_paquete
 
   }
 
-      // :::::::::::::::::::::::::: S E C C I O N   V E N T A   P A Q U E T E  D E T A L L E    ::::::::::::::::::::::::::     
-      public function mostrar_detalle_venta($idventa_paquete) {        
+  // :::::::::::::::::::::::::: S E C C I O N   V E N T A   P A Q U E T E  D E T A L L E    ::::::::::::::::::::::::::     
+  public function mostrar_detalle_venta($idventa_paquete) {        
 
-        $sql_2="SELECT vp.idventa_paquete, cc.abreviatura as tipo_comprobante, vp.serie_comprobante, vp.numero_comprobante, vp.descripcion,
-        DATE_FORMAT(vp.fecha_venta, '%d/%m/%Y %h:%i %p') as fecha_venta , vp.metodo_pago, vp.code_vaucher, vp.igv, vp.subtotal, vp.tipo_gravada, vp.impuesto, vp.total, p.tipo_documento,
-        p.nombres, p.numero_documento, p.direccion, p.numero_documento, p.direccion, p.celular, p.correo
-        FROM venta_paquete as vp
-        INNER JOIN persona as p ON vp.idpersona=p.idpersona
-        INNER JOIN sunat_correlacion_comprobante as cc ON cc.codigo = vp.tipo_comprobante
-        WHERE vp.idventa_paquete='$idventa_paquete';";
-        $venta = ejecutarConsultaSimpleFila($sql_2); if ($venta['status'] == false) { return  $venta;}
+    $sql_2="SELECT vp.idventa_paquete, cc.abreviatura as tipo_comprobante, vp.serie_comprobante, vp.numero_comprobante, vp.descripcion,
+    DATE_FORMAT(vp.fecha_venta, '%d/%m/%Y %h:%i %p') as fecha_venta , vp.metodo_pago, vp.code_vaucher, vp.igv, vp.subtotal, vp.tipo_gravada, vp.impuesto, vp.total, p.tipo_documento,
+    p.nombres, p.numero_documento, p.direccion, p.numero_documento, p.direccion, p.celular, p.correo
+    FROM venta_paquete as vp
+    INNER JOIN persona as p ON vp.idpersona=p.idpersona
+    INNER JOIN sunat_correlacion_comprobante as cc ON cc.codigo = vp.tipo_comprobante
+    WHERE vp.idventa_paquete='$idventa_paquete';";
+    $venta = ejecutarConsultaSimpleFila($sql_2); if ($venta['status'] == false) { return  $venta;}
 
-        $sql = "SELECT dvp.idventa_paquete, dvp.unidad_medida, dvp.precio_sin_igv, dvp.subtotal,
-        dvp.idpaquete, p.nombre, dvp.cantidad, dvp.precio_con_igv, dvp.tipo_tours, vp.igv, dvp.descuento
-        FROM venta_paquete_detalle as dvp, venta_paquete as vp, paquete as p 
-        WHERE dvp.idventa_paquete=vp.idventa_paquete 
-        AND dvp.idventa_paquete='$idventa_paquete'
-        AND dvp.idpaquete = p.idpaquete;";
-        $detalles = ejecutarConsultaArray($sql); if ( $detalles['status'] == false) {return $detalles; }
+    $sql = "SELECT dvp.idventa_paquete, dvp.unidad_medida, dvp.precio_sin_igv, dvp.subtotal,
+    dvp.idpaquete, p.nombre, dvp.cantidad, dvp.precio_con_igv, dvp.tipo_tours, vp.igv, dvp.descuento
+    FROM venta_paquete_detalle as dvp, venta_paquete as vp, paquete as p 
+    WHERE dvp.idventa_paquete=vp.idventa_paquete 
+    AND dvp.idventa_paquete='$idventa_paquete'
+    AND dvp.idpaquete = p.idpaquete;";
+    $detalles = ejecutarConsultaArray($sql); if ( $detalles['status'] == false) {return $detalles; }
 
-        $sql = "SELECT vtp.forma_pago, DATE_FORMAT(vtp.fecha_pago, '%d/%m/%Y %h:%i %p') as fecha_pago, vtp.tipo_comprobante, vtp.serie_comprobante, vtp.numero_comprobante, vtp.monto, vtp.descripcion, vtp.comprobante, cc.abreviatura as tipo_comprobante 
-        FROM venta_paquete_pago as vtp 
-        INNER JOIN sunat_correlacion_comprobante as cc ON cc.codigo = vtp.tipo_comprobante  
-        WHERE vtp.idventa_paquete = '$idventa_paquete' AND vtp.estado = '1' AND vtp.estado_delete = '1'";
-        $pagos = ejecutarConsultaArray($sql); if ( $detalles['status'] == false) {return $detalles; }
+    $sql = "SELECT vtp.forma_pago, DATE_FORMAT(vtp.fecha_pago, '%d/%m/%Y %h:%i %p') as fecha_pago, vtp.tipo_comprobante, vtp.serie_comprobante, vtp.numero_comprobante, vtp.monto, vtp.descripcion, vtp.comprobante, cc.abreviatura as tipo_comprobante 
+    FROM venta_paquete_pago as vtp 
+    INNER JOIN sunat_correlacion_comprobante as cc ON cc.codigo = vtp.tipo_comprobante  
+    WHERE vtp.idventa_paquete = '$idventa_paquete' AND vtp.estado = '1' AND vtp.estado_delete = '1'";
+    $pagos = ejecutarConsultaArray($sql); if ( $detalles['status'] == false) {return $detalles; }
 
-        return $retorno=['status'=>true, 'message'=>'consulta ok', 
-          'data'=>[  
-            'venta'   =>$venta['data'], //MOSTRAR LOS DATOS EN EL MODAL
-            'detalles'=>$detalles['data'], //MOSTRAR LOS DATOS EN EL MODAL
-            'pagos'   =>$pagos['data'] //MOSTRAR LOS DATOS EN EL EXCEL
-          ]
-        ];
-      }
-
-
+    return $retorno=['status'=>true, 'message'=>'consulta ok', 
+      'data'=>[  
+        'venta'   =>$venta['data'], //MOSTRAR LOS DATOS EN EL MODAL
+        'detalles'=>$detalles['data'], //MOSTRAR LOS DATOS EN EL MODAL
+        'pagos'   =>$pagos['data'] //MOSTRAR LOS DATOS EN EL EXCEL
+      ]
+    ];
+  }
 
   // ::::::::::::::::::::::::::::::::::::::::: S E C C I O N   P A G O S ::::::::::::::::::::::::::::::::::::::::: 
 
-  public function crear_pago_compra($idventa_paquete,  $tipo_comprobante, $forma_pago,$fecha_pago, $monto, $descripcion, $comprobante_pago)  {
+  public function crear_pago_compra($idventa_paquete,  $tipo_comprobante, $forma_pago, $monto, $descripcion, $comprobante_pago)  {
     
     $sql_1 = "INSERT INTO venta_paquete_pago(idventa_paquete, tipo_comprobante, serie_comprobante, numero_comprobante, forma_pago, fecha_pago, monto, descripcion, comprobante)
     VALUES ('$idventa_paquete', '$tipo_comprobante', 
     (SELECT serie FROM sunat_correlacion_comprobante WHERE codigo = '$tipo_comprobante'),
     (SELECT numero + 1 FROM sunat_correlacion_comprobante WHERE codigo = '$tipo_comprobante'),
     '$forma_pago', CURRENT_TIMESTAMP, '$monto', '$descripcion', '$comprobante_pago')";
-    $crear_pago = ejecutarConsulta_retornarID($sql_1); if ( $crear_pago['status'] == false) {return $crear_pago; } 
+    $crear_pago = ejecutarConsulta_retornarID($sql_1, 'C'); if ( $crear_pago['status'] == false) {return $crear_pago; } 
 
     //add registro en nuestra bitacora
 		$sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5,'venta_paquete_pago','".$idventa_paquete."','Se creo nuevo registro','$this->id_usr_sesion')";
@@ -379,11 +363,11 @@ class Venta_paquete
 		return $crear_pago;
   }
 
-  public function editar_pago_compra($id, $idventa_paquete, $forma_pago, $fecha_pago, $monto, $descripcion, $comprobante_pago)  {
+  public function editar_pago_compra($id, $idventa_paquete, $forma_pago,  $monto, $descripcion, $comprobante_pago)  {
     
-    $sql_1 = "UPDATE venta_paquete_pago SET idventa_paquete='$idventa_paquete',forma_pago='$forma_pago', monto='$monto', descripcion='$descripcion'
+    $sql_1 = "UPDATE venta_paquete_pago SET idventa_paquete='$idventa_paquete',forma_pago='$forma_pago', monto='$monto', descripcion='$descripcion', comprobante = '$comprobante_pago'
     WHERE idventa_paquete_pago='$id'; ";
-    $editar_pago = ejecutarConsulta($sql_1); if ( $editar_pago['status'] == false) {return $editar_pago; } 
+    $editar_pago = ejecutarConsulta($sql_1, 'U'); if ( $editar_pago['status'] == false) {return $editar_pago; } 
 
     //add registro en nuestra bitacora
 		$sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (5,'venta_paquete_pago','".$editar_pago['data']."','Se edito este registro','$this->id_usr_sesion')";
@@ -406,7 +390,7 @@ class Venta_paquete
   //Implementamos un método para desactivar categorías
   public function papelera_venta_paquete_pago($idventa_paquete_pago) {
     $sql = "UPDATE venta_paquete_pago SET estado='0', user_trash= '$this->id_usr_sesion' WHERE idventa_paquete_pago='$idventa_paquete_pago';";
-		$desactivar= ejecutarConsulta($sql); if ($desactivar['status'] == false) {  return $desactivar; }
+		$desactivar= ejecutarConsulta($sql, 'T'); if ($desactivar['status'] == false) {  return $desactivar; }
 		
 		//add registro en nuestra bitacora
 		$sql_bit = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (2,'venta_paquete_pago','$idventa_paquete_pago','Se envio a papelera.','$this->id_usr_sesion')";
@@ -418,7 +402,7 @@ class Venta_paquete
   //Implementamos un método para activar categorías
   public function eliminar_venta_paquete_pago($idventa_paquete_pago) {
     $sql = "UPDATE venta_paquete_pago SET estado_delete='0', user_delete= '$this->id_usr_sesion' WHERE idventa_paquete_pago='$idventa_paquete_pago';";
-		$eliminar =  ejecutarConsulta($sql);if ( $eliminar['status'] == false) {return $eliminar; }  
+		$eliminar =  ejecutarConsulta($sql, 'D');if ( $eliminar['status'] == false) {return $eliminar; }  
 		
 		//add registro en nuestra bitacora
 		$sql = "INSERT INTO bitacora_bd( idcodigo, nombre_tabla, id_tabla, sql_d, id_user) VALUES (4,'venta_paquete_pago','$idventa_paquete_pago','Se Eliminado este registro.','$this->id_usr_sesion')";

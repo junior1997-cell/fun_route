@@ -5,7 +5,13 @@ require "../config/funcion_general.php";
 
 $conexion = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
 
-mysqli_query($conexion, 'SET NAMES "' . DB_ENCODE . '"');
+$id_usr_sesion =  isset($_SESSION['idusuario']) ? $_SESSION["idusuario"] : 0;
+$id_empresa_sesion = isset($_SESSION['idempresa']) ? $_SESSION["idempresa"] : 0;
+
+mysqli_query($conexion, 'SET NAMES "' . DB_ENCODE . '"');         # Para el tipo de datos, ejemlo: UTF8
+mysqli_query($conexion, "SET @id_usr_sesion ='$id_usr_sesion' "); # Para saber quien hizo el CRUD
+mysqli_query($conexion, "SET time_zone = '-05:00';");             # Cambia el horario local: America/Lima
+mysqli_query($conexion, "SET lc_time_names = 'es_ES';");          # Cambia el idioma a español en fechas
 
 //Si tenemos un posible error en la conexión lo mostramos
 if (mysqli_connect_errno()) {
@@ -15,8 +21,8 @@ if (mysqli_connect_errno()) {
 
 if (!function_exists('ejecutarConsulta')) {
 
-  function ejecutarConsulta($sql) {
-    global $conexion;
+  function ejecutarConsulta($sql, $crud = 'R') {
+    global $conexion; mysqli_query($conexion, "SET @crud ='$crud' ");
     $query = $conexion->query($sql);
     if ($conexion->error) {
       try {
@@ -111,8 +117,8 @@ if (!function_exists('ejecutarConsulta')) {
     }
   }
 
-  function ejecutarConsulta_retornarID($sql) {
-    global $conexion;
+  function ejecutarConsulta_retornarID($sql, $crud = 'R') {
+    global $conexion; mysqli_query($conexion, "SET @crud ='$crud' ");
     $query = $conexion->query($sql);
     if ($conexion->error) {
       try {

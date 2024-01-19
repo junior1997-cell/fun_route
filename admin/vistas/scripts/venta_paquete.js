@@ -669,7 +669,7 @@ function mostrar_editar_pago(idventa_paquete_pago) {
         $("#doc_old_1").val(e.data.comprobante);
         $("#doc1_nombre").html(`<div class="row"> <div class="col-md-12"><i>Baucher.${extrae_extencion(e.data.comprobante)}</i></div></div>`);
         // cargamos la imagen adecuada par el archivo
-        $("#doc1_ver").html(doc_view_extencion(e.data.comprobante,'admin/dist/docs/venta_producto/comprobante_pago/', '100%', '210' ));            
+        $("#doc1_ver").html(doc_view_extencion(e.data.comprobante,'admin/dist/docs/venta_paquete/comprobante_pago/', '100%', '210' ));            
       }
 
       $("#cargando-7-fomulario").show();
@@ -684,7 +684,7 @@ function mostrar_editar_pago(idventa_paquete_pago) {
 function ver_documento_pago(doc, name_download) {
   $('.tile-modal-comprobante').html(name_download);
   $('#modal-ver-comprobante-pago').modal('show');
-  $('.div-view-comprobante-pago').html(doc_view_download_expand(doc, 'dist/docs/venta_producto/comprobante_pago',name_download,'100%', '410'));
+  $('.div-view-comprobante-pago').html(doc_view_download_expand(doc, 'admin/dist/docs/venta_paquete/comprobante_pago/',name_download,'100%', '410'));
   $('.jq_image_zoom').zoom({ on:'grab' });
 }
 

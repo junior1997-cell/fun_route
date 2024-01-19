@@ -431,7 +431,7 @@ if (!isset($_SESSION["nombre"])) {
 
         if (empty($idventa_tours_pago)){
           
-          $rspta=$venta_producto->crear_pago_compra( $idventa_tours_p, $tipo_comprobante_p, $forma_pago, $fecha_pago, quitar_formato_miles($monto), $descripcion, $comprobante);          
+          $rspta=$venta_producto->crear_pago_compra( $idventa_tours_p, $tipo_comprobante_p, $forma_pago, quitar_formato_miles($monto), $descripcion, $comprobante);          
           echo json_encode($rspta, true);
 
         }else {
@@ -444,7 +444,7 @@ if (!isset($_SESSION["nombre"])) {
           }            
 
           // editamos un persona existente
-          $rspta=$venta_producto->editar_pago_compra( $idventa_tours_pago, $idventa_tours_p, $tipo_comprobante_p, $forma_pago, $fecha_pago, quitar_formato_miles($monto), $descripcion, $comprobante );          
+          $rspta=$venta_producto->editar_pago_compra( $idventa_tours_pago, $idventa_tours_p,  $forma_pago, quitar_formato_miles($monto), $descripcion, $comprobante );          
           echo json_encode($rspta, true);
         }
     
