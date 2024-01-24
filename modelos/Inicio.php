@@ -6,6 +6,12 @@
 
     //Implementamos nuestro constructor
     public function __construct(){}   
+
+    public function datos_empresa(){
+      
+      $sql_1 = "SELECT * FROM nosotros WHERE idnosotros = '1';";
+      return ejecutarConsultaSimpleFila($sql_1); 
+    }
     
     public function oferta_semanal(){
       $array_pt = [];

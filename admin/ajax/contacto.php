@@ -32,14 +32,18 @@
     // ::::::::::::::::::::::::::DATOS GENERALES :::::::::::::::::::::
     $direccion    = isset($_POST["direccion"])? limpiarCadena($_POST["direccion"]):"";
     $nombre       = isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
-    $ruc          = isset($_POST["ruc"])? limpiarCadena($_POST["ruc"]):"";
+    $tipo_documento = isset($_POST["tipo_documento"])? limpiarCadena($_POST["tipo_documento"]):"";
+    $num_documento= isset($_POST["num_documento"])? limpiarCadena($_POST["num_documento"]):"";
     $celular      = isset($_POST["celular"])? limpiarCadena($_POST["celular"]):"";
     $telefono     = isset($_POST["telefono"])? limpiarCadena($_POST["telefono"]):"";
     $latitud      = isset($_POST["latitud"])? limpiarCadena($_POST["latitud"]):"";
     $longuitud    = isset($_POST["longuitud"])? limpiarCadena($_POST["longuitud"]):"";
     $correo       = isset($_POST["correo"])? limpiarCadena($_POST["correo"]):"";
     $horario      = isset($_POST["horario"])? limpiarCadena($_POST["horario"]):"";
-
+    $rs_facebook  = isset($_POST["rs_facebook"])? limpiarCadena($_POST["rs_facebook"]):"";
+    $rs_instagram = isset($_POST["rs_instagram"])? limpiarCadena($_POST["rs_instagram"]):"";
+    $rs_tiktok    = isset($_POST["rs_tiktok"])? limpiarCadena($_POST["rs_tiktok"]):"";
+    
     switch ($_GET["op"]) {
 
       case 'mostrar':
@@ -93,7 +97,7 @@
           json_encode( $rspta, true) ;
         }else {
           // editamos un documento existente
-          $rspta=$contacto->actualizar_datos_generales( $id,$direccion,$nombre,$ruc,$celular,$telefono,$latitud,$longuitud,$correo,$horario );          
+          $rspta=$contacto->actualizar_datos_generales( $id,$direccion,$nombre,$tipo_documento, $num_documento,$celular,$telefono,$latitud,$longuitud,$correo,$horario, $rs_facebook,$rs_instagram,$rs_tiktok );          
           echo json_encode( $rspta, true) ;
         }
       break;

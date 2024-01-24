@@ -15,7 +15,7 @@ function init() {
 
   // ══════════════════════════════════════ S E L E C T 2 ══════════════════════════════════════
   lista_select2("../ajax/ajax_general.php?op=select2Persona_por_tipo&tipo=3", '#idcliente', null);
-  lista_select2("../ajax/ajax_general.php?op=select2Tipo_comprobante", '#tipo_comprobante', null);
+  lista_select2("../ajax/ajax_general.php?op=select2Tipo_comprobante&tipos='12'", '#tipo_comprobante', null);
 
   // ══════════════════════════════════════ G U A R D A R   F O R M ══════════════════════════════════════
   $("#guardar_registro-pedido").on("click", function (e) { $("#submit-form-pedido").submit(); });
@@ -23,6 +23,8 @@ function init() {
   // ══════════════════════════════════════ INITIALIZE SELECT2 - OTRO INGRESO  ══════════════════════════════════════  
   $("#idcliente").select2({templateResult: templatePersona, theme: "bootstrap4", placeholder: "Selecione cliente", allowClear: true, });
   $("#tipo_comprobante").select2({ theme: "bootstrap4", placeholder: "Selecione Comprobante", allowClear: true, });
+
+  $("#metodo_pago").select2({ theme: "bootstrap4", placeholder: "Selecione método", allowClear: true, });
 
   // Formato para telefono
   $("[data-mask]").inputmask();
@@ -744,9 +746,7 @@ function mostrar_paquete_a_medida(idpaquete_a_medida) {
 // .....::::::::::::::::::::::::::::::::::::: V A L I D A T E   F O R M  :::::::::::::::::::::::::::::::::::::::..
 $(function () {
   // Aplicando la validacion del select cada vez que cambie
-  $("#idpaquete").on("change", function () {
-    $(this).trigger("blur");
-  });
+  $("#idpaquete").on("change", function () {  $(this).trigger("blur"); });
 
   $("#form-galeria-pedido").validate({
     ignore: ".select2-input, .select2-focusser",
@@ -791,41 +791,145 @@ $(function () {
     },
   });
 
+  $("#form-ventas").validate({
+    ignore: '.select2-input, .select2-focusser',
+    rules: {      
+      tipo_comprobante:   { required: true },      
+      descripcion:        { minlength: 4 },       
+      pagar_con_ctdo:     { required: true, number: true, min:0,  },
+      pagar_con_ctdo:     { required: true },      
+      pagar_con_tarj:     { required: true }, 
+    },
+    messages: {      
+      tipo_comprobante:   { required: "Campo requerido", },     
+      descripcion:        { minlength: "Minimo 4 caracteres", },         
+      pagar_con_ctdo:     { required: "Campo requerido", number: 'Ingrese un número', min:'Mínimo 0', },
+      agar_con_ctdo:      { required: "Campo requerido" },      
+      pagar_con_tarj:     { required: "Campo requerido" },            
+    },
+
+    errorElement: "span",
+
+    errorPlacement: function (error, element) {
+      error.addClass("invalid-feedback");
+      element.closest(".form-group").append(error);
+    },
+
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass("is-invalid").removeClass("is-valid");
+    },
+
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass("is-invalid").addClass("is-valid");
+    },
+
+    submitHandler: function (form) {
+      guardar_y_editar_ventas(form);
+    },
+  }); 
+
   //agregando la validacion del select  ya que no tiene un atributo name el plugin
-  $("#idpaquete").rules("add", {
-    required: true,
-    messages: { required: "Campo requerido" },
-  });
+  $("#idpaquete").rules("add", { required: true, messages: { required: "Campo requerido" }, });
 });
 
 // .....::::::::::::::::::::::::::::::::::::: VENDER PEDIDO  :::::::::::::::::::::::::::::::::::::::..
 
-function vender_pedido(id) {
+var impuesto = 18;
+
+function vender_pedido(idpedido, idtours) {
+
   $("#modal-vender-pedido").modal("show");
-}
 
-function autoincrement_comprobante(data) {
-  var comprobante = $(data).select2('val');  
+  var cont = 0;
+  var cantidad = 1;
+
+  $.post("../ajax/ajax_general.php?op=mostrar_producto_tours", {'idtours': idtours}, function (e, textStatus, jqXHR) {          
+        
+    e = JSON.parse(e); console.log(e);
+    if (e.status == true) {
+     
+      var subtotal =  e.data.costo;      
+
+      var img_p = e.data.imagen == "" || e.data.imagen == null ?img_p = `../dist/docs/tours/perfil/tours-sin-foto.jpg` : `../dist/docs/tours/perfil/${e.data.imagen}` ;          
+
+      var fila = `
+      <tr class="filas" id="fila${cont}">       
+        <td class="py-1">         
+          <input type="hidden" name="idtours[]" value="${e.data.idtours}">
+          <div class="user-block text-nowrap">
+            <img class="profile-user-img img-responsive img-circle cursor-pointer img_perfil_${cont}" src="${img_p}" alt="user image" onerror="this.src='../dist/svg/404-v2.svg';" onclick="ver_img_producto('${img_p}', '${encodeHtml(e.data.nombre)}')">
+            <span class="username"><p class="mb-0 nombre_producto_${e.data.idtours}">${e.data.nombre}</p></span>
+            <span class="description categoria_${cont}"><b>Dcto: </b> ${parseFloat(e.data.porcentaje_descuento)}%<b> |<b>tipo: </b>${e.data.tipo_tours}</span>
+          </div>
+        </td>
+        <td class="py-1">
+          <span class="unidad_medida_${cont}">UNIDAD</span> 
+          <input type="hidden" class="unidad_medida_${cont}" name="unidad_medida[]" id="unidad_medida[]" value="UNIDAD">
+          <input class="tipo_tours_${cont}" type="hidden" name="tipo_tours[]" id="tipo_tours[]" value="${e.data.tipo_tours}">
+        </td>
+        <td class="py-1 form-group">
+          <input type="number" class="w-100px valid_cantidad form-control producto_${e.data.idtours} producto_selecionado" name="valid_cantidad[${cont}]" id="valid_cantidad_${cont}" value="${cantidad}" min="0.01" required onkeyup="replicar_value_input(${cont}, '#cantidad_${cont}', this); update_price(); " onchange="replicar_value_input(${cont}, '#cantidad_${cont}', this); update_price(); ">
+          <input type="hidden" class="cantidad_${cont}" name="cantidad[]" id="cantidad_${cont}" value="1" min="0.01" required  >            
+        </td>            
+        <td class="py-1 form-group">
+          <input type="number" class="w-135px form-control valid_precio_con_igv" name="valid_precio_con_igv[${cont}]" id="valid_precio_con_igv_${cont}" value="${e.data.costo}" min="0.01" required onkeyup="replicar_value_input(${cont}, '#precio_con_igv_${cont}', this); update_price(); " onchange="replicar_value_input(${cont}, '#precio_con_igv_${cont}', this); update_price(); ">
+          <input type="hidden" class="precio_con_igv_${cont}" name="precio_con_igv[]" id="precio_con_igv_${cont}" value="${e.data.costo}" onkeyup="modificarSubtotales();" onchange="modificarSubtotales();">              
+          <input type="hidden" class="precio_sin_igv_${cont}" name="precio_sin_igv[]" id="precio_sin_igv[]" value="0" min="0" >
+          <input type="hidden" class="precio_igv_${cont}" name="precio_igv[]" id="precio_igv[]" value="0"  >
+        </td>        
+        <td class="py-1 form-group">
+          <input type="number" class="w-135px form-control descuento_${cont}" name="descuento[]" value="${ ( e.data.estado_descuento == 0 ? 0 : ( e.data.monto_descuento )) }" min="0.00" onkeyup="modificarSubtotales()" onchange="modificarSubtotales()">
+        </td>
+        <td class="py-1 text-right"><span class="text-right subtotal_producto_${cont}" id="subtotal_producto">${subtotal}</span> <input type="hidden" name="subtotal_producto[]" id="subtotal_producto_${cont}" value="0" > </td>
+        <td class="py-1"><button type="button" onclick="modificarSubtotales()" class="btn btn-info btn-sm"><i class="fas fa-sync"></i></button></td>
+      </tr>`;
+
+      
+      $("#detalles").html(fila);      
+
+      // reglas de validación     
+      $('.valid_precio_con_igv').each(function(e) { 
+        $(this).rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
+        $(this).rules('add', { min:0.01, messages: { min:"Mínimo 0.01" } }); 
+      });
+      $('.valid_cantidad').each(function(e) { 
+        $(this).rules('add', { required: true, messages: { required: 'Campo requerido' } }); 
+        $(this).rules('add', { min:0.01, messages: { min:"Mínimo 0.01" } }); 
+      });    
+      
+    } else {
+      ver_errores(e);
+    }   
+  });
+}
+function calcular_vuelto() {
+  var contado = $('#pagar_con_ctdo').val() == null || $('#pagar_con_ctdo').val() == '' ? 0 : parseFloat($('#pagar_con_ctdo').val());  
+  var mixto = $('#pagar_con_tarj').val() == null || $('#pagar_con_tarj').val() == '' ? 0 : parseFloat($('#pagar_con_tarj').val());
+  var total_venta = $('#total_venta').val() == null || $('#total_venta').val() == '' ? 0 : parseFloat($('#total_venta').val());
   
-  $('#cargando_serie_numero').html(`(<i class="fas fa-spinner fa-pulse fa-lg"></i>)`);
-  if (comprobante == null || comprobante == '' ) {
-    $('#serie_comprobante').val(""); $('#numero_comprobante').val("");
-    $('#cargando_serie_numero').html(`(único*)`);
-  } else {
-    
-    $.post(`../ajax/ajax_general.php?op=autoincrement_comprobante`, {'nombre_c': comprobante }, function (e, textStatus, jqXHR) {
-      e = JSON.parse(e); //console.log(e);
-      if ( e.status == true) {
-        $('#serie_comprobante').val(e.data.serie);
-        $('#numero_comprobante').val(e.data.numero);
-        $('#cargando_serie_numero').html(`(único*)`);
-      } else {
-        ver_errores(e);
-      }       
-    }).fail( function(e) { ver_errores(e); } );
-  }
+  if ($('#pagar_con_ctdo').val() != '' || $('#pagar_con_tarj').val() != '' ) { 
+    if ($("#metodo_pago").select2("val") == "MIXTO") {    
+      var vuelto_1 = redondearExp(( ( contado + mixto ) - total_venta ), 2); console.log(vuelto_1);
+      $('.vuelto_venta').html(vuelto_1);
+      $('#vuelto_venta').val(vuelto_1);
+      vuelto_1 < 0 ? $('.vuelto_venta').addClass('bg-danger').removeClass('bg-success') : $('.vuelto_venta').addClass('bg-success').removeClass('bg-danger') ;
+      vuelto_1 < 0 ? $('.falta_o_completo').html('(falta)').addClass('text-danger').removeClass('text-success') : $('.falta_o_completo').html('(completo)').addClass('text-success').removeClass('text-danger') ;
+    } else {    
+      var vuelto_2 = redondearExp((contado - total_venta), 2) ; console.log(vuelto_2);
+      $('.vuelto_venta').html(vuelto_2);
+      $('#vuelto_venta').val(vuelto_2);
+      vuelto_2 < 0 ? $('.vuelto_venta').addClass('bg-danger').removeClass('bg-success') : $('.vuelto_venta').addClass('bg-success').removeClass('bg-danger') ;
+      vuelto_2 < 0 ? $('.falta_o_completo').html('(falta)').addClass('text-danger').removeClass('text-success') : $('.falta_o_completo').html('(completo)').addClass('text-success').removeClass('text-danger') ;
+    } 
+  }  
 }
 
+function pago_rapido(val) {
+  var pago_monto = $(val).text(); console.log(pago_monto);
+  $('#pagar_con_ctdo').val(pago_monto);
+  calcular_vuelto();
+  $("#form-ventas").valid();
+}
 // .....::::::::::::::::::::::::::::::::::::: F U N C I O N E S    A L T E R N A S  :::::::::::::::::::::::::::::::::::::::..
 
 init();

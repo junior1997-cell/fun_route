@@ -366,7 +366,7 @@ if (!isset($_SESSION["nombre"])) {
                     </button>
                   </div>
                   <div class="modal-body">
-                    <form action="" method="post">
+                    <form id="form-ventas" name="form-ventas" method="post">
                       <div class="row">
 
                         <!-- Tipo de Empresa -->
@@ -382,19 +382,11 @@ if (!isset($_SESSION["nombre"])) {
                           </div>
                         </div>                        
 
-                        <!-- fecha -->
-                        <div class="col-lg-3" >
-                          <div class="form-group">
-                            <label for="fecha_venta">Fecha <sup class="text-danger">*</sup></label>
-                            <input type="date" name="fecha_venta" id="fecha_venta" class="form-control" placeholder="Fecha" />
-                          </div>
-                        </div>
-
                         <!-- Tipo de comprobante -->
-                        <div class="col-lg-4" id="content-tipo-comprobante">
+                        <div class="col-lg-3" id="content-tipo-comprobante">
                           <div class="form-group">
-                            <label for="tipo_comprobante">Tipo Comprobante <sup class="text-danger">(único*)</sup></label>
-                            <select name="tipo_comprobante" id="tipo_comprobante" class="form-control select2"  onchange="autoincrement_comprobante(this);" placeholder="Seleccionar ">
+                            <label for="tipo_comprobante">Tipo Comprobante </label>
+                            <select name="tipo_comprobante" id="tipo_comprobante" class="form-control select2"   placeholder="Seleccionar ">
                               <option value="NINGUNO">Ninguno</option>
                               <!-- <option value="Boleta">Boleta</option>
                               <option value="Factura">Factura</option> -->
@@ -402,18 +394,7 @@ if (!isset($_SESSION["nombre"])) {
                             </select>
                           </div>
                         </div> 
-
-                        <!-- serie_comprobante-->
-                        <div class="col-lg-4" id="content-serie-comprobante">
-                          <div class="form-group">
-                            <label for="serie_comprobante">Serie y numero <sup class="text-danger cargando_serie_numero">(único*)</sup></label>
-                            <div class="input-group">  
-                              <input type="text" name="serie_comprobante" id="serie_comprobante" class="form-control" placeholder="N° de Comprobante" readonly />
-                              <span class="btn btn-default" style="border-radius: 0px;">-</span>       
-                              <input type="text" name="numero_comprobante" id="numero_comprobante" class="form-control" placeholder="N° de Comprobante" readonly />                                                                                
-                            </div>
-                          </div>
-                        </div>                                  
+                                                      
 
                         <!-- IGV-->
                         <div class="col-lg-1" style="display: none;">
@@ -421,18 +402,10 @@ if (!isset($_SESSION["nombre"])) {
                             <label for="impuesto">IGV <sup class="text-danger">*</sup></label>
                             <input type="text" name="impuesto" id="impuesto" class="form-control" value="0" onkeyup="modificarSubtotales();" />
                           </div>
-                        </div>
-
-                        <!-- Descripcion-->
-                        <div class="col-lg-4" id="content-descripcion">
-                          <div class="form-group">
-                            <label for="descripcion">Observacion </label> <br />
-                            <textarea name="descripcion" id="descripcion" class="form-control" rows="1"></textarea>
-                          </div>
-                        </div>  
+                        </div>                        
 
                         <!-- metodo de pago -->
-                        <div class="col-lg-3">
+                        <div class="col-lg-4">
                           <div class="form-group">
                             <label for="metodo_pago">Método de pago <sup class="text-danger">*</sup></label>
                             <select id="metodo_pago" name="metodo_pago" class="form-control select2" data-live-search="true" required title="Seleccione metodo" onchange="capturar_pago_compra();"> 
@@ -451,12 +424,57 @@ if (!isset($_SESSION["nombre"])) {
                         </div>                                  
 
                         <!-- Pago a realizar -->
-                        <div class="col-sm-6 col-lg-3" id="content-code-baucher">
+                        <div class="col-sm-6 col-lg-4" id="content-code-baucher">
                           <div class="form-group">
                             <label for="code_vaucher">Código de Baucher <span class="span-pago-compra"></span> </label>
                             <input type="text" name="code_vaucher" id="code_vaucher" class="form-control" onClick="this.select();" placeholder="Codigo de baucher" />
                           </div>
                         </div> 
+
+                        <!-- Descripcion-->
+                        <div class="col-lg-12" id="content-descripcion">
+                          <div class="form-group">
+                            <label for="descripcion">Observacion </label> <br />
+                            <textarea name="descripcion" id="descripcion" class="form-control" rows="1"></textarea>
+                          </div>
+                        </div> 
+
+                        <div class="col-lg-12 mb-3" >
+                          <div class="table-responsive row-horizon disenio-scroll">
+                            <table  class="table table-striped table-bordered table-condensed table-hover">
+                              <thead class="bg-color-252e38 text-white" >                                
+                                <th>Producto</th>
+                                <th>Unidad</th>
+                                <th>Cantidad</th>                                        
+                                <th data-toggle="tooltip" data-original-title="Precio Unitario">P/U</th>
+                                <th>Descuento</th>
+                                <th>Subtotal</th>
+                              </thead>
+                              <tbody id="detalles"></tbody>
+                              <tfoot>
+                                <td colspan="4" >                                                                                 
+                                </td>
+                                <th class="text-right">
+                                  <h6 class="tipo_gravada">GRAVADA</h6>
+                                  <h6 class="val_igv">IGV (18%)</h6>
+                                  <h5 class="font-weight-bold">TOTAL</h5>
+                                </th>
+                                <th class="text-right"> 
+                                  <h6 class="font-weight-bold subtotal_venta">S/ 0.00</h6>
+                                  <input type="hidden" name="subtotal_venta" id="subtotal_venta" />
+                                  <input type="hidden" name="tipo_gravada" id="tipo_gravada" />
+
+                                  <h6 class="font-weight-bold igv_venta">S/ 0.00</h6>
+                                  <input type="hidden" name="igv_venta" id="igv_venta" />
+                                  
+                                  <h5 class="font-weight-bold total_venta">S/ 0.00</h5>
+                                  <input type="hidden" name="total_venta" id="total_venta" />
+                                  
+                                </th>
+                              </tfoot>                              
+                            </table>                            
+                          </div>
+                        </div>
 
                         <!-- Descripcion -->
                         <div class="col-lg-12 pl-0">
@@ -465,7 +483,8 @@ if (!isset($_SESSION["nombre"])) {
                               <b class="mx-1" >PAGO DE VENTA</b>
                             </div>
                           </div>
-                        </div>
+                        </div>                        
+
                         <div class="col-lg-12" >
                           <div class="px-3 py-3 b-radio-5px" style="box-shadow: 0 0 1px rgb(0 0 0), 0 1px 3px rgb(0 0 0 / 60%);">
                             <div class="row">                          
@@ -498,7 +517,7 @@ if (!isset($_SESSION["nombre"])) {
                               </div>
                             </div>
                           </div>
-                        </div>       
+                        </div>                        
                         
                       </div>
                     </form>

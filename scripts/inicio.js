@@ -2,11 +2,19 @@
 $(window).on('load', function () { $('#js-preloader').addClass('loaded'); });
 
 $(document).ready(function () {
+  datos_empresa();
   oferta_semanal();
   mostrar_tours_paquete();
   mostrar_testimonio_ceo();
 });
 
+function datos_empresa() {
+  $.post("controlador/inicio.php?op=datos_empresa",  function (e, textStatus, jqXHR) {
+    e = JSON.parse(e); console.log(e);
+    $('.ruc_empresa').html(`${e.data.tipo_documento}: ${e.data.num_documento}`);
+    $('.razon_social_empresa').html(`Razon Social: ${e.data.nombre_empresa}`);
+  });
+}
 
 function oferta_semanal() {
 

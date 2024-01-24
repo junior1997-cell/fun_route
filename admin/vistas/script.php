@@ -18,6 +18,7 @@
 <!-- jquery-validation -->
 <script src="../plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="../plugins/jquery-validation/additional-methods.min.js"></script>
+<script src="../plugins/jquery-validation/localization/messages_es_PE.js"></script>
 
 <!-- Moment -->
 <script src="../plugins/moment/moment.min.js"></script> 

@@ -31,6 +31,7 @@
         'duracion'             => $datostours['data']['duracion'],
         'descripcion'          => $datostours['data']['descripcion'],
         'imagen'               => $datostours['data']['imagen'],
+        'mapa'                  => $datostours['data']['mapa'],
 
         'incluye'              => $datostours['data']['incluye'],
         'no_incluye'           => $datostours['data']['no_incluye'],

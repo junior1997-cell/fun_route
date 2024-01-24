@@ -314,7 +314,7 @@ if (!isset($_SESSION["nombre"])) {
                                 <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                                   <div class="form-group ">
                                     <label for="mapa">Mapa - <a href="https://www.google.com/maps/d/u/0/" target="_blank">Crear mapa <i class="fa-solid fa-up-right-from-square"></i></a></label> <br />
-                                    <textarea name="mapa" id="mapa" class="form-control" rows="2"></textarea>
+                                    <textarea name="mapa" id="mapa" class="form-control" rows="3"></textarea>
                                   </div>
                                 </div>
                               </div>

@@ -10,6 +10,9 @@
 
     
     switch ($_GET["op"]) {     
+      case 'datos_empresa': 
+        $rspta=$inicio->datos_empresa(); echo json_encode($rspta, true); 
+      break;
 
       case 'oferta_semanal': 
         $rspta=$inicio->oferta_semanal(); echo json_encode($rspta, true); 

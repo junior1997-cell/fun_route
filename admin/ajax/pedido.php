@@ -81,7 +81,7 @@
               $data[]=array(
                 "0"=>$cont++,
                 "1"=>' <button class="btn btn-info btn-sm" onclick="mostrar_pedido_tours(' . $value['idtours'] .', '.$value['idpedido_tours']. ')" data-toggle="tooltip" data-original-title="Ver"><i class="fa fa-eye"></i></button>' .
-                ($value['estado_vendido'] == 0 ? ' <button class="btn btn-success  btn-sm" onclick="vender_pedido(' . $value['idpedido_tours'] .', \''.encodeCadenaHtml($value['tours']).'\')" data-toggle="tooltip" data-original-title="Vender"><i class="fa-solid fa-cart-shopping"></i></button>' : '').
+                ($value['estado_vendido'] == 0 ? ' <button class="btn btn-success  btn-sm" onclick="vender_pedido(' . $value['idpedido_tours'] .', \''.$value['idtours'].'\')" data-toggle="tooltip" data-original-title="Vender"><i class="fa-solid fa-cart-shopping"></i></button>' : '').
                 ' <button class="btn btn-danger  btn-sm" onclick="eliminar_pedido_tours(' . $value['idpedido_tours'] .', \''.encodeCadenaHtml($value['nombre']).'\')" data-toggle="tooltip" data-original-title="Eliminar o Papelera"><i class="fas fa-skull-crossbones"></i></button>' ,
                 "2"=> nombre_dia_semana( date("Y-m-d", strtotime($value['created_at'])) ) .', <br>'. date("d/m/Y", strtotime($value['created_at'])) .' - '. date("g:i a", strtotime($value['created_at'])),
                 "3"=>'<div class="user-block">

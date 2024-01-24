@@ -53,6 +53,10 @@ function mostrar() {
         $('#ceo_vista').html(formattedCeo);
       }
 
+      $('.datos-sunat').html(`Nos complace informarte que <b>${e.data.nombre_empresa}</b> con <b>${e.data.tipo_documento}: ${e.data.num_documento}</b>
+      ha completado exitosamente su registro en la Superintendencia Nacional de Aduanas y de Administración Tributaria (SUNAT). 
+      Este proceso es fundamental para cumplir con las obligaciones tributarias y aduaneras correspondientes.`);
+
     } else {
       ver_errores(e);
     }

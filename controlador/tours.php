@@ -1,10 +1,9 @@
 <?php
+ use PHPMailer\PHPMailer\PHPMailer;
+ use PHPMailer\PHPMailer\SMTP;
+ use PHPMailer\PHPMailer\Exception;
 
-  ob_start();   
-
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\SMTP;
-    use PHPMailer\PHPMailer\Exception;
+  ob_start();      
 
     //Load Composer's autoloader
     require '../vendor/autoload.php';

@@ -20,13 +20,13 @@ function init() {
 function activar_editar(estado) {
 
   if (estado=="1") {
-
     $(".editar").hide();
     $(".actualizar").show();
 
     $("#nombre").removeAttr("readonly");
     $("#direccion").removeAttr("readonly");
-    $("#ruc").removeAttr("readonly");
+    $("#tipo_documento").removeAttr("readonly");
+    $("#num_documento").removeAttr("readonly");
     $("#celular").removeAttr("readonly");
     $("#telefono").removeAttr("readonly");
     $("#correo").removeAttr("readonly");
@@ -34,18 +34,19 @@ function activar_editar(estado) {
     $("#longuitud").removeAttr("readonly");
     $("#horario").removeAttr("readonly");
 
+    $("#rs_facebook").removeAttr("readonly");
+    $("#rs_instagram").removeAttr("readonly");
+    $("#rs_tiktok").removeAttr("readonly");
     toastr.success('Campos habiliados para editar!!!')
-
-  }
-
-  if (estado=="2") {
+  }else if (estado=="2") {
 
     $(".editar").show();
     $(".actualizar").hide();
 
     $("#nombre").attr('readonly','true');
     $("#direccion").attr('readonly','true');
-    $("#ruc").attr('readonly','true');
+    $("#tipo_documento").attr('readonly','true');
+    $("#num_documento").attr('readonly','true');
     $("#celular").attr('readonly','true');
     $("#telefono").attr('readonly','true');
     $("#correo").attr('readonly','true');
@@ -53,9 +54,12 @@ function activar_editar(estado) {
     $("#longuitud").attr('readonly','true');
     $("#horario").attr('readonly','true');
 
+    $("#rs_facebook").attr('readonly','true');
+    $("#rs_instagram").attr('readonly','true');
+    $("#rs_tiktok").attr('readonly','true');
   }
-
 }
+
 function mostrar() {
 
   $("#cargando-1-fomulario").hide();
@@ -72,13 +76,16 @@ function mostrar() {
       $("#idnosotros").val(e.data.idnosotros);
       $("#nombre").val(e.data.nombre_empresa);
       $("#direccion").val(e.data.direccion);
-      $("#ruc").val(e.data.ruc);
+      $("#num_documento").val(e.data.num_documento);
       $("#celular").val(e.data.celular);
       $("#telefono").val(e.data.telefono_fijo);
       $("#correo").val(e.data.correo);
       $("#latitud").val(e.data.latitud);
       $("#longuitud").val(e.data.longitud);
       $("#horario").val(e.data.horario);
+      $("#rs_facebook").val(e.data.rs_facebook);
+      $("#rs_instagram").val(e.data.rs_instagram);
+      $("#rs_tiktok").val(e.data.rs_tiktok);
       
     }else{
       ver_errores(e);
@@ -158,15 +165,18 @@ $(function () {
 
   $("#form-datos-generales").validate({
     rules: {
-      nombre: { required: true } , 
-      direccion: { required: true } , 
-      ruc: { required: true } , 
-      celular: { required: true } , 
-      telefono: { required: true } , 
-      latitud: { required: true } , 
-      longuitud: { required: true } , 
-      correo: { required: true } , 
-      horario: { required: true } 
+      nombre:       { required: true, minlength: 4, maxlength: 100, } , 
+      direccion:    { required: true, minlength: 4, maxlength: 100, } , 
+      num_documento:{ required: true, minlength: 8, maxlength: 15, } , 
+      celular:      { required: true, minlength: 4, maxlength: 9,} , 
+      telefono:     { required: true, minlength: 4, maxlength: 9,} , 
+      latitud:      { required: true, minlength: 4, maxlength: 10,} , 
+      longuitud:    { required: true, minlength: 4, maxlength: 10,} , 
+      correo:       { required: true, minlength: 4, maxlength: 100, } , 
+      horario:      { required: true },
+      rs_facebook:  { required: true, minlength: 4, maxlength: 150,}, 
+      rs_instagram: { required: true, minlength: 4, maxlength: 150,}, 
+      rs_tiktok:    { required: true, minlength: 4, maxlength: 150,}, 
     },
     messages: {
 
@@ -177,7 +187,6 @@ $(function () {
       longuitud: { required: "Por favor rellenar el campo", }, 
       correo: { required: "Por favor rellenar el campo", }, 
       horario: { required: "Por favor rellenar el campo", }
-
     },
         
     errorElement: "span",

@@ -30,7 +30,7 @@ function tablero() {
     if (e.status == true) {
       $("#box_total_tours").html(`${e.data.total_tours}`);
       $("#box_total_paquete").html(`${e.data.total_paquete}`);
-      $("#box_total_venta").html(`S/. ${formato_miles(e.data.total_venta)}`);
+      $("#box_total_venta").html(`S/. ${formato_miles(e.data.total_ventas)}`);
 
       $("#cantidad_box_visita").html(`${e.data.visitas_pag.nombre_vista} ${e.data.visitas_pag.cantidad}`);
       $(".vista").html(e.data.visitas_pag.nombre_vista);
@@ -57,7 +57,7 @@ var color_label = [
   {'hex':'#d40000', 'rgba': 'rgba(212, 0, 0, 0.2)',},
 ];
 
-//=========================CHART PASTEL=======================
+// :::::::::::::::::::::::::::::::::::::  C H A R T  -  V I S I T A S  ::::::::::::::::::::::::
 $(function () {
   $.post("../ajax/escritorio.php?op=vistas_pagina_web",  function (e, status) {
 
@@ -134,13 +134,9 @@ $(function () {
 })
 
 
-// :::::::::::::::::::::::::::::::::::::  C H A R T   L I N E A  -  S U B C O N T R A T O  ::::::::::::::::::::::::
+// :::::::::::::::::::::::::::::::::::::  C H A R T  -  V E N T A S  ::::::::::::::::::::::::
 $(function () {
-  'use strict'
-
-  
-
-  function chart_producto() {   
+  'use strict'   
 
     $.post("../ajax/escritorio.php?op=chart_producto",  function (e, status) {
   
@@ -158,7 +154,7 @@ $(function () {
             datasets: [
               {
                 type: 'line',
-                data: e.data.total_venta,
+                data: e.data.tours_venta,
                 backgroundColor: 'transparent',
                 borderColor: '#28a745',
                 pointBorderColor: '#28a745',
@@ -170,7 +166,7 @@ $(function () {
               },
               {
                 type: 'line',
-                data: e.data.total_pagos,
+                data: e.data.tours_pagos,
                 backgroundColor: 'tansparent',
                 borderColor: '#ced4da',
                 pointBorderColor: '#ced4da',
@@ -193,11 +189,7 @@ $(function () {
                 gridLines: { display: true, lineWidth: '4px', color: 'rgba(0, 0, 0, .2)', zeroLineColor: 'transparent' },
                 ticks: $.extend({ beginAtZero: true, callback: function (value) { if (value >= 1000) { value /= 1000; value += 'k';  }  return 'S/ ' + value; } }, ticksStyle)
               }],
-              xAxes: [{
-                display: true,
-                gridLines: { display: false },
-                ticks: ticksStyle
-              }]
+              xAxes: [{ display: true, gridLines: { display: false }, ticks: ticksStyle }]
             }
           }
         });
@@ -211,10 +203,8 @@ $(function () {
           data: {
             labels: [ 'ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'],
             datasets: [
-              { backgroundColor: '#28a745', borderColor: '#28a745', data: e.data.total_compra, label: 'Total compra' },
-              { backgroundColor: '#000', borderColor: '#000', data: e.data.total_deposito, label: 'Total pago' },
-              { backgroundColor: '#dc3545', borderColor: '#dc3545', data: e.data.total_kilos_pergamino, label: 'Kilos pergamino' },
-              { backgroundColor: '#ffc107', borderColor: '#ffc107', data: e.data.total_kilos_coco, label: 'Kilos coco' },
+              { backgroundColor: '#28a745', borderColor: '#28a745', data: e.data.paquete_venta, label: 'Total venta' },
+              { backgroundColor: '#ced4da', borderColor: '#ced4da', data: e.data.paquete_pagos, label: 'Total pago' },             
             ]
           },
           options: {
@@ -225,25 +215,10 @@ $(function () {
             scales: {
               yAxes: [{
                 // display: false,
-                gridLines: {
-                  display: true,
-                  lineWidth: '4px',
-                  color: 'rgba(0, 0, 0, .2)',
-                  zeroLineColor: 'transparent'
-                },
-                ticks: $.extend({
-                  beginAtZero: true,
-                  // Include a dollar sign in the ticks
-                  callback: function (value) { if (value >= 1000) { value /= 1000; value += 'k';  }  return 'S/ ' + value; }
-                }, ticksStyle)
+                gridLines: { display: true, lineWidth: '4px', color: 'rgba(0, 0, 0, .2)',  zeroLineColor: 'transparent' },
+                ticks: $.extend({ beginAtZero: true, callback: function (value) { if (value >= 1000) { value /= 1000; value += 'k';  }  return 'S/ ' + value; } }, ticksStyle)
               }],
-              xAxes: [{
-                display: true,
-                gridLines: {
-                  display: false
-                },
-                ticks: ticksStyle
-              }]
+              xAxes: [{ display: true, gridLines: { display: false }, ticks: ticksStyle }]
             }
           }
         });
@@ -268,7 +243,7 @@ $(function () {
       } 
   
     }).fail( function(e) { ver_errores(e); } );
-  }       
+         
   
   // Ejecutamos los CHARTS
   // chart_producto();

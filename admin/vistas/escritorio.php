@@ -124,7 +124,7 @@
                       <div class="col-12">
                         <div class="card card-primary card-outline">
                           <div class="card-header">
-                            <h1 class="mb-0 text-success text-bold font-size-16px"><i class="fa-solid fa-chart-column"></i> REPORTES</h1>                      
+                            <h1 class="mb-0 text-success text-bold font-size-16px"><i class="fa-solid fa-chart-column"></i> REPORTES DE VSITAS</h1>                      
                           </div>
                           <!-- /.card-header -->
                           <div class="card-body">
@@ -189,84 +189,80 @@
                               <!-- /.col -->
 
                               <!-- :::::::::::::::::::::::::::::::: VISITAS POR PAGINA :::::::::::::::::::::::::::::::: -->
-                              <div class="col-md-4 ">
-                                <div class="row">
-                                  <div class="col-md-12 "> 
+                              <div class="col-md-4 ">                                
 
-                                    <div class="card">
-                                      <div class="card-header border-0">
-                                        <div class="d-flex justify-content-between">
-                                          <h3 class="card-title text-bold">Visitas por pagina</h3>
-                                          <a href="javascript:void(0);">View Report</a>
-                                        </div>
-                                      </div>
-                                      <div class="card-body">
-                                        <canvas id="donut-chart-visita-por-pagina" style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
-                                      </div>
-                                    </div>    
-                                  </div>    
-                                  <!-- /.row -->                      
-                                </div>
+                                <div class="card">
+                                  <div class="card-header border-0">
+                                    <div class="d-flex justify-content-between">
+                                      <h3 class="card-title text-bold">Visitas por pagina</h3>
+                                      <a href="javascript:void(0);">View Report</a>
+                                    </div>
+                                  </div>
+                                  <div class="card-body">
+                                    <canvas id="donut-chart-visita-por-pagina" style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
+                                  </div>
+                                </div>                                                   
+                                <!-- /.card -->    
                               </div>       
                               <!-- /.col -->
                               
                               <!-- :::::::::::::::::::::::::::::::: VENTAS TOURS :::::::::::::::::::::::::::::::: -->
                               <div class="col-md-6 ">
-                                <div class="row">
-                                  <div class="col-md-12">
-                                    <div class="card card-primary">
+                                
+                                <div class="card">
 
-                                      <div class="card-header">
-                                      <span class="text-bold text-lg">Ventas</span> <span> por tours</span>
-                                      </div>
-
-                                      <div class="card-body">
-
-                                        <div class="position-relative mb-4">
-                                          <canvas id="venta-tours-chart" height="350"></canvas>
-                                        </div>
-
-                                        <div class="d-flex flex-row justify-content-end">
-                                          <span class="mr-2" ><i class="fas fa-square" style="color: #28a745;" ></i> Total venta</span>
-                                          <span class="mr-2"><i class="fas fa-square" style="color: #ced4da;"></i> Total pago</span>
-                                        </div>
-
-                                      </div>
-
+                                  <div class="card-header border-0">
+                                    <div class="d-flex justify-content-between">
+                                      <h3 class="card-title text-bold">Ventas de tours</h3>
+                                      <a href="javascript:void(0);">View Report</a>
                                     </div>
                                   </div>
-                                </div>    
-                                <!-- /.row -->                      
+
+                                  <div class="card-body">
+
+                                    <div class="position-relative mb-4">
+                                      <canvas id="venta-tours-chart" height="350"></canvas>
+                                    </div>
+
+                                    <div class="d-flex flex-row justify-content-end">
+                                      <span class="mr-2" ><i class="fas fa-square" style="color: #28a745;" ></i> Total venta</span>
+                                      <span class="mr-2"><i class="fas fa-square" style="color: #ced4da;"></i> Total pago</span>
+                                    </div>
+
+                                  </div>
+
+                                </div>
+                                  
                               </div>     
                               <!-- /.col -->
 
                               <!-- :::::::::::::::::::::::::::::::: VENTAS PAQUETE :::::::::::::::::::::::::::::::: -->
-                              <div class="col-md-6 ">
-                                <div class="row">
-                                  <div class="col-md-12">
-                                    <div class="card card-primary">
+                              <div class="col-md-6 ">                               
+                                  
+                                <div class="card">
 
-                                      <div class="card-header">
-                                      <span class="text-bold text-lg">Ventas</span> <span> por paquete</span>
-                                      </div>
-
-                                      <div class="card-body">
-
-                                        <div class="position-relative mb-4">
-                                          <canvas id="venta-paquete-chart" height="350"></canvas>
-                                        </div>
-
-                                        <div class="d-flex flex-row justify-content-end">
-                                          <span class="mr-2" ><i class="fas fa-square" style="color: #28a745;" ></i> Total venta</span>
-                                          <span class="mr-2"><i class="fas fa-square" style="color: #ced4da;"></i> Total pago</span>
-                                        </div>
-
-                                      </div>
-
+                                  <div class="card-header border-0">
+                                    <div class="d-flex justify-content-between">
+                                      <h3 class="card-title text-bold">Ventas de paquete</h3>
+                                      <a href="javascript:void(0);">View Report</a>
                                     </div>
                                   </div>
-                                </div>    
-                                <!-- /.row -->                      
+
+                                  <div class="card-body">
+
+                                    <div class="position-relative mb-4">
+                                      <canvas id="venta-paquete-chart" height="350"></canvas>
+                                    </div>
+
+                                    <div class="d-flex flex-row justify-content-end">
+                                      <span class="mr-2" ><i class="fas fa-square" style="color: #28a745;" ></i> Total venta</span>
+                                      <span class="mr-2"><i class="fas fa-square" style="color: #ced4da;"></i> Total pago</span>
+                                    </div>
+
+                                  </div>
+
+                                </div>                                  
+                                
                               </div>     
                               <!-- /.col -->
                             </div>

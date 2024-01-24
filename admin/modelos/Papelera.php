@@ -596,7 +596,8 @@ class Papelera
 
 
     //sql para mostrar los datos de venta_paquete_pago
-    $sql28 = "SELECT vpp.idventa_paquete_pago, vpp.numero_operacion, vpp.monto, vpp.forma_pago, vpp.descripcion, vpp.created_at, vpp.updated_at, vp.numero_comprobante venta_paquete
+    $sql28 = "SELECT vpp.idventa_paquete_pago, CONCAT(vpp.serie_comprobante, '-', vpp.numero_comprobante) as comprobante_pago, 
+    vpp.monto, vpp.forma_pago, vpp.descripcion, vpp.created_at, vpp.updated_at, vp.numero_comprobante venta_paquete
     FROM venta_paquete_pago as vpp, venta_paquete as vp
     WHERE vpp.idventa_paquete = vp.idventa_paquete AND vpp.estado='0' AND vpp.estado_delete=1;";
     $venta_paquete_pago = ejecutarConsultaArray($sql28); if ($venta_paquete_pago['status'] == false) { return $venta_paquete_pago; }
@@ -608,7 +609,7 @@ class Papelera
           'nombre_id_tabla' => 'idventa_paquete_pago',
           'modulo'          => 'PAQUETE PAGO',
           'id_tabla'        => $value28['idventa_paquete_pago'],
-          'nombre_archivo'  => '<b>N° Operación: </b>'.$value28['numero_operacion'],
+          'nombre_archivo'  => '<b>N° Operación: </b>'.$value28['comprobante_pago'],
           'descripcion'     => $value28['descripcion']."\n"."Forma de pago: ".$value28['forma_pago']."\n"."Monto : ".$value28['monto'],
           'created_at'      => $value28['created_at'],
           'updated_at'      => $value28['updated_at'],
@@ -618,7 +619,8 @@ class Papelera
 
 
     //sql para mostrar los datos de venta_tours_pago
-    $sql29 = "SELECT vtp.idventa_tours_pago, vtp.numero_operacion, vtp.monto, vtp.forma_pago, vtp.descripcion, vtp.created_at, vtp.updated_at, vt.numero_comprobante venta_tours
+    $sql29 = "SELECT vtp.idventa_tours_pago, CONCAT(vtp.serie_comprobante, '-', vtp.numero_comprobante) as comprobante_pago, 
+    vtp.monto, vtp.forma_pago, vtp.descripcion, vtp.created_at, vtp.updated_at, vt.numero_comprobante venta_tours
     FROM venta_tours_pago as vtp, venta_tours as vt
     WHERE vtp.idventa_tours = vt.idventa_tours AND vtp.estado='0' AND vtp.estado_delete=1;";
     $venta_tours_pago = ejecutarConsultaArray($sql29); if ($venta_tours_pago['status'] == false) { return $venta_tours_pago; }
@@ -630,7 +632,7 @@ class Papelera
           'nombre_id_tabla' => 'idventa_tours_pago',
           'modulo'          => 'TOURS PAGO',
           'id_tabla'        => $value29['idventa_tours_pago'],
-          'nombre_archivo'  => '<b>N° Operación: </b>'.$value29['numero_operacion'],
+          'nombre_archivo'  => '<b>N° Operación: </b>'.$value29['comprobante_pago'],
           'descripcion'     => $value29['descripcion']."\n"."Forma de pago: ".$value29['forma_pago']."\n"."Monto : ".$value29['monto'],
           'created_at'      => $value29['created_at'],
           'updated_at'      => $value29['updated_at'],

@@ -485,7 +485,7 @@ if (!isset($_SESSION["nombre"])) {
                               <div class="card card-primary card-outline">
                                 <div class="card-header">
                                   <h3 class="card-title">
-                                    <button type="button" class="btn bg-gradient-success" data-toggle="modal" data-target="#modal-agregar-correlacion" onclick="limpiar_correlacion();"><i class="fas fa-plus-circle"></i> Agregar</button>
+                                    <button type="button" class="btn bg-gradient-success" disabled  onclick="limpiar_correlacion();"><i class="fas fa-plus-circle"></i> Agregar</button>
                                     Admnistrar la correlacion .
                                   </h3>
                                 </div>
@@ -1323,7 +1323,7 @@ if (!isset($_SESSION["nombre"])) {
                         <div class="col-lg-12">
                           <div class="form-group">
                             <label for="nombre_co">Nombre</label>
-                            <input type="text" name="nombre_co" id="nombre_co" class="form-control" placeholder="Nombre" />
+                            <input type="text" name="nombre_co" id="nombre_co" class="form-control" placeholder="Nombre" readonly />
                           </div>                          
                         </div>
 
@@ -1331,7 +1331,7 @@ if (!isset($_SESSION["nombre"])) {
                         <div class="col-lg-12">
                           <div class="form-group">
                             <label for="abreviatura_co">Abreviatura</label>
-                            <input type="text" name="abreviatura_co" id="abreviatura_co" class="form-control" placeholder="Abreviatura" />
+                            <input type="text" name="abreviatura_co" id="abreviatura_co" class="form-control" placeholder="Abreviatura" readonly />
                           </div>                          
                         </div>
 

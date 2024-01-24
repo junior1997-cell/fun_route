@@ -32,7 +32,7 @@ if (!isset($_SESSION["nombre"])) {
       // :::::::::::::::::::::::::: S E C C I O N   C O R R E L A C I O N  ::::::::::::::::::::::::::
       case 'guardar_y_editar_correlacion':
         if (empty($idsunat_correlacion)) {
-          $rspta = $correlacion->insertar($nombre, $abreviatura, $serie, $numero );            
+          $rspta = [];        
           echo json_encode( $rspta, true);    
         } else {             
           $rspta = $correlacion->editar($idsunat_correlacion, $nombre, $abreviatura, $serie, $numero);            

@@ -31,7 +31,9 @@ function mostrar_detalle(id) {
       $('.itinerario_html').html(e.data.actividad);
       $('.incluye_html').html(e.data.incluye);
       $('.no_incluye_html').html(e.data.no_incluye);
-      $('.recomendaciones_html').html(e.data.recomendaciones);                
+      $('.recomendaciones_html').html(e.data.recomendaciones);   
+      
+      $('.mapa_html').html(e.data.mapa); 
 
       // ::::::::::::::::::::: RESUMEN :::::::::::::::::::::
       $('.duracion_html').html(e.data.duracion);      

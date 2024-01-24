@@ -33,9 +33,10 @@ Class Contacto
 	}
 	
 	//actualizamos actualizar_datos_generales
-	public function actualizar_datos_generales( $id,$direccion,$nombre,$ruc,$celular,$telefono,$latitud,$longuitud,$correo,$horario) {
-		$sql="UPDATE nosotros SET direccion='$direccion', nombre_empresa='$nombre',	ruc='$ruc',	celular='$celular',	telefono_fijo='$telefono', 
-		correo='$correo',	horario='$horario',	latitud='$latitud',	longitud='$longuitud', user_updated ='$this->id_usr_sesion' 
+	public function actualizar_datos_generales( $id,$direccion,$nombre,$tipo_documento, $num_documento,$celular,$telefono,$latitud,$longuitud,$correo,$horario, $rs_facebook,$rs_instagram,$rs_tiktok) {
+		$sql="UPDATE nosotros SET direccion='$direccion', nombre_empresa='$nombre', tipo_documento = '$tipo_documento',	num_documento='$num_documento',	
+		celular='$celular',	telefono_fijo='$telefono', correo='$correo', horario='$horario',	latitud='$latitud',	longitud='$longuitud', user_updated ='$this->id_usr_sesion',
+		rs_facebook='$rs_facebook', rs_instagram='$rs_instagram', rs_tiktok='$rs_tiktok'
 		WHERE idnosotros ='$id'";
 		return ejecutarConsulta($sql);
 

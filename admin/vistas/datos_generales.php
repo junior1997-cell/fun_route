@@ -69,40 +69,42 @@
                                   <div class="row" id="cargando-1-fomulario">
                                     <!-- id -->
                                     <input type="hidden" name="idnosotros" id="idnosotros" />
-
+                                    <!-- RUC -->
+                                    <div class="col-12 col-sm-6 col-md-6 col-lg-2">
+                                      <div class="form-group">
+                                        <label for="tipo_documento">Tipo Doc. <sup class="text-danger">*</sup></label>
+                                        <select name="tipo_documento" id="tipo_documento" class="form-control" readonly>
+                                          <option value="RUC">RUC</option>
+                                        </select>
+                                      </div>
+                                    </div>
+                                    <!-- RUC -->
+                                    <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                                      <div class="form-group">
+                                        <label for="num_documento">N° de documento <sup class="text-danger">*</sup></label>
+                                        <div class="input-group">
+                                          <input type="number" name="num_documento" class="form-control" id="num_documento" placeholder="N° de documento" readonly />
+                                          <div class="input-group-append" data-toggle="tooltip" data-original-title="Buscar Reniec/SUNAT" onclick="buscar_sunat_reniec('');">
+                                            <span class="input-group-text" style="cursor: pointer;">
+                                              <i class="fas fa-search text-primary" id="search"></i>
+                                              <i class="fa fa-spinner fa-pulse fa-fw fa-lg text-primary" id="charge" style="display: none;"></i>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                     <!-- nombre -->
-                                    <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-12 col-sm-6 col-md-6 col-lg-7">
                                       <div class="form-group">
                                         <label for="nombre">Nombre <sup class="text-danger">*</sup></label>
                                         <input type="text" name="nombre" class="form-control" id="nombre" readonly />
                                       </div>
                                     </div>
                                     <!-- direccion -->
-                                    <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+                                    <div class="col-6 col-sm-6 col-md-6 col-lg-8">
                                       <div class="form-group">
                                         <label for="direccion">Dirección <sup class="text-danger">*</sup></label>
                                         <input type="text" name="direccion" class="form-control" id="direccion" readonly />
-                                      </div>
-                                    </div>
-                                    <!-- RUC -->
-                                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
-                                      <div class="form-group">
-                                        <label for="ruc">R.U.C <sup class="text-danger">*</sup></label>
-                                        <input type="text" name="ruc" class="form-control" id="ruc" readonly />
-                                      </div>
-                                    </div>
-                                    <!-- celular -->
-                                    <div class="col-6 col-sm-6 col-md-6 col-lg-4">
-                                      <div class="form-group">
-                                        <label for="celular">Celular <sup class="text-danger">*</sup></label>
-                                        <input type="text" name="celular" class="form-control" id="celular" readonly />
-                                      </div>
-                                    </div>
-                                    <!-- Teléfono -->
-                                    <div class="col-6 col-sm-6 col-md-6 col-lg-4">
-                                      <div class="form-group">
-                                        <label for="telefono">Teléfono <sup class="text-danger">*</sup></label>
-                                        <input type="text" name="telefono" class="form-control" id="telefono" readonly />
                                       </div>
                                     </div>
                                     <!-- Correo -->
@@ -112,18 +114,64 @@
                                         <input type="text" name="correo" class="form-control" id="correo" readonly />
                                       </div>
                                     </div>
+                                   
+                                    <!-- celular -->
+                                    <div class="col-6 col-sm-6 col-md-6 col-lg-3">
+                                      <div class="form-group">
+                                        <label for="celular">Celular <sup class="text-danger">*</sup></label>
+                                        <input type="text" name="celular" class="form-control" id="celular" readonly />
+                                      </div>
+                                    </div>
+                                    <!-- Teléfono -->
+                                    <div class="col-6 col-sm-6 col-md-6 col-lg-3">
+                                      <div class="form-group">
+                                        <label for="telefono">Teléfono <sup class="text-danger">*</sup></label>
+                                        <input type="text" name="telefono" class="form-control" id="telefono" readonly />
+                                      </div>
+                                    </div>
+                                    
                                     <!-- Latitud -->
-                                    <div class="col-6 col-sm-6 col-md-6 col-lg-4">
+                                    <div class="col-6 col-sm-6 col-md-6 col-lg-3">
                                       <div class="form-group">
                                         <label for="latitud">Latitud <sup class="text-danger">*</sup></label>
                                         <input type="text" name="latitud" class="form-control" id="latitud" readonly />
                                       </div>
                                     </div>
                                     <!-- Longuitud -->
-                                    <div class="col-6 col-sm-6 col-md-6 col-lg-4">
+                                    <div class="col-6 col-sm-6 col-md-6 col-lg-3">
                                       <div class="form-group">
                                         <label for="longuitud">Longuitud <sup class="text-danger">*</sup></label>
                                         <input type="text" name="longuitud" class="form-control" id="longuitud" readonly />
+                                      </div>
+                                    </div>
+                                    <!-- Facebook -->
+                                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                                      <div class="form-group">
+                                        <label for="rs_facebook">Facebook</label>
+                                        <div class="input-group">                                          
+                                          <div class="input-group-append"><span class="input-group-text"><i class="fa-brands fa-facebook-f text-primary fa-lg"></i></span></div>
+                                          <input type="url" name="rs_facebook" class="form-control" id="rs_facebook" placeholder="URL red social" readonly />
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <!-- Instagram -->
+                                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                                      <div class="form-group">
+                                        <label for="rs_instagram">Instagram</label>
+                                        <div class="input-group">                                          
+                                          <div class="input-group-append"><span class="input-group-text"><i class="fa-brands fa-instagram text-pink fa-lg"></i></span></div>
+                                          <input type="url" name="rs_instagram" class="form-control" id="rs_instagram" placeholder="URL red social" readonly />
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <!-- TikTok -->
+                                    <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                                      <div class="form-group">
+                                        <label for="rs_tiktok">TikTok</label>
+                                        <div class="input-group">                                          
+                                          <div class="input-group-append"><span class="input-group-text"><i class="fa-brands fa-tiktok fa-lg"></i></span></div>
+                                          <input type="url" name="rs_tiktok" class="form-control" id="rs_tiktok" placeholder="URL red social" readonly />
+                                        </div>
                                       </div>
                                     </div>
                                     <!-- Horario-->
