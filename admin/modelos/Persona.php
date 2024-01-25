@@ -119,7 +119,7 @@
       p.cuenta_bancaria, p.cci, p.titular_cuenta, p.foto_perfil, b.nombre as banco, tp.nombre as tipo_persona, ct.nombre as cargo
       FROM persona as p, bancos as b, tipo_persona as tp, cargo_trabajador as ct 
       WHERE p.idtipo_persona=tp.idtipo_persona  AND p.idbancos=b.idbancos AND p.idcargo_trabajador = ct.idcargo_trabajador 
-      $filtro AND p.estado ='1' AND p.estado_delete='1';";
+      $filtro AND p.estado ='1' AND p.estado_delete='1' AND p.idpersona<>'2';";
       $persona = ejecutarConsultaArray($sql); if ($persona['status'] == false) { return  $persona;}
       
       return $persona;
