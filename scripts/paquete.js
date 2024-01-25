@@ -32,8 +32,11 @@ function mostrar_vista() {
                   </div>
                   <div class="card__banner_content" style="width: 282.64px !important; height: 240px !important;">
                     <div class="__content">
-                      <h3 class="__content--title">${val.nombre}</h3>
                       <button class="buton2">Paquete Turístico</button>
+                      <h3 class="__content--title">${val.nombre}</h3>
+                      <a href="#" onclick="ir_a_detalle_paquete(${val.idpaquete},'${removeCaracterEspecial_v2(val.nombre)}')">
+                        <button class="btn-consultar"> Consultar</button>
+                      </a>                      
                       <div class="space1"></div>                    
                       <h4 class="title-actividades"><i class="fa-solid fa-location-dot espacio2"></i>Destinos :</h4>
                       <div class="actividades"> ${destinos}
@@ -42,9 +45,7 @@ function mostrar_vista() {
                         </a>-->
                         
                       </div>
-                      <a href="#" onclick="ir_a_detalle_paquete(${val.idpaquete},'${removeCaracterEspecial_v2(val.nombre)}')">
-                        <button class="btn-consultar"> Consultar</button>
-                      </a>
+                      
                     </div>
                   </div>
                 </div>
