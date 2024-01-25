@@ -314,7 +314,7 @@ function limpiar_form_trabajador() {
   $("#idpersona_per").val(""); 
   $("#tipo_documento_per").val("null").trigger("change");
   $("#cargo_trabajador_per").val("1");
-  $("#id_tipo_persona_per").val("4");
+  $("#id_tipo_persona_per").val("2");
 
   $("#num_documento_per").val(""); 
   $("#nombre_per").val("");   

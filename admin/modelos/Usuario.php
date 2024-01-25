@@ -172,7 +172,7 @@ class Usuario
   public function listar() {
     $sql = "SELECT u.idusuario, u.last_sesion, p.nombres, p.tipo_documento, p.numero_documento, p.celular, p.correo, ct.nombre as cargo, u.login, p.foto_perfil, p.tipo_documento, u.estado 
     FROM usuario as u, persona as p,cargo_trabajador as ct 
-    WHERE u.idpersona = p.idpersona AND p.idcargo_trabajador =ct.idcargo_trabajador AND u.estado=1 AND u.estado_delete=1 ORDER BY p.nombres ASC;";
+    WHERE u.idpersona = p.idpersona AND p.idpersona<>'2' AND p.idcargo_trabajador =ct.idcargo_trabajador AND u.estado=1 AND u.estado_delete=1 ORDER BY p.nombres ASC ;";
     return ejecutarConsulta($sql);
   }
 
@@ -202,7 +202,7 @@ class Usuario
   public function select2_trabajador() {
     $sql = "SELECT p.idpersona, p.nombres, p.numero_documento, p.foto_perfil, p.celular 
     FROM persona as p LEFT JOIN usuario as u ON p.idpersona=u.idpersona 
-    WHERE p.idtipo_persona='3' AND p.estado =1 AND p.estado_delete=1 AND u.idusuario IS NULL;";
+    WHERE p.idtipo_persona='2' AND p.estado =1 AND p.estado_delete=1 AND u.idusuario IS NULL;";
     return ejecutarConsulta($sql);
   }
 
