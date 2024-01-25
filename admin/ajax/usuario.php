@@ -234,7 +234,7 @@
             "3" => $value['celular'],
             "4" => $value['login'],
             "5" => $value['cargo'],
-            "6" => nombre_dia_semana( date("Y-m-d", strtotime($value['last_sesion'])) ) .', <br>'. date("d/m/Y", strtotime($value['last_sesion'])) .' - '. date("g:i a", strtotime($value['last_sesion'])) ,
+            "6" => $value['last_sesion'] ,
             "7" => ($value['estado'] ? '<span class="text-center badge badge-success">Activado</span>' : '<span class="text-center badge badge-danger">Desactivado</span>').$toltip,
           ];
         }
