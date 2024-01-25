@@ -117,7 +117,7 @@
     //========================= S E C C I O N   G A L E R  I A =============================
 
     public function mostrar_hoteles(){
-      $sql_1 = "SELECT * FROM hoteles as h WHERE h.estado = '1' AND h.estado_delete = '1';";
+      $sql_1 = "SELECT * FROM hoteles as h WHERE h.estado = '1' AND h.estado_delete = '1' order by estrellas asc;";
       $hoteles = ejecutarConsultaArray($sql_1); if ( $hoteles['status'] == false) {return $hoteles; } // Retorna todos los resultados
 
       $array_hotel = [];
