@@ -59,14 +59,14 @@
       
       case 'enviar_correo':
 
-        $idtours_email	= 2;
-        $nombre_email		= "EL PAPI LEVANO";
-        $correo_email		= "juniorcercado@upeu.edu.pe";
-        $telefono_email	= "34532432";
-        $mensaje_email  = "EL MOENTO DE LA VERDAD";
+        // $idtours_email	= 2;
+        // $nombre_email		= "EL PAPI LEVANO";
+        // $correo_email		= "juniorcercado@upeu.edu.pe";
+        // $telefono_email	= "34532432";
+        // $mensaje_email  = "EL MOENTO DE LA VERDAD";
 
-        $nombre_tours_email  ="LAGUNA AZUL (SAUCE)";
-        $costo_email      = "4565";
+        // $nombre_tours_email  ="LAGUNA AZUL (SAUCE)";
+        // $costo_email      = "4565";
         
         $rspta = $tours->crear_pedido($idtours_email, $nombre_email, $correo_email, $telefono_email, $mensaje_email);
 
