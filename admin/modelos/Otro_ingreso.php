@@ -100,7 +100,7 @@ class Otro_ingreso
   public function selecct_produc_o_provee()
   {
     $sql = "SELECT p.idpersona, p.idtipo_persona, p.nombres, p.numero_documento, tp.nombre as tipo FROM persona as p, tipo_persona as tp 
-    WHERE p.idtipo_persona = tp.idtipo_persona AND p.idtipo_persona BETWEEN '2' and '3'  AND p.estado_delete =1 AND p.estado=1;";
+    WHERE p.idtipo_persona = tp.idtipo_persona and p.idpersona <> 2  AND p.estado_delete =1 AND p.estado=1;";
     return ejecutarConsultaArray($sql);
   }
 

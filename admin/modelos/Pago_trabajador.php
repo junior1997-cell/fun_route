@@ -18,7 +18,7 @@
       $sql="SELECT p.idpersona, p.idtipo_persona, p.idcargo_trabajador, p.nombres, p.tipo_documento, p.numero_documento, p.fecha_nacimiento, 
       p.celular, p.direccion, p.correo, p.sueldo_mensual, p.sueldo_diario, p.foto_perfil, p.estado, cp.nombre as cargo
       FROM persona as p, cargo_trabajador as cp 
-      WHERE p.idcargo_trabajador=cp.idcargo_trabajador AND p.idtipo_persona='2' AND p.estado='1' AND p.estado_delete ='1';";
+      WHERE p.idcargo_trabajador=cp.idcargo_trabajador and p.idpersona <> 2 AND p.idtipo_persona='2' AND p.estado='1' AND p.estado_delete ='1';";
       $trabajdor = ejecutarConsultaArray($sql); if ($trabajdor['status'] == false) { return  $trabajdor;}
 
       foreach ($trabajdor['data'] as $key => $val) {
@@ -257,7 +257,7 @@
       $sql = "SELECT p.idpersona, p.idtipo_persona, p.idbancos, p.idcargo_trabajador, p.nombres, p.tipo_documento, p.numero_documento, 
       p.fecha_nacimiento, p.celular, p.direccion, p.correo, p.sueldo_mensual, p.sueldo_diario, p.foto_perfil, ct.nombre as cargo 
       FROM persona as p , cargo_trabajador as ct
-      WHERE p.idcargo_trabajador = ct.idcargo_trabajador AND p.idpersona='$idtrabajador';";
+      WHERE  p.idcargo_trabajador = ct.idcargo_trabajador AND p.idpersona='$idtrabajador';";
       return ejecutarConsultaSimpleFila($sql);
     }
     // Ver pagos trabajador
