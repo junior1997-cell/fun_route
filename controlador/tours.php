@@ -58,6 +58,15 @@
       /* ══════════════════════════════════════ C O R R E O   ══════════════════════════════════ */        
       
       case 'enviar_correo':
+
+        // $idtours_email	= 2;
+        // $nombre_email		= "EL PAPI LEVANO";
+        // $correo_email		= "juniorcercado@upeu.edu.pe";
+        // $telefono_email	= "34532432";
+        // $mensaje_email  = "EL MOENTO DE LA VERDAD";
+
+        // $nombre_tours_email  ="LAGUNA AZUL (SAUCE)";
+        // $costo_email      = "4565";
         
         $rspta = $tours->crear_pedido($idtours_email, $nombre_email, $correo_email, $telefono_email, $mensaje_email);
 
@@ -74,17 +83,21 @@
             $mail->SMTPDebug  = 0;                          // Habilitar salida de depuración detallada con: SMTP::DEBUG_SERVER | deshablita con: 0
             $mail->isSMTP();                                // Enviar usando SMTP
             $mail->CharSet    = 'UTF-8';                    // Habilita UTF-8
-            $mail->Host       = 'smtp.gmail.com';          // Configurar el servidor SMTP para enviar a través
+            
+            $mail->Host       = 'funroute.jdl.pe';          // Configurar el servidor SMTP para enviar a través
             $mail->SMTPAuth   = true;                       // Habilitar autenticación SMTP
-            $mail->Username   = '75867189@pronabec.edu.pe'; // nombre de usuario SMTP
-            $mail->Password   = 'kabfcoocedbalmeq';             // Contraseña SMTP
-            $mail->SMTPSecure = 'tls';                      // Habilitar el cifrado TLS implícito
+            $mail->Username   = 'gerencia@funroute.jdl.pe'; // nombre de usuario SMTP            
+            $mail->Password   = 'g2c&@t%RqJ+T';             // Contraseña SMTP            
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;                        // Puerto TCP para conectarse; use 587 si ha configurado `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            // $mail->Host       = 'smtp.gmail.com';          // Configurar el servidor SMTP para enviar a través
+            // $mail->Password   = 'kabfcoocedbalmeq';             // Contraseña SMTP
+            // $mail->Port       = 465;                        // Puerto TCP para conectarse; use 587 si ha configurado `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
             //Destinatarios
-            $mail->setFrom('75867189@pronabec.edu.pe', 'Fun Route'); // Correo y nombre de empresa
-            // $mail->addAddress('funroute23@gmail.com', $nombre_email);// Agregar un destinatario, El nombre es opcional
-            $mail->addAddress($correo_email, $nombre_email);               // Agregar un destinatario, El nombre es opcional
+            $mail->setFrom('gerencia@funroute.jdl.pe', 'Fun Route'); // Correo y nombre de empresa
+            $mail->addAddress('funroute23@gmail.com', $nombre_email);// Agregar un destinatario, El nombre es opcional
+            // $mail->addAddress($correo_email, $nombre_email);               // Agregar un destinatario, El nombre es opcional
             // $mail->addReplyTo('info@example.com', 'Information'); // replicar envio
             // $mail->addCC('cc@example.com');                       // otros destinatarios en copia (CC) 
             // $mail->addBCC('bcc@example.com');                     // copia oculta (BCC)
