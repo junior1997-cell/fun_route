@@ -106,6 +106,21 @@ function mostrar_detalle(id) {
   }).fail(function (e) { ver_errores(e); });
 }
 
+function mostrar_info_empresa(){
+  $.post("controlador/paquete.php?op=mostrar_empresa", {}, function (e, status) {
+    e = JSON.parse(e); console.log('hola'); console.log(e);
+    if (e.status == true) {
+
+      $("#direccion").html(e.data.direccion); 
+      $("#celular").html(e.data.celular); 
+      $("#correo").html(e.data.correo); 
+      
+    } else {
+      ver_errores(e);
+    }
+  }).fail(function (e) { ver_errores(e); });
+}
+
 function mostrar_hotel() {
   $.post("controlador/paquete.php?op=mostrar_hotel",  function (e, textStatus, jqXHR) {
     e = JSON.parse(e); console.log(e);

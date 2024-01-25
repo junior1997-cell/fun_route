@@ -58,6 +58,11 @@
         echo json_encode($rspta, true);
       break;
 
+      case 'mostrar_empresa':
+        $rspta = $paquete->mostrar_empresa();
+        echo json_encode($rspta, true);
+      break;
+
       /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */       
       case 'mostrar_galeria_5_aleatorios':
         $rspta = $paquete->mostrar_galeria_5_aleatorios();

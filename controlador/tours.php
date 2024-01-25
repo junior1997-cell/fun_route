@@ -42,7 +42,12 @@
       case 'mostrar_todos':
         $rspta = $tours->mostrar_todos();
         echo json_encode($rspta, true);
-      break;      
+      break;   
+
+      case 'mostrar_empresa':
+        $rspta = $tours->mostrar_empresa();
+        echo json_encode($rspta, true);
+      break;   
 
       /* ══════════════════════════════════════ G A L E R Í A  ══════════════════════════════════ */       
       case 'mostrar_galeria':

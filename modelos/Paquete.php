@@ -109,6 +109,11 @@
 
     } 
 
+    function mostrar_empresa(){
+      $sql = "SELECT direccion, celular, correo FROM nosotros WHERE estado='1' AND estado_delete='1';";
+      return ejecutarConsultaSimpleFila($sql);
+    }
+
     //========================= S E C C I O N   G A L E R  I A =============================
 
     public function mostrar_hoteles(){
