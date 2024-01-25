@@ -81,7 +81,7 @@ function mostrar_tours_paquete() {
           <img src="admin/dist/docs/tours/perfil/${val.imagen}" class="card-imgen" alt="" onerror="this.src='admin/dist/docs/tours/perfil/tours-sin-foto.jpg'">
           <div class="card-body">
           <button class="buton1 ${val.estado_descuento == '1' ? 'w-200px' : ''}">Tours ${val.estado_descuento == '1' ? `(Dcto. ${val.porcentaje_descuento}%)` : ''}</button>
-            <h4><b>${val.nombre}</b> <small>${val.tipo_tours}</small></h4>
+            <h4><b>${val.nombre}</b> </h4><small>${val.tipo_tours}</small>
             <div class="line-dec"></div>
             <ul>
               <li class="text-white">${val.descripcion.slice(0,50)}...</li>

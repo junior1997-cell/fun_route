@@ -81,7 +81,7 @@
       $sql="SELECT t.idtours, t.nombre, t.descripcion, t.imagen, t.duracion, t.costo, t.estado_descuento, t.porcentaje_descuento, t.monto_descuento,
       tt.nombre as tipo_tours 
       FROM tours as t
-      INNER JOIN tipo_tours AS tt ON t.tipo_tours = tt.tipo_tours 
+      INNER JOIN tipo_tours AS tt ON t.idtipo_tours = tt.idtipo_tours 
       WHERE t.estado='1' and t.estado_delete='1' and t.idtipo_tours = '2' ;";
       $tours = ejecutarConsultaArray($sql); if ( $tours['status'] == false) {return $tours; }
 
