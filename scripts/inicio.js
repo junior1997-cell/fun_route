@@ -14,7 +14,7 @@ function datos_empresa() {
     e = JSON.parse(e); console.log(e);
     $('.ruc_empresa').html(`${e.data.tipo_documento}: ${e.data.num_documento}`);
     $('.razon_social_empresa').html(`Razon Social: ${e.data.nombre_empresa}`);
-    $('.float_whatssap').attr('href',`https://api.whatsapp.com/send?phone=${e.data.celular}&text=Me%20interesa%20saber%20sobre%20los%20paquetes`).attr('onclick', `toastr_success('Redireccionando', 'WhatsApp abierto...')`);
+    $('.float_whatssap').attr('href',`https://api.whatsapp.com/send?phone=+51${e.data.celular}&text=Me%20interesa%20saber%20sobre%20los%20paquetes`).attr('onclick', `toastr_success('Redireccionando', 'WhatsApp abierto...')`);
   });
 }
 
