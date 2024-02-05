@@ -6,6 +6,7 @@ $(document).ready(function () {
   oferta_semanal();
   mostrar_tours_paquete();
   mostrar_testimonio_ceo();
+  galeria_noticias();
 });
 
 function datos_empresa() {
@@ -196,4 +197,45 @@ function ir_a_detalle_tours(id, nombre) {
 function ir_a_detalle_paquete(id, nombre) {
   localStorage.setItem('nube_idpaquete', id);
   window.location.href = window.location.host =='localhost' || es_numero(parseFloat(window.location.host)) == true ?`${window.location.origin}/fun_route/detalle-paquete.html#${nombre}`: `${window.location.origin}/detalle-paquete.html#${nombre}`;
+}
+
+function galeria_noticias(){
+  
+  $.post("controlador/inicio.php?op=mostrar_datos_noticia", {}, function (e, status) {
+      e = JSON.parse(e);   
+      if (e.status == true) {
+        if (e.data === null || e.data.length === 0) {
+          $("#modal_noticia").hide();
+          $("#cerrar").hide();
+          $("#btn-cerrar").hide();
+        }else{
+          $("#modal_noticia").show();  
+          $("#cerrar").show();  
+          $("#btn-cerrar").show();  
+
+          $('.galeria_noticia_html').html('');
+          e.data.forEach((val, key) => {
+            var galeria_noticia_html = `
+            <div class="slide swiper-slide">
+              <div class="contenido col col-lg-6 mx-auto text-center">
+                <h4>Noticia Diaria: <b>${val.titulo}</b></h4>
+                <img src="admin/dist/docs/noticia_inicio/${val.imagen}" class="image" alt="" style="width: 10cm;">
+              </div>
+            </div>
+              `;
+            $('.galeria_noticia_html').append(galeria_noticia_html); 
+            
+          });
+          var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 1,
+            grabCursor: true,
+            loop: true,
+            autoplay: { delay: 10000, disableOnInteraction: false, },
+          });
+        }  
+        
+      } else {
+        ver_errores(e);
+      }    
+    }).fail( function(e) { ver_errores(e); } );
 }

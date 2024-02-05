@@ -26,6 +26,10 @@
         $rspta=$inicio->mostrar_testimonio_ceo(); echo json_encode($rspta, true); 
       break; 
 
+      case 'mostrar_datos_noticia':
+        $rspta=$inicio->mostrar_datos_noticia(); echo json_encode($rspta, true); 
+      break;
+
       default: 
         $rspta = ['status'=>'error_code', 'message'=>'Te has confundido en escribir en el <b>swich.</b>', 'data'=>[]]; echo json_encode($rspta, true); 
       break;

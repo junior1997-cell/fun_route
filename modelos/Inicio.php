@@ -100,7 +100,12 @@
       $nosotros = ejecutarConsultaSimpleFila($sql); if ( $nosotros['status'] == false) {return $nosotros; }
 
       return $retorno=[ 'status'=>true, 'message'=>'todo okey','data'=> [ 'experiencia'=>$experiencia['data'], 'nosotros'=>$nosotros['data'] ] ];
-    }    
+    }   
+    
+    public function mostrar_datos_noticia(){
+      $sql = "SELECT * FROM noticias_inicio WHERE estado = '1' AND estado_delete = '1' AND estado_mostrar = '1';";
+      return ejecutarConsultaArray($sql);
+    }
 
   }
 
