@@ -67,7 +67,15 @@
                   <i class="nav-icon fa-solid fa-globe"></i>
                   <p>CEO - Reseña</p>
                 </a>
-              </li>   
+              </li> 
+              
+              <!-- Noticias Inicio  -->
+              <li class="nav-item ">
+                <a href="noticias_inicio.php" class="nav-link" id="lnoticias">
+                  <i class="nav-icon fa-solid fa-newspaper"></i>
+                  <p> Noticias </p>
+                </a>
+              </li>
 
               <!-- valores -->
 

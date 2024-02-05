@@ -127,7 +127,7 @@ if (!isset($_SESSION["nombre"])) {
                           <div class="card col-12 px-3 py-3" style="box-shadow: 0 0 1px rgb(0 0 0), 0 1px 3px rgb(0 0 0 / 60%);" >
                             <!-- agregando -->
                             <div class="alert alert-warning alert-dismissible alerta">
-                              <h5><i class="icon fas fa-exclamation-triangle"></i> Alerta!</h5> NO TIENES NUNGINA IMAGEN ASIGNADA A TU PAQUETE
+                              <h5><i class="icon fas fa-exclamation-triangle"></i> Alerta!</h5> NO TIENES NINGUNA IMAGEN ASIGNADA A TU PAQUETE
                             </div>
                           </div>
                         </div>
