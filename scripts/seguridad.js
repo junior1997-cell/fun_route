@@ -1,21 +1,10 @@
 $(window).on('load', function () { $('#js-preloader').addClass('loaded'); });
 
 $(document).ready(function () {
-    empresa();
     condiciones_paquete();
     condiciones_tours();
+    datos_empresa();
 });
-
-function empresa(){
-    $('.float_whatssap').attr('href',`#`).attr('onclick', `toastr_info('Extrayendo numero', 'Cargando data...')`);
-  $.post("controlador/inicio.php?op=datos_empresa",  function (e, textStatus, jqXHR) {
-    e = JSON.parse(e); console.log(e);
-    $('.float_whatssap').attr('href',`https://api.whatsapp.com/send?phone=+51${e.data.celular}&text=Me%20interesa%20saber%20sobre%20los%20paquetes`).attr('onclick', `toastr_success('Redireccionando', 'WhatsApp abierto...')`);
-    $('.direccion').html(`${e.data.direccion}`);
-    $('.celular').html(`+51 ${e.data.celular}`);
-    $('.correo').html(`${e.data.correo}`);
-  });
-}
 
 function condiciones_paquete() {
   $.post("controlador/seguridad.php?op=politicas_paquete", function (e, textStatus, jqXHR) {
@@ -44,6 +33,17 @@ function condiciones_tours() {
       ver_errores(e);
     }
   }).fail(function (e) { ver_errores(e); });
+}
+
+// ::::::::::::::::::::::::::::::: F O O T E R  ::::::::::::::::::::::::
+function datos_empresa() {
+  $.post("controlador/inicio.php?op=datos_empresa",  function (e, textStatus, jqXHR) {
+    e = JSON.parse(e); console.log(e);
+    $('.direccion').html(`${e.data.direccion}`);
+    $('.celular').html(`+51 ${e.data.celular}`);
+    $('.correo').html(`${e.data.correo}`);
+
+  });
 }
 
 fetch('footer.html')
