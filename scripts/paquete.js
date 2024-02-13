@@ -5,6 +5,8 @@ $(document).ready(function () {
   mostrar_vista();
   mostrar_5_img_aleatorio();
   mostrar_20_img_aleatorio()
+  datos_empresa();
+
 });
 
 function mostrar_vista() {
@@ -123,3 +125,20 @@ function ir_a_detalle_paquete(id, nombre) {
   localStorage.setItem('nube_idpaquete', id);
   window.location.href = window.location.host =='localhost' || es_numero(parseFloat(window.location.host)) == true ?`${window.location.origin}/fun_route/detalle-paquete.html#${nombre}`: `${window.location.origin}/detalle-paquete.html#${nombre}`;
 }
+
+// ::::::::::::::::::::::::::::::: F O O T E R  ::::::::::::::::::::::::
+function datos_empresa() {
+  $.post("controlador/inicio.php?op=datos_empresa",  function (e, textStatus, jqXHR) {
+    e = JSON.parse(e); console.log(e);
+    $('.direccion').html(`${e.data.direccion}`);
+    $('.celular').html(`+51 ${e.data.celular}`);
+    $('.correo').html(`${e.data.correo}`);
+
+  });
+}
+
+fetch('footer.html')
+  .then(response => response.text())
+  .then(data => {
+      document.body.insertAdjacentHTML('beforeend', data);
+  });

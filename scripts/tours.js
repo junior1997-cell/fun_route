@@ -3,6 +3,7 @@ $(window).on('load', function () { $('#js-preloader').addClass('loaded'); });
 
 $(document).ready(function () {
   mostrar_vista();
+  datos_empresa();
 });
 
 function mostrar_vista() {
@@ -77,3 +78,21 @@ function ir_a_detalle_tours(id, nombre) {
   localStorage.setItem('nube_idtours', id);
   window.location.href = window.location.host =='localhost' || es_numero(parseFloat(window.location.host)) == true ?`${window.location.origin}/fun_route/detalle-tours.html#${nombre}`: `${window.location.origin}/detalle-tours.html#${nombre}`;
 }
+
+
+// ::::::::::::::::::::::::::::::: F O O T E R  ::::::::::::::::::::::::
+function datos_empresa() {
+  $.post("controlador/inicio.php?op=datos_empresa",  function (e, textStatus, jqXHR) {
+    e = JSON.parse(e); console.log(e);
+    $('.direccion').html(`${e.data.direccion}`);
+    $('.celular').html(`+51 ${e.data.celular}`);
+    $('.correo').html(`${e.data.correo}`);
+
+  });
+}
+
+fetch('footer.html')
+  .then(response => response.text())
+  .then(data => {
+      document.body.insertAdjacentHTML('beforeend', data);
+  });

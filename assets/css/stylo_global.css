@@ -32,6 +32,8 @@
 
 .text-gray-50 { color: #6c757d80 !important; }
 
+.contact-list li { margin-bottom: 10px; }
+
 .text-hide {
   font: 0/0 a;
   color: transparent;

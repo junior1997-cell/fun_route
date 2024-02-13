@@ -16,6 +16,10 @@ function datos_empresa() {
     $('.ruc_empresa').html(`${e.data.tipo_documento}: ${e.data.num_documento}`);
     $('.razon_social_empresa').html(`Razon Social: ${e.data.nombre_empresa}`);
     $('.float_whatssap').attr('href',`https://api.whatsapp.com/send?phone=+51${e.data.celular}&text=Me%20interesa%20saber%20sobre%20los%20paquetes`).attr('onclick', `toastr_success('Redireccionando', 'WhatsApp abierto...')`);
+    $('.direccion').html(`${e.data.direccion}`);
+    $('.celular').html(`+51 ${e.data.celular}`);
+    $('.correo').html(`${e.data.correo}`);
+
   });
 }
 
@@ -239,3 +243,9 @@ function galeria_noticias(){
       }    
     }).fail( function(e) { ver_errores(e); } );
 }
+
+fetch('footer.html')
+  .then(response => response.text())
+  .then(data => {
+      document.body.insertAdjacentHTML('beforeend', data);
+  });

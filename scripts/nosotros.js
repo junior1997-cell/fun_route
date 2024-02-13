@@ -3,6 +3,7 @@ $(window).on('load', function () { $('#js-preloader').addClass('loaded'); });
 
 $(document).ready(function () {
   mostrar();
+  datos_empresa();
 });
 
 function mostrar() {
@@ -62,3 +63,22 @@ function mostrar() {
     }
   }).fail(function (e) { ver_errores(e); });
 }
+
+
+// ::::::::::::::::::::::::::::::: F O O T E R  ::::::::::::::::::::::::
+function datos_empresa() {
+  $.post("controlador/inicio.php?op=datos_empresa",  function (e, textStatus, jqXHR) {
+    e = JSON.parse(e); console.log(e);
+    $('.direccion').html(`${e.data.direccion}`);
+    $('.celular').html(`+51 ${e.data.celular}`);
+    $('.correo').html(`${e.data.correo}`);
+
+  });
+}
+
+fetch('footer.html')
+  .then(response => response.text())
+  .then(data => {
+      document.body.insertAdjacentHTML('beforeend', data);
+  });
+
