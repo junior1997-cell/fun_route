@@ -25,30 +25,21 @@ function galeria_noticias(){
           e.data.forEach((val, key) => {
             var ver = (val.estado_mostrar == 1) ? "fa-eye" : "fa-eye-slash";
             var visto = (val.estado_mostrar == 1) ? "Visible" : "Oculto";
-            var galeria_html = `
-                  <div class="col-sm-2 text-center px-1 py-1 b-radio-5px" style=" margin-right: 1cm;" > 
-                      <span class="username"><p class="text-primary m-b-02rem" ><b>${val.titulo}</b></p></span>
-                      <span class="description">${val.descripcion}</span>
-                      <a href="../dist/docs/noticia_inicio/${val.imagen}" data-toggle="lightbox" data-title="${val.titulo}" data-gallery="gallery">
-                          <img src="../dist/docs/noticia_inicio/${val.imagen}" width="100%" class="img-fluid mb-2 b-radio-t-5px" alt="white sample" onerror="this.src='../dist/docs/paquete/galeria/sin-foto.jpg';"/>
-                      </a>
-                      <div style="background-color: #85FFF4; color: black; padding: 5px; border-radius: 5px;">
-                          ${visto}
-                      </div>
+            var galeria_html = `<div class="col-sm-2 text-center px-1 py-1 b-radio-5px" style=" margin-right: 1cm;" > 
+              <span class="username"><p class="text-primary m-b-02rem" ><b>${val.titulo}</b></p></span>
+              <span class="description">${val.descripcion}</span>
+              <a href="../dist/docs/noticia_inicio/${val.imagen}" data-toggle="lightbox" data-title="${val.titulo}" data-gallery="gallery">
+                <img src="../dist/docs/noticia_inicio/${val.imagen}" class="img-fluid mb-2 b-radio-t-5px" alt="white sample" style="object-fit: cover !important; height:200px !important;" onerror="this.src='../dist/docs/paquete/galeria/sin-foto.jpg';"/>
+              </a>
+              <div style="background-color: #85FFF4; color: black; padding: 5px; border-radius: 5px;"> ${visto}</div>
 
-                      <button style="background: none; border: none; margin-right: 1px;" onclick="visible(${val.idnoticias_inicio}, '${val.estado_mostrar}'); " >
-                          <i class="fas ${ver} fa-lg" style="color: #6B8BF5;"></i>
-                      </button>   
+              <button style="background: none; border: none; margin-right: 1px;" onclick="visible(${val.idnoticias_inicio}, '${val.estado_mostrar}'); " >  <i class="fas ${ver} fa-lg" style="color: #6B8BF5;"></i> </button>   
 
-                      <button style="background: none; border: none; margin-right: 1px;" onclick="actualizar(${val.idnoticias_inicio}); " >
-                          <i class="fas fa-edit fa-lg" style="color: #FBDB39;"></i>
-                      </button>
+              <button style="background: none; border: none; margin-right: 1px;" onclick="actualizar(${val.idnoticias_inicio}); " > <i class="fas fa-edit fa-lg text-warning" ></i> </button>
 
-                      <button style="background: none; border: none; margin-right: 1px;" onclick="eliminar(${val.idnoticias_inicio}, '${val.titulo}'); " >
-                          <i class="fas fa-trash-alt fa-lg" style="color: #F5401A"></i>
-                      </button> 
+              <button style="background: none; border: none; margin-right: 1px;" onclick="eliminar(${val.idnoticias_inicio}, '${val.titulo}'); " > <i class="fas fa-trash-alt fa-lg text-danger" ></i> </button> 
 
-                  </div> `;
+            </div> `;
             $('.imagenes_galeria').append(galeria_html); // Agregar el contenido 
           }); 
         }

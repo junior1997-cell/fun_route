@@ -82,12 +82,16 @@ if (!isset($_SESSION["nombre"])) {
                               <h4 class="card-title nombre_galeria"></h4>
                             </div>
                             <div class="card-body">
-                              <div class="row imagenes_galeria text-center"> </div>
+                              <div class="row imagenes_galeria text-center"> 
+                                <div class="col-lg-12 text-center">
+                                  <i class="fas fa-spinner fa-pulse fa-6x"></i><br /> <br />  <h4>Cargando...</h4>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
 
-                        <div class="col-12 sin_imagenes">
+                        <div class="col-12 sin_imagenes" style="display: none;">
                           <div class="card col-12 px-3 py-3" style="box-shadow: 0 0 1px rgb(0 0 0), 0 1px 3px rgb(0 0 0 / 60%);" >
                             <!-- agregando -->
                             <div class="alert alert-warning alert-dismissible alerta">
