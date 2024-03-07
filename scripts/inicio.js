@@ -27,19 +27,27 @@ function oferta_semanal() {
 
   $.post("controlador/inicio.php?op=oferta_semanal", {}, function (e, status) {
 
-    e = JSON.parse(e); //console.log(e);
+    e = JSON.parse(e); console.log('viendo ofertas'); console.log(e);
 
     if (e.status == true) {  
       // valdiamos la cantidad de datos
       if (e.data.length === 0) {
         $('.ofertas_html').html(`<div class="left-slide"> <div style="background-color: #060505"><h1>No hay ofertas</h1></div></div><div class="right-slide"><div style="background-image: url('assets/images/default/sin_oferta.jpg')"></div></div><div class="action-buttons"><button class="down-button"><i class="far fa-dot-circle"></i></button><button class="up-button"> <i class="far fa-dot-circle"></i> </button></div>`);         
       } else { 
+        // Revertir el orden del array e.data
+        var reversedData = e.data.slice().reverse();
+
         var html_nombre = ''; var fotos_html = '';
+        
         e.data.forEach((val, key) => {
           var detalle = val.tipo_pt == `TOURS` ? `ir_a_detalle_tours(${val.id},'${removeCaracterEspecial_v2(val.nombre)}');` : `ir_a_detalle_paquete(${val.id},'${removeCaracterEspecial_v2(val.nombre)}');` ;
           html_nombre += `<div style="background-color: ${val.color.hexadecimal}"> <h1> ${val.tipo_pt} <br> ${val.nombre}</h1>  <h4> ${val.duracion} <br> S/. <s>${val.costo}</s> - Dcto: (${val.porcentaje_descuento}%) </h4> <button type="button" class="btn btn-primary py-1 mt-2" onclick="${detalle}" ><i class="fas fa-eye"></i> Detalle</button> </div> `;
-          fotos_html +=  `<div style="background-image: url('admin/dist/docs/${val.tipo_pt == 'TOURS' ? 'tours' : 'paquete'}/perfil/${val.imagen}')"></div>`;
-        });    
+        }); 
+        
+        // Recorrer los elementos en orden invertido
+        reversedData.forEach((val, key) => {
+           fotos_html += `<div style="background-image: url('admin/dist/docs/${val.tipo_pt == 'TOURS' ? 'tours' : 'paquete'}/perfil/${val.imagen}')"></div>`;
+        });
 
         $('.ofertas_html').html(`<div class="left-slide"> ${html_nombre} </div> <div class="right-slide"> ${fotos_html} </div>      
         <div class="action-buttons"> 
