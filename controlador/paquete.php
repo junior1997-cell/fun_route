@@ -105,7 +105,7 @@
             // $mail->Port       = 465;                        // Puerto TCP para conectarse; use 587 si ha configurado `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
             //Destinatarios
-            $mail->setFrom('75867189@pronabec.edu.pe', 'Fun Route'); // Correo y nombre de empresa
+            $mail->setFrom('gerencia@funroute.jdl.pe', 'Fun Route'); // Correo y nombre de empresa
             $mail->addAddress('funroute23@gmail.com', $nombre_email);// Agregar un destinatario, El nombre es opcional
             // $mail->addAddress($correo_email, $nombre_email);               // Agregar un destinatario, El nombre es opcional
             // $mail->addReplyTo('info@example.com', 'Information'); // replicar envio

@@ -2,7 +2,14 @@
 $(window).on('load', function () { $('#js-preloader').addClass('loaded'); });
 
 $(document).ready(function () {
-  mostrar_detalle(localStorage.getItem("nube_idtours"));
+
+  var url = new URL(window.location.href);  // Creamos un objeto URL con la URL actual 
+  var params = new URLSearchParams(url.search);  // Creamos un objeto URLSearchParams a partir de los parámetros de la URL  
+  var id = params.get('id'); // Extraemos el valor de la variable1
+  if (id == null || id == '' ) { id = ''; toastr_warning('Link incorrecto!!', 'Porfavor vuelve a generar el link en la lista de tours');  } 
+
+  // mostrar_detalle(localStorage.getItem("nube_idtours"));
+  mostrar_detalle(id);
   datos_empresa();
   
 });

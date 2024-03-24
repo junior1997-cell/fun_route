@@ -12,7 +12,7 @@ $(document).ready(function () {
 function datos_empresa() {
   $('.float_whatssap').attr('href',`#`).attr('onclick', `toastr_info('Extrayendo numero', 'Cargando data...')`);
   $.post("controlador/inicio.php?op=datos_empresa",  function (e, textStatus, jqXHR) {
-    e = JSON.parse(e); console.log(e);
+    e = JSON.parse(e); 
     $('.ruc_empresa').html(`${e.data.tipo_documento}: ${e.data.num_documento}`);
     $('.razon_social_empresa').html(`Razon Social: ${e.data.nombre_empresa}`);
     $('.float_whatssap').attr('href',`https://api.whatsapp.com/send?phone=+51${e.data.celular}&text=Me%20interesa%20saber%20sobre%20los%20paquetes`).attr('onclick', `toastr_success('Redireccionando', 'WhatsApp abierto...')`);
@@ -27,7 +27,7 @@ function oferta_semanal() {
 
   $.post("controlador/inicio.php?op=oferta_semanal", {}, function (e, status) {
 
-    e = JSON.parse(e); console.log('viendo ofertas'); console.log(e);
+    e = JSON.parse(e);
 
     if (e.status == true) {  
       // valdiamos la cantidad de datos
@@ -84,7 +84,7 @@ function oferta_semanal() {
 function mostrar_tours_paquete() { 
 
   $.post("controlador/inicio.php?op=mostrar_tours_paquete", {}, function (e, status) {
-    e = JSON.parse(e);  //console.log(e);    
+    e = JSON.parse(e);   
     if (e.status == true) {  
       var tours_html = ''; var paquete_html = '';
 
@@ -152,7 +152,7 @@ function mostrar_tours_paquete() {
 function mostrar_testimonio_ceo() { 
 
   $.post("controlador/inicio.php?op=mostrar_testimonio_ceo", {}, function (e, status) {
-    e = JSON.parse(e);  console.log(e);    
+    e = JSON.parse(e); 
     if (e.status == true) {  
 
       // ::::::::::::::::: T E S T I M O N I O :::::::::::::::::

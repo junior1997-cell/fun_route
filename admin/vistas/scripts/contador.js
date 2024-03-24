@@ -6,15 +6,15 @@
 
       $.post("admin/ajax/contador.php", { pagina: $(".name_page").text() }, function (e, status) {
 
-        e = JSON.parse(e);  console.log(e);  
+        e = JSON.parse(e);  //console.log(e);  
 
-        if (e.status) {
+        if (e.status == true) {
 
           console.log("registrando visita");  
 
         } else {
 
-        ver_errores(e);
+          ver_errores(e);
 
         } 
       

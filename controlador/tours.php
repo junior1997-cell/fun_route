@@ -96,7 +96,7 @@
 
             //Destinatarios
             $mail->setFrom('gerencia@funroute.jdl.pe', 'Fun Route'); // Correo y nombre de empresa
-            $mail->addAddress('funroute23@gmail.com', $nombre_email);// Agregar un destinatario, El nombre es opcional
+            $mail->addAddress('marketing@huacachinadelnorte.pe', $nombre_email);// Agregar un destinatario, El nombre es opcional
             // $mail->addAddress($correo_email, $nombre_email);               // Agregar un destinatario, El nombre es opcional
             // $mail->addReplyTo('info@example.com', 'Information'); // replicar envio
             // $mail->addCC('cc@example.com');                       // otros destinatarios en copia (CC) 
