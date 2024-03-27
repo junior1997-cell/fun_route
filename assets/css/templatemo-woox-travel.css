@@ -1950,10 +1950,14 @@ VIJAE A MEDIDA
 }
 
 .expe-exclusivo .container {
-  display: grid;
+  /* background-color: #008cff; */
+  display: flex;
+  margin-inline: 5%;
+  /* display: grid;
   gap: 3rem;
   grid-auto-rows: 33rem;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem),1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem),1fr)); */
+  justify-content: center;
   
 }
 
@@ -1962,6 +1966,8 @@ VIJAE A MEDIDA
   position: relative;
   transform-style: preserve-3d;
   perspective: 1000px;
+  /* background-color: #00bb2d; */
+  margin-inline: 3%;
 }
 
 .expe-exclusivo .flip-card-front,
@@ -2859,6 +2865,9 @@ body {
 
 
 @media (max-width: 767px) {
+  .expe-exclusivo .flip-card {
+    display: flex !important;
+  }
   .cities-town .owl-nav {
     display: none;
   }
@@ -2868,9 +2877,18 @@ body {
     
   }
 
+  .expe-exclusivo .container {
+    display: grid;
+    margin-inline: 1%;
+  }
+
+  .expe-exclusivo .flip-card {
+    margin-block: 10%;
+  }
+
   .paquetes-tours1 {
     position: relative;
-    width: 100%;
+    max-width: 80%;
     max-height: 100vh;
     padding: 0 10px;
   }
