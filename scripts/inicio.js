@@ -203,12 +203,14 @@ function mostrar_testimonio_ceo() {
 
 function ir_a_detalle_tours(id, nombre) {
   localStorage.setItem('nube_idtours', id);
-  window.location.href = window.location.host =='localhost' || es_numero(parseFloat(window.location.host)) == true ?`${window.location.origin}/fun_route/detalle-tours.html#${nombre}`: `${window.location.origin}/detalle-tours.html#${nombre}`;
+  window.location.href = window.location.host =='localhost' || es_numero(parseFloat(window.location.host)) == true ?
+  `${window.location.origin}/fun_route/detalle-tours.html?id=${id}#${nombre}`: `${window.location.origin}/detalle-tours.html?id=${id}#${nombre}`;
 }
 
 function ir_a_detalle_paquete(id, nombre) {
   localStorage.setItem('nube_idpaquete', id);
-  window.location.href = window.location.host =='localhost' || es_numero(parseFloat(window.location.host)) == true ?`${window.location.origin}/fun_route/detalle-paquete.html#${nombre}`: `${window.location.origin}/detalle-paquete.html#${nombre}`;
+  window.location.href = window.location.host =='localhost' || es_numero(parseFloat(window.location.host)) == true ?
+  `${window.location.origin}/fun_route/detalle-paquete.html?id=${id}#${nombre}`: `${window.location.origin}/detalle-paquete.html?id=${id}#${nombre}`;
 }
 
 function galeria_noticias(){
